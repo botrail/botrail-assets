@@ -24,9 +24,17 @@ import trimesh
 # +X がのど深さ方向。可動リンクはピボット PIVOT を原点とするローカル系で出力する。
 
 PIVOT = np.array([0.115, 0.0, 0.335])  # アーム交差ピボット (Y 軸まわり)
-ELECTRODE_X = 0.375  # 電極軸の X 位置
+ELECTRODE_X = 0.553  # 電極軸の X 位置 (クレビス前面 x=0.153 から のど深さ 400 mm)
 TIP_FIXED_Z = 0.360  # 固定電極 先端 (= tcp)
 TIP_MOVING_Z = 0.365  # 可動電極 先端 (q=0 で 5 mm クリアランス)
+
+# --- ISO 5821 (Resistance spot welding electrode caps) Type F, d1=16, l1=20 ---
+# 規格表 (d1=16 の行): d2=6, d3=12, l1=20, l2=9.5, e=4, R1=40, R2=6, Fmax=4 kN
+# Type F = 球面 (R1) 先端。テーパ嵌合は 1:10 (ISO 1089 / ISO 5183)
+CAP_D1 = 0.016  # キャップ外径
+CAP_L1 = 0.020  # キャップ全長
+CAP_R1 = 0.040  # 先端球面半径 (Type F)
+CAP_TAPER = 0.10  # 1:10 テーパ
 
 FLANGE_R = 0.085  # 取付フランジ板 半径
 BOLT_CIRCLE_R = 0.050
@@ -38,11 +46,12 @@ TRANSFORMER_SIZE = np.array([0.220, 0.300, 0.260])  # MFDC トランス本体
 DRIVE_A = np.array([-0.150, 0.0, 0.395])  # サーボ後端
 DRIVE_B = np.array([0.025, 0.0, 0.415])  # ボールねじ先端 = タイフレーム連結点
 
-# アーム中心線 (XZ) と断面 (幅 y, 高さ z)。ピボット前方から電極まで
-FIXED_ARM_PATH = [(0.150, 0.290), (0.240, 0.284), (0.320, 0.283), (0.398, 0.283)]
-FIXED_ARM_SECTION = [(0.070, 0.052), (0.060, 0.046), (0.052, 0.042), (0.048, 0.040)]
-MOVING_ARM_PATH = [(0.150, 0.375), (0.250, 0.405), (0.330, 0.428), (0.398, 0.445)]
-MOVING_ARM_SECTION = [(0.056, 0.060), (0.048, 0.052), (0.043, 0.048), (0.040, 0.046)]
+# アーム中心線 (XZ) と断面 (幅 y, 高さ z)。ピボット前方から電極まで。
+# のど深さ 400 mm 級はアームが長くなるので根元を太く、先端に向けて強くテーパさせる
+FIXED_ARM_PATH = [(0.150, 0.288), (0.280, 0.280), (0.420, 0.275), (0.578, 0.272)]
+FIXED_ARM_SECTION = [(0.078, 0.058), (0.068, 0.052), (0.058, 0.046), (0.050, 0.040)]
+MOVING_ARM_PATH = [(0.150, 0.375), (0.280, 0.412), (0.430, 0.443), (0.578, 0.462)]
+MOVING_ARM_SECTION = [(0.062, 0.064), (0.054, 0.056), (0.046, 0.048), (0.042, 0.042)]
 
 CLEVIS_Y = 0.048  # 固定側クレビス板の中心 Y (可動ブレードを挟む)
 CLEVIS_T = 0.020
@@ -203,37 +212,46 @@ def cyl_between(p0, p1, radius: float, sections: int = 20) -> trimesh.Trimesh:
 
 
 def electrode(tip: np.ndarray, direction: float, holder_len: float) -> list[trimesh.Trimesh]:
-    """電極 = ホルダシャンク + キャップ (ISO 5821 風の切頭円錐)。direction=+1 で上向き。"""
+    """電極 = ISO 5821 Type F キャップ (16 x 20) + ホルダシャンク。direction=+1 で上向き。
+
+    キャップ形状は規格どおり: 先端は R40 の球面、そこから ⌀16 の胴が全長 20 mm。
+    球面の張り出しは R1 - sqrt(R1^2 - (d1/2)^2) = 0.81 mm しかないので、実物の
+    スポット溶接キャップと同じ「ほぼ平坦な胴付き円筒」に見える。
+    """
     d = direction
-    cap_len, body_r, face_r = 0.024, 0.008, 0.0042
-    # キャップ: 先端面 -> テーパー -> ⌀16 胴 -> ホルダへの段付き
+    cap_r = CAP_D1 / 2.0
+    dome_h = CAP_R1 - math.sqrt(CAP_R1**2 - cap_r**2)
+    # 先端球面 -> ⌀16 胴 -> 背面
     cap_profile = [
-        (0.0, 0.0),
-        (face_r, 0.0006),
-        (body_r, 0.0105),
-        (body_r, cap_len - 0.004),
-        (0.0105, cap_len),
-        (0.0, cap_len),
+        (r, CAP_R1 - math.sqrt(CAP_R1**2 - r**2)) for r in np.linspace(0.0, cap_r, 7)
     ]
-    cap = revolve_z([(r, d * z) for r, z in cap_profile], tip)
-    shank_top = tip[2] + d * cap_len
+    cap_profile += [(cap_r, CAP_L1), (0.0, CAP_L1)]
+    cap = revolve_z([(r, d * z) for r, z in cap_profile], tip, sections=32)
+
+    shank_top = tip[2] + d * CAP_L1
+    # ホルダ: キャップ背面と同径 (⌀16) から立ち上がり、1:10 テーパ嵌合部を経て
+    # アーム取付部へ段付きで太る
+    taper_rise = CAP_TAPER * 0.012 / 2.0
     holder_profile = [
         (0.0, 0.0),
-        (0.0105, 0.0),
-        (0.0105, 0.004),
-        (0.016, 0.010),
-        (0.016, holder_len - 0.012),
-        (0.020, holder_len - 0.008),
-        (0.020, holder_len),
+        (cap_r, 0.0),
+        (cap_r + taper_rise, 0.012),
+        (0.013, 0.018),
+        (0.013, holder_len - 0.014),
+        (0.019, holder_len - 0.009),
+        (0.019, holder_len),
         (0.0, holder_len),
     ]
     holder = revolve_z(
-        [(r, d * z) for r, z in holder_profile], np.array([tip[0], tip[1], shank_top])
+        [(r, d * z) for r, z in holder_profile],
+        np.array([tip[0], tip[1], shank_top]),
+        sections=28,
     )
     # 冷却水継手 (斜め上に出るニップル)
-    nip_base = np.array([tip[0], tip[1], shank_top + d * (holder_len - 0.022)])
+    nip_base = np.array([tip[0], tip[1], shank_top + d * (holder_len - 0.024)])
     nip_tip = nip_base + np.array([-0.020, 0.026, d * 0.010])
     fitting = cyl_between(nip_base, nip_tip, 0.0075)
+    assert dome_h > 0
     return [cap, holder, fitting]
 
 
@@ -400,32 +418,32 @@ def build_body() -> trimesh.Trimesh:
 
     # 6) 固定アーム + 固定電極 (下側 / 上向き電極)
     parts.append(beam(FIXED_ARM_PATH, FIXED_ARM_SECTION))
-    parts.append(box_at((0.036, 0.084, 0.062), (0.160, 0.0, 0.296)))  # アーム根元のクランプ
+    parts.append(box_at((0.040, 0.092, 0.070), (0.162, 0.0, 0.294)))  # アーム根元のクランプ
     parts.append(
         prism_xz(
-            [(0.128, 0.262), (0.176, 0.262), (0.176, 0.330), (0.128, 0.322)], 0.070
+            [(0.126, 0.256), (0.180, 0.256), (0.180, 0.332), (0.126, 0.324)], 0.078
         )
     )  # アームホルダ
     tip_fixed = np.array([ELECTRODE_X, 0.0, TIP_FIXED_Z])
-    parts.extend(electrode(tip_fixed, direction=-1.0, holder_len=0.042))
+    parts.extend(electrode(tip_fixed, direction=-1.0, holder_len=0.048))
     parts.append(  # 電極台座 (アーム断面から電極ホルダへのテーパーボス)
         loft(
             [
-                ring_xy(rounded_rect(0.056, 0.062, 0.40, 5) + [ELECTRODE_X - 0.004, 0.0], 0.272),
-                ring_xy(rounded_rect(0.050, 0.052, 0.60, 5) + [ELECTRODE_X - 0.002, 0.0], 0.292),
-                ring_xy(ngon(0.023, 20) + [ELECTRODE_X, 0.0], 0.303),
+                ring_xy(rounded_rect(0.050, 0.042, 0.40, 5) + [ELECTRODE_X - 0.004, 0.0], 0.262),
+                ring_xy(rounded_rect(0.046, 0.038, 0.60, 5) + [ELECTRODE_X - 0.002, 0.0], 0.282),
+                ring_xy(ngon(0.021, 20) + [ELECTRODE_X, 0.0], 0.294),
             ]
         )
     )
     parts.append(  # 外側面 (下面) の稜線リブ — 鍛造アームの補強ウェブ
         beam(
-            [(0.170, 0.265), (0.270, 0.264), (0.360, 0.264)],
-            [(0.028, 0.015), (0.024, 0.013), (0.019, 0.011)],
+            [(0.175, 0.262), (0.340, 0.256), (0.520, 0.253)],
+            [(0.032, 0.017), (0.026, 0.014), (0.020, 0.011)],
         )
     )
     for sy in (-1, 1):  # ホースクランプ
-        parts.append(box_at((0.026, 0.020, 0.018), (0.250, sy * 0.052, 0.292)))
-        parts.append(box_at((0.024, 0.018, 0.016), (0.330, sy * 0.044, 0.300)))
+        parts.append(box_at((0.026, 0.020, 0.018), (0.300, sy * 0.050, 0.283)))
+        parts.append(box_at((0.024, 0.018, 0.016), (0.450, sy * 0.041, 0.278)))
 
     # 7) 冷却水マニホールド + ソレノイドバルブ (ホースの起点)
     parts.append(box_at((0.070, 0.046, 0.056), (0.030, 0.086, 0.232)))
@@ -448,10 +466,10 @@ def build_body() -> trimesh.Trimesh:
         tube(
             [
                 [0.060, 0.072, 0.250],
-                [0.150, 0.080, 0.268],
-                [0.250, 0.062, 0.286],
-                [0.330, 0.050, 0.296],
-                [0.358, 0.042, 0.316],
+                [0.170, 0.082, 0.266],
+                [0.320, 0.060, 0.276],
+                [0.470, 0.046, 0.276],
+                [0.536, 0.040, 0.300],
             ],
             0.0095,
         )
@@ -460,10 +478,10 @@ def build_body() -> trimesh.Trimesh:
         tube(
             [
                 [0.060, -0.072, 0.250],
-                [0.150, -0.080, 0.268],
-                [0.250, -0.062, 0.286],
-                [0.330, -0.050, 0.296],
-                [0.358, -0.042, 0.316],
+                [0.170, -0.082, 0.266],
+                [0.320, -0.060, 0.276],
+                [0.470, -0.046, 0.276],
+                [0.536, -0.040, 0.300],
             ],
             0.0095,
         )
@@ -526,30 +544,30 @@ def build_electrode_arm() -> trimesh.Trimesh:
 
     # 可動アーム + 可動電極 (上側 / 下向き電極)
     parts.append(beam(MOVING_ARM_PATH, MOVING_ARM_SECTION))
-    parts.append(box_at((0.034, 0.070, 0.058), (0.158, 0.0, 0.376)))  # 根元クランプ
+    parts.append(box_at((0.038, 0.078, 0.066), (0.160, 0.0, 0.377)))  # 根元クランプ
     parts.append(
-        prism_xz([(0.126, 0.336), (0.172, 0.352), (0.172, 0.408), (0.126, 0.392)], 0.058)
+        prism_xz([(0.124, 0.334), (0.178, 0.348), (0.178, 0.412), (0.124, 0.396)], 0.062)
     )
     tip_moving = np.array([ELECTRODE_X, 0.0, TIP_MOVING_Z])
-    parts.extend(electrode(tip_moving, direction=1.0, holder_len=0.040))
+    parts.extend(electrode(tip_moving, direction=1.0, holder_len=0.048))
     parts.append(  # 電極台座 (テーパーボス)
         loft(
             [
-                ring_xy(rounded_rect(0.052, 0.056, 0.40, 5) + [ELECTRODE_X - 0.004, 0.0], 0.456),
-                ring_xy(rounded_rect(0.046, 0.048, 0.60, 5) + [ELECTRODE_X - 0.002, 0.0], 0.438),
-                ring_xy(ngon(0.022, 20) + [ELECTRODE_X, 0.0], 0.427),
+                ring_xy(rounded_rect(0.044, 0.044, 0.40, 5) + [ELECTRODE_X - 0.004, 0.0], 0.472),
+                ring_xy(rounded_rect(0.040, 0.040, 0.60, 5) + [ELECTRODE_X - 0.002, 0.0], 0.452),
+                ring_xy(ngon(0.021, 20) + [ELECTRODE_X, 0.0], 0.441),
             ]
         )
     )
     parts.append(  # 外側面 (上面) の稜線リブ
         beam(
-            [(0.175, 0.409), (0.270, 0.428), (0.360, 0.450)],
-            [(0.026, 0.015), (0.022, 0.013), (0.018, 0.011)],
+            [(0.178, 0.410), (0.350, 0.454), (0.520, 0.484)],
+            [(0.028, 0.016), (0.023, 0.013), (0.018, 0.011)],
         )
     )
     for sy in (-1, 1):  # ホースクランプ
-        parts.append(box_at((0.026, 0.018, 0.016), (0.250, sy * 0.046, 0.406)))
-        parts.append(box_at((0.024, 0.016, 0.014), (0.330, sy * 0.040, 0.428)))
+        parts.append(box_at((0.026, 0.018, 0.016), (0.300, sy * 0.044, 0.418)))
+        parts.append(box_at((0.024, 0.016, 0.014), (0.450, sy * 0.037, 0.447)))
 
     # 冷却ホース + シャント (可動側)
     for sy in (-1, 1):
@@ -557,9 +575,9 @@ def build_electrode_arm() -> trimesh.Trimesh:
             tube(
                 [
                     [0.150, sy * 0.052, 0.392],
-                    [0.230, sy * 0.058, 0.408],
-                    [0.310, sy * 0.048, 0.428],
-                    [0.356, sy * 0.040, 0.428],
+                    [0.280, sy * 0.058, 0.424],
+                    [0.430, sy * 0.046, 0.452],
+                    [0.532, sy * 0.038, 0.462],
                 ],
                 0.0090,
             )
