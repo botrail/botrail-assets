@@ -1,0 +1,77 @@
+<?xml version="1.0"?>
+<!--
+  belt-conveyor — コンベア本体の見た目 (CC0-1.0)
+
+  カタログ `botrail/conveyor/belt-unit/r1` の `unit` 部材の描画。**干渉には入らない**
+  装飾で、当たり判定は botrail が置くベルト板と側板が持つ。
+
+  原点の規約: **床レベル・機体中心**。X = 搬送方向、Y = 幅方向、Z = 上。
+  引数はすべてメートル: length / width / height / belt_thickness / rail
+  (height = 床からベルト上面まで)
+-->
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="belt-conveyor-unit">
+  <xacro:arg name="length" default="2.0"/>
+  <xacro:arg name="width" default="0.3"/>
+  <xacro:arg name="height" default="0.75"/>
+  <xacro:arg name="belt_thickness" default="0.05"/>
+  <xacro:arg name="rail" default="0.03"/>
+
+  <xacro:property name="l" value="$(arg length)"/>
+  <xacro:property name="w" value="$(arg width)"/>
+  <xacro:property name="h" value="$(arg height)"/>
+  <xacro:property name="bt" value="$(arg belt_thickness)"/>
+  <xacro:property name="rl" value="$(arg rail)"/>
+  <!-- ローラはベルト厚に収まる径。機体長からはみ出さない位置に置く -->
+  <xacro:property name="r" value="${bt * 0.45}"/>
+  <xacro:property name="dl" value="${min(0.22, l / 4)}"/>
+  <xacro:property name="dw" value="${min(0.16, w * 0.6)}"/>
+  <!-- 円筒は +Z 軸なので、幅方向に倒すには X 回りに 90 度 -->
+  <xacro:property name="across" value="1.5707963267948966"/>
+
+  <material name="belt"><color rgba="0.10 0.10 0.11 1"/></material>
+  <material name="steel"><color rgba="0.20 0.21 0.23 1"/></material>
+  <material name="motor"><color rgba="0.24 0.26 0.30 1"/></material>
+
+  <link name="unit"/>
+
+  <xacro:macro name="box_part" params="name size xyz mat">
+    <link name="${name}">
+      <visual>
+        <origin xyz="${xyz}"/>
+        <geometry><box size="${size}"/></geometry>
+        <material name="${mat}"/>
+      </visual>
+    </link>
+    <joint name="j_${name}" type="fixed"><parent link="unit"/><child link="${name}"/></joint>
+  </xacro:macro>
+
+  <xacro:macro name="roller" params="name radius length xyz mat">
+    <link name="${name}">
+      <visual>
+        <origin xyz="${xyz}" rpy="${across} 0 0"/>
+        <geometry><cylinder radius="${radius}" length="${length}"/></geometry>
+        <material name="${mat}"/>
+      </visual>
+    </link>
+    <joint name="j_${name}" type="fixed"><parent link="unit"/><child link="${name}"/></joint>
+  </xacro:macro>
+
+  <!-- ベルトと側板 (botrail 側の massing は非表示になり、これが見える) -->
+  <xacro:box_part name="belt" size="${l} ${w} ${bt}" xyz="0 0 ${h - bt/2}" mat="belt"/>
+  <xacro:box_part name="rail_l" size="${l} ${rl} ${bt + 0.04}"
+                  xyz="0 ${w/2 + rl/2} ${h - bt/2 + 0.02}" mat="steel"/>
+  <xacro:box_part name="rail_r" size="${l} ${rl} ${bt + 0.04}"
+                  xyz="0 ${-w/2 - rl/2} ${h - bt/2 + 0.02}" mat="steel"/>
+
+  <!-- ヘッド / テールローラ -->
+  <xacro:roller name="head_roller" radius="${r}" length="${w}"
+                xyz="${l/2 - r} 0 ${h - bt/2}" mat="steel"/>
+  <xacro:roller name="tail_roller" radius="${r}" length="${w}"
+                xyz="${-l/2 + r} 0 ${h - bt/2}" mat="steel"/>
+
+  <!-- 駆動部: 排出側の下に減速機、その脇にモータ -->
+  <xacro:box_part name="drive" size="${dl} ${dw} ${dw}"
+                  xyz="${l/2 - dl} 0 ${h - bt - dw/2}" mat="motor"/>
+  <xacro:roller name="motor" radius="${dw*0.375}" length="${dw*0.75}"
+                xyz="${l/2 - dl} ${w/2 + dw*0.375} ${h - bt - dw/2}" mat="motor"/>
+</robot>

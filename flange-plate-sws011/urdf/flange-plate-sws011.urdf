@@ -1,0 +1,92 @@
+<?xml version="1.0"?>
+<!--
+  Flange Plate (SWS-011): ISO 9409-1-50-4-M6 のロボットフランジと SCHUNK SWS-011
+  マスタ (SWK-011) を繋ぐロボット側アダプタプレートの自作アセット (CC0-1.0)。
+
+  ============================================================================
+  参照実機: **SCHUNK A-SWK-011-ISO-A50** (ID 0302223)
+    https://schunk.com/us/en/p/000000000000302223
+    寸法出典: SCHUNK 公式 SWS カタログ p.28 "Adapter plate ISO-A50-R" (公表図。
+    複製制限なしの通常カタログ)
+  ============================================================================
+
+  **これは A-SWK-011-ISO-A50 の複製ではない。** 外観 (面取り・ボスの見せ方) は
+  独自著作で、寸法は公表図に合わせてある:
+    - 外径 **ø63** / 本体 **25.5 mm** / ロボット側 ISO パイロット **ø31.5 x 5.0**
+      (全高 30.5)
+    - ロボット側 = **ISO 9409-1-50-4-M6** (ボルト円 ø50 に M6 通し x4 + ダウエル ø6)
+    - ツール側 = **S7**: SWK-011 が M3x25 x4 (ボルト円 ø40) で載る。
+      **SWK の cover (ø45h7 x 3.2) を受けるポケット ø45 x 3.2** — 「cover は
+      アダプタプレートに支持されることが必須」という公式カタログ注記の実装。
+      深さ 3.2 = cover 厚 (面で支持) はこの注記からの導出値
+    - 中央通し穴 ø10 と質量 **0.20 kg (アルミ想定)** は設計値 (カタログ非公表)
+
+  これで実機どおりの取付連鎖が成立する:
+    ロボットフランジ (ISO 9409-1-50-4-M6, UR3/UR5/UR10 等)
+      -> [plate.mount .. plate.flange]   本アセット          (25.5 mm)
+      -> [master.mount .. coupling]      tool-changer-sws011-master (15.5 mm)
+      -> [tool.mount .. tool.flange]     tool-changer-sws011-tool   (20.6 mm)
+      -> エンドエフェクタ                              合計 61.6 mm
+
+  座標系 (botrail カタログ規約): Z-up / メートル。root リンク mount = ロボット
+  フランジ接触面 (+Z がツール側)。flange = SWK-011 が座るツール面 (z = 25.5 mm)。
+
+  visual: tools/generate_meshes.py が生成する ../meshes/plate.stl (手続き的著作)
+  collision: URDF プリミティブのみ (本体 + パイロット)。ダウエル・ボルト縁は
+          相手側の穴に入る/沈む形状なので collision に出さない
+-->
+<robot name="flange_plate_sws011">
+
+  <link name="mount"/>
+
+  <link name="body">
+    <!--
+      色: STL は材質を持てないので外観はここで述べる。述べないと消費側が
+      リンクを既定パレット (studio は 8 色循環) で塗り、**同じ製品でもシーン内の
+      並び順で色が変わる**。参照実機の公表資料に塗色の記載が無いため実機の色は
+      主張せず、この種の部品として素直な地色を著作する。数値は **linear** で渡る
+      (botrail は URDF の <color rgba> をそのまま Shape.color に載せ、studio は
+      LinearSRGB として読む)。
+    -->
+    <visual>
+      <geometry>
+        <mesh filename="../meshes/plate.stl"/>
+      </geometry>
+      <material name="machined_aluminium"><!-- 素の機械加工アルミ -->
+        <color rgba="0.47 0.48 0.50 1.0"/>
+      </material>
+    </visual>
+
+    <collision><!-- plate body ø63 x 25.5 -->
+      <origin xyz="0 0 0.01275"/>
+      <geometry><cylinder radius="0.0315" length="0.0255"/></geometry>
+    </collision>
+    <collision><!-- ISO 9409-1 pilot ø31.5 (seats in the robot flange bore) -->
+      <origin xyz="0 0 -0.0025"/>
+      <geometry><cylinder radius="0.01575" length="0.005"/></geometry>
+    </collision>
+
+    <!-- 質量 0.20 kg (アルミ想定の設計推定。実機値は非公表)。
+         慣性は ø63 x 30.5 の中実円柱近似 -->
+    <inertial>
+      <origin xyz="0 0 0.0120"/>
+      <mass value="0.20"/>
+      <inertia ixx="6.51e-5" ixy="0.0" ixz="0.0" iyy="6.51e-5" iyz="0.0" izz="9.92e-5"/>
+    </inertial>
+  </link>
+
+  <!-- SWK-011 が座るツール面 (S7)。cover はこの面のポケットに沈んで支持される -->
+  <link name="flange"/>
+
+  <joint name="body_joint" type="fixed">
+    <parent link="mount"/>
+    <child link="body"/>
+  </joint>
+
+  <joint name="flange_joint" type="fixed">
+    <origin xyz="0 0 0.0255"/>
+    <parent link="body"/>
+    <child link="flange"/>
+  </joint>
+
+</robot>

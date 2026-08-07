@@ -1,0 +1,46 @@
+<?xml version="1.0"?>
+<!--
+  mesh-guard — 支柱 1 本の見た目 (CC0-1.0)
+
+  原点の規約は panel と同じく**床レベル・支柱中心**。X = 柵の走る方向、Y = 板厚方向。
+  角の支柱は 2 方向の柵を受けるので `square=1` で正方断面にする (実機でも角柱は
+  中間支柱より太いことが多い)。中間支柱は実断面 (60 x 40) をそのまま使う。
+
+  引数はすべてメートル: height / section_w / section_d / plate / square
+-->
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="mesh-guard-post">
+  <xacro:arg name="height" default="2.0"/>
+  <xacro:arg name="section_w" default="0.06"/>
+  <xacro:arg name="section_d" default="0.04"/>
+  <xacro:arg name="plate" default="0.0"/>
+  <xacro:arg name="square" default="0"/>
+
+  <xacro:property name="h" value="$(arg height)"/>
+  <xacro:property name="sw" value="$(arg section_w)"/>
+  <xacro:property name="sd" value="${sw if $(arg square) > 0 else $(arg section_d)}"/>
+  <!-- 既定のベースプレートは断面の 2.4 倍角。0 を渡すとその既定に落ちる -->
+  <xacro:property name="pl" value="${$(arg plate) if $(arg plate) > 0 else sw * 2.4}"/>
+
+  <material name="post"><color rgba="0.16 0.17 0.19 1"/></material>
+  <material name="plate"><color rgba="0.20 0.21 0.23 1"/></material>
+
+  <link name="post"/>
+
+  <link name="column">
+    <visual>
+      <origin xyz="0 0 ${h/2}"/>
+      <geometry><box size="${sw} ${sd} ${h}"/></geometry>
+      <material name="post"/>
+    </visual>
+  </link>
+  <joint name="j_column" type="fixed"><parent link="post"/><child link="column"/></joint>
+
+  <link name="base">
+    <visual>
+      <origin xyz="0 0 ${sw/8}"/>
+      <geometry><box size="${pl} ${pl} ${sw/4}"/></geometry>
+      <material name="plate"/>
+    </visual>
+  </link>
+  <joint name="j_base" type="fixed"><parent link="post"/><child link="base"/></joint>
+</robot>

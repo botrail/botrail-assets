@@ -1,0 +1,174 @@
+<?xml version="1.0"?>
+<!--
+  weld-gun-x16005: サーボスポットガン (X ガン / シザー式) の自作アセット (CC0-1.0)。
+
+  ============================================================================
+  参照実機: **HERON DB6-075-X16005-00** (X 型ロボットサーボガン)
+    https://heron-welder.com/x-type-robotic-welding-gun-with-servo-actuator/
+    (メーカー公式ページの型番別スペック表。weld-gun-xr637 がストローク出典に使った
+     DB6-110-C16027 と同じ型番体系 = 同一カタログ族)
+  ============================================================================
+
+  **これは DB6-075-X16005-00 の複製ではない。** 外観 (溶接構造・トランス筐体・
+  配管取り回し) はすべて独自著作で、参照実機からは**公表されている数値だけ**を
+  採っている:
+
+  - **アーム寸法 384 x 160** → のど深さ 384 mm / アーム開口 160 mm @電極軸
+  - **最大ストローク 179 mm** → electrode_joint 上限 0.446 rad で先端移動 179 mm
+  - **最大加圧力 3900 N** → effort 1650 Nm (3.9 kN x 電極までの腕 0.422 m)
+  - **総質量 95.5 kg** (body 78.5 + electrode_arm 17)
+  - **トランス 75 kVA** (MFDC 一体型として造形) / 最大電流 20 kA は照合値
+
+  参照実機の公表に無い部分は公開規格で補完:
+  - **電極キャップ = ISO 5821 Type F, 16 x 20** (d1=16, l1=20, R1=40, テーパ 1:10)。
+    同規格 ⌀16 の Fmax 4.0 kN >= 3900 N で参照実機の加圧力と整合する
+  意図的に変えた点:
+  - q=0 で電極間 5 mm クリアランス (実機は閉で接触。自己干渉のないゼロ姿勢を
+    保つためのモデリング都合)
+  - 外装は独自著作のデフォルメで、参照実機の包絡 L x H x W 1161 x 532 x 302 とは
+    一致させていない (本モデルは全長 820 mm 級)
+  検証 (参照ではない):
+  - 質量・重心が FANUC R-2000iC/165F の手首許容値に収まることを確認済み
+
+  visual: tools/generate_meshes.py が生成する ../meshes/*.stl (手続き的著作、
+          寸法定数はスクリプト冒頭の GEOMETRY ブロックに集約)。実測は
+          tools/measure_throat.py で再現できる
+  collision: URDF プリミティブのみ。**のど (throat) の開口を保つのが目的**で、
+          builder はプリミティブを素通しするため VHACD で開口が塞がれない。
+          テーパーしたアームは 2 本の円柱で近似し、先端側を細くして開口を稼ぐ。
+          可撓物 (ホース・キックレスケーブル) と機体内部のテールには collision 無し
+
+  慣例 (botrail カタログ):
+  - Z-up / メートル。root リンク mount = フランジ接触面 (+Z がツール内側)。
+    attach_tool はツールを root で溶接する
+  - tcp = 固定電極先端 (body 側の固定リンク)
+  - electrode_joint は正方向 = 開 (q=0 で電極間 5 mm、q=0.446 rad で先端 179 mm 移動)
+-->
+<robot name="weld_gun_x16005">
+  <link name="mount"/>
+
+  <link name="body">
+    <!--
+      色: STL は材質を持てないので外観はここで述べる (述べないと消費側が既定
+      パレットで塗り、同じ製品でもシーン内の並び順で色が変わる)。参照実機の
+      公表資料に塗色の記載は無いので実機の塗装は主張せず、この種のガンとして
+      素直な地色を著作する: 塗装された機体 + 素地のままの可動アーム。
+      電極キャップ (ISO 5821 Type F) は銅合金だが、いまは可動アーム側の
+      メッシュに含まれていて塗り分けられない (分けるなら generate_meshes.py で
+      別メッシュにし、tools/measure_throat.py の読み先も直す)。
+      数値は **linear** で渡る (studio は LinearSRGB として読む)。
+    -->
+    <visual>
+      <geometry><mesh filename="../meshes/body.stl"/></geometry>
+          <material name="painted_machine_grey"><!-- 塗装された機体 (サーボ + トランス周り) -->
+        <color rgba="0.16 0.17 0.19 1.0"/>
+      </material>
+</visual>
+
+    <!-- フランジ板 + 取付ブラケット (溶接構造) -->
+    <collision>
+      <origin xyz="0.010 0 0.145"/>
+      <geometry><box size="0.215 0.195 0.290"/></geometry>
+    </collision>
+    <!-- MFDC トランス (冷却フィン・端子箱を含む包絡) -->
+    <collision>
+      <origin xyz="-0.140 0 0.175"/>
+      <geometry><box size="0.250 0.320 0.345"/></geometry>
+    </collision>
+    <!-- サーボ + ボールねじ (可動テールと干渉しないよう前端を -0.02 で止める) -->
+    <collision>
+      <origin xyz="-0.120 0 0.402"/>
+      <geometry><box size="0.200 0.140 0.135"/></geometry>
+    </collision>
+    <!-- ピボットクレビス -->
+    <collision>
+      <origin xyz="0.115 0 0.335" rpy="1.5707963268 0 0"/>
+      <geometry><cylinder radius="0.038" length="0.160"/></geometry>
+    </collision>
+    <!-- 固定アーム 根元側 / 先端側 (のど下面。テーパーに合わせて 2 段) -->
+    <collision>
+      <origin xyz="0.260 0 0.284" rpy="0 1.6072 0"/>
+      <geometry><cylinder radius="0.036" length="0.220"/></geometry>
+    </collision>
+    <collision>
+      <origin xyz="0.461 0 0.276" rpy="0 1.6075 0"/>
+      <geometry><cylinder radius="0.026" length="0.202"/></geometry>
+    </collision>
+    <!-- 固定電極 ホルダ + ISO 5821 F16x20 キャップ (上向き、先端 = tcp) -->
+    <collision>
+      <origin xyz="0.537 0 0.316"/>
+      <geometry><cylinder radius="0.020" length="0.048"/></geometry>
+    </collision>
+    <collision>
+      <origin xyz="0.537 0 0.350"/>
+      <geometry><cylinder radius="0.009" length="0.020"/></geometry>
+    </collision>
+
+    <inertial>
+      <!-- 溶接構造 + MFDC トランス + サーボ駆動。慣性は collision プリミティブ群を
+           一様密度で質量 78.5 kg にスケールして算出 (r2 の 78 kg から +0.5 kg。
+           分布はほぼ不変なのでテンソルは据え置き) -->
+      <origin xyz="-0.079 0 0.192"/>
+      <mass value="78.5"/>
+      <inertia ixx="1.50" ixy="0" ixz="0" iyy="2.22" iyz="0" izz="1.69"/>
+    </inertial>
+  </link>
+
+  <link name="electrode_arm">
+    <visual>
+      <geometry><mesh filename="../meshes/electrode_arm.stl"/></geometry>
+          <material name="bare_steel"><!-- 素地の可動アーム -->
+        <color rgba="0.32 0.33 0.35 1.0"/>
+      </material>
+</visual>
+
+    <!-- 可動アーム 根元側 / 先端側。ピボット手前から始めて body クレビスと干渉させない -->
+    <collision>
+      <origin xyz="0.138 0 0.072" rpy="0 1.271 0"/>
+      <geometry><cylinder radius="0.032" length="0.200"/></geometry>
+    </collision>
+    <collision>
+      <origin xyz="0.336 0 0.122" rpy="0 1.371 0"/>
+      <geometry><cylinder radius="0.024" length="0.226"/></geometry>
+    </collision>
+    <!-- 可動電極 ホルダ + ISO 5821 F16x20 キャップ (下向き) -->
+    <collision>
+      <origin xyz="0.422 0 0.084"/>
+      <geometry><cylinder radius="0.020" length="0.068"/></geometry>
+    </collision>
+    <collision>
+      <origin xyz="0.422 0 0.040"/>
+      <geometry><cylinder radius="0.009" length="0.020"/></geometry>
+    </collision>
+
+    <inertial>
+      <origin xyz="0.250 0 0.093"/>
+      <mass value="17"/>
+      <inertia ixx="0.016" ixy="0" ixz="0" iyy="0.260" iyz="0" izz="0.251"/>
+    </inertial>
+  </link>
+
+  <link name="tcp"/>
+
+  <joint name="body_joint" type="fixed">
+    <parent link="mount"/>
+    <child link="body"/>
+  </joint>
+
+  <joint name="electrode_joint" type="revolute">
+    <origin xyz="0.115 0 0.335"/>
+    <parent link="body"/>
+    <child link="electrode_arm"/>
+    <axis xyz="0 -1 0"/>
+    <!-- effort: 電極力 3.9 kN (参照実機の最大加圧力) x 電極までの腕 0.422 m
+         = 1.65 kNm。実機はボールねじ (テール腕 0.12 m) 経由なので
+         ねじ推力 ~13.7 kN に相当 -->
+    <limit lower="0" upper="0.446" effort="1650" velocity="1.2"/>
+  </joint>
+
+  <joint name="tcp_joint" type="fixed">
+    <origin xyz="0.537 0 0.360"/>
+    <parent link="body"/>
+    <child link="tcp"/>
+  </joint>
+</robot>

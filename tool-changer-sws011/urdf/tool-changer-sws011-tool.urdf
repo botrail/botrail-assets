@@ -1,0 +1,98 @@
+<?xml version="1.0"?>
+<!--
+  Tool Changer SWS-011 — ツール側: 空圧ロボットツールチェンジャの自作アセット
+  (CC0-1.0)。tool-changer-sws011-master.urdf と対で使う。
+
+  ============================================================================
+  参照実機: **SCHUNK SWS-011 / SWA-011-000-000**
+    https://schunk.com/us/en/automation-technology/tool-changer/sws/swa-011-000-000/p/000000000000302317
+  ============================================================================
+
+  由来・STEP の扱い (CC BY-ND のため計測のみに使用し、メッシュは寸法から再著作) は
+  マスタ側 URDF のヘッダと docs/step-measurements.md を参照。この板に固有の実測値:
+
+    - 外径 **ø50** (実測 ø50.02 / 公表 ø50)
+    - 板本体 **20.6 mm** = 結合面からツール面まで (実測 20.61 と公表 20.6 が一致)
+    - **位置決めリング 3.19 mm** がマスタ側へ突き出す (マスタ結合面の凹みに入る)
+    - **段付き受け穴 r 13.5 / 12.5 / 9.7** (マスタのカムボスを受ける)
+    - **取付 "S7" = M5 めねじ 深さ8 x4 / ボルト円 ø40 / 45-135-225-315 度** (公式
+      カタログで確定。STEP の ø4.2 は M5 ねじ下穴)
+    - エア通し **6 ポート ø2.8 / ボルト円 ø35** (マスタと共通)
+    - 質量 **0.09 kg**
+
+  この板の役割は **インタフェースの中継**:
+    ロボットフランジ -> [flange-plate-sws011] -> [master.mount .. master.coupling]
+                     -> [tool.mount .. tool.flange] -> エンドエフェクタ
+
+  上面 (flange) が提示するのは **S7 (4 x ø40 @45 度)** であって ISO 9409-1 ではない。
+  実機どおりなので、ISO のツールを載せるにはアダプタプレートが要る。
+
+  座標系 (botrail カタログ規約): Z-up / メートル。root リンク mount = マスタとの
+  結合面 (+Z がツール側)。flange = ツール取付面 (z = 20.6 mm)。
+
+  visual: tools/generate_meshes.py が生成する ../meshes/tool.stl (手続き的著作)
+  collision: URDF プリミティブのみ (板 + 位置決めリング + 側面マニホールド)
+-->
+<robot name="tool_changer_sws011_tool">
+
+  <link name="mount"/>
+
+  <link name="body">
+    <!--
+      色: STL は材質を持てないので外観はここで述べる。述べないと消費側が
+      リンクを既定パレット (studio は 8 色循環) で塗り、**同じ製品でもシーン内の
+      並び順で色が変わる**。参照実機の公表資料に塗色の記載が無いため実機の色は
+      主張せず、この種の部品として素直な地色を著作する。数値は **linear** で渡る
+      (botrail は URDF の <color rgba> をそのまま Shape.color に載せ、studio は
+      LinearSRGB として読む)。
+    -->
+    <visual>
+      <geometry>
+        <mesh filename="../meshes/tool.stl"/>
+      </geometry>
+      <material name="anodised_aluminium"><!-- アルマイト地のアルミ (ツール側。実機も同系色) -->
+        <color rgba="0.50 0.51 0.53 1.0"/>
+      </material>
+    </visual>
+
+    <collision><!-- locating ring, protrudes 3.19 mm toward the master -->
+      <origin xyz="0 0 -0.0016"/>
+      <geometry><cylinder radius="0.024" length="0.0032"/></geometry>
+    </collision>
+    <collision><!-- main plate ø50 x 20.6 (SWA-011) -->
+      <origin xyz="0 0 0.0103"/>
+      <geometry><cylinder radius="0.025" length="0.0206"/></geometry>
+    </collision>
+    <collision><!-- air manifold boss +y -->
+      <origin xyz="0 0.026 0.0103" rpy="1.5708 0 0"/>
+      <geometry><cylinder radius="0.003" length="0.0065"/></geometry>
+    </collision>
+    <collision><!-- air manifold boss -y -->
+      <origin xyz="0 -0.026 0.0103" rpy="1.5708 0 0"/>
+      <geometry><cylinder radius="0.003" length="0.0065"/></geometry>
+    </collision>
+
+    <!-- 質量 0.09 kg (公表値)。重心は STEP 実測 (mount 面から +10.44 mm)。
+         慣性は ø50 x 23.8 の中実円柱近似 -->
+    <inertial>
+      <origin xyz="0 0 0.01044"/>
+      <mass value="0.09"/>
+      <inertia ixx="1.831e-5" ixy="0.0" ixz="0.0" iyy="1.831e-5" iyz="0.0" izz="2.813e-5"/>
+    </inertial>
+  </link>
+
+  <!-- ツール取付面 (S7: 4 x ø4.2 / ボルト円 ø39.9)。ISO 9409-1 ではない -->
+  <link name="flange"/>
+
+  <joint name="body_joint" type="fixed">
+    <parent link="mount"/>
+    <child link="body"/>
+  </joint>
+
+  <joint name="flange_joint" type="fixed">
+    <origin xyz="0 0 0.0206"/>
+    <parent link="body"/>
+    <child link="flange"/>
+  </joint>
+
+</robot>

@@ -1,0 +1,65 @@
+<?xml version="1.0" ?>
+<!--
+  phoxi: Photoneo PhoXi 3D Scanner M の URDF エントリ (CC0-1.0)。
+
+  メッシュとキャリブレーション値は Photoneo 公式の
+  https://github.com/photoneo/phoxi_camera (MIT) のもの — このリポジトリには
+  **メッシュは含まない**。カタログのビルド工程が phoxi_camera と本ファイルを
+  併せて取得し、$(find phoxi_camera) がそちらへ解決される。
+
+  なぜこのファイルが要るか:
+    上流の urdf/PhoXi3Dscanner.xacro は、マクロの 4 ブロック引数
+    (*scanner_origin *sensor_origin *visual *collision) に対して
+    「2 要素へ展開されるマクロ呼び出し 1 個」でブロック 2 個分を渡そうとしており、
+    xacro のブロックは位置渡し・1 要素 1 ブロックなので展開が
+    "not enough blocks" で失敗する (ROS 公式 xacro でも同じ)。
+    ここでは同じ内容をブロック機構なしで直接書き下す。
+
+  値の出典 (上流 urdf/PhoXi3Dscanner_values.xacro の M 構成):
+    - センサ (カメラ) 外部キャリブレーション:
+        xyz = -0.176277236938477 0.0299 0.002164826095
+        rpy = 0 ${-11.75/180*pi} ${pi}
+      バー端のカメラが中央方向へ 11.75° 内向き。+Z が光軸の光学規約
+      (X 右・Y 下)、プロジェクタ光軸とスイートスポット (650 mm) で交差する。
+    - メッシュ配置 rpy = 0 1.5707 0 (STL の長軸 +Z をボディ +X へ)、scale mm→m
+
+  座標系: root (mount) = 上流のスキャナボディフレーム。+X = バー長軸、
+  スキャン方向はおおむね +Z。
+-->
+<robot name="phoxi_m" xmlns:xacro="http://ros.org/wiki/xacro">
+
+  <link name="mount"/>
+
+  <joint name="mount_to_scanner" type="fixed">
+    <parent link="mount"/>
+    <child link="PhoXi3Dscanner"/>
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+  </joint>
+
+  <link name="PhoXi3Dscanner">
+    <visual>
+      <origin xyz="0 0 0" rpy="0 1.5707 0"/>
+      <geometry>
+        <mesh filename="package://phoxi_camera/meshes/visual/PhoXi_M.f.STL" scale="0.001 0.001 0.001"/>
+      </geometry>
+      <material name="phoxi_body">
+        <color rgba="0.8 0.8 0.8 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 1.5707 0"/>
+      <geometry>
+        <mesh filename="package://phoxi_camera/meshes/collision/PhoXi_M.c.STL" scale="0.001 0.001 0.001"/>
+      </geometry>
+    </collision>
+  </link>
+
+  <joint name="scanner_to_sensor" type="fixed">
+    <parent link="PhoXi3Dscanner"/>
+    <child link="PhoXi3Dscanner_sensor"/>
+    <origin xyz="-0.176277236938477 0.0299 0.002164826095" rpy="0 ${-11.75/180*pi} ${pi}"/>
+  </joint>
+
+  <link name="PhoXi3Dscanner_sensor"/>
+
+</robot>

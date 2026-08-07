@@ -1,0 +1,139 @@
+<?xml version="1.0"?>
+<!--
+  Motor Spindle V1: ロボット切削用モータスピンドルの自作アセット (CC0-1.0)。
+  カタログに tool.spindle のモデルが 1 つも無かったのを埋めるために著作した。
+
+  ============================================================================
+  参照実機: **ナカニシ EMSF-3060K** (フランジ付きモータスピンドル、E3000 シリーズ)
+    シリーズページ: https://nakanishi-spindle.com/hpms/e3000/
+    寸法出典: E3000 カタログ p.2-43 (EMSF-3060K 寸法図。CAD データ DXF/STEP は
+    WEB 配布ありだが要登録のため、公表寸法図から起こした)
+  ============================================================================
+
+  **これは EMSF-3060K の複製ではない。** 参照実機からは**公表されている数値だけ**を
+  採り、細部の意匠 (面取り・ナット先端形状・穴配置角・フランジ輪郭) は独自著作。
+
+  参照実機から採った値 (カタログ p.2-43 の公表値):
+    - 胴 **ø30 x 136.3 mm** / 後端コード付け根 11 mm (全長 153.2 = 136.3 + ナット 16.9)
+    - フランジ: 厚さ **8 mm**、取り付け穴 **4-ø4.2 貫通 / ボルト円 ø39**
+      (固定は六角穴付ボルト M4x16 x 4 本 — 標準付属)
+    - フランジ前面 -> 胴前端面 **50 mm** (クランプ不可区間) / フランジ後方の胴
+      **50.5 + 27.8 mm** (クランプ不可区間 + 後部)
+    - コレットナット (K-265 標準装備): **ø15.9 x 16.9 mm** (円筒部 12.5)
+    - 最高回転速度 **60,000 min^-1** / 最大出力 **350 W** / 振れ精度 **1 um 以内**
+    - コレット **CHK グループ ø0.5〜6.35 mm** / 工具入れ込み長さ最大 **46.4 mm**
+    - 質量 **620 g** (コレットナット込み)
+
+  参照実機から**意図的に変えた点**:
+    - **カッタ (ø6 x 突き出し 30 mm) は当方の設計** (実機は工具別売。CHK コレットの
+      把持範囲 ø0.5〜6.35 に収まる ø6 スクエアエンドミル想定、質量 +20 g)
+    - フランジ輪郭は実機の角丸 43x33 (R23) を **ø46 円板に簡略**。穴配置角 35° も
+      45° 対称に簡略 (ボルト円 ø39 と穴径 4.2 は実機どおり)
+    - ジョイントコード (0.3 m) とホルダ (取付治具) は非モデル
+
+  座標系 (botrail カタログ規約): Z-up / メートル。root リンク mount = **フランジ前面**
+  (実機の取付規約どおり「胴をホルダに挿入しフランジ後面から M4 ボルト 4 本で固定」する
+  際にホルダ後端面が当たる面)。+Z がツール側。
+  **胴はフランジより後ろ (-Z) へ 97.3 mm 突き出す** — ブラケット/ホルダ設計は
+  この逃げが前提 (同軸のフランジプレート 1 枚ではロボットフランジと干渉する)。
+
+  フレーム規約:
+    - mount = root。tip = カッタ先端 (mount から +96.9 mm)
+    - **tip は X 軸半回転で反転**してあり、tip の +Z は「先端 -> 工具本体」方向
+      (= mount の -Z)。botrail の PathTarget.tool_axis 規約と 5-DOF 軸整列 IK の前提
+    - tcp = tip (カタログの tcp 既定)
+
+  リンク分割: body / collet / cutter の 3 リンク固定チェーン。カッタは
+  allow_link_obstacle_contact(cutter, stock) の免除対象になるため**単独リンク**とし、
+  collision は実半径 ø6 の細円柱 1 本のみ (VHACD 非経由のプリミティブ著作)。
+
+  visual: tools/generate_meshes.py が生成する ../meshes/{body,collet,cutter}.stl
+  collision: URDF プリミティブのみ (胴 + フランジ + コード付け根 / ナット / カッタ)
+
+  質量配分: 実機 620 g (ナット込み) を body 590 g + collet 30 g に配分し、
+  カッタ 20 g (当方設計分) を加算。慣性は円柱近似
+-->
+<robot name="spindle_emsf3060">
+
+  <link name="mount"/>
+
+  <link name="body">
+    <visual>
+      <geometry>
+        <mesh filename="../meshes/body.stl"/>
+      </geometry>
+    </visual>
+    <collision><!-- 胴 ø30 (z -86.3..50) -->
+      <origin xyz="0 0 -0.01815"/>
+      <geometry><cylinder radius="0.015" length="0.1363"/></geometry>
+    </collision>
+    <collision><!-- フランジ ø46 x 8 (z -8..0) -->
+      <origin xyz="0 0 -0.004"/>
+      <geometry><cylinder radius="0.023" length="0.008"/></geometry>
+    </collision>
+    <collision><!-- 後端コード付け根 ø10 x 11 (z -97.3..-86.3) -->
+      <origin xyz="0 0 -0.0918"/>
+      <geometry><cylinder radius="0.005" length="0.011"/></geometry>
+    </collision>
+    <inertial>
+      <origin xyz="0 0 -0.0182"/>
+      <mass value="0.59"/>
+      <inertia ixx="9.47e-04" iyy="9.47e-04" izz="6.64e-05" ixy="0" ixz="0" iyz="0"/>
+    </inertial>
+  </link>
+  <joint name="mount_to_body" type="fixed">
+    <parent link="mount"/>
+    <child link="body"/>
+  </joint>
+
+  <link name="collet">
+    <visual>
+      <geometry>
+        <mesh filename="../meshes/collet.stl"/>
+      </geometry>
+    </visual>
+    <collision><!-- コレットナット ø15.9 x 16.9 (z 50..66.9) -->
+      <origin xyz="0 0 0.05845"/>
+      <geometry><cylinder radius="0.00795" length="0.0169"/></geometry>
+    </collision>
+    <inertial>
+      <origin xyz="0 0 0.0578"/>
+      <mass value="0.03"/>
+      <inertia ixx="1.2e-06" iyy="1.2e-06" izz="9.6e-07" ixy="0" ixz="0" iyz="0"/>
+    </inertial>
+  </link>
+  <joint name="body_to_collet" type="fixed">
+    <parent link="body"/>
+    <child link="collet"/>
+  </joint>
+
+  <link name="cutter">
+    <visual>
+      <geometry>
+        <mesh filename="../meshes/cutter.stl"/>
+      </geometry>
+    </visual>
+    <collision><!-- カッタ実半径 ø6 の細円柱 (z 66.9..96.9)。stock との接触免除対象 -->
+      <origin xyz="0 0 0.0819"/>
+      <geometry><cylinder radius="0.003" length="0.030"/></geometry>
+    </collision>
+    <inertial>
+      <origin xyz="0 0 0.0819"/>
+      <mass value="0.02"/>
+      <inertia ixx="1.6e-06" iyy="1.6e-06" izz="9.0e-08" ixy="0" ixz="0" iyz="0"/>
+    </inertial>
+  </link>
+  <joint name="collet_to_cutter" type="fixed">
+    <parent link="collet"/>
+    <child link="cutter"/>
+  </joint>
+
+  <!-- tip: カッタ先端。X 軸半回転で +Z が「先端 -> 工具本体」方向 (mount の -Z) を向く -->
+  <link name="tip"/>
+  <joint name="cutter_to_tip" type="fixed">
+    <origin xyz="0 0 0.0969" rpy="3.14159265358979 0 0"/>
+    <parent link="cutter"/>
+    <child link="tip"/>
+  </joint>
+
+</robot>

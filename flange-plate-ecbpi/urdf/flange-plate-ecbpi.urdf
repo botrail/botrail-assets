@@ -1,0 +1,90 @@
+<?xml version="1.0"?>
+<!--
+  Flange Plate (ECBPi): ロボットフランジと Schmalz CobotPump ECBPi を繋ぐアダプタ
+  プレートの自作アセット (CC0-1.0)。
+
+  ============================================================================
+  参照実機: **Schmalz ROB-SET ECBPi** に同梱されるフランジプレート
+    https://www.universal-robots.com/plus/products/schmalz/ecbpi-cobotpump/
+    ("flange plate suited for all UR3 / UR5 / UR10" として ROB-SET に含まれる)
+  ============================================================================
+
+  ECBPi の取付は **3 x M4 / ボルト円 ø46** で ISO 9409-1 ではないため、
+  ロボットフランジへ直付けできない。実機でも Schmalz がロボット別のフランジ
+  プレートを別売/同梱しており、**このプレートを別アセットにするのが実機どおりの解**。
+  カタログ側で ECBPi のインタフェースを ISO へ描き替えることはしない。
+
+  **両側のインタフェースは公開データで確定している**:
+    - ロボット側 = **ISO 9409-1-50-4-M6** (公開規格。外径 63 / ボルト円 50 x 4-M6 /
+      位置決め径 31.5 / ダウエル 6)。OMRON i837 (Techman TM5) のフランジ図と一致確認済み
+    - ツール側 = **3 x M4 / ボルト円 ø46** (ECBPi 取説 §4.5 の Dmk1 / G1)
+
+  **設計値 (公開データが無い部分)**: 板厚 8 mm と外径 ø63。ROB-SET のプレート単体の
+  寸法は公開されていないため、外径は ISO 呼び 50 のフランジ外径に合わせ、板厚は
+  M4/M6 の座ぐりが成立する最小厚とした。**この 2 つだけが当方の設計値**。
+
+  注記: ISO の M6 穴 (P.C.D 50) と ECBPi の M4 穴 (P.C.D 46) は半径がほぼ重なるので、
+  角度をずらして逃がしてある (M6 = 0/90/180/270 度、M4 = 45/165/285 度)。
+  実機のアダプタプレートも同じ制約を抱える箇所。
+
+  座標系 (botrail カタログ規約): Z-up / メートル。root リンク mount = ロボット
+  フランジ接触面 (+Z がツール側)。flange = ECBPi が載る面 (z = 8 mm)。
+
+  visual: tools/generate_meshes.py が生成する ../meshes/plate.stl (手続き的著作)
+  collision: URDF プリミティブのみ (板 + スピゴット)。ダウエルピンとボルトは
+          相手側の穴に入る消耗形状なので collision に出さない
+-->
+<robot name="flange_plate_ecbpi">
+
+  <link name="mount"/>
+
+  <link name="body">
+    <!--
+      色: STL は材質を持てないので外観はここで述べる。述べないと消費側は
+      リンクを既定パレットで塗る (studio は 8 色循環) — 機械加工のアダプタ
+      プレートが毎回違う色になる。素の機械加工アルミ (アルマイト無し) の
+      落ち着いた地色を著作する。数値は **linear** で渡る (botrail は URDF の
+      <color rgba> をそのまま Shape.color に載せ、studio は LinearSRGB として
+      読む)。sRGB の見た目で約 0.72 相当。
+    -->
+    <visual>
+      <geometry>
+        <mesh filename="../meshes/plate.stl"/>
+      </geometry>
+      <material name="machined_aluminium">
+        <color rgba="0.47 0.48 0.50 1.0"/>
+      </material>
+    </visual>
+
+    <collision><!-- plate, ISO 9409-1 OD ø63 x 8 -->
+      <origin xyz="0 0 0.004"/>
+      <geometry><cylinder radius="0.0315" length="0.008"/></geometry>
+    </collision>
+    <collision><!-- ISO 9409-1 pilot spigot ø31.5 (seats in the robot flange bore) -->
+      <origin xyz="0 0 -0.0025"/>
+      <geometry><cylinder radius="0.01575" length="0.005"/></geometry>
+    </collision>
+
+    <!-- 質量 0.06 kg (ø63 x 8 のアルミ板 - 穴分)。慣性は中実円柱近似 -->
+    <inertial>
+      <origin xyz="0 0 0.004"/>
+      <mass value="0.06"/>
+      <inertia ixx="1.520e-5" ixy="0.0" ixz="0.0" iyy="1.520e-5" iyz="0.0" izz="2.977e-5"/>
+    </inertial>
+  </link>
+
+  <!-- ECBPi の取付面 (3 x M4 / ボルト円 ø46) -->
+  <link name="flange"/>
+
+  <joint name="body_joint" type="fixed">
+    <parent link="mount"/>
+    <child link="body"/>
+  </joint>
+
+  <joint name="flange_joint" type="fixed">
+    <origin xyz="0 0 0.008"/>
+    <parent link="body"/>
+    <child link="flange"/>
+  </joint>
+
+</robot>

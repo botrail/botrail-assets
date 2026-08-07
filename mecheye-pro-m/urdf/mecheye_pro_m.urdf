@@ -1,0 +1,108 @@
+<?xml version="1.0"?>
+<!--
+  mecheye-pro-m: Mech-Mind Mech-Eye PRO M の自作マッシングモデル (CC0-1.0)。
+
+  ============================================================================
+  **これは Mech-Mind Robotics の CAD ではない。** 公式 CAD (STEP) は登録フォームの
+  先にしか無く再配布可否を判断できないため、公表仕様の外形寸法に合わせて
+  botrail-assets が独自に著作した簡略形状 (マッシング) である。
+  実寸 CAD が要る用途には Mech-Mind の公式ダウンロードセンターを使うこと。
+  ============================================================================
+
+  寸法の根拠 (docs.mech-mind.net Mech-Eye 2.3.1 PRO S/PRO M specifications):
+    - 外形 353 × 57 × 100 mm (バー長 Y × 奥行 X × 高さ Z)
+    - 基線 270 mm → 前面レンズ 2 個を y = ±135 mm に配置
+    - 前面の黒帯・レンズ径・プロジェクタ窓の意匠は**当方設計** (実機の写しではない)
+
+  座標系: 原点 = mount = **背面中央** (実機は背面/上面の M6 穴でブラケット取付)。
+  +X = 光軸 (前面方向)、+Y = バー長軸、+Z = 上。
+  camera_optical_frame は前面中央 (レンズ間の中点、x = 60.5 mm) に置いた
+  ROS 光学規約 (+Z 前方・+Y 下)。実機の深度参照フレームの公表値は無いため
+  近似である (基線中点 = 妥当な中立点)。
+-->
+<robot name="mecheye_pro_m">
+
+  <material name="mecheye_body">
+    <color rgba="0.92 0.92 0.93 1"/>
+  </material>
+  <material name="mecheye_band">
+    <color rgba="0.15 0.15 0.16 1"/>
+  </material>
+  <material name="mecheye_lens">
+    <color rgba="0.05 0.05 0.05 1"/>
+  </material>
+  <material name="mecheye_projector">
+    <color rgba="0.10 0.12 0.20 1"/>
+  </material>
+
+  <link name="mount"/>
+
+  <joint name="mount_to_body" type="fixed">
+    <parent link="mount"/>
+    <child link="body"/>
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+  </joint>
+
+  <link name="body">
+    <!-- 筐体: 353 (Y) x 57 (X) x 100 (Z)、背面が x=0 -->
+    <visual>
+      <origin xyz="0.0285 0 0" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.057 0.353 0.100"/>
+      </geometry>
+      <material name="mecheye_body"/>
+    </visual>
+    <!-- 前面の黒帯 (意匠) -->
+    <visual>
+      <origin xyz="0.0585 0 0" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.003 0.353 0.050"/>
+      </geometry>
+      <material name="mecheye_band"/>
+    </visual>
+    <!-- ステレオカメラレンズ x2 (基線 270 mm) -->
+    <visual>
+      <origin xyz="0.0605 0.135 0" rpy="0 1.5707963267948966 0"/>
+      <geometry>
+        <cylinder radius="0.016" length="0.002"/>
+      </geometry>
+      <material name="mecheye_lens"/>
+    </visual>
+    <visual>
+      <origin xyz="0.0605 -0.135 0" rpy="0 1.5707963267948966 0"/>
+      <geometry>
+        <cylinder radius="0.016" length="0.002"/>
+      </geometry>
+      <material name="mecheye_lens"/>
+    </visual>
+    <!-- 中央の構造化光プロジェクタ窓 (青 LED) -->
+    <visual>
+      <origin xyz="0.0605 0 0" rpy="0 1.5707963267948966 0"/>
+      <geometry>
+        <cylinder radius="0.020" length="0.002"/>
+      </geometry>
+      <material name="mecheye_projector"/>
+    </visual>
+    <collision>
+      <!-- 前面の張り出し (帯・レンズ) まで覆う一体の箱 -->
+      <origin xyz="0.0315 0 0" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.063 0.353 0.100"/>
+      </geometry>
+    </collision>
+    <inertial>
+      <mass value="1.9"/>
+      <origin xyz="0.0285 0 0" rpy="0 0 0"/>
+      <inertia ixx="0.02" ixy="0" ixz="0" iyy="0.002" iyz="0" izz="0.021"/>
+    </inertial>
+  </link>
+
+  <joint name="body_to_optical" type="fixed">
+    <parent link="body"/>
+    <child link="camera_optical_frame"/>
+    <origin xyz="0.0605 0 0" rpy="-1.5707963267948966 0 -1.5707963267948966"/>
+  </joint>
+
+  <link name="camera_optical_frame"/>
+
+</robot>

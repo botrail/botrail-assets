@@ -1,0 +1,81 @@
+<?xml version="1.0"?>
+<!--
+  medium-rack — 棚の枠の見た目 (CC0-1.0)
+
+  カタログ `botrail/rack/medium-shelf/r1` の `bay` 部材の描画。支柱・段のビーム・
+  側面の斜めブレース・足。**干渉には入らない** — 当たり判定は botrail が置く
+  支柱 4 本と棚板が持つ。
+
+  原点の規約: **床レベル・棚の中心**。X = 間口方向、Y = 奥行方向、Z = 上。
+  引数はすべてメートル (levels のみ本数): width / depth / height / upright /
+  beam / shelf_thickness / levels
+-->
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="medium-rack-bay">
+  <xacro:arg name="width" default="1.2"/>
+  <xacro:arg name="depth" default="0.6"/>
+  <xacro:arg name="height" default="1.8"/>
+  <xacro:arg name="upright" default="0.04"/>
+  <xacro:arg name="beam" default="0.04"/>
+  <xacro:arg name="shelf_thickness" default="0.03"/>
+  <xacro:arg name="levels" default="4"/>
+
+  <xacro:property name="w" value="$(arg width)"/>
+  <xacro:property name="d" value="$(arg depth)"/>
+  <xacro:property name="h" value="$(arg height)"/>
+  <xacro:property name="u" value="$(arg upright)"/>
+  <xacro:property name="bm" value="$(arg beam)"/>
+  <xacro:property name="st" value="$(arg shelf_thickness)"/>
+  <xacro:property name="n" value="$(arg levels)"/>
+  <!-- ブレースは側面の対角。長さも傾きも奥行と高さから出る
+       (xurdf 0.6.4 以降。それ以前は atan2 が無く、生成器が渡していた) -->
+  <xacro:property name="run" value="${d - u}"/>
+  <xacro:property name="brace_len" value="${hypot(run, h)}"/>
+  <xacro:property name="tilt" value="${atan2(h, run)}"/>
+
+  <material name="steel"><color rgba="0.42 0.44 0.47 1"/></material>
+  <material name="dark"><color rgba="0.20 0.21 0.23 1"/></material>
+
+  <link name="bay"/>
+
+  <xacro:macro name="box_part" params="name size xyz rpy:='0 0 0' mat">
+    <link name="${name}">
+      <visual>
+        <origin xyz="${xyz}" rpy="${rpy}"/>
+        <geometry><box size="${size}"/></geometry>
+        <material name="${mat}"/>
+      </visual>
+    </link>
+    <joint name="j_${name}" type="fixed"><parent link="bay"/><child link="${name}"/></joint>
+  </xacro:macro>
+
+  <!-- 支柱と足 -->
+  <xacro:macro name="corner" params="tag sx sy">
+    <xacro:box_part name="upright_${tag}" size="${u} ${u} ${h}"
+                    xyz="${sx * (w/2 - u/2)} ${sy * (d/2 - u/2)} ${h/2}" mat="steel"/>
+    <xacro:box_part name="foot_${tag}" size="${u*2} ${u*2} ${u/4}"
+                    xyz="${sx * (w/2 - u/2)} ${sy * (d/2 - u/2)} ${u/8}" mat="dark"/>
+  </xacro:macro>
+  <xacro:corner tag="0" sx="-1" sy="-1"/>
+  <xacro:corner tag="1" sx="1" sy="-1"/>
+  <xacro:corner tag="2" sx="1" sy="1"/>
+  <xacro:corner tag="3" sx="-1" sy="1"/>
+
+  <!-- 側面のブレース -->
+  <xacro:box_part name="brace_l" size="${u/3} ${brace_len} ${u/3}"
+                  xyz="${-w/2 + u/2} 0 ${h/2}" rpy="${tilt} 0 0" mat="dark"/>
+  <xacro:box_part name="brace_r" size="${u/3} ${brace_len} ${u/3}"
+                  xyz="${w/2 - u/2} 0 ${h/2}" rpy="${tilt} 0 0" mat="dark"/>
+
+  <!-- 各段のビーム (前後 2 本)。xacro にループは無いので再帰マクロ -->
+  <xacro:macro name="beams" params="i n">
+    <xacro:if value="${i &lt;= n}">
+      <xacro:property name="top" value="${h * i / n}"/>
+      <xacro:box_part name="beam${i}f" size="${w - 2*u} ${u*0.6} ${bm}"
+                      xyz="0 ${-d/2 + u/2} ${top - st - bm/2}" mat="dark"/>
+      <xacro:box_part name="beam${i}b" size="${w - 2*u} ${u*0.6} ${bm}"
+                      xyz="0 ${d/2 - u/2} ${top - st - bm/2}" mat="dark"/>
+      <xacro:beams i="${i+1}" n="${n}"/>
+    </xacro:if>
+  </xacro:macro>
+  <xacro:beams i="1" n="${n}"/>
+</robot>
