@@ -15,20 +15,26 @@
 - リンク・フレーム名は USD-safe (`[A-Za-z_][A-Za-z0-9_]*`)
 - ツール類: root リンク `mount` = フランジ接触面 (+Z がツール内側へ向く)。
   `tcp` は固定リンクとして URDF 内で宣言 (recipe の extra_frames 不要)
-- 開口を持つツール (ガン等) の collision は **URDF プリミティブ (box/cylinder) のみ**で
-  著作し、開口を保つ (builder がプリミティブを素通しするため VHACD を回避できる)
+- **visual と collision を分ける**。visual はメッシュで作り込んでよいが、
+  開口を持つツール (ガン等) の collision は **URDF プリミティブ (box/cylinder)
+  のみ**で著作して開口を保つ (builder がプリミティブを素通しするため VHACD を
+  回避できる)。可撓物 (ホース・ケーブル) には collision を与えない
+- メッシュは手続き的生成 (`tools/generate_meshes.py`) を基本とし、寸法定数を
+  スクリプト冒頭に集約する。実機値への差し替えと再生成が 1 箇所で済む
 
 ## レイアウト
 
 ```
 <asset-slug>/
   urdf/<asset-slug>.urdf
-  meshes/            # 必要な場合のみ (ワークピース等)
-  README.md          # アセットカード (状態・寸法・フレーム)
+  meshes/            # visual メッシュ (生成物)
+  tools/             # メッシュ生成スクリプト
+  docs/              # 外観プレビュー
+  README.md          # アセットカード (状態・実測値・フレーム)
 ```
 
 ## アセット一覧
 
 | slug | 種別 | 状態 |
 |------|------|------|
-| [weld-gun-x1](./weld-gun-x1) | サーボスポットガン (X ガン, 1 DOF) | **draft** — 寸法プレースホルダ |
+| [weld-gun-x1](./weld-gun-x1) | サーボスポットガン (X ガン, 1 DOF) | **draft** — 構造確定 / 寸法はプレースホルダ |
