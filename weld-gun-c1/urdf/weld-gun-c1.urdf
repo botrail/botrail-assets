@@ -17,8 +17,10 @@
   - ストローク 80 mm = HERON DB6-110-C16027 (C 型サーボガン) の 78 mm 相当。
     TECNA の C ガン 3020/3024 の max stroke 75-100 mm とも整合
   - 質量・重心は FANUC R-2000iC/165F の手首許容値に収まることを確認済み
-    (84 kg / J5 206 Nm・9.9 kg·m^2 / J6 101 Nm・4.4 kg·m^2 に対し、
-     許容 165 kg / 940 Nm・89 kg·m^2 / 490 Nm・46 kg·m^2)
+    (84 kg / J5 180 Nm・11.0 kg·m^2 / J6 23 Nm・5.6 kg·m^2 に対し、
+     許容 165 kg / 940 Nm・89 kg·m^2 / 490 Nm・46 kg·m^2)。
+    **トランスはマウント後方に置いてある** — 喉と同じ高さに座らせると打点まわりで
+    真っ先に当たるのがトランスになるうえ、重心がツール軸から外れて J6 が重くなる
 
   weld-gun-x1 との使い分け: x1 はのど 400 mm でフランジの奥まで届くが手首が
   打点から遠くなる。c1 はのど 225 mm で TCP が mount から 0.468 m (x1 は 0.660 m)
@@ -53,9 +55,13 @@
       <origin xyz="0 0 0.008"/>
       <geometry><cylinder radius="0.08" length="0.016"/></geometry>
     </collision>
-    <collision><!-- MFDC transformer -->
-      <origin xyz="0 0 0.158"/>
-      <geometry><box size="0.26 0.29 0.284"/></geometry>
+    <collision><!-- MFDC transformer (behind the mount, clear of the throat plane) -->
+      <origin xyz="-0.17 0 0.16"/>
+      <geometry><box size="0.26 0.29 0.28"/></geometry>
+    </collision>
+    <collision><!-- spine, mount to C-frame column -->
+      <origin xyz="0.04 0 0.155"/>
+      <geometry><box size="0.2 0.156 0.19"/></geometry>
     </collision>
     <collision><!-- C-frame column -->
       <origin xyz="0.165 0 0.295"/>
@@ -95,9 +101,9 @@
     </collision>
 
     <inertial>
-      <origin xyz="0.10694 0 0.21523"/>
+      <origin xyz="0.00816 0 0.21351"/>
       <mass value="80.0"/>
-      <inertia ixx="2.28973" ixy="0.0" ixz="-1.19831" iyy="4.28398" iyz="0.0" izz="2.76155"/>
+      <inertia ixx="2.18575" ixy="0.0" ixz="-1.57456" iyy="6.30116" iyz="0.0" izz="4.84279"/>
     </inertial>
   </link>
 
