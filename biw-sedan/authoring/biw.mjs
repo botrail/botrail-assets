@@ -486,7 +486,11 @@ const sideWidthAt = (x, z) => sideSection(x, sectionTFor(x, z))[0];
 
 // -------------------------------------------------------------- PINCH FLANGES
 export const PINCH_T = 0.0024; // two 1.2 mm sheets, pinched
-export const PINCH_OUT = 0.020; // how far the tab stands off the body
+export const PINCH_OUT = 0.020; // how far the rocker tab stands off the body
+// The roof ditch stands taller. An electrode holder is 40 mm across and sits
+// ~21 mm off the tab, so on a 20 mm tab only the outer third is touchable and
+// the holder clips the rail below. 50 mm puts the whole useful band in clear air.
+export const ROOF_PINCH_OUT = 0.050;
 
 /**
  * A pinch flange — the two-sheet tab a spot gun actually clamps.
@@ -499,7 +503,7 @@ export const PINCH_OUT = 0.020; // how far the tab stands off the body
  * `at(x)` gives the root [y, z] on the body and the direction [dy, dz] the tab
  * points in, for the right-hand side; `sy` mirrors it.
  */
-function pinchFlange(sy, x0, x1, at, n = 40) {
+function pinchFlange(sy, x0, x1, at, n = 40, out = PINCH_OUT) {
   const s = new Surface();
   const half = PINCH_T / 2;
   const rings = [];
@@ -510,7 +514,7 @@ function pinchFlange(sy, x0, x1, at, n = 40) {
     const uy = dy / len;
     const uz = dz / len;
     const ring = [];
-    for (const [t, o] of [[0, -1], [PINCH_OUT, -1], [PINCH_OUT, 1], [0, 1]]) {
+    for (const [t, o] of [[0, -1], [out, -1], [out, 1], [0, 1]]) {
       ring.push(s.vertex(x, sy * (y0 + uy * t - uz * o * half), z0 + uz * t + uy * o * half));
     }
     rings.push(ring);
@@ -554,7 +558,7 @@ function roofDitchFlange(sy) {
   return pinchFlange(sy, x0, x1, (x) => {
     const y = sideSection(x, sectionTFor(x, RAIL_Z0))[0] - 0.03;
     return [y, RAIL_Z0 + 0.105, 0, 1]; // bites into the rail top so it is joined, not floating
-  });
+  }, 40, ROOF_PINCH_OUT);
 }
 
 /** Axis-aligned box member — frame rails, strut towers, cross members. */
