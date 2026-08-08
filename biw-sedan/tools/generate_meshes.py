@@ -210,7 +210,7 @@ _URDF_TAIL = """    <inertial>
 """
 
 
-def write_urdf(pieces: list[tuple[str, trimesh.Trimesh]]) -> Path:
+def write_urdf(pieces: list[tuple[str, trimesh.Trimesh]]):
     """Emit the URDF from the piece list, so the two can never drift apart."""
     # BIW は薄板構造なので質量は体積ではなく**表面積**に比例させる。ピースを中実として
     # 体積按分すると、体積の大きいルーフ/床パンに寄りすぎて重心が上がってしまう
@@ -246,6 +246,64 @@ def write_urdf(pieces: list[tuple[str, trimesh.Trimesh]]) -> Path:
     path = OUT.parent / "urdf" / "biw-sedan.urdf"
     path.parent.mkdir(parents=True, exist_ok=True)
     path.write_text("".join(parts), encoding="utf-8")
+    return path, com, inertia
+
+
+def write_usd(pieces: list[tuple[str, trimesh.Trimesh]], com, inertia) -> Path | None:
+    """Emit the same model as a UsdPhysics stage (optional; needs usd-core).
+
+    The point of the USD form is that the "do not decompose this" contract is
+    standard rather than catalog-specific: each piece carries `CollisionAPI` and
+    `physics:approximation = convexHull`, which Isaac Sim, PhysX and
+    three-usd-robot all honour. The catalog derives `collision_mode: authored`
+    from it, so the recipe does not have to declare anything.
+    """
+    try:
+        from pxr import Gf, Usd, UsdGeom, UsdPhysics, Vt
+    except ImportError:
+        print("usd-core not installed — skipping USD output")
+        return None
+
+    path = OUT.parent / "usd" / "biw-sedan.usda"
+    path.parent.mkdir(parents=True, exist_ok=True)
+    path.unlink(missing_ok=True)
+    stage = Usd.Stage.CreateNew(str(path))
+    UsdGeom.SetStageUpAxis(stage, UsdGeom.Tokens.z)
+    UsdGeom.SetStageMetersPerUnit(stage, 1.0)
+
+    root = UsdGeom.Xform.Define(stage, "/biw_sedan")
+    stage.SetDefaultPrim(root.GetPrim())
+    mass_api = UsdPhysics.MassAPI.Apply(root.GetPrim())
+    mass_api.CreateMassAttr(MASS_KG)
+    mass_api.CreateCenterOfMassAttr(Gf.Vec3f(*[float(v) for v in com]))
+    mass_api.CreateDiagonalInertiaAttr(
+        Gf.Vec3f(float(inertia[0, 0]), float(inertia[1, 1]), float(inertia[2, 2]))
+    )
+
+    def mesh_prim(prim_path: str, mesh: trimesh.Trimesh):
+        usd_mesh = UsdGeom.Mesh.Define(stage, prim_path)
+        points = np.asarray(mesh.vertices, dtype=np.float32)
+        faces = np.asarray(mesh.faces, dtype=np.int32)
+        usd_mesh.CreatePointsAttr(Vt.Vec3fArray.FromNumpy(points))
+        usd_mesh.CreateFaceVertexIndicesAttr(Vt.IntArray.FromNumpy(faces.reshape(-1)))
+        usd_mesh.CreateFaceVertexCountsAttr(
+            Vt.IntArray.FromNumpy(np.full(len(faces), 3, dtype=np.int32))
+        )
+        usd_mesh.CreateSubdivisionSchemeAttr(UsdGeom.Tokens.none)
+        return usd_mesh
+
+    combined = trimesh.util.concatenate([m for _, m in pieces])
+    combined.merge_vertices()
+    mesh_prim("/biw_sedan/visual", combined)
+
+    for name, mesh in pieces:
+        prim = mesh_prim(f"/biw_sedan/collision_{name}", mesh)
+        UsdPhysics.CollisionAPI.Apply(prim.GetPrim())
+        prim.CreatePurposeAttr(UsdGeom.Tokens.guide)
+        UsdPhysics.MeshCollisionAPI.Apply(prim.GetPrim()).CreateApproximationAttr(
+            UsdPhysics.Tokens.convexHull
+        )
+    stage.GetRootLayer().Save()
     return path
 
 
@@ -263,11 +321,13 @@ def main() -> None:
     combined = trimesh.util.concatenate([m for _, m in pieces])
     combined.merge_vertices()
     combined.export(OUT / "visual" / "biw.stl")
-    urdf = write_urdf(pieces)
+    urdf, com, inertia = write_urdf(pieces)
+    usd = write_usd(pieces, com, inertia)
 
     print(f"collision: {len(pieces)} convex pieces -> {OUT / 'collision'}")
     print(f"visual   : {len(combined.faces)} faces, extent {np.round(combined.extents, 3)} m")
     print(f"urdf     : {urdf}")
+    print(f"usd      : {usd}")
     if non_convex:
         print(f"WARNING non-convex pieces: {non_convex}")
     else:

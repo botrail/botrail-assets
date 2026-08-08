@@ -38,7 +38,7 @@
 | slug | 種別 | 状態 |
 |------|------|------|
 | [weld-gun-x1](./weld-gun-x1) | サーボスポットガン (X ガン, 1 DOF) | 寸法は ISO 5821 等の公開規格に整合 (カタログ r2) |
-| [biw-sedan](./biw-sedan) | ワークピース: BIW (ジョイントレス) | 凸 49 ピースの authored collision compound |
+| [biw-sedan](./biw-sedan) | ワークピース: BIW (ジョイントレス) | 凸 49 ピースの authored collision compound。URDF 版と UsdPhysics 版 |
 
 > **公開済み rev の中身は動かさないこと。** カタログの recipe は公開 rev の
 > ソースをコミット SHA でピン留めしている。アセットを変えたら**新しい rev を切る**

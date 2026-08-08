@@ -43,13 +43,23 @@ BIW なのでドア・ボンネット・トランクリッド(クロージャ)�
 でこの経路を素通しし、manifest にも `collision_mode: authored` を出すので、
 消費側はそれを見て凸分解をスキップできる。
 
+## USD 版 (`usd/biw-sedan.usda`)
+
+同じピース集合を **UsdPhysics** でも出力する。各ピースが `CollisionAPI` +
+`purpose=guide` + **`physics:approximation = convexHull`** を持つので、
+「凸分解にかけるな」という契約が catalog 独自フィールドではなく**標準の形**で載る
+(Isaac Sim / PhysX / three-usd-robot がそのまま解釈できる)。
+
+カタログはこの属性から `collision_mode: authored` を導出するため、
+`ingest: usd` のレシピは collision_mode を宣言しなくてよい。
+
 ## 再生成
 
 ```sh
 python biw-sedan/tools/generate_meshes.py
 ```
 
-`urdf/biw-sedan.urdf` も**このスクリプトが生成する**(49 個の collision 参照と
+`urdf/biw-sedan.urdf` と `usd/biw-sedan.usda` も**このスクリプトが生成する**(49 個の collision 参照と
 慣性をピース一覧から起こすため)。手で編集しないこと。寸法定数はスクリプト冒頭の
 GEOMETRY ブロックに集約してある。
 
