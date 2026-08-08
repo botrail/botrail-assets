@@ -369,54 +369,90 @@ function greenhouse(sy) {
 }
 
 // ----------------------------------------------------------------------- ROOF
-/** Roof panel, crowned across the car and arched along it. */
+const ROOF_T = 0.022;
+
+/**
+ * Roof panel, crowned across the car and arched along it.
+ *
+ * Sheet metal, so it gets a real thickness — a zero-thickness surface vanishes
+ * edge-on and reads as a membrane. The edge runs out far enough in Y to bury
+ * itself in the roof rail; short of that the two leave a visible slot.
+ */
 export function roofPanel(nx = 44, ny = 26) {
   const s = new Surface();
-  const x0 = C_AT(RAIL_Z0) - 0.02;
-  const x1 = A_AT(RAIL_Z0) + 0.02;
+  const x0 = C_AT(RAIL_Z0) - 0.03;
+  const x1 = A_AT(RAIL_Z0) + 0.03;
   const at = (i, j) => {
     const x = lerp(x0, x1, i / nx);
-    const w = sideSection(x, sectionTFor(x, RAIL_Z0))[0] - 0.05;
+    const w = sideSection(x, sectionTFor(x, RAIL_Z0))[0] - 0.012;
     const u = j / ny;
     const y = lerp(-w, w, u);
     const across = 1 - (2 * u - 1) ** 2;
     const along = 1 - 0.3 * ((2 * (i / nx) - 1) ** 2);
     return [x, y, RAIL_Z0 + 0.035 + 0.05 * across * along];
   };
-  const ids = [];
+  const top = [];
+  const bot = [];
   for (let i = 0; i <= nx; i++) {
-    ids.push([]);
-    for (let j = 0; j <= ny; j++) ids[i].push(s.vertex(...at(i, j)));
+    top.push([]);
+    bot.push([]);
+    for (let j = 0; j <= ny; j++) {
+      const [x, y, z] = at(i, j);
+      top[i].push(s.vertex(x, y, z));
+      bot[i].push(s.vertex(x, y, z - ROOF_T));
+    }
   }
   for (let i = 0; i < nx; i++) {
-    for (let j = 0; j < ny; j++) s.quad(ids[i][j], ids[i + 1][j], ids[i + 1][j + 1], ids[i][j + 1]);
+    for (let j = 0; j < ny; j++) {
+      s.quad(top[i][j], top[i + 1][j], top[i + 1][j + 1], top[i][j + 1]);
+      s.quad(bot[i][j], bot[i][j + 1], bot[i + 1][j + 1], bot[i + 1][j]);
+    }
+  }
+  for (let i = 0; i < nx; i++) {
+    s.quad(top[i][0], bot[i][0], bot[i + 1][0], top[i + 1][0]);
+    s.quad(top[i + 1][ny], bot[i + 1][ny], bot[i][ny], top[i][ny]);
+  }
+  for (let j = 0; j < ny; j++) {
+    s.quad(top[0][j + 1], bot[0][j + 1], bot[0][j], top[0][j]);
+    s.quad(top[nx][j], bot[nx][j], bot[nx][j + 1], top[nx][j + 1]);
   }
   return s.geometry();
 }
 
-/** A panel spanning the car at a station, e.g. cowl, rear panel, floor. */
-function crossPanel(x0, x1, z0, z1, widthAt, nx = 8, nz = 4) {
+/**
+ * A panel spanning the car at a station, e.g. cowl, rear panel, dash.
+ *
+ * Closed slab: a face at x0 and one at x1, rim quads joining them. Each face
+ * spans the body width at its own height, so the panel picks up the section
+ * taper instead of being a flat rectangle.
+ */
+function crossPanel(x0, x1, z0, z1, widthAt, nz = 6, ny = 12) {
   const s = new Surface();
-  const at = (i, k) => {
-    const x = lerp(x0, x1, i / nx);
-    const z = lerp(z0, z1, k / nz);
-    return widthAt(x, z);
-  };
-  const ids = [];
-  for (let i = 0; i <= nx; i++) {
-    ids.push([]);
+  const face = (x) => {
+    const g = [];
     for (let k = 0; k <= nz; k++) {
-      const w = at(i, k);
-      const x = lerp(x0, x1, i / nx);
       const z = lerp(z0, z1, k / nz);
-      ids[i].push([s.vertex(x, -w, z), s.vertex(x, w, z)]);
+      const w = widthAt(x, z);
+      g.push([]);
+      for (let j = 0; j <= ny; j++) g[k].push(s.vertex(x, lerp(-w, w, j / ny), z));
+    }
+    return g;
+  };
+  const A = face(x0);
+  const B = face(x1);
+  for (let k = 0; k < nz; k++) {
+    for (let j = 0; j < ny; j++) {
+      s.quad(A[k][j], A[k][j + 1], A[k + 1][j + 1], A[k + 1][j]);
+      s.quad(B[k][j], B[k + 1][j], B[k + 1][j + 1], B[k][j + 1]);
     }
   }
-  for (let i = 0; i < nx; i++) {
-    for (let k = 0; k < nz; k++) {
-      s.quad(ids[i][k][0], ids[i + 1][k][0], ids[i + 1][k + 1][1], ids[i][k + 1][1]);
-      s.quad(ids[i][k][1], ids[i][k + 1][1], ids[i + 1][k + 1][0], ids[i + 1][k][0]);
-    }
+  for (let j = 0; j < ny; j++) {
+    s.quad(A[0][j], B[0][j], B[0][j + 1], A[0][j + 1]);
+    s.quad(A[nz][j + 1], B[nz][j + 1], B[nz][j], A[nz][j]);
+  }
+  for (let k = 0; k < nz; k++) {
+    s.quad(A[k][0], A[k + 1][0], B[k + 1][0], B[k][0]);
+    s.quad(A[k][ny], B[k][ny], B[k + 1][ny], A[k + 1][ny]);
   }
   return s.geometry();
 }
@@ -441,6 +477,13 @@ function deckPanel(x0, x1, zAt, widthAt, nx = 16, ny = 10) {
 }
 
 const sideWidthAt = (x, z) => sideSection(x, sectionTFor(x, z))[0];
+
+/** Axis-aligned box member — frame rails, strut towers, cross members. */
+function box(x0, x1, y0, y1, z0, z1) {
+  const g = new THREE.BoxGeometry(x1 - x0, y1 - y0, z1 - z0);
+  g.translate((x0 + x1) / 2, (y0 + y1) / 2, (z0 + z1) / 2);
+  return g.toNonIndexed();
+}
 
 /** Invert the section curve: which t reaches height z at station x. */
 function sectionTFor(x, z) {
@@ -491,6 +534,24 @@ export function buildPanels() {
     (x, z) => sideWidthAt(x, z) - 0.02));
   add("header_rear", crossPanel(C_PILLAR - 0.08, C_PILLAR + 0.02, 1.16, Z_ROOF,
     (x, z) => sideWidthAt(x, z) - 0.02));
+
+  // Engine bay structure. Without it the bay is a bare box you can see the
+  // ground through, which reads as a load bed rather than a front end.
+  for (const sy of [1, -1]) {
+    const tag = sy > 0 ? "l" : "r";
+    add(`front_rail_${tag}`, box(COWL_X - 0.24, NOSE - 0.05,
+      sy > 0 ? 0.30 : -0.46, sy > 0 ? 0.46 : -0.30, 0.24, 0.40));
+    add(`strut_tower_${tag}`, box(AXLE_F - 0.16, AXLE_F + 0.16,
+      sy > 0 ? 0.40 : -0.66, sy > 0 ? 0.66 : -0.40, 0.34, 0.76));
+    add(`rear_rail_${tag}`, box(TAIL + 0.05, DECK_X + 0.20,
+      sy > 0 ? 0.30 : -0.48, sy > 0 ? 0.48 : -0.30, 0.24, 0.40));
+  }
+  add("front_crossmember", box(AXLE_F + 0.28, AXLE_F + 0.40, -0.46, 0.46, 0.24, 0.40));
+
+  // boot floor with its spare well — the boot of a saloon is not open-bottomed
+  add("boot_floor", deckPanel(TAIL + 0.09, DECK_X + 0.20, (x, y) =>
+    0.42 - (Math.abs(x - (AXLE_R - 0.35)) < 0.30 && Math.abs(y) < 0.34 ? 0.16 : 0),
+    (x) => sideWidthAt(x, 0.42) - 0.05, 18, 14));
   return panels;
 }
 
