@@ -17,7 +17,7 @@
 <robot name="biw_sedan">
   <link name="biw">
     <visual>
-      <geometry><mesh filename="../meshes/visual/biw.stl"/></geometry>
+      <geometry><mesh filename="../meshes/visual/biw.glb"/></geometry>
     </visual>
     <collision>
       <geometry><mesh filename="../meshes/collision/rocker_l.stl"/></geometry>

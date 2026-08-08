@@ -111,6 +111,97 @@ def plate(x0, x1, y0, y1, z0, z1, crown: float = 0.0):
     return trimesh.convex.convex_hull(np.vstack([lower, upper]))
 
 
+# 外板スキン: ビルトライン上で内側に絞る (タンブルホーム)。凸ではないので
+# collision には使えないが、visual は分離してあるので構造上の制約が無い
+BELTLINE_Z = 0.78
+TUMBLEHOME = 0.085  # ルーフレール高さでの絞り量 [m]
+
+
+def skin_y(x: float, z: float) -> float:
+    """車体外板の Y 半幅。
+
+    上下方向はビルトラインから上を二次で絞り (タンブルホーム)、前後方向は
+    キャビンから端に向けて絞る (平面視のテーパー)。どちらも凸にならないので
+    collision には使えない — visual を分離したから張れる形。
+    """
+    half = SIDE_Y + 0.035
+    if z > BELTLINE_Z:
+        t = min(1.0, (z - BELTLINE_Z) / (1.24 - BELTLINE_Z))
+        half -= TUMBLEHOME * t * t
+    flat = 1.30  # ここまでは全幅、外側へ絞る
+    if abs(x) > flat:
+        t = min(1.0, (abs(x) - flat) / (2.06 - flat))
+        half -= 0.16 * t * t
+    return half
+
+
+def skin_top(x: float) -> float:
+    """外板の上端 = ルーフラインとベルトラインをつないだシルエット。"""
+    if -0.88 <= x <= 0.97:
+        return 1.26  # キャビン (ルーフレールまで)
+    if x > 0.97:  # 前方: A ピラーからフェンダー上面へ落ちる
+        return max(0.93, 1.26 - (x - 0.97) * (1.26 - 0.95) / (1.45 - 0.97))
+    return max(0.95, 1.26 - (-0.88 - x) * (1.26 - 1.00) / (1.45 - 0.88))
+
+
+def _aperture(x: float, z: float) -> bool:
+    """外板を張らない領域 (ドア開口とホイールアーチ)。"""
+    if 0.10 <= x <= 0.96 and 0.38 <= z <= 1.16:  # 前ドア
+        return True
+    if -0.86 <= x <= 0.02 and 0.38 <= z <= 1.16:  # 後ドア
+        return True
+    for cx in (AXLE_F, AXLE_R):  # ホイールアーチ
+        if math.hypot(x - cx, z - 0.28) <= ARCH_R:
+            return True
+    return False
+
+
+def body_skin(sy: float, nx: int = 130, nz: int = 44) -> trimesh.Trimesh:
+    """左右いずれかの外板。開口セルを飛ばして張るので**実開口**になる。"""
+    xs = np.linspace(-2.02, 2.06, nx + 1)
+    zs = np.linspace(0.14, 1.26, nz + 1)
+    verts: list[tuple[float, float, float]] = []
+    faces: list[tuple[int, int, int]] = []
+    index: dict[tuple[int, int], int] = {}
+
+    def vid(i: int, k: int) -> int:
+        if (i, k) not in index:
+            index[(i, k)] = len(verts)
+            verts.append((float(xs[i]), float(sy * skin_y(xs[i], zs[k])), float(zs[k])))
+        return index[(i, k)]
+
+    for i in range(nx):
+        for k in range(nz):
+            cx = (xs[i] + xs[i + 1]) / 2
+            cz = (zs[k] + zs[k + 1]) / 2
+            if _aperture(cx, cz) or cz > skin_top(cx):
+                continue
+            a, b, c, d = vid(i, k), vid(i + 1, k), vid(i + 1, k + 1), vid(i, k + 1)
+            if sy > 0:
+                faces += [(a, b, c), (a, c, d)]
+            else:
+                faces += [(a, c, b), (a, d, c)]
+    m = trimesh.Trimesh(np.asarray(verts), np.asarray(faces, dtype=np.int64), process=False)
+    return m
+
+
+def roof_skin(nx: int = 60, ny: int = 24) -> trimesh.Trimesh:
+    """クラウン付きルーフ外板 (滑らかな曲面)。"""
+    xs = np.linspace(-1.46, 1.46, nx + 1)
+    ys = np.linspace(-0.86, 0.86, ny + 1)
+    verts, faces = [], []
+    for i, x in enumerate(xs):
+        for j, y in enumerate(ys):
+            crown = 0.085 * (1.0 - (y / 0.86) ** 2) * (1.0 - 0.25 * (x / 1.46) ** 2)
+            verts.append((float(x), float(y), float(1.24 + crown)))
+    for i in range(nx):
+        for j in range(ny):
+            a = i * (ny + 1) + j
+            b = a + (ny + 1)
+            faces += [(a, b, b + 1), (a, b + 1, a + 1)]
+    return trimesh.Trimesh(np.asarray(verts), np.asarray(faces, dtype=np.int64), process=False)
+
+
 def arc(cx, cz, radius, a0_deg, a1_deg, steps):
     a = np.linspace(math.radians(a0_deg), math.radians(a1_deg), steps + 1)
     return [(cx + radius * math.cos(t), cz + radius * math.sin(t)) for t in a]
@@ -175,6 +266,34 @@ def build() -> list[tuple[str, trimesh.Trimesh]]:
     return pieces
 
 
+STRUCTURE_COLOR = [150, 155, 162, 255]  # 亜鉛メッキ鋼板 (骨格)
+SKIN_COLOR = [176, 182, 190, 255]  # 外板
+
+
+def build_visual(pieces: list[tuple[str, trimesh.Trimesh]]) -> trimesh.Scene:
+    """表示用シーン: 構造ピース + 曲面外板 + ルーフ。**collision とは別物**。
+
+    collision は凸 compound という制約があるので曲面外板を持てない。visual を
+    分離したことで、タンブルホーム (ビルトラインから上の絞り) やクラウンルーフ
+    のような非凸の面を張れるようになった。開口はセルを飛ばして張るので実開口。
+    """
+    scene = trimesh.Scene()
+    structure = trimesh.util.concatenate([m for _, m in pieces])
+    structure.merge_vertices()
+    structure.visual = trimesh.visual.ColorVisuals(
+        structure, face_colors=np.tile(STRUCTURE_COLOR, (len(structure.faces), 1))
+    )
+    scene.add_geometry(structure, geom_name="structure")
+
+    skins = [body_skin(1.0), body_skin(-1.0), roof_skin()]
+    skin = trimesh.util.concatenate(skins)
+    skin.visual = trimesh.visual.ColorVisuals(
+        skin, face_colors=np.tile(SKIN_COLOR, (len(skin.faces), 1))
+    )
+    scene.add_geometry(skin, geom_name="skin")
+    return scene
+
+
 MASS_KG = 300.0  # コンパクトセダンの BIW (クロージャ・ガラス・内装なし) の実勢値
 
 _URDF_HEAD = """<?xml version="1.0"?>
@@ -196,7 +315,7 @@ _URDF_HEAD = """<?xml version="1.0"?>
 <robot name="biw_sedan">
   <link name="biw">
     <visual>
-      <geometry><mesh filename="../meshes/visual/biw.stl"/></geometry>
+      <geometry><mesh filename="../meshes/visual/biw.glb"/></geometry>
     </visual>
 """
 
@@ -318,14 +437,15 @@ def main() -> None:
         if not mesh.is_convex:
             non_convex.append(name)
 
-    combined = trimesh.util.concatenate([m for _, m in pieces])
-    combined.merge_vertices()
-    combined.export(OUT / "visual" / "biw.stl")
+    visual = build_visual(pieces)
+    visual.export(OUT / "visual" / "biw.glb")
+    combined = trimesh.util.concatenate(list(visual.geometry.values()))
     urdf, com, inertia = write_urdf(pieces)
     usd = write_usd(pieces, com, inertia)
 
     print(f"collision: {len(pieces)} convex pieces -> {OUT / 'collision'}")
-    print(f"visual   : {len(combined.faces)} faces, extent {np.round(combined.extents, 3)} m")
+    print(f"visual   : {len(combined.faces)} faces (glb), "
+          f"extent {np.round(combined.extents, 3)} m")
     print(f"urdf     : {urdf}")
     print(f"usd      : {usd}")
     if non_convex:
