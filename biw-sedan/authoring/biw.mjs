@@ -542,17 +542,10 @@ function rockerFlange(sy) {
   });
 }
 
-/**
- * Sill flange inside the door aperture: stands up where the sill's inner flange
- * meets the floor pan. The gun reaches in through the open door, so this one is
- * clamped laterally with the throat fore/aft inside the aperture.
- */
-function sillFlange(sy, door) {
-  return pinchFlange(sy, door.x0 + 0.04, door.x1 - 0.04, (x) => {
-    const [y] = sideSection(x, 0.14);
-    return [y - FLANGE, Z_SILL, 0, 1];
-  }, 24);
-}
+// A sill flange inside the door aperture was tried and removed. It is 55 mm
+// inboard of the body side at the same height, so the only gun poses that clear
+// are ones that thread the gun through the door opening and leave its mount
+// inside the cabin — no arm can hold it there.
 
 /** Roof ditch: tab standing up off the roof rail, where roof meets body side. */
 function roofDitchFlange(sy) {
@@ -644,7 +637,6 @@ export function buildPanels() {
     const tag = sy > 0 ? "l" : "r";
     add(`rocker_flange_${tag}`, rockerFlange(sy));
     add(`roof_ditch_flange_${tag}`, roofDitchFlange(sy));
-    DOORS.forEach((d, i) => add(`sill_flange_${i === 0 ? "front" : "rear"}_${tag}`, sillFlange(sy, d)));
   }
   return panels;
 }
