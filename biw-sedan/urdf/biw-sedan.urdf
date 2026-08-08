@@ -1,0 +1,175 @@
+<?xml version="1.0"?>
+<!--
+  biw-sedan: 溶接デモ用ボディインホワイト (CC0-1.0)。
+  **このファイルは tools/generate_meshes.py が生成する。手で編集しないこと。**
+
+  ジョイントレスの単一リンク。カタログ側は category: workpiece /
+  articulated: false として「ロボットではなく障害物」を宣言する。
+
+  collision は **49 個の凸ピースを個別ファイルのまま**参照する。リンク単位で
+  マージ + 穴埋めされるとドア開口・ホイールアーチ・窓が塞がって衝突形状として
+  壊れるため、recipe で `collision_mode: authored` を宣言してこの経路を通す
+  (docs/weld-line-requests.md #3)。visual は同じピース群を結合したもの。
+
+  座標系: X = 車両前後 (前が +X)、Y = 左右、Z = 上。原点は車体中心・床パン基準
+  (治具の位置決め点)。全長 4.20 / 全幅 1.74 / 全高 1.42 m。
+-->
+<robot name="biw_sedan">
+  <link name="biw">
+    <visual>
+      <geometry><mesh filename="../meshes/visual/biw.stl"/></geometry>
+    </visual>
+    <collision>
+      <geometry><mesh filename="../meshes/collision/rocker_l.stl"/></geometry>
+    </collision>
+    <collision>
+      <geometry><mesh filename="../meshes/collision/a_pillar_l.stl"/></geometry>
+    </collision>
+    <collision>
+      <geometry><mesh filename="../meshes/collision/b_pillar_l.stl"/></geometry>
+    </collision>
+    <collision>
+      <geometry><mesh filename="../meshes/collision/c_pillar_l.stl"/></geometry>
+    </collision>
+    <collision>
+      <geometry><mesh filename="../meshes/collision/roof_rail_l.stl"/></geometry>
+    </collision>
+    <collision>
+      <geometry><mesh filename="../meshes/collision/front_arch_l_1.stl"/></geometry>
+    </collision>
+    <collision>
+      <geometry><mesh filename="../meshes/collision/front_arch_l_2.stl"/></geometry>
+    </collision>
+    <collision>
+      <geometry><mesh filename="../meshes/collision/front_arch_l_3.stl"/></geometry>
+    </collision>
+    <collision>
+      <geometry><mesh filename="../meshes/collision/front_arch_l_4.stl"/></geometry>
+    </collision>
+    <collision>
+      <geometry><mesh filename="../meshes/collision/rear_arch_l_1.stl"/></geometry>
+    </collision>
+    <collision>
+      <geometry><mesh filename="../meshes/collision/rear_arch_l_2.stl"/></geometry>
+    </collision>
+    <collision>
+      <geometry><mesh filename="../meshes/collision/rear_arch_l_3.stl"/></geometry>
+    </collision>
+    <collision>
+      <geometry><mesh filename="../meshes/collision/rear_arch_l_4.stl"/></geometry>
+    </collision>
+    <collision>
+      <geometry><mesh filename="../meshes/collision/quarter_l.stl"/></geometry>
+    </collision>
+    <collision>
+      <geometry><mesh filename="../meshes/collision/fender_l.stl"/></geometry>
+    </collision>
+    <collision>
+      <geometry><mesh filename="../meshes/collision/front_rail_l.stl"/></geometry>
+    </collision>
+    <collision>
+      <geometry><mesh filename="../meshes/collision/rear_rail_l.stl"/></geometry>
+    </collision>
+    <collision>
+      <geometry><mesh filename="../meshes/collision/rocker_r.stl"/></geometry>
+    </collision>
+    <collision>
+      <geometry><mesh filename="../meshes/collision/a_pillar_r.stl"/></geometry>
+    </collision>
+    <collision>
+      <geometry><mesh filename="../meshes/collision/b_pillar_r.stl"/></geometry>
+    </collision>
+    <collision>
+      <geometry><mesh filename="../meshes/collision/c_pillar_r.stl"/></geometry>
+    </collision>
+    <collision>
+      <geometry><mesh filename="../meshes/collision/roof_rail_r.stl"/></geometry>
+    </collision>
+    <collision>
+      <geometry><mesh filename="../meshes/collision/front_arch_r_1.stl"/></geometry>
+    </collision>
+    <collision>
+      <geometry><mesh filename="../meshes/collision/front_arch_r_2.stl"/></geometry>
+    </collision>
+    <collision>
+      <geometry><mesh filename="../meshes/collision/front_arch_r_3.stl"/></geometry>
+    </collision>
+    <collision>
+      <geometry><mesh filename="../meshes/collision/front_arch_r_4.stl"/></geometry>
+    </collision>
+    <collision>
+      <geometry><mesh filename="../meshes/collision/rear_arch_r_1.stl"/></geometry>
+    </collision>
+    <collision>
+      <geometry><mesh filename="../meshes/collision/rear_arch_r_2.stl"/></geometry>
+    </collision>
+    <collision>
+      <geometry><mesh filename="../meshes/collision/rear_arch_r_3.stl"/></geometry>
+    </collision>
+    <collision>
+      <geometry><mesh filename="../meshes/collision/rear_arch_r_4.stl"/></geometry>
+    </collision>
+    <collision>
+      <geometry><mesh filename="../meshes/collision/quarter_r.stl"/></geometry>
+    </collision>
+    <collision>
+      <geometry><mesh filename="../meshes/collision/fender_r.stl"/></geometry>
+    </collision>
+    <collision>
+      <geometry><mesh filename="../meshes/collision/front_rail_r.stl"/></geometry>
+    </collision>
+    <collision>
+      <geometry><mesh filename="../meshes/collision/rear_rail_r.stl"/></geometry>
+    </collision>
+    <collision>
+      <geometry><mesh filename="../meshes/collision/floor_pan.stl"/></geometry>
+    </collision>
+    <collision>
+      <geometry><mesh filename="../meshes/collision/tunnel.stl"/></geometry>
+    </collision>
+    <collision>
+      <geometry><mesh filename="../meshes/collision/cross_front.stl"/></geometry>
+    </collision>
+    <collision>
+      <geometry><mesh filename="../meshes/collision/cross_seat.stl"/></geometry>
+    </collision>
+    <collision>
+      <geometry><mesh filename="../meshes/collision/cross_rear.stl"/></geometry>
+    </collision>
+    <collision>
+      <geometry><mesh filename="../meshes/collision/firewall.stl"/></geometry>
+    </collision>
+    <collision>
+      <geometry><mesh filename="../meshes/collision/rear_bulkhead.stl"/></geometry>
+    </collision>
+    <collision>
+      <geometry><mesh filename="../meshes/collision/cowl.stl"/></geometry>
+    </collision>
+    <collision>
+      <geometry><mesh filename="../meshes/collision/header_front.stl"/></geometry>
+    </collision>
+    <collision>
+      <geometry><mesh filename="../meshes/collision/header_rear.stl"/></geometry>
+    </collision>
+    <collision>
+      <geometry><mesh filename="../meshes/collision/roof_panel.stl"/></geometry>
+    </collision>
+    <collision>
+      <geometry><mesh filename="../meshes/collision/roof_bow_front.stl"/></geometry>
+    </collision>
+    <collision>
+      <geometry><mesh filename="../meshes/collision/roof_bow_rear.stl"/></geometry>
+    </collision>
+    <collision>
+      <geometry><mesh filename="../meshes/collision/front_end_panel.stl"/></geometry>
+    </collision>
+    <collision>
+      <geometry><mesh filename="../meshes/collision/rear_end_panel.stl"/></geometry>
+    </collision>
+    <inertial>
+      <origin xyz="0.0537 -0.0000 0.6318"/>
+      <mass value="300"/>
+      <inertia ixx="154.00" ixy="0" ixz="0" iyy="471.65" iyz="0" izz="490.18"/>
+    </inertial>
+  </link>
+</robot>

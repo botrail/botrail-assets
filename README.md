@@ -37,4 +37,10 @@
 
 | slug | 種別 | 状態 |
 |------|------|------|
-| [weld-gun-x1](./weld-gun-x1) | サーボスポットガン (X ガン, 1 DOF) | **draft** — 構造確定 / 寸法はプレースホルダ |
+| [weld-gun-x1](./weld-gun-x1) | サーボスポットガン (X ガン, 1 DOF) | 寸法は ISO 5821 等の公開規格に整合 (カタログ r2) |
+| [biw-sedan](./biw-sedan) | ワークピース: BIW (ジョイントレス) | 凸 49 ピースの authored collision compound |
+
+> **公開済み rev の中身は動かさないこと。** カタログの recipe は公開 rev の
+> ソースをコミット SHA でピン留めしている。アセットを変えたら**新しい rev を切る**
+> — 同一 rev で差し替えると、その rev を記録した既存 project が再現できなくなる
+> (2026-08-08 に weld-gun-x1 r1 で実際に起きた)。
