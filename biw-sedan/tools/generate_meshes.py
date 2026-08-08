@@ -277,20 +277,23 @@ def build_visual(pieces: list[tuple[str, trimesh.Trimesh]]) -> trimesh.Scene:
     分離したことで、タンブルホーム (ビルトラインから上の絞り) やクラウンルーフ
     のような非凸の面を張れるようになった。開口はセルを飛ばして張るので実開口。
     """
+    from trimesh.visual.material import PBRMaterial
+
+    def painted(mesh: trimesh.Trimesh, name: str, colour: list[int]) -> trimesh.Trimesh:
+        # a named material (not per-vertex colours) so the OBJ the catalog
+        # normalizes to carries an MTL rather than the non-standard "v x y z r g b"
+        mesh.visual = trimesh.visual.TextureVisuals(
+            material=PBRMaterial(baseColorFactor=colour, name=name)
+        )
+        return mesh
+
     scene = trimesh.Scene()
     structure = trimesh.util.concatenate([m for _, m in pieces])
     structure.merge_vertices()
-    structure.visual = trimesh.visual.ColorVisuals(
-        structure, face_colors=np.tile(STRUCTURE_COLOR, (len(structure.faces), 1))
-    )
-    scene.add_geometry(structure, geom_name="structure")
+    scene.add_geometry(painted(structure, "biw_structure", STRUCTURE_COLOR), geom_name="structure")
 
-    skins = [body_skin(1.0), body_skin(-1.0), roof_skin()]
-    skin = trimesh.util.concatenate(skins)
-    skin.visual = trimesh.visual.ColorVisuals(
-        skin, face_colors=np.tile(SKIN_COLOR, (len(skin.faces), 1))
-    )
-    scene.add_geometry(skin, geom_name="skin")
+    skin = trimesh.util.concatenate([body_skin(1.0), body_skin(-1.0), roof_skin()])
+    scene.add_geometry(painted(skin, "biw_skin", SKIN_COLOR), geom_name="skin")
     return scene
 
 
