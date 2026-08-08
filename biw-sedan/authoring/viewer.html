@@ -19,7 +19,7 @@
 <script type="module">
   import * as THREE from "three";
   import { OrbitControls } from "three/addons/controls/OrbitControls.js";
-  import { buildPieces, buildVisualMeshes } from "./biw.mjs";
+  import { buildPanels, buildPieces, buildVisualMeshes } from "./biw.mjs";
 
   const scene = new THREE.Scene();
   scene.background = new THREE.Color(0x14171c);
@@ -41,11 +41,11 @@
   grid.rotation.x = Math.PI / 2;
   scene.add(grid);
 
-  const pieces = buildPieces();
-  const { structure, skin } = buildVisualMeshes(pieces);
-  const model = new THREE.Group();
-  model.add(structure, skin);
-  scene.add(model);
+  const panels = buildPanels();
+  const pieces = buildPieces(panels);
+  const { skin } = buildVisualMeshes(panels);
+  const structure = skin; // single shell; [t] kept as a no-op toggle
+  scene.add(skin);
 
   // collision compound, shown as wireframe so the openings are checkable
   const collision = new THREE.Group();
@@ -58,13 +58,23 @@
 
   const faces = (g) => (g.getIndex() ? g.getIndex().count : g.getAttribute("position").count) / 3;
   document.getElementById("hud").innerHTML =
-    `<b>biw-sedan</b>  collision ${pieces.length} pieces / ${pieces.reduce((s, p) => s + faces(p.geometry), 0)} faces\n` +
-    `visual ${faces(structure.geometry) + faces(skin.geometry)} faces\n\n` +
-    `[s] skin  [t] structure  [c] collision wireframe`;
+    `<b>biw-sedan</b>  ${panels.length} panels / collision ${pieces.length} pieces\n` +
+    `visual ${faces(skin.geometry)} faces\n\n` +
+    `[s] shell  [c] collision wireframe   views: [1] side [2] front 3/4 [3] top [4] rear 3/4`;
 
+  const VIEWS = {
+    "1": [0.02, -6.4, 0.9],
+    "2": [5.0, -4.4, 2.2],
+    "3": [0.4, -0.3, 7.0],
+    "4": [-5.0, -4.4, 2.2],
+  };
   addEventListener("keydown", (e) => {
+    if (VIEWS[e.key]) {
+      camera.position.set(...VIEWS[e.key]);
+      controls.target.set(0, 0, 0.65);
+      controls.update();
+    }
     if (e.key === "s") skin.visible = !skin.visible;
-    if (e.key === "t") structure.visible = !structure.visible;
     if (e.key === "c") collision.visible = !collision.visible;
   });
   addEventListener("resize", () => {

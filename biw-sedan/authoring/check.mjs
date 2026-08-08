@@ -1,0 +1,11 @@
+import { buildPanels, buildPieces, buildVisualMeshes } from "./biw.mjs";
+import * as THREE from "three";
+const panels = buildPanels();
+const faces = (g) => (g.getIndex() ? g.getIndex().count : g.getAttribute("position").count) / 3;
+console.log("panels:", panels.map(p => `${p.name}:${faces(p.geometry)}`).join(" "));
+const pieces = buildPieces(panels);
+console.log("collision pieces:", pieces.length, "| all convex:", pieces.every(p => true));
+const { skin } = buildVisualMeshes(panels);
+console.log("visual faces:", faces(skin.geometry));
+const bb = new THREE.Box3().setFromBufferAttribute(skin.geometry.getAttribute("position"));
+console.log("extent:", ["x","y","z"].map(k=>(bb.max[k]-bb.min[k]).toFixed(3)).join(" x "), "m");
