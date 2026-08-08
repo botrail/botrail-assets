@@ -134,8 +134,11 @@ const GREENHOUSE_Z0 = Z_BELT + 0.06;
 const RAIL_Z0 = 1.20;
 const pillarX = (base, top) => (z) =>
   lerp(base, top, clamp01((z - GREENHOUSE_Z0) / (RAIL_Z0 - GREENHOUSE_Z0)));
-const A_AT = pillarX(A_PILLAR + 0.02, COWL_X - 0.10);
-const C_AT = pillarX(C_PILLAR - 0.02, DECK_X + 0.12);
+// base = at the beltline, top = at the roof rail. The windscreen leans back and
+// the backlight leans forward, so both pillars move *inboard* along the car as
+// they rise: the A-pillar starts at the cowl, the C-pillar at the deck.
+const A_AT = pillarX(COWL_X - 0.10, A_PILLAR + 0.02);
+const C_AT = pillarX(DECK_X + 0.12, C_PILLAR - 0.02);
 
 function inPillar(x, z) {
   return Math.abs(x - A_AT(z)) <= 0.075 || Math.abs(x - C_AT(z)) <= 0.085;
@@ -363,7 +366,10 @@ function greenhouse(sy) {
     name: `roof_rail_${sy > 0 ? "l" : "r"}`,
     geometry: sweptMember(sy,
       [[C_AT(zTop) - 0.04, zTop + 0.055], [0, zTop + 0.06], [A_AT(zTop) + 0.04, zTop + 0.055]],
-      [[0.09, 0.10], [0.09, 0.10], [0.09, 0.10]]),
+      // 40 mm across, not 90: the ditch flange stands out of this rail, and an
+      // electrode holder is 40 mm wide sitting ~21 mm off the tab. A wider rail
+      // top and the holder fouls it wherever on the flange you touch down.
+      [[0.04, 0.10], [0.04, 0.10], [0.04, 0.10]]),
   });
   return out;
 }
@@ -478,6 +484,86 @@ function deckPanel(x0, x1, zAt, widthAt, nx = 16, ny = 10) {
 
 const sideWidthAt = (x, z) => sideSection(x, sectionTFor(x, z))[0];
 
+// -------------------------------------------------------------- PINCH FLANGES
+export const PINCH_T = 0.0024; // two 1.2 mm sheets, pinched
+export const PINCH_OUT = 0.020; // how far the tab stands off the body
+
+/**
+ * A pinch flange — the two-sheet tab a spot gun actually clamps.
+ *
+ * The gun has a 400 mm throat, so the only orientation with room is the throat
+ * running *along* the flange: electrodes close across the tab faces, arms reach
+ * fore/aft down the ditch. That fixes the geometry — the tab must stand clear
+ * of the body on both faces, not just present a surface.
+ *
+ * `at(x)` gives the root [y, z] on the body and the direction [dy, dz] the tab
+ * points in, for the right-hand side; `sy` mirrors it.
+ */
+function pinchFlange(sy, x0, x1, at, n = 40) {
+  const s = new Surface();
+  const half = PINCH_T / 2;
+  const rings = [];
+  for (let i = 0; i <= n; i++) {
+    const x = lerp(x0, x1, i / n);
+    const [y0, z0, dy, dz] = at(x);
+    const len = Math.hypot(dy, dz);
+    const uy = dy / len;
+    const uz = dz / len;
+    const ring = [];
+    for (const [t, o] of [[0, -1], [PINCH_OUT, -1], [PINCH_OUT, 1], [0, 1]]) {
+      ring.push(s.vertex(x, sy * (y0 + uy * t - uz * o * half), z0 + uz * t + uy * o * half));
+    }
+    rings.push(ring);
+  }
+  for (let i = 0; i < n; i++) {
+    for (let j = 0; j < 4; j++) {
+      s.quad(rings[i][j], rings[i + 1][j], rings[i + 1][(j + 1) % 4], rings[i][(j + 1) % 4], sy < 0);
+    }
+  }
+  s.quad(rings[0][3], rings[0][2], rings[0][1], rings[0][0], sy < 0);
+  s.quad(rings[n][0], rings[n][1], rings[n][2], rings[n][3], sy < 0);
+  return s.geometry();
+}
+
+/**
+ * Rocker ditch: the jacking flange, hanging down off the underbody edge.
+ *
+ * Not at the rocker corner, where it was originally asked for. The lower body
+ * side crowns outward to y = 0.90, so a 20 mm tab at the corner sits *inboard*
+ * of the body's own widest point and the upper arm fouls the door skin — 0 free
+ * poses out of 432 tried. Down here the gun comes from under the car with the
+ * throat running fore/aft and every station is reachable.
+ */
+export const ROCKER_X = [-1.05, 1.05];
+function rockerFlange(sy) {
+  return pinchFlange(sy, ROCKER_X[0], ROCKER_X[1], (x) => {
+    const [y, z] = sideSection(x, 0); // underbody edge — sill outer meets floor pan
+    return [y, z, 0, -1];
+  });
+}
+
+/**
+ * Sill flange inside the door aperture: stands up where the sill's inner flange
+ * meets the floor pan. The gun reaches in through the open door, so this one is
+ * clamped laterally with the throat fore/aft inside the aperture.
+ */
+function sillFlange(sy, door) {
+  return pinchFlange(sy, door.x0 + 0.04, door.x1 - 0.04, (x) => {
+    const [y] = sideSection(x, 0.14);
+    return [y - FLANGE, Z_SILL, 0, 1];
+  }, 24);
+}
+
+/** Roof ditch: tab standing up off the roof rail, where roof meets body side. */
+function roofDitchFlange(sy) {
+  const x0 = C_AT(RAIL_Z0) + 0.02;
+  const x1 = A_AT(RAIL_Z0) - 0.02;
+  return pinchFlange(sy, x0, x1, (x) => {
+    const y = sideSection(x, sectionTFor(x, RAIL_Z0))[0] - 0.03;
+    return [y, RAIL_Z0 + 0.105, 0, 1]; // bites into the rail top so it is joined, not floating
+  });
+}
+
 /** Axis-aligned box member — frame rails, strut towers, cross members. */
 function box(x0, x1, y0, y1, z0, z1) {
   const g = new THREE.BoxGeometry(x1 - x0, y1 - y0, z1 - z0);
@@ -530,9 +616,9 @@ export function buildPanels() {
     (x, z) => sideWidthAt(x, z) - 0.05));
 
   // header rails close the windscreen and backlight openings at the top
-  add("header_front", crossPanel(A_PILLAR - 0.02, A_PILLAR + 0.08, 1.18, Z_ROOF,
+  add("header_front", crossPanel(A_PILLAR - 0.02, A_PILLAR + 0.08, 1.18, 1.28,
     (x, z) => sideWidthAt(x, z) - 0.02));
-  add("header_rear", crossPanel(C_PILLAR - 0.08, C_PILLAR + 0.02, 1.16, Z_ROOF,
+  add("header_rear", crossPanel(C_PILLAR - 0.08, C_PILLAR + 0.02, 1.16, 1.28,
     (x, z) => sideWidthAt(x, z) - 0.02));
 
   // Engine bay structure. Without it the bay is a bare box you can see the
@@ -552,6 +638,14 @@ export function buildPanels() {
   add("boot_floor", deckPanel(TAIL + 0.09, DECK_X + 0.20, (x, y) =>
     0.42 - (Math.abs(x - (AXLE_R - 0.35)) < 0.30 && Math.abs(y) < 0.34 ? 0.16 : 0),
     (x) => sideWidthAt(x, 0.42) - 0.05, 18, 14));
+
+  // spot-weld pinch flanges — what the gun clamps (weld-line-requests #6)
+  for (const sy of [1, -1]) {
+    const tag = sy > 0 ? "l" : "r";
+    add(`rocker_flange_${tag}`, rockerFlange(sy));
+    add(`roof_ditch_flange_${tag}`, roofDitchFlange(sy));
+    DOORS.forEach((d, i) => add(`sill_flange_${i === 0 ? "front" : "rear"}_${tag}`, sillFlange(sy, d)));
+  }
   return panels;
 }
 
