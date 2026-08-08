@@ -60,7 +60,30 @@ BIW なのでドア・ボンネット・トランクリッド(クロージャ)�
 カタログはこの属性から `collision_mode: authored` を導出するため、
 `ingest: usd` のレシピは collision_mode を宣言しなくてよい。
 
-## 再生成
+## 著作 (r4 以降) — Three.js + three-usd-robot
+
+`authoring/` が**現在の著作経路**。`biw.mjs` に形状定義があり、**Node のエクスポータと
+ブラウザのビューアが同じファイルを import する**ので、ビューポートで詰めた形が
+そのまま書き出される。ビルドステップ無し。
+
+```sh
+cd authoring && npm install
+npm run view     # http://localhost:8731/viewer.html で対話的に確認
+npm run export   # three-usd-robot で ../usd/biw-sedan.usda を書き出す
+```
+
+ビューアは `[s]` 外板 / `[t]` 骨格 / `[c]` collision ワイヤフレームを切り替えられる。
+**開口の縁が階段状になっていないか**はここでしか確認できない(静止画では潰れる)。
+
+collision は `collisionApproximation: "convexHull"` で書き出される。カタログはこの
+`physics:approximation` から `collision_mode: authored` を導出するので、レシピ側の
+宣言は要らない。
+
+> `tools/generate_meshes.py` (Python + trimesh) は r1〜r3 を作った旧経路。
+> それらの rev はコミット SHA でピン留めされているので再現性は保たれる。
+> 新しく形を変えるときは `authoring/` を使うこと。
+
+## 再生成 (r1〜r3 の旧経路)
 
 ```sh
 python biw-sedan/tools/generate_meshes.py

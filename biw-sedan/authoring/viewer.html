@@ -1,0 +1,81 @@
+<!doctype html>
+<meta charset="utf-8" />
+<title>biw-sedan — authoring viewer</title>
+<style>
+  html, body { margin: 0; height: 100%; background: #14171c; color: #cfd6e0;
+               font: 13px/1.5 ui-monospace, monospace; }
+  #hud { position: fixed; top: 10px; left: 12px; z-index: 10; white-space: pre;
+         background: #0009; padding: 8px 10px; border-radius: 6px; }
+  #hud b { color: #8fd0ff; }
+  label { display: block; margin-top: 4px; }
+</style>
+<div id="hud">loading…</div>
+<script type="importmap">
+{ "imports": {
+    "three": "https://esm.sh/three@0.185.1",
+    "three/addons/": "https://esm.sh/three@0.185.1/examples/jsm/"
+} }
+</script>
+<script type="module">
+  import * as THREE from "three";
+  import { OrbitControls } from "three/addons/controls/OrbitControls.js";
+  import { buildPieces, buildVisualMeshes } from "./biw.mjs";
+
+  const scene = new THREE.Scene();
+  scene.background = new THREE.Color(0x14171c);
+  const camera = new THREE.PerspectiveCamera(38, innerWidth / innerHeight, 0.05, 100);
+  camera.position.set(4.6, -4.2, 2.6);
+  camera.up.set(0, 0, 1); // Z-up, like the catalog
+  const renderer = new THREE.WebGLRenderer({ antialias: true });
+  renderer.setSize(innerWidth, innerHeight);
+  renderer.setPixelRatio(devicePixelRatio);
+  document.body.appendChild(renderer.domElement);
+  const controls = new OrbitControls(camera, renderer.domElement);
+  controls.target.set(0, 0, 0.6);
+
+  scene.add(new THREE.HemisphereLight(0xdfe8f5, 0x30343c, 1.5));
+  const key = new THREE.DirectionalLight(0xffffff, 2.2);
+  key.position.set(3, -4, 6);
+  scene.add(key);
+  const grid = new THREE.GridHelper(8, 16, 0x39404d, 0x252a33);
+  grid.rotation.x = Math.PI / 2;
+  scene.add(grid);
+
+  const pieces = buildPieces();
+  const { structure, skin } = buildVisualMeshes(pieces);
+  const model = new THREE.Group();
+  model.add(structure, skin);
+  scene.add(model);
+
+  // collision compound, shown as wireframe so the openings are checkable
+  const collision = new THREE.Group();
+  collision.visible = false;
+  for (const p of pieces) {
+    collision.add(new THREE.Mesh(p.geometry,
+      new THREE.MeshBasicMaterial({ color: 0xff8a3d, wireframe: true })));
+  }
+  scene.add(collision);
+
+  const faces = (g) => (g.getIndex() ? g.getIndex().count : g.getAttribute("position").count) / 3;
+  document.getElementById("hud").innerHTML =
+    `<b>biw-sedan</b>  collision ${pieces.length} pieces / ${pieces.reduce((s, p) => s + faces(p.geometry), 0)} faces\n` +
+    `visual ${faces(structure.geometry) + faces(skin.geometry)} faces\n\n` +
+    `[s] skin  [t] structure  [c] collision wireframe`;
+
+  addEventListener("keydown", (e) => {
+    if (e.key === "s") skin.visible = !skin.visible;
+    if (e.key === "t") structure.visible = !structure.visible;
+    if (e.key === "c") collision.visible = !collision.visible;
+  });
+  addEventListener("resize", () => {
+    camera.aspect = innerWidth / innerHeight;
+    camera.updateProjectionMatrix();
+    renderer.setSize(innerWidth, innerHeight);
+  });
+
+  (function loop() {
+    requestAnimationFrame(loop);
+    controls.update();
+    renderer.render(scene, camera);
+  })();
+</script>
