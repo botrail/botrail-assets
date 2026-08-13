@@ -1,0 +1,81 @@
+<?xml version="1.0"?>
+<!--
+  Tool Changer A1 — ツール側: 空圧ロボットツールチェンジャの自作アセット (CC0-1.0)。
+  tool-changer-a1-master.urdf と対で使う。
+
+  ============================================================================
+  参照実機: **SCHUNK SWS-011** の アダプタ側 **SWA-011-000-000**
+    https://schunk.com/us/en/automation-technology/tool-changer/sws/swa-011-000-000/p/000000000000302317
+  ============================================================================
+
+  **これは SWA-011 の複製ではない。** 参照した値と意図的に変えた点の全体像は
+  マスタ側 URDF (tool-changer-a1-master.urdf) のヘッダにまとめてある。この板に
+  固有の部分だけ再掲する:
+
+  参照実機から採った値: 板厚 **20.6 mm** / 質量 0.09 kg / エア通し 6 ポート
+  意図的に変えた点:
+    - 外径 ø50 -> **ø63**、上面を **ISO 9409-1-50-4-M6** に振り替え (カタログ内の
+      既存モデルと直結するため)
+    - 質量 0.09 -> **0.11 kg** (外径拡大分の割り増し)
+
+  この板の役割は **インタフェースの中継**:
+    ロボットフランジ -> [master.mount .. master.coupling] -> [tool.mount .. tool.flange]
+    -> エンドエフェクタ
+  下面 (mount) はマスタのカムボスを受け、上面 (flange) は**ロボットフランジと同じ
+  ISO 9409-1-50-4-M6 を提示する**。つまりカタログ収録済みの 2F-85 / gripper-coupling を
+  ロボットに直付けするのと同じ作法でそのまま積める。
+
+  座標系 (botrail カタログ規約): Z-up / メートル。root リンク mount = マスタとの
+  結合面 (+Z がツール側)。
+
+  visual: tools/generate_meshes.py が生成する ../meshes/tool.stl (手続き的著作)
+  collision: URDF プリミティブのみ (板 + 側面マニホールド)。ダウエルピンは
+          次段の工具側の穴に入る消耗形状なので collision に出さない
+-->
+<robot name="tool_changer_a1_tool">
+
+  <link name="mount"/>
+
+  <link name="body">
+    <visual>
+      <geometry>
+        <mesh filename="../meshes/tool.stl"/>
+      </geometry>
+    </visual>
+
+    <collision><!-- main plate, ISO 9409-1 OD ø63 x 20.6 (SWA-011 の板厚) -->
+      <origin xyz="0 0 0.0103"/>
+      <geometry><cylinder radius="0.0315" length="0.0206"/></geometry>
+    </collision>
+    <collision><!-- air manifold boss +x -->
+      <origin xyz="0.0335 0 0.0103" rpy="0 1.5708 0"/>
+      <geometry><cylinder radius="0.0035" length="0.007"/></geometry>
+    </collision>
+    <collision><!-- air manifold boss -x -->
+      <origin xyz="-0.0335 0 0.0103" rpy="0 1.5708 0"/>
+      <geometry><cylinder radius="0.0035" length="0.007"/></geometry>
+    </collision>
+
+    <!-- 質量 0.11 kg (SWA-011 の 0.09 kg + 外径拡大分)。慣性は ø63 x 20.6 の中実円柱近似 -->
+    <inertial>
+      <origin xyz="0 0 0.0103"/>
+      <mass value="0.11"/>
+      <inertia ixx="3.118e-5" ixy="0.0" ixz="0.0" iyy="3.118e-5" iyz="0.0" izz="5.457e-5"/>
+    </inertial>
+  </link>
+
+  <!-- 次段へ提示する ISO 9409-1-50-4-M6 の取付面 -->
+  <link name="flange"/>
+
+  <joint name="body_joint" type="fixed">
+    <parent link="mount"/>
+    <child link="body"/>
+  </joint>
+
+  <joint name="flange_joint" type="fixed">
+    <origin xyz="0 0 0.0206"/>
+    <parent link="body"/>
+    <child link="flange"/>
+  </joint>
+
+</robot>

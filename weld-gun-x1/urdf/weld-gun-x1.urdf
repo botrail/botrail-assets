@@ -3,16 +3,28 @@
   Weld Gun X1: サーボスポットガン (X ガン / シザー式) — botrail-catalog-builder の
   weld-line-requests.md #2 に基づく自作アセット (CC0-1.0)。
 
-  **これは特定メーカー製品の複製ではない。** スポットガンは受注設計のため寸法図を
-  公開しているメーカーが無く (OBARA / NIMAK / Milco / ARO / Electroweld を確認)、
-  代わりに **公開規格と実機クラスの公表値に寸法を合わせた**独自著作:
+  **これは特定メーカー製品の複製ではない。** ロボット用スポットガンは受注設計で
+  外形図を公開しているメーカーが無く (OBARA / NIMAK / Milco / ARO / Electroweld を確認)、
+  代わりに **公開規格と、型番まで特定した実機の公表値**に寸法を合わせた独自著作。
+  項目ごとに参照元が違うので、どの値をどこから採ったかを個別に示す:
 
-  - 電極キャップ = **ISO 5821 Type F, 16 x 20**(規格表: d1=16, l1=20, R1=40,
+  - **のど深さ 400 mm** = **Electroweld X 型ガン (SP-20IT-X / SP-40IT-X / SP-50IT-X)**
+    の公表値 "Standard Throat Depth is 16 inch or 400mm (Customizable to 12 / 14 / 16)"
+    https://www.electroweld.com/products/electroweld-x-type-portable-spot-welding-gun-sp-40it-x
+    ただし同機は**可搬式** (手持ち / 吊り下げ) で、ロボット搭載のサーボガンである本
+    アセットとはクラスが違う。**引用しているのはのど深さの値だけ**で、駆動方式・
+    トランス・質量は下記の別ソースに合わせてある
+  - **電極キャップ** = **ISO 5821 Type F, 16 x 20** (規格表: d1=16, l1=20, R1=40,
     テーパ 1:10, Fmax=4 kN)。加圧力 4.0 kN はこの Fmax に一致させてある
-  - のど深さ 400 mm = X 型ガンで公開されている標準のど深さ
-  - トランスは MFDC 160 kVA / 500 V 1000 Hz 級(OBARA DB3-160 相当の公表値)
-  - 質量・重心は FANUC R-2000iC/165F の**手首許容値(J5 940 Nm / 89 kg·m^2、
-    J6 490 Nm / 46 kg·m^2、可搬 165 kg)**に収まることを確認済み
+  - **トランス** = MFDC 160 kVA / 500 V 1000 Hz 級 (**OBARA DB3-160** の公表値)
+  - **質量・重心** = FANUC R-2000iC/165F の**手首許容値 (J5 940 Nm / 89 kg·m^2、
+    J6 490 Nm / 46 kg·m^2、可搬 165 kg)** に収まることを確認済み
+
+  補足: ロボット用 X ガンでは**アーム長 (のど深さ) が型番の属性ではなく、用途ごとに
+  選ぶ差し替えモジュール**になっている (ARO 3G のカタログが "Plug in Arms" /
+  Mobile Arm・Fixed Arm Holder を独立モジュールとして扱い、銅アーム版とアルミ
+  アーム版 3GZ を用意していることを確認)。ロボットガン側で「のど深さ 400 mm の型番」を
+  名指しできないのはこのためで、可搬式ガンの Electroweld を値の出典に採ったのはその回避策。
 
   visual: tools/generate_meshes.py が生成する ../meshes/*.stl (手続き的著作、
           寸法定数はスクリプト冒頭の GEOMETRY ブロックに集約)
