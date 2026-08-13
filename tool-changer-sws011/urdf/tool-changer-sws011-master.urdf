@@ -1,0 +1,96 @@
+<?xml version="1.0"?>
+<!--
+  Tool Changer SWS-011 — マスタ側 (ロボット側): 空圧ロボットツールチェンジャの
+  自作アセット (CC0-1.0)。tool-changer-sws011-tool.urdf と対で使う。
+
+  ============================================================================
+  参照実機: **SCHUNK SWS-011 / SWK-011-000-000**
+    https://schunk.com/us/en/automation-technology/tool-changer/sws/swk-011-000-000/p/000000000000302316
+  ============================================================================
+
+  **これは SWK-011 の複製ではない。** 外観 (面取り・ポート配置・ボール数・カムボスの
+  稜線) は独自著作で、寸法は**公表値と STEP の実測値**に合わせてある。
+
+  **STEP の扱い**: 計測に使った CAD (CADENAS PARTserver 経由) は **CC BY-ND 4.0** で、
+  ND 条項によりテッセレートしたメッシュは配布できない。そこで **STEP は「測定器」
+  としてのみ使い、メッシュは読み取った寸法から手続き的に再著作**している
+  (全実測値は docs/step-measurements.md)。STEP もその派生物もリポジトリには置かない。
+
+  実測・公表値 (docs/step-measurements.md):
+    - 外径 **ø50** (実測 ø50.20 / 公表 ø50)
+    - 板本体 **15.5 mm** = 結合面から外周リム上端まで (実測と公表が一致)
+    - **カムボス 12.5 mm** 突出、先端 r 7.8 (SWA の段付き受け穴へ入る)
+    - **上部構造 12.8 mm** (ピストンカバー r 22.35)。**mount 面よりロボット側へ出る**ので、
+      ロボット側インタフェースプレートには逃がしの穴が要る
+    - **取付 "S7" = ボルト円 ø40 / 45-135-225-315 度、SWK は M3x25 貫通 x4** (公式
+      カタログ SWS 011 Main view で確定。STEP 実測 ø39.9 は公差内で一致)
+    - エア通し **6 ポート ø2.8 / ボルト円 ø35** (SWA と共通)
+    - 質量 **0.13 kg** / 可搬 16 kg / ロック力 1100 N / 繰返し精度 0.015 mm
+
+  **S7 は ISO 9409-1 ではない**ので、ロボットフランジには直付けできない。実機と同じく
+  アダプタプレートを介する (カタログでは別アセット flange-plate-sws011 が担当)。
+  「利用者が持っている実機でそのままシミュレーションできるか」を優先し、組み合わせの
+  都合でインタフェースを描き替えることはしない。
+
+  座標系 (botrail カタログ規約): Z-up / メートル。root リンク mount = ロボット側の
+  座面 (外周リム上端。+Z がツール側)。coupling = SWA が載る結合面 (z = 15.5 mm)。
+
+  visual: tools/generate_meshes.py が生成する ../meshes/master.stl (手続き的著作)
+  collision: URDF プリミティブのみ (上部構造 + 板 + カムボス + 側面ポート)
+-->
+<robot name="tool_changer_sws011_master">
+
+  <link name="mount"/>
+
+  <link name="body">
+    <visual>
+      <geometry>
+        <mesh filename="../meshes/master.stl"/>
+      </geometry>
+    </visual>
+
+    <collision><!-- piston cover, protrudes ~12.8 mm to the robot side (r 22.35) -->
+      <origin xyz="0 0 -0.0064"/>
+      <geometry><cylinder radius="0.0225" length="0.0128"/></geometry>
+    </collision>
+    <collision><!-- main plate ø50 x 15.5 (SWK-011) -->
+      <origin xyz="0 0 0.00775"/>
+      <geometry><cylinder radius="0.025" length="0.0155"/></geometry>
+    </collision>
+    <collision><!-- cam boss (enters the SWA receiving bore) -->
+      <origin xyz="0 0 0.02175"/>
+      <geometry><cylinder radius="0.0125" length="0.0125"/></geometry>
+    </collision>
+    <collision><!-- lock air port boss -->
+      <origin xyz="0.0265 0 0.00775" rpy="0 1.5708 0"/>
+      <geometry><cylinder radius="0.0035" length="0.007"/></geometry>
+    </collision>
+    <collision><!-- unlock air port boss -->
+      <origin xyz="-0.0265 0 0.00775" rpy="0 1.5708 0"/>
+      <geometry><cylinder radius="0.0035" length="0.007"/></geometry>
+    </collision>
+
+    <!-- 質量 0.13 kg (公表値)。重心は STEP 実測 (mount 面から +6.42 mm)。
+         慣性は ø50 x 40.8 の中実円柱近似 -->
+    <inertial>
+      <origin xyz="0 0 0.00642"/>
+      <mass value="0.13"/>
+      <inertia ixx="3.835e-5" ixy="0.0" ixz="0.0" iyy="3.835e-5" iyz="0.0" izz="4.063e-5"/>
+    </inertial>
+  </link>
+
+  <!-- 結合面: SWA 側プレートの mount がここに載る (積み高さ 36.1 mm の基準) -->
+  <link name="coupling"/>
+
+  <joint name="body_joint" type="fixed">
+    <parent link="mount"/>
+    <child link="body"/>
+  </joint>
+
+  <joint name="coupling_joint" type="fixed">
+    <origin xyz="0 0 0.0155"/>
+    <parent link="body"/>
+    <child link="coupling"/>
+  </joint>
+
+</robot>
