@@ -59,6 +59,7 @@
 | [weld-gun-x1](./weld-gun-x1) | サーボスポットガン (X ガン, 1 DOF) | Electroweld SP-xxIT-X (のど深さ 400 mm) + OBARA DB3-160 (トランス) + ISO 5821 Type F 16x20 | 規約どおり |
 | [weld-gun-c1](./weld-gun-c1) | サーボスポットガン (C ガン, 1 DOF) | Milco XR 637-12402-15 / HERON DB6-110-C16027 (ストローク) | 規約どおり |
 | [tool-changer-a1](./tool-changer-a1) | ツールチェンジャ (マスタ + ツール) | SCHUNK SWS-011 (SWK-011 / SWA-011) | 規約どおり |
+| [vacuum-gripper-v1](./vacuum-gripper-v1) | 電動真空グリッパ (4 カップ) | Schmalz CobotPump ECBPi | 規約どおり |
 | [biw-sedan](./biw-sedan) | ワークピース: BIW (ジョイントレス) | — | 凸 49 ピースの authored collision compound。URDF 版と UsdPhysics 版 |
 
 > **公開済み rev の中身は動かさないこと。** カタログの recipe は公開 rev の
