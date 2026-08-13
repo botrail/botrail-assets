@@ -20,7 +20,7 @@ Hugging Face の公開カタログに載っているので、botrail からは�
 ```python
 import botrail as bt
 
-gun = bt.Robot.from_catalog("weld-gun-x1")  # 公開カタログから解決される
+gun = bt.Robot.from_catalog("weld-gun-x1")  # カタログ ID (下表の右列) で解決される
 ```
 
 ここはそのカタログの**ソース側**で、
@@ -29,19 +29,19 @@ gun = bt.Robot.from_catalog("weld-gun-x1")  # 公開カタログから解決さ�
 
 ## アセット一覧
 
-| アセット | 種別 | 参照実機 (寸法・仕様の出典) |
-|---|---|---|
-| [weld-gun-x16005](./weld-gun-x16005) | サーボスポットガン (X 型 / シザー式, 1 DOF) | HERON DB6-075-X16005-00 |
-| [weld-gun-xr637](./weld-gun-xr637) | サーボスポットガン (C 型 / 直動, 1 DOF) | Milco XR 637-12402-15 |
-| [tool-changer-sws011](./tool-changer-sws011) | ツールチェンジャ (マスタ + ツール側) | SCHUNK SWS-011 (SWK-011 / SWA-011) |
-| [vacuum-gripper-ecbpi](./vacuum-gripper-ecbpi) | 電動真空グリッパ (4 カップ) | Schmalz CobotPump ECBPi |
-| [flange-plate-sws011](./flange-plate-sws011) | アダプタ: ISO 9409-1-50-4-M6 ↔ SWS-011 | SCHUNK A-SWK-011-ISO-A50 |
-| [flange-plate-ecbpi](./flange-plate-ecbpi) | アダプタ: ISO 9409-1-50-4-M6 ↔ ECBPi | Schmalz ROB-SET ECBPi 同梱プレート |
-| [biw-sedan](./biw-sedan) | ワークピース: BIW (コンパクトセダン) | — (独自著作) |
+| アセット | 種別 | 参照実機 (寸法・仕様の出典) | カタログ ID (`from_catalog` に渡す名前) |
+|---|---|---|---|
+| [weld-gun-x16005](./weld-gun-x16005) | サーボスポットガン (X 型 / シザー式, 1 DOF) | HERON DB6-075-X16005-00 | `weld-gun-x1` |
+| [weld-gun-xr637](./weld-gun-xr637) | サーボスポットガン (C 型 / 直動, 1 DOF) | Milco XR 637-12402-15 | `weld-gun-c1` |
+| [tool-changer-sws011](./tool-changer-sws011) | ツールチェンジャ (マスタ + ツール側) | SCHUNK SWS-011 (SWK-011 / SWA-011) | `tool-changer-sws011-master` / `-tool` |
+| [vacuum-gripper-ecbpi](./vacuum-gripper-ecbpi) | 電動真空グリッパ (4 カップ) | Schmalz CobotPump ECBPi | `vacuum-gripper-ecbpi` |
+| [flange-plate-sws011](./flange-plate-sws011) | アダプタ: ISO 9409-1-50-4-M6 ↔ SWS-011 | SCHUNK A-SWK-011-ISO-A50 | `flange-plate-sws011` |
+| [flange-plate-ecbpi](./flange-plate-ecbpi) | アダプタ: ISO 9409-1-50-4-M6 ↔ ECBPi | Schmalz ROB-SET ECBPi 同梱プレート | `flange-plate-ecbpi` |
+| [biw-sedan](./biw-sedan) | ワークピース: BIW (コンパクトセダン) | — (独自著作) | `biw-sedan` |
 
-ディレクトリ名は参照実機の型番を含む。カタログ上の製品 ID は互換維持のため
-歴史的な名前のまま (`weld-gun-x1` / `weld-gun-c1` など) — `from_catalog()` で
-使う ID は公開カタログの index を参照。
+weld ガン 2 種のみ、カタログ ID が歴史的な名前のまま (公開済み ID の互換維持のため。
+[CONTRIBUTING.md](./CONTRIBUTING.md) の rev 運用参照)。それ以外は
+ディレクトリ名 = カタログ ID。
 
 ## 著作・貢献
 
