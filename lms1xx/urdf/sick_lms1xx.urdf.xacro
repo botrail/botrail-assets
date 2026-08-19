@@ -1,0 +1,76 @@
+<?xml version="1.0"?>
+<!--
+  lms1xx: 2D 安全レーザスキャナ (LMS1xx フォームファクタ) の自作アセット (CC0-1.0)。
+
+  ============================================================================
+  **これは SICK AG の製品でも Clearpath Robotics のリポジトリでもない。**
+  botrail-assets が独自に著作した、ROS パッケージ `lms1xx` の CC0 代替である。
+  SICK の CAD にも Clearpath のメッシュ／コードにも由来しない。ドライバは含まない。
+  実機を動かす用途には本家 clearpathrobotics/LMS1xx を使うこと。
+  ============================================================================
+
+  なぜこのパッケージが要るか:
+    Clearpath の ROS 1 ロボット記述 (ridgeback / husky / jackal / dingo) の
+    `accessories.urdf.xacro` が `$(find lms1xx)/urdf/sick_lms1xx.urdf.xacro` を
+    **オプション扱いにもかかわらず無条件で** include する。したがって
+    アクセサリを 1 つも有効にしなくても、このパッケージが解決できないと
+    xacro 展開そのものが失敗する。
+    一方 clearpathrobotics/LMS1xx は **LICENSE ファイルが無く、package.xml が
+    `LGPL` 宣言、当の xacro 冒頭は BSD-3-Clause ヘッダ**という矛盾した表明で、
+    再配布可否を判断できない (catalog-builder docs/mobile-base-survey.md §8.4)。
+    そこを CC0 の自作で置き換え、Ridgeback 等を public 配布可能にするのが目的。
+
+  マクロ署名は上流と互換にしてある (params 名・既定値・リンク名の決まり方)。
+  アクセサリを有効にした場合に出てくる幾何は**当方の意匠**であって実機の写しではない。
+
+  寸法の根拠:
+    筐体枠 **105 (W) x 102 (D) x 152 (H) mm** — LMS1xx として広く公表されている値。
+    **注意: 著作時 (2026-08-20) に SICK 一次資料へ到達できなかった** (製品ページが
+    JS 描画、データシート PDF の旧 URL は 404)。同じ寸法を上流 Clearpath 記述の
+    慣性計算も使っているが、一次情報での裏取りは**未了**。要検証。
+    面取り・走査窓帯の高さと凹み・背面ケーブルボス・角丸半径はすべて当方設計。
+
+  座標系: 原点 = **スキャナの焦点 (measurement origin)**。上流マクロと同じ規約で、
+  accessories 側がこの前提でマウント位置を決めているため合わせてある。
+  +X = 走査面の正面、+Z = 上。焦点は筐体上端から 50 mm 下。
+
+  メッシュ再生成: python lms1xx/tools/generate_meshes.py (依存: trimesh)
+-->
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+  <xacro:macro name="sick_lms1xx"
+    params="frame:=laser topic:=scan sample_size:=720 update_rate:=50
+            min_angle:=-2.35619 max_angle:=2.35619 min_range:=0.1 max_range:=30.0
+            robot_namespace:=/">
+
+    <link name="${frame}">
+      <inertial>
+        <!-- 質量 1.1 kg は LMS1xx クラスの公表値。慣性は筐体枠の中実直方体近似 -->
+        <mass value="1.1" />
+        <origin xyz="0 0 -0.026" rpy="0 0 0" />
+        <inertia
+          ixx="${0.0833333 * 1.1 * (0.105*0.105 + 0.152*0.152)}" ixy="0.0" ixz="0.0"
+          iyy="${0.0833333 * 1.1 * (0.102*0.102 + 0.152*0.152)}" iyz="0.0"
+          izz="${0.0833333 * 1.1 * (0.102*0.102 + 0.105*0.105)}" />
+      </inertial>
+      <visual>
+        <!-- メッシュの原点は焦点。tools/generate_meshes.py で生成 -->
+        <origin xyz="0 0 0" rpy="0 0 0" />
+        <geometry>
+          <mesh filename="package://lms1xx/meshes/sick-lms1xx.stl" />
+        </geometry>
+        <material name="lms1xx_grey">
+          <color rgba="0.35 0.36 0.38 1" />
+        </material>
+      </visual>
+      <collision>
+        <!-- 筐体枠そのままの箱。焦点は上端から 50 mm 下なので中心は -26 mm -->
+        <origin xyz="0 0 -0.026" rpy="0 0 0" />
+        <geometry>
+          <box size="0.102 0.105 0.152" />
+        </geometry>
+      </collision>
+    </link>
+
+  </xacro:macro>
+</robot>

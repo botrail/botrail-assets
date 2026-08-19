@@ -1,0 +1,35 @@
+<?xml version="1.0"?>
+<package format="3">
+  <!--
+    これは SICK / Clearpath Robotics の製品でもリポジトリでもない。
+    botrail-assets が CC0-1.0 で著作した **ROS パッケージ互換のスタブ** である。
+
+    なぜ `lms1xx` を名乗るか: Clearpath の ROS 1 ロボット記述
+    (ridgeback / husky / jackal / dingo) の accessories が
+    `$(find lms1xx)/urdf/sick_lms1xx.urdf.xacro` を **無条件で** include するため、
+    この名前でないと xacro 展開が解決しない。本家 clearpathrobotics/LMS1xx は
+    LICENSE ファイルが無く package.xml が LGPL 宣言・当の xacro 冒頭は BSD-3 ヘッダ
+    という矛盾した表明で、再配布可否を判断できない (catalog-builder
+    docs/mobile-base-survey.md §8.4)。そこを CC0 の自作で置き換えるのが本パッケージ。
+
+    ドライバは含まない (記述のみ)。実機を動かす用途には本家を使うこと。
+  -->
+  <name>lms1xx</name>
+  <version>1.0.0</version>
+  <description>
+    CC0 stand-in for the `lms1xx` ROS package: a URDF/xacro description of a
+    2D safety laser scanner in the SICK LMS1xx form factor. Authored by
+    botrail-assets; not affiliated with SICK AG or Clearpath Robotics, and
+    containing none of their code or CAD. Description only, no driver.
+  </description>
+  <maintainer email="nekanat.stock@gmail.com">neka-nat</maintainer>
+  <license>CC0-1.0</license>
+  <url type="repository">https://github.com/botrail/botrail-assets</url>
+
+  <buildtool_depend>ament_cmake</buildtool_depend>
+  <exec_depend>xacro</exec_depend>
+
+  <export>
+    <build_type>ament_cmake</build_type>
+  </export>
+</package>

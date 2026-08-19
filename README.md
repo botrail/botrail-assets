@@ -38,6 +38,13 @@ gun = bt.Robot.from_catalog("weld-gun-x1")  # カタログ ID (下表の右列) 
 | [flange-plate-sws011](./flange-plate-sws011) | アダプタ: ISO 9409-1-50-4-M6 ↔ SWS-011 | SCHUNK A-SWK-011-ISO-A50 | `flange-plate-sws011` |
 | [flange-plate-ecbpi](./flange-plate-ecbpi) | アダプタ: ISO 9409-1-50-4-M6 ↔ ECBPi | Schmalz ROB-SET ECBPi 同梱プレート | `flange-plate-ecbpi` |
 | [biw-sedan](./biw-sedan) | ワークピース: BIW (コンパクトセダン) | — (独自著作) | `biw-sedan` |
+| [spindle-emsf3060](./spindle-emsf3060) | 切削スピンドル (フランジ付きモータ) | ナカニシ EMSF-3060K | `spindle-emsf3060` |
+| [lms1xx](./lms1xx) | **ROS パッケージ `lms1xx` の CC0 代替 (スタブ)** — 2D 安全レーザスキャナ | — (独自著作。LMS1xx フォームファクタ) | — (カタログ製品ではない) |
+
+**lms1xx だけ性格が違う**: これはカタログに載せる製品モデルではなく、Clearpath の
+ROS 1 記述 (ridgeback / husky / jackal / dingo) が無条件 include する ROS パッケージ
+`lms1xx` を CC0 で置き換えるためのスタブ。本家がライセンス表明の矛盾を抱えていて
+再配布できないため用意した (詳細は [lms1xx/README.md](./lms1xx/README.md))。
 
 weld ガン 2 種のみ、カタログ ID が歴史的な名前のまま (公開済み ID の互換維持のため。
 [CONTRIBUTING.md](./CONTRIBUTING.md) の rev 運用参照)。それ以外は
