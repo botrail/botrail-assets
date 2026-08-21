@@ -1,0 +1,49 @@
+<?xml version="1.0"?>
+<!--
+  belt-conveyor — 脚 1 台の見た目 (CC0-1.0)
+
+  カタログ `botrail/conveyor/belt-unit/r1` の `stand` 部材の描画。台数と間隔は
+  カタログの `rules.stand_span_max_mm` から生成器が決め、1 台ぶんをここが描く。
+  **干渉には入らない** — 当たり判定は botrail が置く脚 2 本が持つ。
+
+  原点の規約: **床レベル・その脚の中心** (搬送方向の位置は生成器が決める)。
+  引数はすべてメートル: height / belt_thickness / width / leg
+-->
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="belt-conveyor-stand">
+  <xacro:arg name="height" default="0.75"/>
+  <xacro:arg name="belt_thickness" default="0.05"/>
+  <xacro:arg name="width" default="0.3"/>
+  <xacro:arg name="leg" default="0.05"/>
+
+  <xacro:property name="h" value="${$(arg height) - $(arg belt_thickness)}"/>
+  <xacro:property name="w" value="$(arg width)"/>
+  <xacro:property name="lg" value="$(arg leg)"/>
+
+  <material name="steel"><color rgba="0.20 0.21 0.23 1"/></material>
+  <material name="foot"><color rgba="0.24 0.26 0.30 1"/></material>
+
+  <link name="stand"/>
+
+  <xacro:macro name="box_part" params="name size xyz mat">
+    <link name="${name}">
+      <visual>
+        <origin xyz="${xyz}"/>
+        <geometry><box size="${size}"/></geometry>
+        <material name="${mat}"/>
+      </visual>
+    </link>
+    <joint name="j_${name}" type="fixed"><parent link="stand"/><child link="${name}"/></joint>
+  </xacro:macro>
+
+  <xacro:macro name="side" params="tag sign">
+    <xacro:box_part name="leg_${tag}" size="${lg} ${lg} ${h}"
+                    xyz="0 ${sign * (w/2 - lg/2)} ${h/2}" mat="steel"/>
+    <xacro:box_part name="foot_${tag}" size="${lg*1.8} ${lg*1.8} ${lg/4}"
+                    xyz="0 ${sign * (w/2 - lg/2)} ${lg/8}" mat="foot"/>
+  </xacro:macro>
+
+  <xacro:side tag="l" sign="1"/>
+  <xacro:side tag="r" sign="-1"/>
+  <!-- 貫: 2 本の脚をつなぐ -->
+  <xacro:box_part name="tie" size="${lg*0.7} ${w - lg} ${lg*0.7}" xyz="0 0 ${h*0.25}" mat="steel"/>
+</robot>

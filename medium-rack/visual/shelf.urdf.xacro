@@ -1,0 +1,48 @@
+<?xml version="1.0"?>
+<!--
+  medium-rack — 棚板 1 枚の見た目 (CC0-1.0)
+
+  カタログ `botrail/rack/medium-shelf/r1` の `shelf` 部材の描画。枚数は段数から
+  決まり、1 枚ぶんをここが描く。**干渉には入らない**。
+
+  原点の規約: **その段の天面中心** (板はここからぶら下がる) — 生成器が出す
+  `<name>/level{i}` フレームと同じ位置。
+  引数はすべてメートル: width / depth / thickness / upright
+-->
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="medium-rack-shelf">
+  <xacro:arg name="width" default="1.2"/>
+  <xacro:arg name="depth" default="0.6"/>
+  <xacro:arg name="thickness" default="0.03"/>
+  <xacro:arg name="upright" default="0.04"/>
+
+  <xacro:property name="w" value="$(arg width)"/>
+  <xacro:property name="d" value="$(arg depth)"/>
+  <xacro:property name="t" value="$(arg thickness)"/>
+  <xacro:property name="u" value="$(arg upright)"/>
+
+  <material name="deck"><color rgba="0.42 0.44 0.47 1"/></material>
+
+  <link name="shelf"/>
+  <link name="deck">
+    <visual>
+      <origin xyz="0 0 ${-t/2}"/>
+      <geometry><box size="${w - 2*u} ${d - 2*u} ${t}"/></geometry>
+      <material name="deck"/>
+    </visual>
+  </link>
+  <joint name="j_deck" type="fixed"><parent link="shelf"/><child link="deck"/></joint>
+
+  <!-- 前後の縁 (板の折り返し) -->
+  <xacro:macro name="lip" params="tag sign">
+    <link name="lip_${tag}">
+      <visual>
+        <origin xyz="0 ${sign * (d/2 - u - t/2)} ${-t - t/2}"/>
+        <geometry><box size="${w - 2*u} ${t} ${t*2}"/></geometry>
+        <material name="deck"/>
+      </visual>
+    </link>
+    <joint name="j_lip_${tag}" type="fixed"><parent link="shelf"/><child link="lip_${tag}"/></joint>
+  </xacro:macro>
+  <xacro:lip tag="f" sign="-1"/>
+  <xacro:lip tag="b" sign="1"/>
+</robot>

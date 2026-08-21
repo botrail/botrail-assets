@@ -12,7 +12,8 @@
   各アセットの README に表で明記してある
 - 形式: URDF + STL (visual / collision 分離済み)。Z-up、メートル単位
 
-> **2026-08-22 追加**: `mesh-guard/` は**メッシュを持たないアセット**。設備品 (安全柵・
+> **2026-08-22 追加**: `mesh-guard/` `belt-conveyor/` `medium-rack/` は
+> **メッシュを持たないアセット**。設備品 (安全柵・
 > コンベア・棚) は寸法を指定して買うので形状ファイルにできず、代わりに
 > **プリミティブの xacro が寸法から絵を組み立てる**。カタログの
 > `components[].trim` から参照され、botrail 側は `Scene.load_urdf` で
