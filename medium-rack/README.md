@@ -12,12 +12,12 @@
 
 | | 引数 (levels 以外メートル) | 描くもの |
 |---|---|---|
-| `visual/bay.urdf.xacro` | `width` `depth` `height` `upright` `beam` `shelf_thickness` `levels` `tilt` | 支柱 4 本 + 足、側面の斜めブレース、各段の前後ビーム |
+| `visual/bay.urdf.xacro` | `width` `depth` `height` `upright` `beam` `shelf_thickness` `levels` | 支柱 4 本 + 足、側面の斜めブレース、各段の前後ビーム |
 | `visual/shelf.urdf.xacro` | `width` `depth` `thickness` `upright` | 棚板 1 枚 + 前後の折り返し |
 
 原点は `bay` が **床レベル・棚の中心**、`shelf` は **その段の天面中心**
 (生成器が出す `<name>/level{i}` フレームと同じ位置)。
 
-`tilt` (ブレースの傾き) だけは生成器が計算して渡す — 奥行と高さから決まる値だが、
-xurdf の式評価器に `atan2` が無いため。要望は catalog-builder の
-`docs/xurdf-issues.md` Issue 6 に起票済みで、入ったらこの引数は消える。
+ブレースの傾きは `${atan2(h, run)}` でファイル側が出す (**xurdf 0.6.4 以降**。
+それ以前は評価器に三角関数が無く、生成器が `tilt` 引数で渡していた —
+catalog-builder の `docs/xurdf-issues.md` Issue 6)。

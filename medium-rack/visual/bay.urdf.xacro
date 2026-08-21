@@ -18,10 +18,6 @@
   <xacro:arg name="beam" default="0.04"/>
   <xacro:arg name="shelf_thickness" default="0.03"/>
   <xacro:arg name="levels" default="4"/>
-  <!-- ブレースの傾き [rad]。奥行と高さから決まる値だが、xurdf の式評価器に
-       atan2 が無いので生成器が計算して渡す (docs/xurdf-issues.md Issue 6)。
-       既定は 1200x600 のときの値 -->
-  <xacro:arg name="tilt" default="1.2490"/>
 
   <xacro:property name="w" value="$(arg width)"/>
   <xacro:property name="d" value="$(arg depth)"/>
@@ -30,10 +26,11 @@
   <xacro:property name="bm" value="$(arg beam)"/>
   <xacro:property name="st" value="$(arg shelf_thickness)"/>
   <xacro:property name="n" value="$(arg levels)"/>
-  <!-- ブレースは側面の対角。長さは奥行と高さから出る -->
+  <!-- ブレースは側面の対角。長さも傾きも奥行と高さから出る
+       (xurdf 0.6.4 以降。それ以前は atan2 が無く、生成器が渡していた) -->
   <xacro:property name="run" value="${d - u}"/>
-  <xacro:property name="brace_len" value="${sqrt(run*run + h*h)}"/>
-  <xacro:property name="tilt" value="$(arg tilt)"/>
+  <xacro:property name="brace_len" value="${hypot(run, h)}"/>
+  <xacro:property name="tilt" value="${atan2(h, run)}"/>
 
   <material name="steel"><color rgba="0.42 0.44 0.47 1"/></material>
   <material name="dark"><color rgba="0.20 0.21 0.23 1"/></material>
