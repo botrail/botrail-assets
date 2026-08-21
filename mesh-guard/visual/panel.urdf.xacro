@@ -1,0 +1,92 @@
+<?xml version="1.0"?>
+<!--
+  mesh-guard — メッシュパネル 1 枚の見た目 (CC0-1.0)
+
+  カタログ `botrail/fence/mesh-guard/r1` の `panel` / `door` 部材の描画。
+  **干渉には入らない装飾**で、当たり判定は botrail 側が置く 1 枚のスラブが持つ
+  (bt.parts.fence が load_urdf したあと set_obstacle_enabled(False) する)。
+
+  原点の規約: **床レベル・パネル中心**。X = 柵の走る方向、Y = 板厚方向、Z = 上。
+  bt.parts.fence はこの原点をパネル中心の床位置に置き、辺の yaw で回す。
+
+  引数はすべてメートル。生成器 (bt.parts.fence) が渡す名前は固定:
+    width / height / thickness / frame / wire / aperture / handle
+  使わない引数が来ても無視されるので、パネルごとに増減しても壊れない。
+
+  金網は**線を 1 本ずつは描かない** — 開口 49 mm をそのまま描くと 1 枚 60 本に
+  なるので、1 辺あたり最大 5 本の粗いグリッドに丸める。セル全景の距離では
+  これで金網として読め、かつ**向こう側が透ける** (botrail に透明度が無いので、
+  透かすには実際に隙間を空けるしかない)。
+-->
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="mesh-guard-panel">
+  <xacro:arg name="width" default="1.0"/>
+  <xacro:arg name="height" default="2.0"/>
+  <xacro:arg name="thickness" default="0.03"/>
+  <xacro:arg name="frame" default="0.03"/>
+  <xacro:arg name="wire" default="0.005"/>
+  <xacro:arg name="aperture" default="0.049"/>
+  <xacro:arg name="handle" default="0"/>
+
+  <xacro:property name="w" value="$(arg width)"/>
+  <xacro:property name="h" value="$(arg height)"/>
+  <xacro:property name="t" value="$(arg thickness)"/>
+  <xacro:property name="f" value="$(arg frame)"/>
+  <xacro:property name="wire" value="$(arg wire)"/>
+  <xacro:property name="ap" value="$(arg aperture)"/>
+
+  <!-- 枠の内側 = 金網が張られる範囲 -->
+  <xacro:property name="iw" value="${w - 2*f}"/>
+  <xacro:property name="ih" value="${h - 2*f}"/>
+  <!-- 描く本数: 開口どおりだと多すぎるので 1 辺 5 本で頭打ちにする -->
+  <xacro:property name="nv" value="${max(1, min(5, int(iw / max(ap, iw / 6))))}"/>
+  <xacro:property name="nh" value="${max(1, min(5, int(ih / max(ap, ih / 6))))}"/>
+
+  <material name="galv"><color rgba="0.55 0.58 0.60 1"/></material>
+  <material name="frame"><color rgba="0.38 0.40 0.42 1"/></material>
+
+  <!-- root: 床レベル・パネル中心。geometry を持たないのでフレームになる -->
+  <link name="panel"/>
+
+  <xacro:macro name="bar" params="name size xyz mat">
+    <link name="${name}">
+      <visual>
+        <origin xyz="${xyz}"/>
+        <geometry><box size="${size}"/></geometry>
+        <material name="${mat}"/>
+      </visual>
+    </link>
+    <joint name="j_${name}" type="fixed">
+      <parent link="panel"/><child link="${name}"/>
+    </joint>
+  </xacro:macro>
+
+  <!-- 枠 (角パイプ) -->
+  <xacro:bar name="frame_t" size="${w} ${t} ${f}" xyz="0 0 ${h - f/2}" mat="frame"/>
+  <xacro:bar name="frame_b" size="${w} ${t} ${f}" xyz="0 0 ${f/2}" mat="frame"/>
+  <xacro:bar name="frame_l" size="${f} ${t} ${ih}" xyz="${-w/2 + f/2} 0 ${h/2}" mat="frame"/>
+  <xacro:bar name="frame_r" size="${f} ${t} ${ih}" xyz="${w/2 - f/2} 0 ${h/2}" mat="frame"/>
+
+  <!-- 金網 (xacro にループは無いので再帰マクロ) -->
+  <xacro:macro name="wires_v" params="i n">
+    <xacro:if value="${i &lt;= n}">
+      <xacro:bar name="wire_v${i}" size="${wire} ${wire} ${ih}"
+                 xyz="${-iw/2 + iw*i/(n+1)} 0 ${h/2}" mat="galv"/>
+      <xacro:wires_v i="${i+1}" n="${n}"/>
+    </xacro:if>
+  </xacro:macro>
+  <xacro:macro name="wires_h" params="i n">
+    <xacro:if value="${i &lt;= n}">
+      <xacro:bar name="wire_h${i}" size="${iw} ${wire} ${wire}"
+                 xyz="0 0 ${f + ih*i/(n+1)}" mat="galv"/>
+      <xacro:wires_h i="${i+1}" n="${n}"/>
+    </xacro:if>
+  </xacro:macro>
+  <xacro:wires_v i="1" n="${nv}"/>
+  <xacro:wires_h i="1" n="${nh}"/>
+
+  <!-- 扉のときだけハンドル -->
+  <xacro:if value="${$(arg handle) &gt; 0}">
+    <xacro:bar name="handle" size="${3*f} ${2*t} ${f/2}"
+               xyz="${w/2 - 2*f} 0 ${h/2}" mat="frame"/>
+  </xacro:if>
+</robot>
