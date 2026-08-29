@@ -1,0 +1,81 @@
+<?xml version="1.0" ?>
+<!--
+  velodyne: Velodyne VLP-16 (Puck) の URDF エントリ (CC0-1.0)。
+
+  メッシュは Dataspeed Inc. の velodyne_description
+  (https://github.com/ToyotaResearchInstitute/velodyne_simulator, BSD-3-Clause)
+  のもの - このリポジトリには**メッシュは含まない**。カタログのビルド工程が
+  velodyne_simulator と本ファイルを併せて取得し、package://velodyne_description
+  がそちらへ解決される。
+
+  なぜ書き下しか (上流マクロを実体化しない理由):
+    - 上流 urdf/VLP-16.urdf.xacro はマクロ定義のみで、実体化の見本は
+      2 台載せのデモセル - 単体製品のエントリにならない。
+    - マクロの visual は .dae を参照するが、同梱 DAE は id="<STL_BINARY>" の
+      生の山括弧を含む不正 XML でどの COLLADA パーサでも読めない。同梱の
+      .stl (正常なバイナリ、メートル単位) を参照し、色は URDF material で
+      付け直す。
+    リンク・ジョイント構成と数値 (衝突シリンダ、焦点高 37.7 mm) は
+    マクロの定義の引き写し。
+
+  座標系 (上流マクロの定義そのまま):
+    - mount = 筐体底面の中心。
+    - velodyne = 走査焦点、底面の 37.7 mm 上 (datasheet の optical center)。
+      +X = 0 度・スキャン面 XY - ROS laser 規約で、botrail の lidar 規約に
+      そのまま一致する。
+-->
+<robot name="vlp16">
+
+  <material name="vlp16_silver">
+    <color rgba="0.72 0.72 0.72 1.0"/>
+  </material>
+  <material name="vlp16_dark">
+    <color rgba="0.18 0.18 0.18 1.0"/>
+  </material>
+
+  <link name="mount"/>
+
+  <joint name="mount_to_base" type="fixed">
+    <parent link="mount"/>
+    <child link="velodyne_base_link"/>
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+  </joint>
+
+  <link name="velodyne_base_link">
+    <visual>
+      <geometry>
+        <mesh filename="package://velodyne_description/meshes/VLP16_base_1.stl"/>
+      </geometry>
+      <material name="vlp16_silver"/>
+    </visual>
+    <visual>
+      <geometry>
+        <mesh filename="package://velodyne_description/meshes/VLP16_base_2.stl"/>
+      </geometry>
+      <material name="vlp16_silver"/>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0.03585" rpy="0 0 0"/>
+      <geometry>
+        <cylinder radius="0.0516" length="0.0717"/>
+      </geometry>
+    </collision>
+  </link>
+
+  <joint name="base_to_scan" type="fixed">
+    <parent link="velodyne_base_link"/>
+    <child link="velodyne"/>
+    <origin xyz="0 0 0.0377" rpy="0 0 0"/>
+  </joint>
+
+  <link name="velodyne">
+    <visual>
+      <origin xyz="0 0 -0.0377" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="package://velodyne_description/meshes/VLP16_scan.stl"/>
+      </geometry>
+      <material name="vlp16_dark"/>
+    </visual>
+  </link>
+
+</robot>
