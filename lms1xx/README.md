@@ -42,6 +42,10 @@ ROS 1 系がまとめて開く。
   accessories 側がこの前提でマウント位置を決めているため合わせてある。
   +X = 走査面の正面、+Z = 上。焦点は筐体上端から 50 mm 下
 - collision は筐体枠そのままの箱、visual は生成メッシュ (watertight, 1,336 面)
+- `urdf/lms111.urdf.xacro` — マクロを実体化してカタログ製品 (SICK LMS111,
+  `sensor.lidar`) として立てるエントリ。root は `mount` (筐体底面中心)、
+  焦点 `laser` はその 102 mm 上。スタブ用途 (Clearpath 系の include 解決) には
+  無関係で、カタログのビルドだけが読む
 
 ## 寸法の根拠と未確認事項
 

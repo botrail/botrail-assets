@@ -1,0 +1,35 @@
+<?xml version="1.0"?>
+<!--
+  lms111: SICK LMS111 をカタログ製品として立てる URDF エントリ (CC0-1.0)。
+
+  同ディレクトリの sick_lms1xx.urdf.xacro はマクロ定義のみ (ROS パッケージ
+  `lms1xx` の CC0 代替スタブ — 冒頭の注記を参照) で、単体では展開できない。
+  このファイルがそのマクロを実体化し、カタログの組み立て規約に合わせて
+  mount ルートを立てる (phoxi/urdf/phoxi_m.urdf.xacro と同じ役割)。
+
+  ジオメトリ・寸法の出典と注意はマクロ側の注記のとおり:
+  **SICK AG の CAD には由来しない当方意匠のマッシング** (公表フォームファクタ
+  105 x 102 x 152 mm に一致)。
+
+  座標系:
+    - laser (マクロの frame) = スキャナ焦点 (measurement origin)。
+      +X = 走査面の正面、+Z = 上 — ROS laser 規約で、botrail の lidar 規約
+      (スキャン面 XY・0° = +X・CCW) にそのまま一致する。
+    - mount = 筐体底面の中心 (実機はボトム取付キット / 背面 M5)。焦点は
+      筐体上端から 50 mm 下、筐体高 152 mm なので底面の 102 mm 上にある。
+-->
+<robot name="lms111" xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+  <xacro:include filename="$(find lms1xx)/urdf/sick_lms1xx.urdf.xacro"/>
+
+  <link name="mount"/>
+
+  <joint name="mount_to_laser" type="fixed">
+    <parent link="mount"/>
+    <child link="laser"/>
+    <origin xyz="0 0 0.102" rpy="0 0 0"/>
+  </joint>
+
+  <xacro:sick_lms1xx frame="laser"/>
+
+</robot>
