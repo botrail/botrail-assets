@@ -1,0 +1,70 @@
+<?xml version="1.0" ?>
+<!--
+  psenscan: Pilz PSENscan (PSEN sc M) の URDF エントリ (CC0-1.0)。
+
+  メッシュは Pilz 公式の psen_scan_v2 (https://github.com/PilzDE/psen_scan_v2,
+  LGPL-3.0) のもの - このリポジトリには**メッシュは含まない**。カタログの
+  ビルド工程が psen_scan_v2 と本ファイルを併せて取得し、
+  package://psen_scan_v2 がそちらへ解決される。
+
+  なぜ書き下しか (上流マクロを実体化しない理由):
+    上流 urdf/xacros/psen_scan.urdf.xacro の laser フレームは rpy="pi 0 0"
+    (X 軸まわり半回転) - デバイスの角度規約 (上から見て時計回り) を ROS の
+    LaserScan に合わせるための反転で、botrail の lidar 規約 (スキャン面 XY・
+    0 度 = +X・CCW・+Z 上) とは合わない。ここでは規約どおりのフレームを
+    データシート値から直接立てる。
+
+  フレームとメッシュ配置の出典 (操作マニュアル 1005055-EN-07 の技術データ +
+  上流 xacro の注記 + メッシュ実測):
+    - 高さ 152 mm、幅 102 mm、奥行 112.5 mm (メッシュ bbox と一致)
+    - 走査面は上端の 37.7 mm 下 = 底面の 114.3 mm 上
+    - 走査軸 (ミラー回転軸) は背面から 52.5 mm
+      (メッシュ実測: 背面 +X 面 x=+37.2 mm、走査ヘッド円筒中心
+       x=-14.2 mm - 37.2 - 52.5 = -15.3 に 1 mm 以内で一致。
+       よってメッシュの正面は -X - ヨー半回転で +X 正面に直す)
+    - mount = 走査軸直下の底面点 (lms1xx / velodyne と同じ組み立て規約)
+
+  色: 実機はイエロー筐体。メッシュ自体の材質は一律グレーの
+  プレースホルダなので、上流 xacro と同じ Pilz イエローを当てる。
+-->
+<robot name="psen-sc-m">
+
+  <material name="pilz_yellow">
+    <color rgba="1.0 0.722 0.196 1.0"/>
+  </material>
+
+  <link name="mount"/>
+
+  <joint name="mount_to_body" type="fixed">
+    <parent link="mount"/>
+    <child link="body"/>
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+  </joint>
+
+  <link name="body">
+    <visual>
+      <origin xyz="-0.0142 -0.0011 0.0389" rpy="0 0 3.1415926535897931"/>
+      <geometry>
+        <mesh filename="package://psen_scan_v2/urdf/meshes/PSENscan.dae" scale="0.001 0.001 0.001"/>
+      </geometry>
+      <material name="pilz_yellow"/>
+    </visual>
+    <collision>
+      <!-- 走査軸は背面から 52.5 / 奥行 112.5 なので前面は軸の 60 mm 先:
+           箱の中心が +3.75 mm にずれる -->
+      <origin xyz="0.00375 0 0.076" rpy="0 0 0"/>
+      <geometry>
+        <box size="0.1125 0.102 0.152"/>
+      </geometry>
+    </collision>
+  </link>
+
+  <joint name="body_to_laser" type="fixed">
+    <parent link="body"/>
+    <child link="laser"/>
+    <origin xyz="0 0 0.1143" rpy="0 0 0"/>
+  </joint>
+
+  <link name="laser"/>
+
+</robot>
