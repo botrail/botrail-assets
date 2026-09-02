@@ -1,0 +1,87 @@
+<?xml version="1.0"?>
+<!--
+  mid-360: Livox Mid-360 (360°×59° 小型 3D LiDAR) の自作マッシングモデル (CC0-1.0)。
+
+  ============================================================================
+  **これは Livox の CAD ではない。** 公式 STEP (mid-360-asm.stp) は公式サイトから
+  ログイン無しで DL できるが利用条件の明記が無く再配布可否を判断できないため、
+  公式ユーザーマニュアル (Appendix "Livox Mid-360 Dimensions") の公表値に合わせて
+  botrail-assets が独自に著作した簡略形状である。実寸が要る用途には公式 STEP を使うこと。
+  ============================================================================
+
+  参照実機から採った値 (公表値):
+    - 外形 65 x 65 x 60 mm (コネクタ突起込みの幅 73)、質量 265 g
+    - 下部ブロック (放熱フィン付き) 高さ 39.5、その上に光学ドーム、全高 60
+    - 点群座標の原点 O は底面から 47.0 mm (ドーム内)
+    - 底面取付 4-M3 深さ 5 (48 x 36 mm ピッチ)、位置決め 2-φ3 深さ 1.8
+    - M12 航空コネクタ (12 極、IP67) は側面、底面から 16 mm
+  当方設計 (実機の写しではない): フィンの本数、ドームの輪郭、角丸、コネクタの向き (-X)。
+
+  座標系 (botrail の lidar 規約 = ROS laser 規約):
+    - mount = root = 底面中心 (実機は底面 4-M3 で取付。取付面に 10 mm 以上の
+      隙間を取る指示あり)
+    - livox_frame = 点群原点 O、底面の 47.0 mm 上。+X = 前方 (Livox 座標系の X)、
+      +Z = 上。水平 360 度・垂直 -7〜+52 度の非反復走査。
+
+  visual: tools/generate_meshes.py が生成する ../meshes/{base,dome}.stl
+  collision: URDF プリミティブ (下部 65x65x39.5 の箱 + ドーム φ58 の円柱)
+-->
+<robot name="mid_360">
+
+  <material name="mid360_grey">
+    <color rgba="0.32 0.33 0.35 1"/>
+  </material>
+  <material name="mid360_dome">
+    <color rgba="0.10 0.10 0.12 1"/>
+  </material>
+
+  <link name="mount"/>
+
+  <joint name="mount_to_body" type="fixed">
+    <parent link="mount"/>
+    <child link="body"/>
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+  </joint>
+
+  <link name="body">
+    <visual>
+      <geometry>
+        <mesh filename="../meshes/base.stl"/>
+      </geometry>
+      <material name="mid360_grey"/>
+    </visual>
+    <visual>
+      <geometry>
+        <mesh filename="../meshes/dome.stl"/>
+      </geometry>
+      <material name="mid360_dome"/>
+    </visual>
+    <collision><!-- 下部ブロック 65 x 65 x 39.5 -->
+      <origin xyz="0 0 0.01975"/>
+      <geometry><box size="0.065 0.065 0.0395"/></geometry>
+    </collision>
+    <collision><!-- ドーム φ58 x 20.5 (z 39.5..60) -->
+      <origin xyz="0 0 0.04975"/>
+      <geometry><cylinder radius="0.029" length="0.0205"/></geometry>
+    </collision>
+    <collision><!-- M12 コネクタ φ14 x 8 (背面) -->
+      <origin xyz="-0.0365 0 0.016" rpy="0 1.5707963267948966 0"/>
+      <geometry><cylinder radius="0.007" length="0.008"/></geometry>
+    </collision>
+    <inertial>
+      <!-- 265 g (公表値)。慣性は 65 x 65 x 60 の中実直方体近似、重心は幾何中心 -->
+      <mass value="0.265"/>
+      <origin xyz="0 0 0.030"/>
+      <inertia ixx="1.73e-4" ixy="0" ixz="0" iyy="1.73e-4" iyz="0" izz="1.87e-4"/>
+    </inertial>
+  </link>
+
+  <joint name="body_to_livox_frame" type="fixed">
+    <parent link="body"/>
+    <child link="livox_frame"/>
+    <origin xyz="0 0 0.047" rpy="0 0 0"/>
+  </joint>
+
+  <link name="livox_frame"/>
+
+</robot>
