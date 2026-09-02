@@ -1,0 +1,83 @@
+<?xml version="1.0"?>
+<!--
+  ust-10lx: 北陽電機 UST-10LX (測域センサ、2D LiDAR) の自作マッシングモデル (CC0-1.0)。
+
+  ============================================================================
+  **これは北陽電機の CAD ではない。** 北陽の 2D/3D CAD は会員ログインの先にあり
+  再配布条件を判断できないため、公開外形図 (製品ページの外形図 PNG) と仕様書
+  (C-42-04077) の公表値に合わせて botrail-assets が独自に著作した簡略形状である。
+  実寸 CAD が要る用途には北陽の会員ダウンロードを使うこと。
+  ============================================================================
+
+  参照実機から採った値 (公表値):
+    - 外形 50 (W) x 50 (D) x 70 (H) mm (本体のみ)、質量 130 g (ケーブル除く)
+    - 下部筐体 (アルミ) 高さ 35、上部 (ポリカーボネート) の光学窓 28.7
+    - 走査中心 (受光部) は底面から 47.4 mm、走査角 270 度 (背面側 90 度が死角)
+    - 底面取付 4-M3 深さ 6 (40 x 40 mm ピッチ)、位置決め 2-φ3
+    - 背面 2-M4 深さ 6 (24 mm ピッチ)
+  当方設計 (実機の写しではない): 角丸、上部の丸み、窓帯の凹み、ケーブル付け根。
+
+  座標系 (botrail の lidar 規約 = ROS laser 規約):
+    - mount = root = 底面中心 (実機は底面 4-M3 で取付。放熱のため底面を
+      アルミ板に密着させる指示あり)
+    - laser = 走査焦点、底面の 47.4 mm 上。+X = 走査正面 (0 度)、スキャン面 = XY、
+      ケーブル引き出しが -X (背面)。回転補正は要らない。
+
+  visual: tools/generate_meshes.py が生成する ../meshes/{base,head}.stl
+  collision: URDF プリミティブ 2 箱 (下部 50x50x35 / 上部 46x46x35)
+-->
+<robot name="ust_10lx">
+
+  <material name="ust_aluminium">
+    <color rgba="0.62 0.63 0.65 1"/>
+  </material>
+  <material name="ust_black">
+    <color rgba="0.06 0.06 0.07 1"/>
+  </material>
+
+  <link name="mount"/>
+
+  <joint name="mount_to_body" type="fixed">
+    <parent link="mount"/>
+    <child link="body"/>
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+  </joint>
+
+  <link name="body">
+    <visual>
+      <geometry>
+        <mesh filename="../meshes/base.stl"/>
+      </geometry>
+      <material name="ust_aluminium"/>
+    </visual>
+    <visual>
+      <geometry>
+        <mesh filename="../meshes/head.stl"/>
+      </geometry>
+      <material name="ust_black"/>
+    </visual>
+    <collision><!-- 下部筐体 50 x 50 x 35 -->
+      <origin xyz="0 0 0.0175"/>
+      <geometry><box size="0.050 0.050 0.035"/></geometry>
+    </collision>
+    <collision><!-- 上部 46 x 46 x 35 (窓帯 + 天面) -->
+      <origin xyz="0 0 0.0525"/>
+      <geometry><box size="0.046 0.046 0.035"/></geometry>
+    </collision>
+    <inertial>
+      <!-- 130 g (公表値)。慣性は 50 x 50 x 70 の中実直方体近似、重心は幾何中心 -->
+      <mass value="0.130"/>
+      <origin xyz="0 0 0.035"/>
+      <inertia ixx="8.02e-5" ixy="0" ixz="0" iyy="8.02e-5" iyz="0" izz="5.42e-5"/>
+    </inertial>
+  </link>
+
+  <joint name="body_to_laser" type="fixed">
+    <parent link="body"/>
+    <child link="laser"/>
+    <origin xyz="0 0 0.0474" rpy="0 0 0"/>
+  </joint>
+
+  <link name="laser"/>
+
+</robot>
