@@ -1,0 +1,93 @@
+<?xml version="1.0"?>
+<!--
+  axia80: ATI Axia80 (6 軸力覚センサ) の自作マッシングモデル (CC0-1.0)。
+
+  ============================================================================
+  **これは ATI Industrial Automation の CAD ではない。** ATI の CAD は製品ページの
+  フォームの先にあり再配布条件を判断できないため、製品フライヤに掲載された公開図面
+  (Drawing # 9230-05-1507) の公表値に合わせて botrail-assets が独自に著作した
+  簡略形状である。実寸 CAD が要る用途には ATI の CAD ダウンロードを使うこと。
+  ============================================================================
+
+  参照実機から採った値 (公表値):
+    - 外形 φ82 x 25.4 mm、質量 0.3 kg (製品ページ)、航空機グレードアルミ、IP64
+    - 取付側 (ロボット側) とツール側の両面: 6x M5x0.8 タップ 等配、ボルト円 φ71.12。
+      ISO 9409-1 のフランジではない (ロボットへはキット付属のインタフェースプレートで取付)
+    - センシング基準座標系 (力・トルクの原点) はツール側の面の中心。+Z = ツール側、
+      +X = 表示 LED 側 (コネクタの反対)
+    - M8 6 ピンコネクタ (EtherCAT 版) は側面、取付面から 6.97 mm、先端は中心から 50.2 mm
+  当方設計 (実機の写しではない): 外周の黒帯、面取り、タップ穴・ピン穴の省略。
+
+  座標系 (botrail のエンドエフェクタ規約):
+    - mount = root = 取付面 (ロボット側) の中心。+Z がツール方向
+    - flange = ツール側の面の中心 (mount の 25.4 mm 上)、+Z 外向き — 連結 2 段目
+      (グリッパ等) の取付先
+    - ft_frame = センシング基準座標系 = flange と同じ位置・向き (図面の
+      "Sensing Reference Frame Origin")
+
+  visual: tools/generate_meshes.py が生成する ../meshes/{body,band}.stl
+  collision: URDF プリミティブ (φ82 x 25.4 の円柱 + コネクタ)
+-->
+<robot name="axia80">
+
+  <material name="axia_aluminium">
+    <color rgba="0.70 0.70 0.68 1"/>
+  </material>
+  <material name="axia_black">
+    <color rgba="0.05 0.05 0.05 1"/>
+  </material>
+
+  <link name="mount"/>
+
+  <joint name="mount_to_body" type="fixed">
+    <parent link="mount"/>
+    <child link="body"/>
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+  </joint>
+
+  <link name="body">
+    <visual>
+      <geometry>
+        <mesh filename="../meshes/body.stl"/>
+      </geometry>
+      <material name="axia_aluminium"/>
+    </visual>
+    <visual>
+      <geometry>
+        <mesh filename="../meshes/band.stl"/>
+      </geometry>
+      <material name="axia_black"/>
+    </visual>
+    <collision><!-- 本体 φ82 x 25.4 -->
+      <origin xyz="0 0 0.0127"/>
+      <geometry><cylinder radius="0.041" length="0.0254"/></geometry>
+    </collision>
+    <collision><!-- M8 コネクタ φ10、中心から 41..50.2 (-X 側) -->
+      <origin xyz="-0.0456 0 0.00697" rpy="0 1.5707963267948966 0"/>
+      <geometry><cylinder radius="0.005" length="0.0092"/></geometry>
+    </collision>
+    <inertial>
+      <!-- 0.3 kg (製品ページ)。慣性は φ82 x 25.4 の中実円柱近似 -->
+      <mass value="0.300"/>
+      <origin xyz="0 0 0.0127"/>
+      <inertia ixx="1.42e-4" ixy="0" ixz="0" iyy="1.42e-4" iyz="0" izz="2.52e-4"/>
+    </inertial>
+  </link>
+
+  <joint name="body_to_flange" type="fixed">
+    <parent link="body"/>
+    <child link="flange"/>
+    <origin xyz="0 0 0.0254" rpy="0 0 0"/>
+  </joint>
+
+  <link name="flange"/>
+
+  <joint name="body_to_ft_frame" type="fixed">
+    <parent link="body"/>
+    <child link="ft_frame"/>
+    <origin xyz="0 0 0.0254" rpy="0 0 0"/>
+  </joint>
+
+  <link name="ft_frame"/>
+
+</robot>
