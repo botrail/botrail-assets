@@ -1,0 +1,81 @@
+<?xml version="1.0"?>
+<!--
+  control-cabinet — 制御盤キャビネット 1 面の見た目 (CC0-1.0)
+
+  カタログの盤用キャビネットのスペックパック (`structure.cabinet`) が
+  `components[].trim` から参照する描画。**干渉には入らない装飾**で、当たり判定は
+  botrail 側が置く本体 (+基台) の箱が持つ (bt.parts.cabinet が load_urdf した
+  あと set_obstacle_enabled(False) する)。
+
+  原点の規約: **床レベル・本体の平面中心**。X = 幅方向、Y = 奥行方向 (扉面は -Y)、
+  Z = 上。基台があるときは本体がその上に載る。
+
+  引数はすべてメートル。生成器 (bt.parts.cabinet) が渡す名前は固定:
+    width / depth / height / base   (base = 基台の高さ。0 なら基台なし)
+  使わない引数が来ても無視される。
+
+  扉の枚数は幅から決まる: **1000 mm 以上は両扉、それ未満は片扉** — 国内の
+  盤用キャビネット (日東 FZ など) の型式分かれ目に合わせた既定。別の分かれ目を
+  持つ製品は自分の xacro を持てばよい (絵は製品のデータ)。
+-->
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="control-cabinet-body">
+  <xacro:arg name="width" default="0.8"/>
+  <xacro:arg name="depth" default="0.6"/>
+  <xacro:arg name="height" default="2.1"/>
+  <xacro:arg name="base" default="0.1"/>
+
+  <xacro:property name="w" value="$(arg width)"/>
+  <xacro:property name="d" value="$(arg depth)"/>
+  <xacro:property name="h" value="$(arg height)"/>
+  <xacro:property name="b" value="$(arg base)"/>
+
+  <!-- 扉まわりの寸法: 見切りの隙間、扉板の見付、ハンドル -->
+  <xacro:property name="gap" value="0.012"/>
+  <xacro:property name="leaf_t" value="0.004"/>
+  <xacro:property name="face" value="${-d/2 - leaf_t/2}"/>
+  <xacro:property name="zc" value="${b + h/2}"/>
+
+  <!-- ライトベージュ塗装 (5Y7/1 相当)、基台とハンドルは黒 -->
+  <material name="beige"><color rgba="0.58 0.56 0.49 1"/></material>
+  <material name="dark"><color rgba="0.20 0.21 0.23 1"/></material>
+
+  <link name="cabinet"/>
+
+  <xacro:macro name="box_part" params="name size xyz mat">
+    <link name="${name}">
+      <visual>
+        <origin xyz="${xyz}"/>
+        <geometry><box size="${size}"/></geometry>
+        <material name="${mat}"/>
+      </visual>
+    </link>
+    <joint name="j_${name}" type="fixed"><parent link="cabinet"/><child link="${name}"/></joint>
+  </xacro:macro>
+
+  <!-- 基台 (チャンネルベース)。base=0 なら描かない -->
+  <xacro:if value="${b &gt; 0}">
+    <xacro:box_part name="plinth" size="${w} ${d} ${b}" xyz="0 0 ${b/2}" mat="dark"/>
+  </xacro:if>
+
+  <!-- 本体の箱。massing と同寸 (これが非表示になった massing の代わりに立つ) -->
+  <xacro:box_part name="body" size="${w} ${d} ${h}" xyz="0 0 ${zc}" mat="beige"/>
+
+  <!-- 扉板: 前面から一段浮かせ、周囲に見切りの隙間。ハンドルは吊元の反対側 -->
+  <xacro:macro name="leaf" params="tag x lw hx">
+    <xacro:box_part name="door_${tag}" size="${lw} ${leaf_t} ${h - 2*gap}"
+                    xyz="${x} ${face} ${zc}" mat="beige"/>
+    <xacro:box_part name="handle_${tag}" size="0.025 0.016 0.14"
+                    xyz="${hx} ${face - leaf_t/2 - 0.008} ${zc}" mat="dark"/>
+  </xacro:macro>
+
+  <xacro:if value="${w &lt; 1.0}">
+    <!-- 片扉: 右吊元、ハンドルは左寄り -->
+    <xacro:leaf tag="s" x="0" lw="${w - 2*gap}" hx="${-(w/2 - gap - 0.05)}"/>
+  </xacro:if>
+  <xacro:if value="${w &gt;= 1.0}">
+    <!-- 両扉: 中央で見合い、ハンドルは見合いの両側 -->
+    <xacro:property name="lw" value="${(w - 3*gap)/2}"/>
+    <xacro:leaf tag="l" x="${-(gap/2 + lw/2)}" lw="${lw}" hx="${-(gap/2 + 0.05)}"/>
+    <xacro:leaf tag="r" x="${gap/2 + lw/2}" lw="${lw}" hx="${gap/2 + 0.05}"/>
+  </xacro:if>
+</robot>
