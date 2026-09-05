@@ -1,0 +1,54 @@
+{
+  "reference_product": "Schmalz ECBPi 12 24V-DC M12-8, 10.03.01.00314",
+  "candidate_revision": "r2",
+  "checked_at": "2026-09-05",
+  "sources": {
+    "product": "https://www.schmalz.com/en/products/automation-743270/vacuum-generators-307617/electric-vacuum-generators-738973/electric-vacuum-generators-end-of-arm-739374/vacuum-generators-ecbpi-308294/10.03.01.00314",
+    "datasheet": "https://media.schmalz.com/MAM_Library/Dokumente/Datenblatt_Artikel/1/100/10030100314/bf3c0b7678f4_Datasheet_Article_10.03.01.00314_en-EN.pdf",
+    "drawing_location": "Article data sheet page 1: Design data; mass on page 2",
+    "photo": "https://media.schmalz.com/MAM_Library/Products/Artikelbilder/10/1003/100301/10030100314/c70370bf0641_10030100314_02.jpg"
+  },
+  "published_values": {
+    "pump_circumscribed_diameter_mm": 151.5,
+    "pump_height_mm": 88.6,
+    "end_effector_boss_diameter_mm": 76,
+    "mount_thread": "M4 female",
+    "mount_pitch_diameter_mm": 46,
+    "mount_thread_depth_mm": 6,
+    "pump_mass_kg": 0.775,
+    "suction_rate_lpm": 12,
+    "max_vacuum_mbar": 750
+  },
+  "drawing_read_values": {
+    "mount_hole_count": 4,
+    "mount_holes_mm": [[23, 0], [0, 23], [-23, 0], [0, -23]],
+    "boss_location": "D2=76 on end-effector side, opposite the four-hole robot-side mounting face"
+  },
+  "photo_inferred": {
+    "housing": "rounded triangular body, off-white shell with three blue corner covers",
+    "details": "loft profile, seams, panel/display/buttons, bayonet lugs and M12 exterior",
+    "materials": "PBR values authored, not measured; no manufacturer logos or labels copied"
+  },
+  "authored_fixture_not_manufacturer_product": {
+    "description": "legacy 110 mm circular holder and four 40 mm hollow bellows cups; not a Schmalz VEE kit",
+    "holder_mass_kg": 0.25,
+    "cup_center_pcd_mm": 66,
+    "cup_height_mm": 22,
+    "tcp_z_mm": 118,
+    "reason": "preserve the existing four-cup task configuration while improving the reference pump and cup surfaces"
+  },
+  "intentional_revision_changes": [
+    "legacy three-hole mount corrected to the four-hole layout shown in the public drawing",
+    "D2 boss moved from robot-side to end-effector-side",
+    "pump mass 0.750 -> 0.775 kg; fixture estimate unchanged, total 1.025 kg",
+    "old three-hole flange-plate-ecbpi/r1 compatibility is not carried over",
+    "legacy 10 kg payload metadata omitted: pump load limits do not certify the authored holder"
+  ],
+  "mass_properties": "legacy approximate center and diagonal inertia scaled by total mass ratio; not measured",
+  "simulation_limits": [
+    "zero DOF; cup compression, vacuum flow and seals not simulated",
+    "ten primitive collision proxies; mounting holes and hollow cup interiors are visual-only",
+    "no manufacturer-certified flange compatibility or real-hardware acceptance"
+  ],
+  "copyright": "No manufacturer photos, drawings, CAD or logo assets redistributed; independently authored geometry."
+}

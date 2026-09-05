@@ -1,0 +1,130 @@
+{
+  "schema_version": "0.1",
+  "package_id": "livox/mid/mid-360/r2",
+  "checked_at": "2026-09-05T02:20:19.529611Z",
+  "level": "V2",
+  "checks": [
+    {
+      "name": "glb",
+      "status": "pass",
+      "detail": "visual/model.glb"
+    },
+    {
+      "name": "thumbnail",
+      "status": "pass",
+      "detail": "previews/thumbnail.webp"
+    },
+    {
+      "name": "dof",
+      "status": "pass",
+      "detail": "0 actuated joint(s)"
+    },
+    {
+      "name": "joint_limits",
+      "status": "skip",
+      "detail": "specs.joint_limits_deg not declared"
+    },
+    {
+      "name": "reach",
+      "status": "skip",
+      "detail": "specs.reach_mm not declared"
+    },
+    {
+      "name": "stroke",
+      "status": "skip",
+      "detail": "specs.stroke_mm not declared"
+    },
+    {
+      "name": "collision_meshes",
+      "status": "skip",
+      "detail": "no mesh collisions in model"
+    },
+    {
+      "name": "visual_meshes",
+      "status": "pass",
+      "detail": "46 mesh(es) resolve, 46 normalized"
+    },
+    {
+      "name": "licenses",
+      "status": "pass",
+      "detail": "50 file(s) mapped"
+    },
+    {
+      "name": "flange_pose",
+      "status": "skip",
+      "detail": "no flange_frame declared"
+    },
+    {
+      "name": "frames_usd_safe",
+      "status": "pass",
+      "detail": "all frame names are USD-safe"
+    },
+    {
+      "name": "floating_root",
+      "status": "pass",
+      "detail": "no floating/planar joints"
+    },
+    {
+      "name": "locomotion",
+      "status": "skip",
+      "detail": "no locomotion block"
+    },
+    {
+      "name": "uav",
+      "status": "skip",
+      "detail": "not a vehicle.uav package"
+    },
+    {
+      "name": "camera",
+      "status": "skip",
+      "detail": "not a sensor.camera package"
+    },
+    {
+      "name": "lidar",
+      "status": "pass",
+      "detail": "1 scan frame(s), 360.0° sweep, 100.0–40000.0 mm"
+    },
+    {
+      "name": "multifinger",
+      "status": "skip",
+      "detail": "not a gripper.multifinger package"
+    },
+    {
+      "name": "electrical",
+      "status": "skip",
+      "detail": "no electrical section"
+    },
+    {
+      "name": "botrail_load_urdf",
+      "status": "pass",
+      "detail": "dof=0, limits consistent"
+    },
+    {
+      "name": "botrail_load_usd",
+      "status": "pass",
+      "detail": "dof=0, limits consistent"
+    },
+    {
+      "name": "joint_sweep",
+      "status": "pass",
+      "detail": "0 joint(s) x 5 steps"
+    },
+    {
+      "name": "fk_consistency",
+      "status": "pass",
+      "detail": "max FK position error 9.33e-12 m over 3 link(s)"
+    },
+    {
+      "name": "self_collision",
+      "status": "pass",
+      "detail": "no self-collision at neutral pose"
+    },
+    {
+      "name": "gait_walk",
+      "status": "skip",
+      "detail": "no locomotion block"
+    }
+  ],
+  "builder_version": "0.1.0",
+  "botrail_version": "0.6.0"
+}

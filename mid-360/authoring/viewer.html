@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="ja">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>自作モデル — r2 外形改善版</title>
+<style>
+body { margin: 0; font: 15px system-ui, sans-serif; background: #e9edf1; color: #233340; }
+canvas { display: block; }
+header { position: fixed; top: 24px; left: 28px; pointer-events: none; }
+h1 { margin: 0 0 8px; font-size: 24px; }
+p { margin: 6px 0; font-size: 13px; }
+footer { position: fixed; bottom: 24px; left: 28px; background: #fffffff0; border-radius: 8px; padding: 15px; }
+button { padding: 7px 14px; margin-right: 7px; cursor: pointer; }
+</style>
+<header><h1 id="name">外形改善版</h1><p id="dimensions"></p>
+<p>公表寸法・写真を参考にした独自著作。r2 候補／未公開。CAD 複製ではありません。</p></header>
+<footer><button data-view="iso">斜視</button><button data-view="side">側面</button>
+<button data-view="top">上面</button><button data-view="bottom">取付面</button>
+<p>部品輪郭・表面仕上げ・慣性は近似。ねじ山・光学系・吸着変形は再現していません。</p></footer>
+<script type="importmap">{"imports":{
+  "three":"./node_modules/three/build/three.module.js",
+  "three/addons/":"./node_modules/three/examples/jsm/"
+}}</script>
+<script type="module">
+import * as THREE from "three";
+import { OrbitControls } from "three/addons/controls/OrbitControls.js";
+import { RoomEnvironment } from "three/addons/environments/RoomEnvironment.js";
+import { definition } from "./model.mjs";
+const d = definition(), mid = d.slug === "mid-360";
+document.querySelector("#name").textContent = mid ? "Livox Mid-360 — 外形改善版" : "Schmalz ECBPi — 外形改善版";
+document.querySelector("#dimensions").textContent = mid
+  ? "本体 65 × 65 × 60 mm ／ コネクタ込み 73 mm ／ 265 g"
+  : "本体 D 151.5 × L 88.6 mm ／ 4-M4・PCD 46 mm ／ 自作4カップホルダ付き";
+const renderer = new THREE.WebGLRenderer({ antialias: true });
+renderer.setPixelRatio(Math.min(devicePixelRatio, 2)); renderer.setSize(innerWidth, innerHeight);
+renderer.toneMapping = THREE.ACESFilmicToneMapping; renderer.toneMappingExposure = 1.1;
+renderer.shadowMap.enabled = true; renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+document.body.prepend(renderer.domElement);
+const scene = new THREE.Scene(); scene.background = new THREE.Color(0xe9edf1);
+scene.environment = new THREE.PMREMGenerator(renderer).fromScene(new RoomEnvironment(), 0.04).texture;
+scene.environmentIntensity = 0.8; scene.add(d.body);
+const bounds = new THREE.Box3().setFromObject(d.body), size = bounds.getSize(new THREE.Vector3());
+const center = bounds.getCenter(new THREE.Vector3()), span = Math.max(...size.toArray());
+const camera = new THREE.PerspectiveCamera(32, innerWidth / innerHeight, span / 100, span * 100);
+camera.up.set(0, 0, 1);
+const controls = new OrbitControls(camera, renderer.domElement); controls.target.copy(center);
+const light = new THREE.DirectionalLight(0xffffff, 1.8);
+light.position.set(span * 2, -span * 2, span * 5); light.castShadow = true;
+light.shadow.mapSize.set(2048, 2048); light.shadow.normalBias = span * 0.002;
+Object.assign(light.shadow.camera, { left: -span, right: span, top: span, bottom: -span,
+  near: span / 100, far: span * 15 }); scene.add(light);
+scene.add(new THREE.HemisphereLight(0xffffff, 0x697c8b, 0.8));
+d.body.traverse(m => { if (m.isMesh) { m.castShadow = true; m.receiveShadow = true; } });
+const floor = new THREE.Mesh(new THREE.PlaneGeometry(span * 20, span * 20), new THREE.ShadowMaterial({ opacity: 0.12 }));
+floor.position.z = bounds.min.z - span * 0.01; floor.receiveShadow = true; scene.add(floor);
+function view(name) {
+  const vectors = { iso: mid ? [-2.2, -3, 2.1] : [2.4, -3, 2.1], side: [0, -4, 0.15],
+    top: [0, -0.001, 4], bottom: [0.3, -0.6, -4] };
+  floor.visible = name !== "bottom";
+  light.position.set(span * 2, -span * 2, span * (name === "bottom" ? -1 : 5));
+  camera.position.copy(center).add(new THREE.Vector3(...vectors[name]).multiplyScalar(span)); controls.update();
+}
+for (const b of document.querySelectorAll("button")) b.onclick = () => view(b.dataset.view);
+view("iso");
+addEventListener("resize", () => { renderer.setSize(innerWidth, innerHeight);
+  camera.aspect = innerWidth / innerHeight; camera.updateProjectionMatrix(); });
+renderer.setAnimationLoop(() => renderer.render(scene, camera));
+window.authoredModel = { ready: true, scene, renderer, view };
+</script>
+</html>

@@ -1,5 +1,10 @@
 # flange-plate-ecbpi
 
+**取付仕様の訂正 (2026-09-05)**: 現行 ECBPi の公式寸法図は **4-M4 / PCD 46 mm**。
+この旧モデルは3穴であり、実機への適合を保証しない。
+[ECBPi r2 候補の調査記録](../vacuum-gripper-ecbpi/authoring/README.md) を参照。
+公開済み r1 の再現用に形状は維持するが、新しい4穴 ECBPi モデルとの互換は主張しない。
+
 ロボットフランジ (ISO 9409-1-50-4-M6) と Schmalz CobotPump ECBPi を繋ぐ
 アダプタプレートの自作アセット。CC0-1.0。
 

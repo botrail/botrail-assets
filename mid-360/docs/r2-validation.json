@@ -1,0 +1,43 @@
+{
+  "product": "mid-360",
+  "mass_kg": 0.264999986,
+  "bounds_mm": [
+    [
+      -40.5,
+      -32.5,
+      0.0
+    ],
+    [
+      32.5,
+      32.5,
+      60.0
+    ]
+  ],
+  "triangles": 29124,
+  "frame": "livox_frame",
+  "frame_z_mm": 47.0,
+  "mount_hole_depths_mm": [
+    4.999999888241291,
+    4.999999888241291,
+    4.999999888241291,
+    4.999999888241291
+  ],
+  "locating_hole_depths_mm": [
+    1.7999999690800905,
+    1.7999999690800905
+  ],
+  "usd": {
+    "usda": {
+      "visual_meshes": 46,
+      "materials": 5,
+      "collision_primitives": 3
+    },
+    "usdc": {
+      "visual_meshes": 46,
+      "materials": 5,
+      "collision_primitives": 3
+    }
+  },
+  "usdc_sha256": "3c91a8a56ae48372827b5d4c19fedf5ead0bb385f360f3f9e33c5a97d1e9a530",
+  "limits": "authored geometry only; no measured inertia, thread fit, optics or suction physics"
+}

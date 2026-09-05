@@ -1,5 +1,10 @@
 # vacuum-gripper-ecbpi
 
+**外形改善版 r2 候補**: [authoring/README.md](authoring/README.md)。
+公式の現行図面は **4-M4 / PCD 46 mm**、本体質量は **775 g**。
+以下にある旧 r1 の「3穴」「750 g」は改善版には採用しない。
+旧 URDF/STL は再現用に残しており、r1 の3穴アダプタは r2 と非互換。
+
 コボット向け電動真空グリッパの自作アセット。CC0-1.0。
 
 カタログに `gripper.vacuum` カテゴリのモデルが 1 つも無かったのを埋めるために著作した。

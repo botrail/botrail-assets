@@ -1,0 +1,14 @@
+{
+  "name": "mid-360-authoring",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "export": "node export.mjs",
+    "test": "node model.test.mjs",
+    "view": "python3 -m http.server 8733 --bind 127.0.0.1"
+  },
+  "dependencies": {
+    "three": "0.185.1",
+    "three-usd-robot": "0.11.0"
+  }
+}

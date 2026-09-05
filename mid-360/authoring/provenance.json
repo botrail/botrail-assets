@@ -1,0 +1,46 @@
+{
+  "model": "Livox Mid-360",
+  "candidate_revision": "r2",
+  "checked_at": "2026-09-05",
+  "sources": {
+    "product": "https://www.livoxtech.com/mid-360",
+    "specifications": "https://www.livoxtech.com/mid-360/specs",
+    "drawing": "https://dl.djicdn.com/downloads/Livox/Mid-360/QSG/Livox_Mid-360_Quick_Start_Guide_multi.pdf",
+    "drawing_location": "Quick Start Guide v1.8, PDF page 6 / printed page 5"
+  },
+  "published_values": {
+    "body_dimensions_mm": [65, 65, 60],
+    "mass_kg": 0.265,
+    "fov_horizontal_vertical_deg": [360, 59]
+  },
+  "drawing_read_values": {
+    "connector_inclusive_extent_mm": 73,
+    "base_height_mm": 39.5,
+    "point_cloud_origin_height_mm": 47,
+    "connector_height_mm": 16,
+    "mount": "4-M3, depth 5 mm, rectangular pitch 48 x 36 mm",
+    "locators": "diameter/width 3 mm, depth 1.8 mm, spacing 39 mm"
+  },
+  "authored_approximations": {
+    "cooling_fins": "11 ribs on each side, rounded profile fitted inside 65 mm envelope",
+    "dome": "smooth ellipsoidal profile; optical properties and exact profile are not measured",
+    "locating_slot": "3 mm width, 4.4 mm overall length inferred; length is not dimensioned",
+    "mount_threads": "plain blind bores at nominal thread diameter; no thread/tolerance simulation",
+    "connector": "M12-like exterior with 12 illustrative contacts, not an electrical pinout",
+    "materials": "photo-informed colors and authored PBR parameters, no measured optical response"
+  },
+  "frames": {
+    "mount": "bottom center, Z into sensor; existing catalog convention retained",
+    "connector_direction": "-X in the catalog frame",
+    "livox_frame_m": [0, 0, 0.047],
+    "mount_holes_mm": [[-24, -18], [-24, 18], [24, -18], [24, 18]],
+    "locating_holes_mm": [[0, -19.5], [0, 19.5]]
+  },
+  "mass_properties": "legacy homogeneous-envelope approximation retained; no measured center of mass or inertia",
+  "simulation_limits": [
+    "three analytic collision proxies; small mounting bores are visual-only",
+    "no internal scan mechanism or optical simulation",
+    "thermal clearance is a mounting requirement, not a 10 mm displacement of the root frame"
+  ],
+  "copyright": "Independently authored. No vendor photographs, dimension drawings or CAD redistributed."
+}

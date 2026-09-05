@@ -1,5 +1,9 @@
 # mid-360
 
+**外形改善版 r2 候補**: [authoring/README.md](authoring/README.md)。
+新しい USD は取付盲穴、放熱フィン、光学ドーム、5 材質を持つ。
+以下は旧 r1 の記録。旧 URDF/STL は再現用に変更していない。
+
 小型 3D LiDAR (Livox Mid-360 フォームファクタ) の自作マッシングモデル (CC0-1.0)。
 
 > **Livox の CAD ではない。** 公式 STEP (mid-360-asm.stp) は公式サイトから

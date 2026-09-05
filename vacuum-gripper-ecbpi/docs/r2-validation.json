@@ -1,0 +1,51 @@
+{
+  "product": "vacuum-gripper-ecbpi",
+  "mass_kg": 1.02499998,
+  "bounds_mm": [
+    [
+      -70.62267,
+      -59.45,
+      0.0
+    ],
+    [
+      70.62267,
+      75.75,
+      118.0
+    ]
+  ],
+  "triangles": 22152,
+  "frame": "tcp",
+  "frame_z_mm": 118.0,
+  "mount_hole_depths_mm": [
+    6.000000052154066,
+    6.000000052154066,
+    6.000000052154066,
+    6.000000052154066
+  ],
+  "cup_mouth_first_surface_mm": [
+    96.00000083446503,
+    96.00000083446503,
+    96.00000083446503,
+    96.00000083446503
+  ],
+  "sealing_lip_z_mm": [
+    118.00000071525574,
+    118.00000071525574,
+    118.00000071525574,
+    118.00000071525574
+  ],
+  "usd": {
+    "usda": {
+      "visual_meshes": 27,
+      "materials": 8,
+      "collision_primitives": 10
+    },
+    "usdc": {
+      "visual_meshes": 27,
+      "materials": 8,
+      "collision_primitives": 10
+    }
+  },
+  "usdc_sha256": "2d96705a563cb575416dd73f6251974ac71941b940450d4c2ee9a55823ec8e0a",
+  "limits": "authored geometry only; no measured inertia, thread fit, optics or suction physics"
+}
