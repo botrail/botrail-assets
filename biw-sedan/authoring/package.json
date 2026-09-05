@@ -8,8 +8,9 @@
     "view": "python3 -m http.server 8731"
   },
   "dependencies": {
-    "three": "^0.185.1",
-    "three-usd-robot": "^0.11.0"
+    "three": "0.185.1",
+    "three-usd-robot": "0.11.0",
+    "@botrail/authoring": "file:../../authoring"
   },
   "devDependencies": {
     "tsx": "^4.0.0"

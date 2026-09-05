@@ -74,10 +74,30 @@ fromMillimeters(body);
 
 ## 出力互換とrev
 
-共通化時に3モデルすべての再生成USDが既存ソースとバイト一致することを確認した。
-USD/URDF/STL、製品寸法、材質パラメータ、関節、公開レシピの取得SHAは変更しない。
-したがって、この著作コードの整理だけでは新しい製品revを切らない。
+著作コードの整理だけで再生成USDがバイト一致する場合は、新しい製品revは不要。
+形状・材質・法線等の出力が変わる場合は、新revとして配布する。
 
 今後、形状や出力が意図的に変わる場合は、差分・出典・検証結果を確認して新revとして
 生成物を更新する。同じrevを公開したSHAへ後付けで差し替えない。
 共通化のテストは実機適合、ねじはめあい、吸着・光学・接触性能の検証ではない。
+
+## 共通の著作表示
+
+`display.mjs`はZ-up・m単位の表示プリセット`neutral-studio-v1`。
+Three.js 0.185.1、ACES Filmic、露出1.0、環境反射0.75、白色平行光1.75、
+半球光0.5、2k PCF Soft影を使う。外部HDR画像は不要で、モデルの材質値は変更しない。
+
+```js
+import { mountAuthoring } from "@botrail/authoring/viewer.mjs";
+import { definition } from "./model.mjs";
+mountAuthoring(definition().body);
+```
+
+既存のHTMLに斜視・側面・上面・底面ボタンがある場合はその操作を接続できる。
+細かい画面構成が必要なら`createDisplayRig(renderer, scene)`と
+`frameCamera(camera, bounds)`を直接使う。比較時は全形式に同じ包絡とカメラを使う。
+カタログビューアもこのプリセットを使うが、既存のプレビュー画像の照明は自動更新されない。
+
+`exportFixedModel`は損失のある出力警告をエラーにする。
+複数材質を持つMeshは、頂点法線を保持した材質別Meshへ分けてから渡す。
+材質名が出力USDのどこかに存在するだけでは、正しい面への割当てを保証しない。

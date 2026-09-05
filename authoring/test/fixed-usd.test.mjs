@@ -46,3 +46,10 @@ test("reserved frame names and duplicate collision names are rejected", () => {
   delete d.frames.mount; d.collisions[1].name = "base";
   assert.throws(() => exportFixedModel(d), /Duplicate collision/);
 });
+
+test("first-material-only exports fail instead of silently losing paint sectors", () => {
+  const d = fixture();
+  d.body.children[0].material = [new THREE.MeshStandardMaterial({ color: "white" }),
+    new THREE.MeshStandardMaterial({ color: "blue" })];
+  assert.throws(() => exportFixedModel(d), /Lossy fixed-model export:.*multi-material/);
+});

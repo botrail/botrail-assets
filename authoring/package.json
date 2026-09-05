@@ -4,11 +4,13 @@
   "private": true,
   "type": "module",
   "license": "CC0-1.0",
-  "files": ["geometry.mjs", "fixed-usd.mjs", "cli.mjs", "README.md", "LICENSE"],
+  "files": ["geometry.mjs", "fixed-usd.mjs", "cli.mjs", "display.mjs", "viewer.mjs", "README.md", "LICENSE"],
   "exports": {
     "./geometry.mjs": "./geometry.mjs",
     "./fixed-usd.mjs": "./fixed-usd.mjs",
-    "./cli.mjs": "./cli.mjs"
+    "./cli.mjs": "./cli.mjs",
+    "./display.mjs": "./display.mjs",
+    "./viewer.mjs": "./viewer.mjs"
   },
   "scripts": {
     "test": "node --test test/*.test.mjs",

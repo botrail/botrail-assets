@@ -12,40 +12,40 @@
 <div id="hud">loading…</div>
 <script type="importmap">
 { "imports": {
-    "three": "https://esm.sh/three@0.185.1",
-    "three/addons/": "https://esm.sh/three@0.185.1/examples/jsm/"
+    "three": "./node_modules/three/build/three.module.js",
+    "@botrail/authoring/": "./node_modules/@botrail/authoring/",
+    "three/addons/": "./node_modules/three/examples/jsm/"
 } }
 </script>
 <script type="module">
   import * as THREE from "three";
   import { OrbitControls } from "three/addons/controls/OrbitControls.js";
+  import { createDisplayRig, DISPLAY_PROFILE, prepareVisuals, frameCamera } from "@botrail/authoring/display.mjs";
   import { buildPanels, buildPieces, buildVisualMeshes } from "./biw.mjs";
 
   const scene = new THREE.Scene();
-  scene.background = new THREE.Color(0x14171c);
-  const camera = new THREE.PerspectiveCamera(38, innerWidth / innerHeight, 0.05, 100);
+
+  const camera = new THREE.PerspectiveCamera(DISPLAY_PROFILE.fov, innerWidth / innerHeight, 0.05, 100);
   camera.position.set(4.6, -4.2, 2.6);
   camera.up.set(0, 0, 1); // Z-up, like the catalog
   const renderer = new THREE.WebGLRenderer({ antialias: true });
   renderer.setSize(innerWidth, innerHeight);
-  renderer.setPixelRatio(devicePixelRatio);
+  renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
+  const display = createDisplayRig(renderer, scene);
   document.body.appendChild(renderer.domElement);
   const controls = new OrbitControls(camera, renderer.domElement);
   controls.target.set(0, 0, 0.6);
 
-  scene.add(new THREE.HemisphereLight(0xdfe8f5, 0x30343c, 1.5));
-  const key = new THREE.DirectionalLight(0xffffff, 2.2);
-  key.position.set(3, -4, 6);
-  scene.add(key);
-  const grid = new THREE.GridHelper(8, 16, 0x39404d, 0x252a33);
-  grid.rotation.x = Math.PI / 2;
-  scene.add(grid);
+
 
   const panels = buildPanels();
   const pieces = buildPieces(panels);
   const { skin } = buildVisualMeshes(panels);
   const structure = skin; // single shell; [t] kept as a no-op toggle
   scene.add(skin);
+  prepareVisuals(skin);
+  const bounds = new THREE.Box3().setFromObject(skin);
+  display.fit(bounds); controls.target.copy(frameCamera(camera, bounds)); controls.update();
 
   // collision compound, shown as wireframe so the openings are checkable
   const collision = new THREE.Group();
@@ -83,6 +83,7 @@
     renderer.setSize(innerWidth, innerHeight);
   });
 
+  window.authoredModel = { ready: true, renderer, scene, camera, profile: DISPLAY_PROFILE.id };
   (function loop() {
     requestAnimationFrame(loop);
     controls.update();

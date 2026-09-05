@@ -45,11 +45,18 @@ test("actual white/blue material split, new pump mass and legacy task TCP", () =
   assert.ok(Math.abs(d.inertial.mass - 1.025) < 1e-10);
   assert.equal(DIM.pumpMass, 0.775); assert.equal(d.collisions.length, 10);
   const shell = d.body.getObjectByName("trilobe_shell");
-  assert.equal(shell.material.length, 2);
-  assert.ok(shell.geometry.groups.some(g => g.materialIndex === 1));
+  assert.equal(shell.children.length, 2);
+  assert.deepEqual(shell.children.map(m => m.name), ["trilobe_shell_white", "trilobe_shell_blue"]);
+  assert.ok(shell.children.every(m => !Array.isArray(m.material) && m.geometry.index.count > 0));
 });
-test("USD export is deterministic with analytic collisions and material subsets", () => {
+test("USD export keeps BOTH shell colours, normals and analytic collisions", () => {
   const usd = exportModel(); assert.equal(usd, exportModel());
   assert.ok(usd.includes("blue_corner_cover")); assert.ok(usd.includes("normals"));
+  for (const name of ["trilobe_shell_white", "trilobe_shell_blue"]) {
+    const start = usd.indexOf(`def Mesh "${name}"`);
+    assert.ok(start >= 0, name);
+    const mesh = usd.slice(start, usd.indexOf("\n        }", start));
+    assert.ok(mesh.includes(name.endsWith("blue") ? "blue_corner_cover" : "off_white_polymer"), name);
+  }
   assert.equal((usd.match(/"PhysicsCollisionAPI"/g) ?? []).length, 10);
 });

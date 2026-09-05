@@ -37,7 +37,9 @@ function validate(d) {
 
 export function exportFixedModel(d) {
   validate(d);
-  const builder = new RobotBuilder({ name: d.name });
+  const builder = new RobotBuilder({ name: d.name, onWarn: message => {
+    throw new Error(`Lossy fixed-model export: ${message}`);
+  } });
   builder.addLink({ name: "mount" });
   builder.addLink({ name: "body", visuals: [d.body], inertial: d.inertial });
   builder.addFixedJoint({ name: "root_joint", child: "mount" });

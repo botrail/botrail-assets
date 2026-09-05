@@ -49,7 +49,8 @@ function shellGeometry() {
     const a = i / n * Math.PI * 2, r = radius(a, max);
     vertices.push(r * Math.cos(a), r * Math.sin(a), z);
   }
-  // Separate color sectors in a single geometry, exported with material subsets.
+  // Keep sector normals shared, then split into TWO material meshes below.
+  // RobotBuilder 0.11 exports only the first material of a multi-material mesh.
   const geo = new THREE.BufferGeometry();
   for (let k = 0; k < stations.length - 1; k++) for (let i = 0; i < n; i++) {
     const j = k * (n + 1) + i, offset = indices.length;
@@ -75,8 +76,15 @@ export function buildVisuals() {
     { depth: 6, bevelEnabled: false, curveSegments: 24 }), "white");
   add(pump, "blind_bore_back", new THREE.ExtrudeGeometry(trilobe(69),
     { depth: 0.5, bevelEnabled: false }), "white", [0, 0, 6]);
-  const shell = new THREE.Mesh(shellGeometry(), [MATERIALS.white, MATERIALS.blue]);
-  shell.name = "trilobe_shell"; pump.add(shell);
+  const shell = new THREE.Group(); shell.name = "trilobe_shell"; pump.add(shell);
+  const surface = shellGeometry();
+  for (const [materialIndex, name] of ["white", "blue"].entries()) {
+    const indices = surface.groups.filter(g => g.materialIndex === materialIndex)
+      .flatMap(g => Array.from(surface.index.array.slice(g.start, g.start + g.count)));
+    const sector = surface.clone(); sector.clearGroups(); sector.setIndex(indices);
+    // Do not recompute normals at the paint boundary.
+    add(shell, `trilobe_shell_${name}`, sector, name);
+  }
   add(pump, "top_shoulder", new THREE.ExtrudeGeometry(trilobe(58),
     { depth: 0.7, bevelEnabled: false }), "white", [0, 0, 75.3]);
   // D2=76 is the end-effector-side bayonet boss, not the robot mounting face.
