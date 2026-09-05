@@ -1,0 +1,58 @@
+{
+  "model": "HERON DB6-075-X16005-00",
+  "candidate_revision": "r4",
+  "checked_at": "2026-09-05",
+  "units": "mm unless stated otherwise",
+  "sources": {
+    "product": "https://heron-welder.com/x-type-robotic-welding-gun-with-servo-actuator/",
+    "manufacturer_catalog": "https://heron-spotwelding.com/products/2020-catalogue.pdf",
+    "catalog_location": "PDF page 7, printed pages 09-10; photograph labeled DB6-075-X16005"
+  },
+  "published": {
+    "length_height_width_mm": [1161, 532, 302],
+    "throat_depth_width_mm": [384, 160],
+    "gross_mass_kg": 95.5,
+    "transformer_kva": 75,
+    "max_short_circuit_current_ka": 20,
+    "max_electrode_force_n": 3900,
+    "arm_carrier_material": "aviation aluminum",
+    "opening_or_stroke_mm": 179
+  },
+  "photo_inferred": {
+    "primary_layout": "large-window aluminum carrier, elongated rear mounting fork, upper-rear transformer, lower-rear servo, curved conductive electrode extensions",
+    "not_dimensioned": [
+      "component positions and sizes", "window shape and radius", "plate thickness",
+      "conductor radius and curvature", "fastener count and locations", "hose routes"
+    ],
+    "finish": "qualitative aluminum, copper, brass, steel, blue cover, black servo and yellow coolant hose; PBR numbers are authored, not measured"
+  },
+  "legacy_compatibility_not_vendor_geometry": {
+    "mount": "origin at the legacy bottom attachment face, +Z into the tool; proxy disc radius 85 mm",
+    "fixed_tcp_m": [0.537, 0.0, 0.360],
+    "pivot_m": [0.115, 0.0, 0.335],
+    "joint_axis": [0, -1, 0],
+    "joint_range_rad": [0, 0.446],
+    "joint_velocity_rad_s": 1.2,
+    "closed_clearance_mm": 5,
+    "electrode_cap": "legacy 16 x 20 mm F-style exterior with R40 dome; no manufacturer cap type or internal interface verified"
+  },
+  "derived_approximations": {
+    "mass_split_kg": {"body": 78.5, "electrode_arm": 17},
+    "inertia": "group-mass-weighted component bounding boxes; diagonal approximation, not measured mass properties",
+    "closed_envelope_pose": "legacy zero pose with a 5 mm gap; source envelope measurement pose is not specified",
+    "joint_effort_nm": 1650
+  },
+  "missing_or_ambiguous": [
+    "manufacturer flange interface, hole pattern and attachment transform: not verified; mounting compatibility is not claimed",
+    "source labels 179 mm as Max Stroke in English but maximum electrode opening in Chinese; legacy stroke convention retained, giving about 184.1 mm full opening",
+    "manufacturer center-of-gravity table has no unambiguous origin/axis diagram; not transformed into the legacy mount frame",
+    "exact motor/transformer part numbers, actuator linkage and hose deformation: not verified"
+  ],
+  "simulation_limits": [
+    "one revolute electrode joint; motor and actuator rod depict the rest pose, not a closed-loop transmission",
+    "hoses attached to each rigid link move rigidly; no cable dynamics or cross-link flex model",
+    "primitive collision proxies preserve the throat but intentionally omit bearing-contact and internal-tail geometry",
+    "no new wrist-load or real-hardware acceptance claim"
+  ],
+  "copyright": "No manufacturer photographs, drawings or CAD meshes are redistributed; geometry is independently authored."
+}

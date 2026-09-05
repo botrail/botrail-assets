@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="ja">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>X16005 — r4 外形改善版</title>
+<style>
+  body { margin: 0; font: 15px system-ui, sans-serif; color: #22313b; background: #e9edf1; }
+  canvas { display: block; }
+  header { position: fixed; top: 20px; left: 24px; pointer-events: none; }
+  h1 { font-size: 22px; margin: 0 0 6px; }
+  header p { margin: 5px 0; font-size: 13px; }
+  footer { position: fixed; bottom: 22px; left: 24px; background: #fffffff0; padding: 15px 20px; border-radius: 8px; }
+  input { width: 250px; vertical-align: middle; }
+  button { margin-left: 10px; padding: 5px 10px; cursor: pointer; }
+  footer p { font-size: 12px; margin: 9px 0 0; color: #586773; }
+</style>
+<header><h1>HERON X16005 — 外形改善版</h1>
+  <p>公表包絡 L 1161 × H 532 × W 302 mm ／ 写真参照による独自著作</p>
+  <p>r4 候補 · 部品寸法・取付インターフェースは近似。未公開。</p>
+</header>
+<footer><label>開閉 <input id="joint" type="range" min="0" max="0.446" step="0.001" value="0"></label>
+  <output id="angle">0.000 rad</output>
+  <button id="side">側面</button><button id="front">正面</button>
+  <button id="top">上面</button><button id="iso">斜視</button>
+  <p>サーボ伝達機構・ホース変形は再現していません。取付寸法・質量特性の実機適合は未確認。</p>
+</footer>
+<script type="importmap">{
+  "imports": {
+    "three": "./node_modules/three/build/three.module.js",
+    "three/addons/": "./node_modules/three/examples/jsm/",
+    "three-usd-robot": "./node_modules/three-usd-robot/dist/index.js",
+    "fflate": "./node_modules/fflate/esm/browser.js"
+  }
+}</script>
+<script type="module">
+  import * as THREE from "three";
+  import { OrbitControls } from "three/addons/controls/OrbitControls.js";
+  import { RoomEnvironment } from "three/addons/environments/RoomEnvironment.js";
+  import { buildVisuals, DIM } from "./model.mjs";
+  const renderer = new THREE.WebGLRenderer({ antialias: true });
+  renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
+  renderer.setSize(innerWidth, innerHeight);
+  renderer.toneMapping = THREE.ACESFilmicToneMapping;
+  renderer.toneMappingExposure = 1.05;
+  renderer.shadowMap.enabled = true;
+  renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+  document.body.prepend(renderer.domElement);
+  const scene = new THREE.Scene();
+  scene.background = new THREE.Color(0xe9edf1);
+  scene.environment = new THREE.PMREMGenerator(renderer).fromScene(new RoomEnvironment(), 0.04).texture;
+  scene.environmentIntensity = 0.75;
+  const camera = new THREE.PerspectiveCamera(32, innerWidth / innerHeight, 0.01, 30);
+  camera.up.set(0, 0, 1);
+  const controls = new OrbitControls(camera, renderer.domElement);
+  controls.target.set(-0.025, 0, 0.26);
+  const setView = (side) => {
+    camera.position.set(...(side ? [-0.025, -2.1, 0.26] : [1.05, -1.85, 1.05]));
+    controls.update();
+  };
+  setView(false);
+  scene.add(new THREE.HemisphereLight(0xffffff, 0x788899, 0.8));
+  const key = new THREE.DirectionalLight(0xffffff, 1.75);
+  key.position.set(-0.4, -1.2, 2.5); key.castShadow = true;
+  key.shadow.mapSize.set(2048, 2048);
+  key.shadow.camera.left = -1.5; key.shadow.camera.right = 1.5;
+  key.shadow.camera.top = 1.5; key.shadow.camera.bottom = -1.5;
+  key.shadow.normalBias = 0.001;
+  scene.add(key);
+  const { body, arm } = buildVisuals();
+  scene.add(body, arm);
+  scene.traverse(o => { if (o.isMesh) { o.castShadow = true; o.receiveShadow = true; } });
+  const floor = new THREE.Mesh(new THREE.PlaneGeometry(10, 10), new THREE.ShadowMaterial({ opacity: 0.14 }));
+  floor.position.z = -0.003; floor.receiveShadow = true; scene.add(floor);
+  const input = document.querySelector("#joint"), output = document.querySelector("#angle");
+  input.addEventListener("input", () => {
+    const q = Number(input.value);
+    arm.matrixAutoUpdate = false;
+    arm.matrix.makeTranslation(...DIM.pivot)
+      .multiply(new THREE.Matrix4().makeRotationY(-q))
+      .multiply(new THREE.Matrix4().makeTranslation(...DIM.pivot.map(v => -v)));
+    output.value = `${q.toFixed(3)} rad`;
+  });
+  document.querySelector("#side").onclick = () => setView(true);
+  document.querySelector("#iso").onclick = () => setView(false);
+  document.querySelector("#front").onclick = () => {
+    camera.position.set(2.1, 0, 0.26); controls.update();
+  };
+  document.querySelector("#top").onclick = () => {
+    camera.position.set(-0.025, -0.001, 2.6); controls.update();
+  };
+  addEventListener("resize", () => {
+    renderer.setSize(innerWidth, innerHeight);
+    camera.aspect = innerWidth / innerHeight; camera.updateProjectionMatrix();
+  });
+  renderer.setAnimationLoop(() => renderer.render(scene, camera));
+  window.x16005 = { renderer, scene, camera, arm, input, ready: true };
+</script>
+</html>

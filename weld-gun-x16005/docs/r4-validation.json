@@ -1,0 +1,102 @@
+{
+  "extent_xyz_mm": [
+    1161.0,
+    302.0,
+    532.0
+  ],
+  "mass_kg": 95.5,
+  "joint_velocity_rad_s": 1.20000001,
+  "tip_travel_mm": {
+    "urdf": 179.09942412487402,
+    "usdc": 179.09942412142078
+  },
+  "usd": {
+    "model.usda": {
+      "visual_meshes": 67,
+      "collision_primitives": 17,
+      "materials": 9
+    },
+    "model.usdc": {
+      "visual_meshes": 67,
+      "collision_primitives": 17,
+      "materials": 9
+    }
+  },
+  "fixed_vs_moving_sweep_samples": 51,
+  "fixed_vs_moving_collisions": 0,
+  "plate_thickness_mm": 1.5,
+  "insertion": [
+    {
+      "q_rad": 0,
+      "depth_mm": 50,
+      "blocked": false
+    },
+    {
+      "q_rad": 0,
+      "depth_mm": 150,
+      "blocked": false
+    },
+    {
+      "q_rad": 0,
+      "depth_mm": 250,
+      "blocked": false
+    },
+    {
+      "q_rad": 0,
+      "depth_mm": 300,
+      "blocked": false
+    },
+    {
+      "q_rad": 0,
+      "depth_mm": 350,
+      "blocked": false
+    },
+    {
+      "q_rad": 0,
+      "depth_mm": 400,
+      "blocked": true
+    },
+    {
+      "q_rad": 0,
+      "depth_mm": 450,
+      "blocked": true
+    },
+    {
+      "q_rad": 0.446,
+      "depth_mm": 50,
+      "blocked": false
+    },
+    {
+      "q_rad": 0.446,
+      "depth_mm": 150,
+      "blocked": false
+    },
+    {
+      "q_rad": 0.446,
+      "depth_mm": 250,
+      "blocked": false
+    },
+    {
+      "q_rad": 0.446,
+      "depth_mm": 300,
+      "blocked": false
+    },
+    {
+      "q_rad": 0.446,
+      "depth_mm": 350,
+      "blocked": false
+    },
+    {
+      "q_rad": 0.446,
+      "depth_mm": 400,
+      "blocked": true
+    },
+    {
+      "q_rad": 0.446,
+      "depth_mm": 450,
+      "blocked": true
+    }
+  ],
+  "usdc_sha256": "437edde76a9551649287496feec1bda259a687c72a5f0f2a5ee6f4c75dffea1b",
+  "limits": "collision proxies only; no bearing contact, internal-tail or flexible-body physics"
+}
