@@ -3,7 +3,8 @@
  * Component positions, holes and finishes are a photo-informed reconstruction.
  */
 import * as THREE from "three";
-import { RoundedBoxGeometry } from "three/addons/geometries/RoundedBoxGeometry.js";
+import { namedMaterial as material, addMesh, roundedBox, cylinderBetween,
+  ellipseHole, tubeGeometry } from "@botrail/authoring/geometry.mjs";
 import { RobotBuilder } from "three-usd-robot";
 
 export const DIM = Object.freeze({
@@ -14,11 +15,6 @@ export const DIM = Object.freeze({
   rear: -0.608, qOpen: 0.446, qSpeed: 1.2, bodyMass: 78.5, armMass: 17,
 });
 const V = (p) => new THREE.Vector3(...p);
-const material = (name, color, metalness, roughness) => {
-  const m = new THREE.MeshStandardMaterial({ color, metalness, roughness });
-  m.name = name;
-  return m;
-};
 export const MATERIALS = {
   aluminum: material("aluminum_frame", 0xc9ced1, 0.72, 0.32),
   copper: material("copper_conductor", 0xb77743, 0.88, 0.28),
@@ -32,30 +28,18 @@ export const MATERIALS = {
 };
 
 function add(group, name, geometry, finish, center = [0, 0, 0], massGroup = "frame") {
-  const mesh = new THREE.Mesh(geometry, MATERIALS[finish]);
-  mesh.name = name;
-  mesh.position.copy(V(center));
-  mesh.userData.massGroup = massGroup;
-  group.add(mesh);
-  return mesh;
+  return addMesh(group, name, geometry, MATERIALS[finish], center, massGroup);
 }
 function box(group, name, size, center, finish = "aluminum", radius = 0.002, massGroup) {
-  return add(group, name, new RoundedBoxGeometry(...size, 2, radius), finish, center, massGroup);
+  return add(group, name, roundedBox(size, radius, 2), finish, center, massGroup);
 }
-function cylinder(group, name, a, b, radius, finish = "steel", radial = 32, massGroup) {
-  const direction = V(b).sub(V(a));
-  const mesh = add(group, name,
-    new THREE.CylinderGeometry(radius, radius, direction.length(), radial), finish,
-    V(a).add(V(b)).multiplyScalar(0.5).toArray(), massGroup);
-  mesh.quaternion.setFromUnitVectors(new THREE.Vector3(0, 1, 0), direction.normalize());
-  return mesh;
+function cylinder(group, name, a, b, radius, finish = "steel", radial = 32, massGroup = "frame") {
+  return cylinderBetween(group, name, a, b, radius, MATERIALS[finish], { radial, massGroup });
 }
 function plate(group, name, outline, holes, y, thickness, finish = "aluminum") {
   const shape = new THREE.Shape(outline.map(([x, z]) => new THREE.Vector2(x, z)));
   for (const [x, z, rx, rz = rx] of holes) {
-    const hole = new THREE.Path();
-    hole.absellipse(x, z, rx, rz, 0, 2 * Math.PI, true);
-    shape.holes.push(hole);
+    ellipseHole(shape, x, z, rx, rz);
   }
   const geometry = new THREE.ExtrudeGeometry(shape, {
     depth: thickness - 0.003, bevelEnabled: true, bevelThickness: 0.0015,
@@ -66,8 +50,7 @@ function plate(group, name, outline, holes, y, thickness, finish = "aluminum") {
   return add(group, name, geometry, finish);
 }
 function tube(group, name, points, radius, finish = "water", massGroup = "services") {
-  const path = new THREE.CatmullRomCurve3(points.map(V), false, "centripetal");
-  return add(group, name, new THREE.TubeGeometry(path, 40, radius, 12, false), finish,
+  return add(group, name, tubeGeometry(points, radius), finish,
     [0, 0, 0], massGroup);
 }
 function conductor(group, name, z, upward) {

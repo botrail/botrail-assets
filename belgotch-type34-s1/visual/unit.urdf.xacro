@@ -1,0 +1,43 @@
+<?xml version="1.0"?>
+<!-- CC0. Floor center, +X transport, +Z up. Standard flat belt, no raised guards.
+     34 mm aluminum frame / machine width B+40 / 169 mm drive depth are source facts.
+     Motor housing, fixings and drive longitudinal placement are inferred. -->
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="belgotch-type34-s1-unit">
+  <xacro:include filename="../../equipment-common/visual/primitives.xacro"/>
+  <xacro:arg name="length" default="2.0"/><xacro:arg name="width" default="0.3"/>
+  <xacro:arg name="height" default="0.75"/>
+  <xacro:property name="l" value="$(arg length)"/><xacro:property name="w" value="$(arg width)"/>
+  <xacro:property name="h" value="$(arg height)"/>
+  <xacro:property name="bw" value="${w-(0.010 if l &gt; 4.0 or w &gt;= 0.5 else 0.005)}"/>
+  <material name="aluminum"><color rgba="0.66 0.69 0.71 1"/></material>
+  <material name="belt"><color rgba="0.015 0.19 0.14 1"/></material>
+  <material name="slot"><color rgba="0.16 0.18 0.19 1"/></material>
+  <material name="drive"><color rgba="0.57 0.59 0.56 1"/></material>
+  <material name="motor"><color rgba="0.23 0.25 0.27 1"/></material>
+  <link name="root"/>
+  <xacro:box name="belt_top" size="${l-0.0272} ${bw} 0.002" xyz="0 0 ${h-0.001}" mat="belt"/>
+  <xacro:box name="belt_return" size="${l-0.0272} ${bw} 0.002" xyz="0 0 ${h-0.030}" mat="belt"/>
+  <xacro:macro name="side" params="s suffix">
+    <xacro:box name="extrusion_${suffix}" size="${l} 0.02 0.034" xyz="0 ${s*(w/2+0.01)} ${h-0.017}" mat="aluminum"/>
+    <xacro:box name="slot_${suffix}" size="${l-0.06} 0.0005 0.003" xyz="0 ${s*(w/2+0.020)} ${h-0.017}" mat="slot"/>
+    <xacro:box name="drive_plate_${suffix}" size="0.30 0.006 0.135" xyz="0 ${s*(w/2+0.016)} ${h-0.1015}" mat="drive"/>
+    <xacro:macro name="end" params="e code">
+      <xacro:box name="end_plate_${suffix}_${code}" size="0.045 0.002 0.025" xyz="${e*(l/2-0.025)} ${s*(w/2+0.019)} ${h-0.017}" mat="aluminum"/>
+      <xacro:cylinder name="adjuster_${suffix}_${code}" radius="0.004" length="0.003"
+                      xyz="${e*(l/2-0.024)} ${s*(w/2+0.020)} ${h-0.017}" rpy="${pi/2} 0 0" mat="slot"/>
+    </xacro:macro>
+    <xacro:end e="-1" code="in"/><xacro:end e="1" code="out"/>
+  </xacro:macro>
+  <xacro:side s="-1" suffix="left"/><xacro:side s="1" suffix="right"/>
+  <xacro:cylinder name="tail_pulley" radius="0.0136" length="${bw}" xyz="${-l/2+0.0136} 0 ${h-0.0136}" rpy="${pi/2} 0 0" mat="belt"/>
+  <xacro:cylinder name="head_pulley" radius="0.0136" length="${bw}" xyz="${l/2-0.0136} 0 ${h-0.0136}" rpy="${pi/2} 0 0" mat="belt"/>
+  <xacro:cylinder name="drive_pulley" radius="0.03815" length="${bw}" xyz="0 0 ${h-0.105}" rpy="${pi/2} 0 0" mat="motor"/>
+  <xacro:box name="drive_guard" size="0.30 ${w+0.04} 0.004" xyz="0 0 ${h-0.167}" mat="drive"/>
+  <xacro:box name="gearbox" size="0.10 0.05 0.09" xyz="0 ${-w/2-0.045} ${h-0.105}" mat="drive"/>
+  <xacro:cylinder name="motor_can" radius="0.035" length="0.07" xyz="0 ${-w/2-0.105} ${h-0.105}" rpy="${pi/2} 0 0" mat="motor"/>
+  <xacro:box name="motor_terminal" size="0.042 0.05 0.020" xyz="0 ${-w/2-0.10} ${h-0.055}" mat="motor"/>
+  <!-- >6m includes a mid-tension unit. Housing dimensions/position are inferred. -->
+  <xacro:if value="${l &gt; 6.0}">
+    <xacro:box name="mid_tension" size="0.25 ${w+0.03} 0.10" xyz="${l/4} 0 ${h-0.084}" mat="drive"/>
+  </xacro:if>
+</robot>

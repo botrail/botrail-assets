@@ -1,0 +1,59 @@
+name: Authored models
+
+on:
+  push:
+    paths:
+      - 'authoring/**'
+      - 'mid-360/authoring/**'
+      - 'mid-360/usd/**'
+      - 'vacuum-gripper-ecbpi/authoring/**'
+      - 'vacuum-gripper-ecbpi/usd/**'
+      - 'weld-gun-x16005/authoring/**'
+      - 'weld-gun-x16005/usd/**'
+      - 'x-guard-classic/**'
+      - 'belgotch-type34-s1/**'
+      - 'nito-fz/**'
+      - 'equipment-common/**'
+      - '.github/workflows/authoring.yaml'
+  pull_request:
+    paths:
+      - 'authoring/**'
+      - 'mid-360/authoring/**'
+      - 'mid-360/usd/**'
+      - 'vacuum-gripper-ecbpi/authoring/**'
+      - 'vacuum-gripper-ecbpi/usd/**'
+      - 'weld-gun-x16005/authoring/**'
+      - 'weld-gun-x16005/usd/**'
+      - 'x-guard-classic/**'
+      - 'belgotch-type34-s1/**'
+      - 'nito-fz/**'
+      - 'equipment-common/**'
+      - '.github/workflows/authoring.yaml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  authoring:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Install locked dependencies
+        shell: bash
+        run: |
+          npm --prefix authoring ci --ignore-scripts --no-audit --no-fund
+          for asset in mid-360 vacuum-gripper-ecbpi weld-gun-x16005; do
+            (cd "$asset/authoring" && npm ci --ignore-scripts --no-audit --no-fund)
+          done
+      - name: Shared helpers
+        run: npm --prefix authoring test
+      - name: Model tests and unchanged USD
+        run: npm --prefix authoring run test:models
+      - name: Equipment meshes match authored sources
+        run: |
+          node x-guard-classic/authoring/export.mjs --check
+          node nito-fz/authoring/export.mjs --check

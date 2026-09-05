@@ -1,0 +1,20 @@
+{
+  "name": "@botrail/authoring",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "license": "CC0-1.0",
+  "files": ["geometry.mjs", "fixed-usd.mjs", "cli.mjs", "README.md", "LICENSE"],
+  "exports": {
+    "./geometry.mjs": "./geometry.mjs",
+    "./fixed-usd.mjs": "./fixed-usd.mjs",
+    "./cli.mjs": "./cli.mjs"
+  },
+  "scripts": {
+    "test": "node --test test/*.test.mjs",
+    "test:models": "node check-models.mjs"
+  },
+  "engines": { "node": ">=22" },
+  "peerDependencies": { "three": "0.185.1", "three-usd-robot": "0.11.0" },
+  "devDependencies": { "three": "0.185.1", "three-usd-robot": "0.11.0" }
+}

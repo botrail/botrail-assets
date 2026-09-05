@@ -1,0 +1,50 @@
+<?xml version="1.0"?>
+<!-- CC0. Floor center, front -Y. Body W/D/H exclude optional base and lifting eyes.
+     Closed-door presentation only; no PLC, hinges, sealing or IP behavior implied. -->
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="nito-fz-standard">
+  <xacro:include filename="../../equipment-common/visual/primitives.xacro"/>
+  <xacro:arg name="width" default="0.8"/><xacro:arg name="depth" default="0.6"/>
+  <xacro:arg name="height" default="2.1"/><xacro:arg name="base" default="0.1"/>
+  <xacro:property name="w" value="$(arg width)"/><xacro:property name="d" value="$(arg depth)"/>
+  <xacro:property name="h" value="$(arg height)"/><xacro:property name="b" value="$(arg base)"/>
+  <material name="paint"><color rgba="0.64 0.62 0.55 1"/></material>
+  <material name="seam"><color rgba="0.17 0.17 0.15 1"/></material>
+  <material name="zinc"><color rgba="0.52 0.55 0.57 1"/></material>
+  <material name="base"><color rgba="0.30 0.31 0.28 1"/></material>
+  <material name="handle"><color rgba="0.23 0.25 0.26 1"/></material>
+  <link name="root"/>
+  <!-- Inset core supplies the dark, narrow panel joints; skins are 1.6 mm. -->
+  <xacro:box name="core" size="${w-0.0032} ${d-0.0032} ${h-0.0032}" xyz="0 0 ${b+h/2}" mat="seam"/>
+  <xacro:box name="left_skin" size="0.0016 ${d-0.008} ${h-0.008}" xyz="${-w/2+0.0008} 0 ${b+h/2}" mat="paint"/>
+  <xacro:box name="right_skin" size="0.0016 ${d-0.008} ${h-0.008}" xyz="${w/2-0.0008} 0 ${b+h/2}" mat="paint"/>
+  <xacro:box name="back_skin" size="${w-0.008} 0.0016 ${h-0.008}" xyz="0 ${d/2-0.0008} ${b+h/2}" mat="paint"/>
+  <xacro:box name="roof" size="${w} ${d} 0.0016" xyz="0 0 ${b+h-0.0008}" mat="paint"/>
+  <xacro:box name="sill" size="${w} ${d} 0.004" xyz="0 0 ${b+0.002}" mat="paint"/>
+  <xacro:property name="n" value="${2 if w &gt;= 1.0 else 1}"/>
+  <xacro:property name="leaf" value="${(w-0.004*(n+1))/n}"/>
+  <xacro:macro name="door" params="i">
+    <xacro:box name="door_${i}" size="${leaf} 0.0023 ${h-0.008}"
+               xyz="${-w/2+0.004+leaf/2+i*(leaf+0.004)} ${-d/2+0.00115} ${b+h/2}" mat="paint"/>
+  </xacro:macro>
+  <xacro:door i="0"/><xacro:if value="${n == 2}"><xacro:door i="1"/></xacro:if>
+  <!-- N200 recessed flat handle: one operating handle even on double doors. -->
+  <xacro:property name="hx" value="${-w/2+0.035 if n == 1 else 0.035}"/>
+  <xacro:box name="handle_recess" size="0.027 0.001 0.23" xyz="${hx} ${-d/2-0.0005} ${b+h/2}" mat="seam"/>
+  <xacro:box name="flat_handle" size="0.018 0.004 0.21" xyz="${hx} ${-d/2-0.003} ${b+h/2}" mat="handle"/>
+  <xacro:cylinder name="lock" radius="0.004" length="0.002" xyz="${hx} ${-d/2-0.006} ${b+h/2-0.065}" rpy="${pi/2} 0 0" mat="zinc"/>
+  <xacro:macro name="eye" params="sx sy suffix">
+    <xacro:mesh name="lifting_eye_${suffix}" file="../meshes/lifting-eye.stl"
+                xyz="${sx*(w/2-0.04)} ${sy*(d/2-0.04)} ${b+h}" mat="zinc"/>
+  </xacro:macro>
+  <xacro:eye sx="-1" sy="-1" suffix="lf"/><xacro:eye sx="1" sy="-1" suffix="rf"/>
+  <xacro:eye sx="-1" sy="1" suffix="lb"/><xacro:eye sx="1" sy="1" suffix="rb"/>
+  <!-- FCX-Z assembly base: steel channel, genuinely open center, not a solid block. -->
+  <xacro:if value="${b &gt; 0}">
+    <xacro:box name="base_front" size="${w} 0.0045 ${b}" xyz="0 ${-d/2+0.00225} ${b/2}" mat="base"/>
+    <xacro:box name="base_back" size="${w} 0.0045 ${b}" xyz="0 ${d/2-0.00225} ${b/2}" mat="base"/>
+    <xacro:box name="base_left" size="0.0032 ${d-0.009} ${b}" xyz="${-w/2+0.0016} 0 ${b/2}" mat="base"/>
+    <xacro:box name="base_right" size="0.0032 ${d-0.009} ${b}" xyz="${w/2-0.0016} 0 ${b/2}" mat="base"/>
+    <xacro:box name="base_top_front" size="${w} 0.03 0.0045" xyz="0 ${-d/2+0.015} ${b-0.00225}" mat="base"/>
+    <xacro:box name="base_top_back" size="${w} 0.03 0.0045" xyz="0 ${d/2-0.015} ${b-0.00225}" mat="base"/>
+  </xacro:if>
+</robot>

@@ -3,7 +3,8 @@
  * The four-cup holder remains independently designed, NOT a Schmalz VEE assembly.
  */
 import * as THREE from "three";
-import { RoundedBoxGeometry } from "three/addons/geometries/RoundedBoxGeometry.js";
+import { namedMaterial as finish, addMesh, roundedBox, cylinderZ, ringGeometry,
+  ellipseHole, fromMillimeters } from "@botrail/authoring/geometry.mjs";
 
 export const DIM = Object.freeze({ diameter: 151.5, bossDiameter: 76, pumpHeight: 88.6,
   mountBCD: 46, mountHoles: 4, mountDepth: 6, pumpMass: 0.775, holderMass: 0.250,
@@ -13,8 +14,6 @@ export const MOUNT_HOLES = Array.from({ length: 4 }, (_, i) =>
 export const CUP_CENTERS = Array.from({ length: 4 }, (_, i) => {
   const a = Math.PI / 4 + i * Math.PI / 2; return [33 * Math.cos(a), 33 * Math.sin(a)];
 });
-const finish = (name, color, metalness, roughness) => Object.assign(
-  new THREE.MeshStandardMaterial({ color, metalness, roughness }), { name });
 export const MATERIALS = {
   white: finish("off_white_polymer", 0xe2e4dc, 0.0, 0.4),
   blue: finish("blue_corner_cover", 0x145ba0, 0.0, 0.4),
@@ -26,24 +25,16 @@ export const MATERIALS = {
   green: finish("status_indicator", 0x8cac65, 0.0, 0.3),
 };
 function add(g, name, geo, material, xyz = [0, 0, 0]) {
-  const m = new THREE.Mesh(geo, MATERIALS[material]); m.name = name;
-  m.position.set(...xyz); g.add(m); return m;
+  return addMesh(g, name, geo, MATERIALS[material], xyz);
 }
 function box(g, name, size, at, material, r = 1) {
-  return add(g, name, new RoundedBoxGeometry(...size, 3, r), material, at);
+  return add(g, name, roundedBox(size, r, 3), material, at);
 }
 function cylinder(g, name, radius, height, at, mat = "aluminum", open = false) {
-  const geo = new THREE.CylinderGeometry(radius, radius, height, 64, 1, open);
-  geo.rotateX(Math.PI / 2); return add(g, name, geo, mat, at);
+  return add(g, name, cylinderZ(radius, height, { open }), mat, at);
 }
 function ring(g, name, outer, inner, z0, z1, material, holes = []) {
-  const shape = new THREE.Shape(); shape.absarc(0, 0, outer, 0, 2 * Math.PI, false);
-  if (inner) { const h = new THREE.Path(); h.absarc(0, 0, inner, 0, 2 * Math.PI, true); shape.holes.push(h); }
-  for (const [x, y, r] of holes) {
-    const h = new THREE.Path(); h.absarc(x, y, r, 0, 2 * Math.PI, true); shape.holes.push(h);
-  }
-  return add(g, name, new THREE.ExtrudeGeometry(shape,
-    { depth: z1 - z0, bevelEnabled: false, curveSegments: 32 }), material, [0, 0, z0]);
+  return add(g, name, ringGeometry(outer, inner, z1 - z0, holes), material, [0, 0, z0]);
 }
 function radius(a, max) { return max - 9 + 9 * Math.cos(3 * (a - Math.PI / 2)); }
 function trilobe(max) {
@@ -78,7 +69,7 @@ export function buildVisuals() {
   // Actual four M4 bores in the robot-side face. Thread helices and tolerances omitted.
   const mount = trilobe(69);
   for (const [x, y] of MOUNT_HOLES) {
-    const hole = new THREE.Path(); hole.absarc(x, y, 2, 0, Math.PI * 2, true); mount.holes.push(hole);
+    ellipseHole(mount, x, y, 2);
   }
   add(pump, "mount_face_four_M4", new THREE.ExtrudeGeometry(mount,
     { depth: 6, bevelEnabled: false, curveSegments: 24 }), "white");
@@ -118,7 +109,7 @@ export function buildVisuals() {
     cup.rotateX(Math.PI / 2); add(body, `hollow_bellows_cup_${i}`, cup, "rubber", [x, y, 0]);
     ring(body, `cup_fitting_${i}`, 7, 5, 95.5, 99, "brass").position.set(x, y, 95.5);
   }
-  body.scale.setScalar(0.001); body.updateMatrixWorld(true); return body;
+  return fromMillimeters(body);
 }
 
 export function definition() {

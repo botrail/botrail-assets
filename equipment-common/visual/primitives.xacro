@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<!-- CC0. Visual-only primitives, each with a stable removable resident name. -->
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+  <xacro:macro name="box" params="name size xyz mat">
+    <link name="${name}"><visual><origin xyz="${xyz}"/>
+      <geometry><box size="${size}"/></geometry><material name="${mat}"/>
+    </visual></link>
+    <joint name="j_${name}" type="fixed"><parent link="root"/><child link="${name}"/></joint>
+  </xacro:macro>
+  <xacro:macro name="cylinder" params="name radius length xyz rpy mat">
+    <link name="${name}"><visual><origin xyz="${xyz}" rpy="${rpy}"/>
+      <geometry><cylinder radius="${radius}" length="${length}"/></geometry><material name="${mat}"/>
+    </visual></link>
+    <joint name="j_${name}" type="fixed"><parent link="root"/><child link="${name}"/></joint>
+  </xacro:macro>
+  <xacro:macro name="mesh" params="name file xyz mat">
+    <link name="${name}"><visual><origin xyz="${xyz}"/>
+      <geometry><mesh filename="${file}"/></geometry><material name="${mat}"/>
+    </visual></link>
+    <joint name="j_${name}" type="fixed"><parent link="root"/><child link="${name}"/></joint>
+  </xacro:macro>
+</robot>

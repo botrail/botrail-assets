@@ -56,7 +56,25 @@ weld ガン 2 種のみ、カタログ ID が歴史的な名前のまま (公開
 [CONTRIBUTING.md](./CONTRIBUTING.md) の rev 運用参照)。それ以外は
 ディレクトリ名 = カタログ ID。
 
+## 寸法可変の製品シリーズモデル
+
+| アセット | 参照製品 | 使用する生成器 |
+| --- | --- | --- |
+| [x-guard-classic](./x-guard-classic) | Axelent X-Guard Classic | `bt.parts.fence` |
+| [belgotch-type34-s1](./belgotch-type34-s1) | マキテック Type34-S1 / 34CSH | `bt.parts.conveyor` |
+| [nito-fz](./nito-fz) | 日東工業 FZ / FCX-Z | `bt.parts.cabinet` |
+
+これらは固定寸法ロボットのURDFではなく、対応するスペックパックの
+`components[].trim` が参照する表示用xacro＋軽量メッシュ。
+`Robot.from_catalog` ではなく、上記生成器の `catalog=` にパックを渡して利用する。
+型番・許容寸法はカタログ、外観とその近似条件は各アセットカードが持つ。
+描画用の共通部は [equipment-common](./equipment-common/)。
+
 ## 著作・貢献
 
 参照実機の選び方、実機忠実の方針、rev 運用などの著作規約は
 [CONTRIBUTING.md](./CONTRIBUTING.md) にまとめてある。
+
+Node.js + Three.js + three-usd-robot の自作モデルには
+[共通著作ライブラリ](./authoring/README.md) を用意している。
+X16005・Mid-360・ECBPiが利用し、実際の寸法・仕上げ・出所は製品側に保持する。

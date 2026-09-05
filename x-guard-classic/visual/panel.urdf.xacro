@@ -1,0 +1,34 @@
+<?xml version="1.0"?>
+<!-- CC0. Origin: panel bottom center; botrail supplies its floor-gap offset.
+     Fixed 30 x 20 mm frame, selected mesh is NOT stretched to fit a bay. -->
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="x-guard-classic-panel">
+  <xacro:include filename="../../equipment-common/visual/primitives.xacro"/>
+  <xacro:arg name="width" default="1.0"/><xacro:arg name="height" default="2.2"/>
+  <xacro:arg name="handle" default="0"/>
+  <xacro:property name="w" value="$(arg width)"/><xacro:property name="h" value="$(arg height)"/>
+  <material name="black"><color rgba="0.035 0.037 0.040 1"/></material>
+  <material name="steel"><color rgba="0.48 0.50 0.53 1"/></material>
+  <link name="root"/>
+  <xacro:box name="frame_top" size="${w} 0.02 0.03" xyz="0 0 ${h-0.015}" mat="black"/>
+  <xacro:box name="frame_bottom" size="${w} 0.02 0.03" xyz="0 0 0.015" mat="black"/>
+  <xacro:box name="frame_left" size="0.03 0.02 ${h-0.06}" xyz="${-w/2+0.015} 0 ${h/2}" mat="black"/>
+  <xacro:box name="frame_right" size="0.03 0.02 ${h-0.06}" xyz="${w/2-0.015} 0 ${h/2}" mat="black"/>
+  <xacro:mesh name="wire_grid" file="../meshes/grid-${int(round(w*1000))}-${int(round(h*1000))}.stl"
+              xyz="0 0 ${h/2}" mat="black"/>
+  <!-- Factory-fixed bracket silhouettes; their hole spacing is not dimensioned. -->
+  <xacro:macro name="bracket" params="side z suffix">
+    <xacro:box name="bracket_${suffix}" size="0.02 0.008 0.045" xyz="${side*(w/2-0.025)} -0.014 ${z}" mat="black"/>
+    <xacro:cylinder name="fixing_${suffix}" radius="0.004" length="0.004"
+                    xyz="${side*(w/2-0.025)} -0.020 ${z}" rpy="${pi/2} 0 0" mat="steel"/>
+  </xacro:macro>
+  <xacro:bracket side="-1" z="0.15" suffix="lb"/><xacro:bracket side="1" z="0.15" suffix="rb"/>
+  <xacro:bracket side="-1" z="${h-0.15}" suffix="lt"/><xacro:bracket side="1" z="${h-0.15}" suffix="rt"/>
+  <!-- D10 hinged opening concept; handle/lock are separate purchases, inferred
+       presentation geometry, not a simulated or certified interlock. -->
+  <xacro:if value="${$(arg handle) &gt; 0}">
+    <xacro:cylinder name="hinge_lower" radius="0.010" length="0.07" xyz="${-w/2+0.015} -0.025 0.2" rpy="0 0 0" mat="steel"/>
+    <xacro:cylinder name="hinge_upper" radius="0.010" length="0.07" xyz="${-w/2+0.015} -0.025 ${h-0.2}" rpy="0 0 0" mat="steel"/>
+    <xacro:box name="latch" size="0.038 0.025 0.12" xyz="${w/2-0.04} -0.027 ${h/2}" mat="black"/>
+    <xacro:box name="handle" size="0.07 0.018 0.02" xyz="${w/2-0.075} -0.047 ${h/2}" mat="steel"/>
+  </xacro:if>
+</robot>

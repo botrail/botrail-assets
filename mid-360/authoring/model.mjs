@@ -3,13 +3,12 @@
  * Public dimensions vs photo-inferred details: see provenance.json.
  */
 import * as THREE from "three";
-import { RoundedBoxGeometry } from "three/addons/geometries/RoundedBoxGeometry.js";
+import { namedMaterial as finish, addMesh, roundedBox, cylinderZ, roundedRectangle,
+  ellipseHole, fromMillimeters } from "@botrail/authoring/geometry.mjs";
 
 export const DIM = Object.freeze({ width: 65, height: 60, baseHeight: 39.5,
   connectorReach: 40.5, connectorZ: 16, lidarZ: 47, mass: 0.265,
   mountPitch: [48, 36], mountDepth: 5, locatingPitch: 39, locatingDepth: 1.8 });
-const finish = (name, color, metalness, roughness) => Object.assign(
-  new THREE.MeshStandardMaterial({ color, metalness, roughness }), { name });
 export const MATERIALS = {
   shell: finish("anodized_graphite", 0x42484b, 0.65, 0.35),
   rim: finish("machined_aluminum", 0x91999b, 0.85, 0.27),
@@ -21,26 +20,14 @@ export const MOUNT_HOLES = [-24, 24].flatMap(x => [-18, 18].map(y => [x, y]));
 // x/y below are expressed in the existing catalog frame: connector = -X.
 export const LOCATING_HOLES = [[0, -19.5], [0, 19.5]];
 
-function roundedShape(width, depth, radius) {
-  const x = -width / 2, y = -depth / 2, s = new THREE.Shape();
-  s.moveTo(x + radius, y); s.lineTo(x + width - radius, y);
-  s.quadraticCurveTo(x + width, y, x + width, y + radius);
-  s.lineTo(x + width, y + depth - radius);
-  s.quadraticCurveTo(x + width, y + depth, x + width - radius, y + depth);
-  s.lineTo(x + radius, y + depth); s.quadraticCurveTo(x, y + depth, x, y + depth - radius);
-  s.lineTo(x, y + radius); s.quadraticCurveTo(x, y, x + radius, y);
-  return s;
-}
 function add(group, name, geometry, material, xyz = [0, 0, 0]) {
-  const mesh = new THREE.Mesh(geometry, MATERIALS[material]);
-  mesh.name = name; mesh.position.set(...xyz); group.add(mesh); return mesh;
+  return addMesh(group, name, geometry, MATERIALS[material], xyz);
 }
 function box(g, name, size, at, mat = "shell", r = 0.5) {
-  return add(g, name, new RoundedBoxGeometry(...size, 3, r), mat, at);
+  return add(g, name, roundedBox(size, r, 3), mat, at);
 }
 function cylinder(g, name, radius, height, at, mat = "rim", open = false) {
-  const geo = new THREE.CylinderGeometry(radius, radius, height, 64, 1, open);
-  geo.rotateX(Math.PI / 2); return add(g, name, geo, mat, at);
+  return add(g, name, cylinderZ(radius, height, { open }), mat, at);
 }
 
 export function buildVisuals() {
@@ -50,14 +37,13 @@ export function buildVisuals() {
   for (const [name, z0, z1, withLocators] of [
     ["mount_plate", 0, DIM.locatingDepth, true], ["mount_thread_depth", DIM.locatingDepth, 5, false],
   ]) {
-    const shape = roundedShape(65, 65, 4.5);
+    const shape = roundedRectangle(65, 65, 4.5);
     for (const [x, y] of MOUNT_HOLES) {
-      const hole = new THREE.Path(); hole.absarc(x, y, 1.5, 0, 2 * Math.PI, true);
-      shape.holes.push(hole);
+      ellipseHole(shape, x, y, 1.5);
     }
     if (withLocators) for (let i = 0; i < LOCATING_HOLES.length; i++) {
-      const [x, y] = LOCATING_HOLES[i], h = new THREE.Path();
-      h.absellipse(x, y, 1.5, i ? 2.2 : 1.5, 0, 2 * Math.PI, true); shape.holes.push(h);
+      const [x, y] = LOCATING_HOLES[i];
+      ellipseHole(shape, x, y, 1.5, i ? 2.2 : 1.5);
     }
     const geo = new THREE.ExtrudeGeometry(shape,
       { depth: z1 - z0, bevelEnabled: false, curveSegments: 24 });
@@ -93,8 +79,7 @@ export function buildVisuals() {
     pin.rotation.y = -Math.PI / 2;
     pin.position.set(-40, 4.2 * Math.cos(a), DIM.connectorZ + 4.2 * Math.sin(a));
   }
-  body.scale.setScalar(0.001); body.updateMatrixWorld(true);
-  return body;
+  return fromMillimeters(body);
 }
 
 export function definition() {

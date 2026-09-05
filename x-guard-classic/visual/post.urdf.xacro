@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<!-- CC0. Origin: floor center. height = panel height + 100 mm. -->
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="x-guard-classic-post">
+  <xacro:include filename="../../equipment-common/visual/primitives.xacro"/>
+  <xacro:arg name="height" default="2.3"/><xacro:arg name="post_finish" default="graphite-black"/>
+  <xacro:property name="h" value="$(arg height)"/>
+  <material name="finish"><color rgba="${'0.90 0.72 0.03 1' if '$(arg post_finish)' == 'zinc-yellow' else ('0.015 0.12 0.38 1' if '$(arg post_finish)' == 'signal-blue' else ('0.63 0.025 0.025 1' if '$(arg post_finish)' == 'traffic-red' else '0.035 0.037 0.040 1'))}"/></material>
+  <material name="cap"><color rgba="0.025 0.027 0.030 1"/></material>
+  <material name="steel"><color rgba="0.50 0.52 0.55 1"/></material>
+  <link name="root"/>
+  <xacro:box name="post" size="0.05 0.05 ${h-0.005}" xyz="0 0 ${(h-0.005)/2}" mat="finish"/>
+  <xacro:box name="top_plug" size="0.05 0.05 0.005" xyz="0 0 ${h-0.0025}" mat="cap"/>
+  <!-- Classic has a covered welded foot, unlike Premium's separate foot.
+       Cover and bolt dimensions below are inferred, not mounting-hole data. -->
+  <xacro:box name="foot_cover" size="0.10 0.10 0.016" xyz="0 0 0.008" mat="cap"/>
+  <xacro:cylinder name="anchor_left" radius="0.007" length="0.006" xyz="-0.035 -0.035 0.019" rpy="0 0 0" mat="steel"/>
+  <xacro:cylinder name="anchor_right" radius="0.007" length="0.006" xyz="0.035 0.035 0.019" rpy="0 0 0" mat="steel"/>
+</robot>
