@@ -1,0 +1,7 @@
+{
+  "name": "multi-hand-mph3-authoring",
+  "private": true,
+  "type": "module",
+  "scripts": { "export": "node generate_visual.mjs" },
+  "dependencies": { "three": "0.185.1", "three-usd-robot": "0.11.0" }
+}

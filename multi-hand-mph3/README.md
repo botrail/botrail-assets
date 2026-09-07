@@ -45,3 +45,33 @@ botrail カタログ規約: Z-up / メートル。root リンク `mph3_plate` = 
 
 `tools/generate_urdf.py` が botrail の `bt.tools.multi_tool_urdf` からこの URDF を書き出す。
 セル側で Python で組んだ同じレイアウトのハンドと、カタログ品が同一形状になる。
+
+## 面取りと仕上げを持つ表示モデル
+
+`usd/visual.usda` は既存URDFと同じリンク原点・取付面・先端位置を持つ表示用モデル。
+プレート端の0.8 mm面取り、ピン端の0.6 mm面取り、フォークの0.6 mm角丸は
+元の包絡内に収まる著作寸法。プレートとピンは切削金属、フォークは黒染め金属を
+想定したPBR材質で、実測した仕上げではない。未確認の取付穴は追加していない。
+
+リポジトリルートから `npm --prefix authoring ci`、`npm --prefix multi-hand-mph3 ci`、
+`npm --prefix multi-hand-mph3 run export` で再生成する。共通のgeometryヘルパーを
+使い、リンク配置は `generate_visual.mjs` が定義する。任意の出力先を指定すると、
+USDとその隣の `textures/` を一緒に生成する。
+
+botrailでは `Robot.from_urdf(...).with_visuals(Robot.from_usd("usd/visual.usda"))`
+として使用する。検証に使う関節・衝突形状・TCPは元のURDFを維持する。
+表示モデル単体は衝突モデルとして使用しない。
+
+`finish.mjs` はプレートとピン用の微細な加工目を、256×256のnormal画像と
+roughness画像として決定的に生成する。傷・汚れや実測Ra値の再現ではなく、
+控えめな著作上の仕上げ。黒染めのフォークは定数材質のままとする。
+
+画像1タイルは10 mm、加工目の主な間隔は約0.45 mm。円筒側面は周長と軸長、
+端面は平面上の実寸からUVを計算する。寸法変更は生成スクリプトで再生成する。
+USD全体へ外部スケールを掛けると模様も伸縮するため、実寸を変える用途には使わない。
+画像は非色データ (`sourceColorSpace = raw`)。normalはOpenGLの+Y方向で、
+UsdUVTextureのscale/biasで[0,1]から[-1,1]へ戻す。粗さはRGBに同じ値を格納し、
+Three/glTFとの互換性のためGチャンネルを接続する。
+
+配布時には `usd/visual.usda` と `usd/textures/` の両方を含める。
+画像追加後も形状の輪郭、面法線、取付フレーム、URDFの衝突形状は変わらない。
