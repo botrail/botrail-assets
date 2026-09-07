@@ -1,0 +1,112 @@
+<?xml version='1.0' encoding='utf-8'?>
+<robot name="2f-85">
+  <link name="body">
+    </link>
+  <link name="left_outer_knuckle">
+    </link>
+  <link name="left_outer_finger">
+    </link>
+  <link name="left_inner_knuckle">
+    </link>
+  <link name="left_inner_finger">
+    </link>
+  <link name="left_inner_finger_pad">
+    </link>
+  <link name="right_outer_knuckle">
+    </link>
+  <link name="right_outer_finger">
+    </link>
+  <link name="right_inner_knuckle">
+    </link>
+  <link name="right_inner_finger">
+    </link>
+  <link name="right_inner_finger_pad">
+    </link>
+  <link name="robotiq_arg2f_base_link" />
+  <link name="left_grasp" />
+  <link name="right_grasp" />
+  <link name="tcp" />
+  <joint name="finger_joint" type="revolute">
+    <origin xyz="0.0306011444 0.0547735601 0.0934257339" rpy="0 0 0" />
+    <parent link="body" />
+    <child link="left_outer_knuckle" />
+    <axis xyz="0 0 1" />
+    <limit lower="0" upper="0.801433472" effort="0" velocity="0" />
+  </joint>
+  <joint name="left_outer_finger_joint" type="fixed">
+    <parent link="left_outer_knuckle" />
+    <child link="left_outer_finger" />
+  </joint>
+  <joint name="left_inner_knuckle_joint" type="revolute">
+    <origin xyz="0.0127 0.0612890439 0.0934257339" rpy="0 0 0" />
+    <parent link="body" />
+    <child link="left_inner_knuckle" />
+    <axis xyz="0 0 1" />
+    <limit lower="0" upper="0.801433472" effort="0" velocity="0" />
+    <mimic joint="finger_joint" multiplier="1" offset="0" />
+  </joint>
+  <joint name="left_inner_finger_joint" type="revolute">
+    <origin xyz="0.0371575 0.0434216846 0" rpy="0 0 0" />
+    <parent link="left_outer_finger" />
+    <child link="left_inner_finger" />
+    <axis xyz="0 0 1" />
+    <limit lower="-0.801433472" upper="0" effort="0" velocity="0" />
+    <mimic joint="finger_joint" multiplier="-1" offset="0" />
+  </joint>
+  <joint name="left_inner_finger_pad_joint" type="fixed">
+    <parent link="left_inner_finger" />
+    <child link="left_inner_finger_pad" />
+  </joint>
+  <joint name="right_outer_knuckle_joint" type="revolute">
+    <origin xyz="-0.0306011444 0.0547735601 0.0934257339" rpy="0 0 0" />
+    <parent link="body" />
+    <child link="right_outer_knuckle" />
+    <axis xyz="0 0 -1" />
+    <limit lower="0" upper="0.801433472" effort="0" velocity="0" />
+    <mimic joint="finger_joint" multiplier="1" offset="0" />
+  </joint>
+  <joint name="right_outer_finger_joint" type="fixed">
+    <parent link="right_outer_knuckle" />
+    <child link="right_outer_finger" />
+  </joint>
+  <joint name="right_inner_knuckle_joint" type="revolute">
+    <origin xyz="-0.0127 0.0612890439 0.0934257339" rpy="0 0 0" />
+    <parent link="body" />
+    <child link="right_inner_knuckle" />
+    <axis xyz="0 0 -1" />
+    <limit lower="0" upper="0.801433472" effort="0" velocity="0" />
+    <mimic joint="finger_joint" multiplier="1" offset="0" />
+  </joint>
+  <joint name="right_inner_finger_joint" type="revolute">
+    <origin xyz="-0.0371575 0.0434216846 0" rpy="0 0 0" />
+    <parent link="right_outer_finger" />
+    <child link="right_inner_finger" />
+    <axis xyz="0 0 -1" />
+    <limit lower="-0.801433472" upper="0" effort="0" velocity="0" />
+    <mimic joint="finger_joint" multiplier="-1" offset="0" />
+  </joint>
+  <joint name="right_inner_finger_pad_joint" type="fixed">
+    <parent link="right_inner_finger" />
+    <child link="right_inner_finger_pad" />
+  </joint>
+  <joint name="robotiq_arg2f_base_link_joint" type="fixed">
+    <origin xyz="0.0934257339 5.72869505e-18 0.00013095613" rpy="1.57079633 -6.123234e-17 -1.57079633" />
+    <parent link="robotiq_arg2f_base_link" />
+    <child link="body" />
+  </joint>
+  <joint name="left_grasp_joint" type="fixed">
+    <origin xyz="-0.0252586445 0.0319037024 4.99999999e-05" rpy="-1.57079633 1.57079633 0" />
+    <parent link="left_inner_finger_pad" />
+    <child link="left_grasp" />
+  </joint>
+  <joint name="right_grasp_joint" type="fixed">
+    <origin xyz="0.0252586445 0.0319037024 -0.0008" rpy="-1.57079633 1.57079633 0" />
+    <parent link="right_inner_finger_pad" />
+    <child link="right_grasp" />
+  </joint>
+  <joint name="tcp_joint" type="fixed">
+    <origin xyz="0 0.130098947 0.0930507339" rpy="-1.57079633 1.57079633 0" />
+    <parent link="body" />
+    <child link="tcp" />
+  </joint>
+</robot>
