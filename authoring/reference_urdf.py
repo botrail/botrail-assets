@@ -79,7 +79,20 @@ class Model:
         for rel, data in self.generated.items():
             path = self.root/rel
             if check:
-                assert path.read_bytes() == data, f'Regeneration mismatch: {path}'
+                previous = path.read_bytes()
+                if path.suffix == '.stl':
+                    # CPU math can change the final float32 bit in STL export.
+                    # Keep triangle order/winding, vertex coordinates, normals
+                    # and attributes checked; do not require identical rounding.
+                    dtype = np.dtype([('normal','<f4',(3,)), ('vertices','<f4',(3,3)), ('attribute','<u2')])
+                    old = np.frombuffer(previous[84:], dtype=dtype)
+                    new = np.frombuffer(data[84:], dtype=dtype)
+                    assert old.shape == new.shape, f'Triangle count changed: {path}'
+                    np.testing.assert_allclose(old['vertices'], new['vertices'], rtol=0, atol=3e-7, err_msg=str(path))
+                    np.testing.assert_allclose(old['normal'], new['normal'], rtol=0, atol=1e-6, err_msg=str(path))
+                    np.testing.assert_array_equal(old['attribute'], new['attribute'], err_msg=str(path))
+                else:
+                    assert previous == data, f'Regeneration mismatch: {path}'
             else:
                 path.parent.mkdir(parents=True, exist_ok=True); path.write_bytes(data)
         return len(self.generated)
