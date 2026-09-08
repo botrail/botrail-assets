@@ -1,0 +1,37 @@
+<robot name="ati_3700_50_9210">
+  <!--CC0 procedural reference. See ../README.md; no physical fit or calibrated cutting TCP is asserted.-->
+  <link name="mount">
+    <visual>
+      <geometry>
+        <mesh filename="../meshes/robot_plate.stl" />
+      </geometry>
+      <material name="robot_plate">
+        <color rgba=".16 .18 .21 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0.0 0.0 0.004445" rpy="0 0 0" />
+      <geometry>
+        <box size="0.127 0.06604 0.00889" />
+      </geometry>
+    </collision>
+    <collision>
+      <origin xyz="0.0 0.0 -0.0016510000000000001" rpy="0 0 0" />
+      <geometry>
+        <cylinder radius="0.01573149" length="0.0033020000000000002" />
+      </geometry>
+    </collision>
+  </link>
+  <link name="tcp" />
+  <joint name="tcp_joint" type="fixed">
+    <parent link="mount" />
+    <child link="tcp" />
+    <origin xyz="0 0 0.0" rpy="0 0 0" />
+  </joint>
+  <link name="flange" />
+  <joint name="flange_joint" type="fixed">
+    <parent link="mount" />
+    <child link="flange" />
+    <origin xyz="0 0 0.00889" rpy="0 0 0" />
+  </joint>
+</robot>
