@@ -1,0 +1,99 @@
+<robot name="ati_rcv250">
+  <!--CC0 procedural reference. See ../README.md; no physical fit or calibrated cutting TCP is asserted.-->
+  <link name="mount">
+    <visual>
+      <geometry>
+        <mesh filename="../meshes/spindle_housing.stl" />
+      </geometry>
+      <material name="spindle_housing">
+        <color rgba=".93 .42 .055 1" />
+      </material>
+    </visual>
+    <visual>
+      <geometry>
+        <mesh filename="../meshes/spindle_rear.stl" />
+      </geometry>
+      <material name="spindle_rear">
+        <color rgba=".13 .15 .18 1" />
+      </material>
+    </visual>
+    <visual>
+      <geometry>
+        <mesh filename="../meshes/spindle_front.stl" />
+      </geometry>
+      <material name="spindle_front">
+        <color rgba=".14 .16 .18 1" />
+      </material>
+    </visual>
+    <visual>
+      <geometry>
+        <mesh filename="../meshes/spindle_nose.stl" />
+      </geometry>
+      <material name="spindle_nose">
+        <color rgba=".55 .59 .63 1" />
+      </material>
+    </visual>
+    <visual>
+      <geometry>
+        <mesh filename="../meshes/spindle_ports.stl" />
+      </geometry>
+      <material name="spindle_ports">
+        <color rgba=".65 .68 .70 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0.0 0.0 0.0388675" rpy="0 0 0" />
+      <geometry>
+        <box size="0.06096 0.08255 0.077735" />
+      </geometry>
+    </collision>
+    <collision>
+      <origin xyz="-0.042545 0.0 0.03646" rpy="0 1.5707963267948966 0" />
+      <geometry>
+        <cylinder radius="0.041275" length="0.02413" />
+      </geometry>
+    </collision>
+    <collision>
+      <origin xyz="0.0432465 0.0 0.03646" rpy="0 1.5707963267948966 0" />
+      <geometry>
+        <cylinder radius="0.041275" length="0.025532999999999993" />
+      </geometry>
+    </collision>
+    <collision>
+      <origin xyz="0.063633 0.0 0.03646" rpy="0 1.5707963267948966 0" />
+      <geometry>
+        <cylinder radius="0.0225" length="0.015240000000000009" />
+      </geometry>
+    </collision>
+    <collision>
+      <origin xyz="0.1082735 0.0 0.03646" rpy="0 1.5707963267948966 0" />
+      <geometry>
+        <cylinder radius="0.0127" length="0.074041" />
+      </geometry>
+    </collision>
+    <collision>
+      <origin xyz="0.15490800000000002 0.0 0.03646" rpy="0 1.5707963267948966 0" />
+      <geometry>
+        <cylinder radius="0.007" length="0.01922800000000001" />
+      </geometry>
+    </collision>
+    <collision>
+      <origin xyz="-0.0576995 0.0 0.03646" rpy="0 1.5707963267948966 0" />
+      <geometry>
+        <cylinder radius="0.00975" length="0.006179000000000002" />
+      </geometry>
+    </collision>
+    <collision>
+      <origin xyz="-0.04802105 0.0 0.08508825" rpy="0 0 0" />
+      <geometry>
+        <cylinder radius="0.0059943999999999996" length="0.0285751" />
+      </geometry>
+    </collision>
+  </link>
+  <link name="tcp" />
+  <joint name="tcp_joint" type="fixed">
+    <parent link="mount" />
+    <child link="tcp" />
+    <origin xyz="0 0 0.0" rpy="0 0 0" />
+  </joint>
+</robot>

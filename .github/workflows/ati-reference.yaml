@@ -1,0 +1,20 @@
+name: ATI reference models
+on:
+  push:
+    paths: ['ati-rcv250-crx-kit/**', '.github/workflows/ati-reference.yaml']
+  pull_request:
+    paths: ['ati-rcv250-crx-kit/**', '.github/workflows/ati-reference.yaml']
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  geometry:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m pip install -r ati-rcv250-crx-kit/tools/requirements.txt
+      - run: python ati-rcv250-crx-kit/tools/check_models.py
+      - run: python ati-rcv250-crx-kit/tools/generate_models.py --check

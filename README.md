@@ -45,6 +45,7 @@ gun = bt.Robot.from_catalog("weld-gun-x1")  # カタログ ID (下表の右列) 
 | [flange-plate-ecbpi](./flange-plate-ecbpi) | アダプタ: ISO 9409-1-50-4-M6 ↔ ECBPi | Schmalz ROB-SET ECBPi 同梱プレート | `flange-plate-ecbpi` |
 | [biw-sedan](./biw-sedan) | ワークピース: BIW (コンパクトセダン) | — (独自著作) | `biw-sedan` |
 | [spindle-emsf3060](./spindle-emsf3060) | 切削スピンドル (フランジ付きモータ) | ナカニシ EMSF-3060K | `spindle-emsf3060` |
+| [ati-rcv250-crx-kit](./ati-rcv250-crx-kit) | スピンドル＋取付プレート2点 | ATI 9150-COB-CRX10-RCV250-01 / RCV-250 | `rcv-250-crx10-kit` / `rcv-250` / `3700-50-9210` / `9005-50-6091` |
 | [lms1xx](./lms1xx) | **ROS パッケージ `lms1xx` の CC0 代替 (スタブ)** — 2D 安全レーザスキャナ | — (独自著作。LMS1xx フォームファクタ) | — (カタログ製品ではない) |
 
 **lms1xx だけ性格が違う**: これはカタログに載せる製品モデルではなく、Clearpath の
