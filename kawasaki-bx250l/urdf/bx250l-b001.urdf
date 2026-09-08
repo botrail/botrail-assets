@@ -1,0 +1,435 @@
+<?xml version='1.0' encoding='utf-8'?>
+<robot name="bx250l-b001">
+  <link name="base_link">
+    <visual name="foot">
+      <geometry>
+        <mesh filename="../meshes/foot.stl" />
+      </geometry>
+      <material name="foot_material">
+        <color rgba="0.16 0.19 0.19 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 -0.0625 0.015" rpy="0 0 0" />
+      <geometry>
+        <box size="0.75 0.875 0.03" />
+      </geometry>
+    </collision>
+    <visual name="base_pedestal">
+      <geometry>
+        <mesh filename="../meshes/base_pedestal.stl" />
+      </geometry>
+      <material name="base_pedestal_material">
+        <color rgba="0.79 0.82 0.8 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0.15" rpy="0 0 0" />
+      <geometry>
+        <cylinder radius="0.245" length="0.24000000000000002" />
+      </geometry>
+    </collision>
+    <visual name="connector_box">
+      <geometry>
+        <mesh filename="../meshes/connector_box.stl" />
+      </geometry>
+      <material name="connector_box_material">
+        <color rgba="0.16 0.19 0.19 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 -0.4 0.13" rpy="0 0 0" />
+      <geometry>
+        <box size="0.38 0.15 0.19" />
+      </geometry>
+    </collision>
+  </link>
+  <link name="link1">
+    <visual name="turntable">
+      <geometry>
+        <mesh filename="../meshes/turntable.stl" />
+      </geometry>
+      <material name="turntable_material">
+        <color rgba="0.79 0.82 0.8 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 0 -0.335" rpy="0 0 0" />
+      <geometry>
+        <cylinder radius="0.3" length="0.13" />
+      </geometry>
+    </collision>
+    <visual name="shoulder_web">
+      <geometry>
+        <mesh filename="../meshes/shoulder_web.stl" />
+      </geometry>
+      <material name="shoulder_web_material">
+        <color rgba="0.79 0.82 0.8 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 0.16 -0.17" rpy="0 0 0" />
+      <geometry>
+        <box size="0.33 0.38 0.27" />
+      </geometry>
+    </collision>
+    <visual name="shoulder_housing">
+      <geometry>
+        <mesh filename="../meshes/shoulder_housing.stl" />
+      </geometry>
+      <material name="shoulder_housing_material">
+        <color rgba="0.79 0.82 0.8 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="-0.15 0.21 0" rpy="-0 1.57079632679 0" />
+      <geometry>
+        <cylinder radius="0.193" length="0.16" />
+      </geometry>
+    </collision>
+    <visual name="shoulder_motor">
+      <geometry>
+        <mesh filename="../meshes/shoulder_motor.stl" />
+      </geometry>
+      <material name="shoulder_motor_material">
+        <color rgba="0.16 0.19 0.19 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="-0.275 0.21 0" rpy="-0 1.57079632679 0" />
+      <geometry>
+        <cylinder radius="0.145" length="0.09" />
+      </geometry>
+    </collision>
+    <visual name="parallel_lower_bracket">
+      <geometry>
+        <mesh filename="../meshes/parallel_lower_bracket.stl" />
+      </geometry>
+      <material name="parallel_lower_bracket_material">
+        <color rgba="0.79 0.82 0.8 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0.287 0.0130385 0.0347295" rpy="0.777744101587 1.32460028491 -0.777744101587" />
+      <geometry>
+        <cylinder radius="0.045" length="0.3999998532624731" />
+      </geometry>
+    </collision>
+  </link>
+  <link name="link2">
+    <visual name="upper_arm_root">
+      <geometry>
+        <mesh filename="../meshes/upper_arm_root.stl" />
+      </geometry>
+      <material name="upper_arm_root_material">
+        <color rgba="0.79 0.82 0.8 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0.0625 0 0" rpy="-0 1.57079632679 0" />
+      <geometry>
+        <cylinder radius="0.1625" length="0.255" />
+      </geometry>
+    </collision>
+    <visual name="upper_arm">
+      <geometry>
+        <mesh filename="../meshes/upper_arm.stl" />
+      </geometry>
+      <material name="upper_arm_material">
+        <color rgba="0.79 0.82 0.8 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0.08 0 0.565" rpy="0 0 0" />
+      <geometry>
+        <box size="0.24 0.255 0.95" />
+      </geometry>
+    </collision>
+    <visual name="upper_arm_cover">
+      <geometry>
+        <mesh filename="../meshes/upper_arm_cover.stl" />
+      </geometry>
+      <material name="upper_arm_cover_material">
+        <color rgba="0.13 0.42 0.22 1" />
+      </material>
+    </visual>
+    <visual name="upper_arm_elbow">
+      <geometry>
+        <mesh filename="../meshes/upper_arm_elbow.stl" />
+      </geometry>
+      <material name="upper_arm_elbow_material">
+        <color rgba="0.79 0.82 0.8 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0.08 0 1.1" rpy="-0 1.57079632679 0" />
+      <geometry>
+        <cylinder radius="0.092" length="0.28" />
+      </geometry>
+    </collision>
+  </link>
+  <link name="parallel_arm1">
+    <visual name="parallel_rod">
+      <geometry>
+        <mesh filename="../meshes/parallel_rod.stl" />
+      </geometry>
+      <material name="parallel_rod_material">
+        <color rgba="0.79 0.82 0.8 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0.55" rpy="0 0 0" />
+      <geometry>
+        <cylinder radius="0.042" length="1.1" />
+      </geometry>
+    </collision>
+  </link>
+  <link name="parallel_arm2">
+    <visual name="elbow_carrier">
+      <geometry>
+        <mesh filename="../meshes/elbow_carrier.stl" />
+      </geometry>
+      <material name="elbow_carrier_material">
+        <color rgba="0.79 0.82 0.8 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0.25 0.0925 0.145" rpy="0 0 0" />
+      <geometry>
+        <box size="0.16 0.27 0.3" />
+      </geometry>
+    </collision>
+    <visual name="carrier_bearing">
+      <geometry>
+        <mesh filename="../meshes/carrier_bearing.stl" />
+      </geometry>
+      <material name="carrier_bearing_material">
+        <color rgba="0.16 0.19 0.19 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0.295 0.185 0.27" rpy="-0 1.57079632679 0" />
+      <geometry>
+        <cylinder radius="0.12" length="0.15" />
+      </geometry>
+    </collision>
+    <visual name="parallel_carrier_rear">
+      <geometry>
+        <mesh filename="../meshes/parallel_carrier_rear.stl" />
+      </geometry>
+      <material name="parallel_carrier_rear_material">
+        <color rgba="0.79 0.82 0.8 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0.287 -0.195 0.069459" rpy="0 0 0" />
+      <geometry>
+        <box size="0.09 0.43 0.075" />
+      </geometry>
+    </collision>
+  </link>
+  <link name="link3">
+    <visual name="elbow_housing">
+      <geometry>
+        <mesh filename="../meshes/elbow_housing.stl" />
+      </geometry>
+      <material name="elbow_housing_material">
+        <color rgba="0.79 0.82 0.8 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="-0 1.57079632679 0" />
+      <geometry>
+        <cylinder radius="0.178" length="0.36" />
+      </geometry>
+    </collision>
+    <visual name="wrist_swivel_base">
+      <geometry>
+        <mesh filename="../meshes/wrist_swivel_base.stl" />
+      </geometry>
+      <material name="wrist_swivel_base_material">
+        <color rgba="0.79 0.82 0.8 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 0.176 0" rpy="-1.57079632679 1.57079632679 0" />
+      <geometry>
+        <cylinder radius="0.1735" length="0.302" />
+      </geometry>
+    </collision>
+  </link>
+  <link name="link4">
+    <visual name="forearm">
+      <geometry>
+        <mesh filename="../meshes/forearm.stl" />
+      </geometry>
+      <material name="forearm_material">
+        <color rgba="0.79 0.82 0.8 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 0.464 0" rpy="-1.57079632679 1.57079632679 0" />
+      <geometry>
+        <cylinder radius="0.125" length="0.9279999999999999" />
+      </geometry>
+    </collision>
+    <visual name="forearm_cover">
+      <geometry>
+        <mesh filename="../meshes/forearm_cover.stl" />
+      </geometry>
+      <material name="forearm_cover_material">
+        <color rgba="0.13 0.42 0.22 1" />
+      </material>
+    </visual>
+    <visual name="wrist_fork_left">
+      <geometry>
+        <mesh filename="../meshes/wrist_fork_left.stl" />
+      </geometry>
+      <material name="wrist_fork_left_material">
+        <color rgba="0.79 0.82 0.8 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="-0.13 1.023 0" rpy="0 0 0" />
+      <geometry>
+        <box size="0.085 0.22 0.23" />
+      </geometry>
+    </collision>
+    <visual name="wrist_fork_right">
+      <geometry>
+        <mesh filename="../meshes/wrist_fork_right.stl" />
+      </geometry>
+      <material name="wrist_fork_right_material">
+        <color rgba="0.79 0.82 0.8 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0.13 1.023 0" rpy="0 0 0" />
+      <geometry>
+        <box size="0.085 0.22 0.23" />
+      </geometry>
+    </collision>
+  </link>
+  <link name="link5">
+    <visual name="wrist_bend">
+      <geometry>
+        <mesh filename="../meshes/wrist_bend.stl" />
+      </geometry>
+      <material name="wrist_bend_material">
+        <color rgba="0.44 0.48 0.49 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="-0 1.57079632679 0" />
+      <geometry>
+        <cylinder radius="0.12" length="0.176" />
+      </geometry>
+    </collision>
+    <visual name="wrist_body">
+      <geometry>
+        <mesh filename="../meshes/wrist_body.stl" />
+      </geometry>
+      <material name="wrist_body_material">
+        <color rgba="0.79 0.82 0.8 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 0.11 0" rpy="-1.57079632679 1.57079632679 0" />
+      <geometry>
+        <cylinder radius="0.098" length="0.20999999999999996" />
+      </geometry>
+    </collision>
+  </link>
+  <link name="link6">
+    <visual name="wrist_output_housing">
+      <geometry>
+        <mesh filename="../meshes/wrist_output_housing.stl" />
+      </geometry>
+      <material name="wrist_output_housing_material">
+        <color rgba="0.44 0.48 0.49 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 -0.0855 0" rpy="-1.57079632679 1.57079632679 0" />
+      <geometry>
+        <cylinder radius="0.09" length="0.09499999999999975" />
+      </geometry>
+    </collision>
+    <visual name="gun_bracket_160">
+      <geometry>
+        <mesh filename="../meshes/gun_bracket_160.stl" />
+      </geometry>
+      <material name="gun_bracket_160_material">
+        <color rgba="0.44 0.48 0.49 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 -0.028 0" rpy="1.57079632679 0 0" />
+      <geometry>
+        <cylinder radius="0.105" length="0.056" />
+      </geometry>
+    </collision>
+  </link>
+  <link name="flange" />
+  <joint name="joint1" type="revolute">
+    <parent link="base_link" />
+    <child link="link1" />
+    <origin xyz="0 0 0.67" rpy="0 0 0" />
+    <axis xyz="0 0 -1" />
+    <limit lower="-3.14159265359" upper="3.14159265359" velocity="2.18166156499" />
+  </joint>
+  <joint name="joint2" type="revolute">
+    <parent link="link1" />
+    <child link="link2" />
+    <origin xyz="0 0.21 0" rpy="0 0 0" />
+    <axis xyz="-1 0 0" />
+    <limit lower="-1.0471975512" upper="1.32645023152" velocity="2.09439510239" />
+  </joint>
+  <joint name="joint3" type="revolute">
+    <parent link="parallel_arm2" />
+    <child link="link3" />
+    <origin xyz="0 0.185 0.27" rpy="0 0 0" />
+    <axis xyz="1 0 0" />
+    <limit lower="-2.09439510239" upper="1.57079632679" velocity="1.74532925199" />
+  </joint>
+  <joint name="joint4" type="revolute">
+    <parent link="link3" />
+    <child link="link4" />
+    <origin xyz="0 0.327 0" rpy="0 0 0" />
+    <axis xyz="0 1 0" />
+    <limit lower="-3.66519142919" upper="3.66519142919" velocity="2.44346095279" />
+  </joint>
+  <joint name="joint5" type="revolute">
+    <parent link="link4" />
+    <child link="link5" />
+    <origin xyz="0 1.023 0" rpy="0 0 0" />
+    <axis xyz="1 0 0" />
+    <limit lower="-2.18166156499" upper="2.18166156499" velocity="2.44346095279" />
+  </joint>
+  <joint name="joint6" type="revolute">
+    <parent link="link5" />
+    <child link="link6" />
+    <origin xyz="0 0.343 0" rpy="0 0 0" />
+    <axis xyz="0 1 0" />
+    <limit lower="-3.66519142919" upper="3.66519142919" velocity="3.49065850399" />
+  </joint>
+  <joint name="parallel_joint2" type="continuous">
+    <parent link="link2" />
+    <child link="parallel_arm2" />
+    <origin xyz="0 0 1.1" rpy="0 0 0" />
+    <axis xyz="-1 0 0" />
+    <mimic joint="joint2" multiplier="-1" offset="0" />
+  </joint>
+  <joint name="parallel_joint1" type="continuous">
+    <parent link="link1" />
+    <child link="parallel_arm1" />
+    <origin xyz="0.287 -0.183923 0.069459" rpy="0 0 0" />
+    <axis xyz="-1 0 0" />
+    <mimic joint="joint2" multiplier="1" offset="0" />
+  </joint>
+  <joint name="flange_joint" type="fixed">
+    <parent link="link6" />
+    <child link="flange" />
+    <origin xyz="0 0 0" rpy="-1.57079632679 -1.57079632679 0" />
+  </joint>
+</robot>

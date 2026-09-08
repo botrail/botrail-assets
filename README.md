@@ -46,6 +46,8 @@ gun = bt.Robot.from_catalog("weld-gun-x1")  # カタログ ID (下表の右列) 
 | [biw-sedan](./biw-sedan) | ワークピース: BIW (コンパクトセダン) | — (独自著作) | `biw-sedan` |
 | [spindle-emsf3060](./spindle-emsf3060) | 切削スピンドル (フランジ付きモータ) | ナカニシ EMSF-3060K | `spindle-emsf3060` |
 | [ati-rcv250-crx-kit](./ati-rcv250-crx-kit) | スピンドル＋取付プレート2点 | ATI 9150-COB-CRX10-RCV250-01 / RCV-250 | `rcv-250-crx10-kit` / `rcv-250` / `3700-50-9210` / `9005-50-6091` |
+| [kawasaki-bx250l](./kawasaki-bx250l) | 6軸アーム＋平行リンクの参照モデル | Kawasaki BX250L-B001 / GUN BRACKET 160 | `kawasaki/bx/bx250l-b001/r2` |
+| [nimak-multiframegun](./nimak-multiframegun) | 閉姿勢の取付参照モデル＋指定ボルト10本 | NIMAK 95.020.516 / P3U、BX-NIMAK-HW-A構成 | `nimak/multiframegun/95-020-516-p3u/r3` |
 | [lms1xx](./lms1xx) | **ROS パッケージ `lms1xx` の CC0 代替 (スタブ)** — 2D 安全レーザスキャナ | — (独自著作。LMS1xx フォームファクタ) | — (カタログ製品ではない) |
 
 **lms1xx だけ性格が違う**: これはカタログに載せる製品モデルではなく、Clearpath の
@@ -55,7 +57,7 @@ ROS 1 記述 (ridgeback / husky / jackal / dingo) が無条件 include する RO
 
 weld ガン 2 種のみ、カタログ ID が歴史的な名前のまま (公開済み ID の互換維持のため。
 [CONTRIBUTING.md](./CONTRIBUTING.md) の rev 運用参照)。それ以外は
-ディレクトリ名 = カタログ ID。
+製品ごとのカタログ ID は上表と各アセットの README を参照。
 
 ## 寸法可変の製品シリーズモデル
 
