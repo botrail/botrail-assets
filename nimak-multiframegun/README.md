@@ -1,6 +1,6 @@
 # NIMAK 95.020.516 / P3U reference model
 
-An independently authored CC0 picture and mounting reference of the real NIMAK multiframeGUN 95.020.516 with P3U coupling, configured with [BX-NIMAK-HW-A replacement hardware](docs/assembly.md). It can move with an attached robot. The gun itself stays in the received closed pose: opening range, stroke and speed have not been established for this exact configuration.
+An independently authored CC0 picture and mounting reference of the real NIMAK multiframeGUN 95.020.516 with P3U coupling, configured with [BX-NIMAK-HW-A replacement hardware](docs/assembly.md). It can move with an attached robot. The right jaw opens about the measured pivot using one joint. See [opening, position commands and simulation limits](docs/opening.md). The maximum physical opening and speed remain uncalibrated.
 
 | Quantity | Source | Model |
 | --- | --- | --- |
@@ -16,7 +16,7 @@ An independently authored CC0 picture and mounting reference of the real NIMAK m
 
 The source is the [NIMAK gun configurator](https://www.nimak.com/en/weldinggunconfigurator/) and user-supplied `95.020.516.stp`. Its SHA256 is `1ed279a1b42623fa618aedf65ea5bf3ef77123daf4f3ea724b82b716f8b9e73d`; the file is not redistributed. Only measured numeric facts are used to author boxes and cylinders. No vendor mesh, surface or traced contour is shipped. The configurator designation `LRN 300-001-` is not a verified drive model or a stroke measurement.
 
-Transformer, drive, supports, blade bends, housing contours, paint and smaller features are illustrative approximations. Visual recesses around bolt heads are authored clearances. There is no thread helix, head socket or detailed internal mechanism. Hoses, water/air connections and cable routing are omitted. Collision geometry keeps the large throat open using separate boxes/cylinders; it fills mount bores, omits fasteners/pins and is not suitable for micrometre fits or complete CAD clearance verification. Load/inertia, active squeeze force and process readiness are not modelled.
+Transformer, supports, blade bends, housing contours, paint and smaller features are illustrative approximations. Internal drive geometry is omitted; its nonlinear linkage is documented numerically. Visual recesses around bolt heads are authored clearances. There is no thread helix, head socket or detailed internal mechanism. Hoses, water/air connections and cable routing are omitted. Collision geometry keeps the large throat open using separate boxes/cylinders; it fills mount bores, omits fasteners/pins and is not suitable for micrometre fits or complete CAD clearance verification. Load/inertia, active squeeze force and process readiness are not modelled.
 
 `order.requires` in the catalog lists the ten separately purchased CB10-25 screws. They are already visible here; do not attach a second set. Coupling and flange are included once. This engineering configuration is not a manufacturer-supported Kawasaki/NIMAK kit.
 
@@ -29,4 +29,4 @@ python nimak-multiframegun/tools/generate_model.py --check
 python -m unittest discover -s authoring/tests -p 'test_reference_models.py'
 ```
 
-The URDF uses metres/radians, `mount` as the root and local +Z into the gun. All joints are fixed. Prebuilt catalog URDF/USD require no authoring environment.
+The URDF uses metres/radians, `mount` as the root and local +Z into the gun. `jaw_opening` controls the right arm; `moving_tip` follows its electrode. The 0–20 degree range and 0.2 rad/s velocity are simulation settings, not manufacturer maximums. Prebuilt catalog URDF/USD require no authoring environment.
