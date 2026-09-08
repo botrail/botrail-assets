@@ -1,0 +1,22 @@
+name: Reference robot and gun
+on:
+  push:
+    paths: ['authoring/reference*', 'authoring/tests/test_reference_models.py', 'kawasaki-bx250l/**', 'nimak-multiframegun/**', '.github/workflows/reference-models.yaml']
+  pull_request:
+    paths: ['authoring/reference*', 'authoring/tests/test_reference_models.py', 'kawasaki-bx250l/**', 'nimak-multiframegun/**', '.github/workflows/reference-models.yaml']
+permissions:
+  contents: read
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+          cache: pip
+          cache-dependency-path: authoring/reference-requirements.txt
+      - run: python -m pip install -r authoring/reference-requirements.txt
+      - run: python kawasaki-bx250l/tools/generate_model.py --check
+      - run: python nimak-multiframegun/tools/generate_model.py --check
+      - run: python -m unittest discover -s authoring/tests -p 'test_reference_models.py'

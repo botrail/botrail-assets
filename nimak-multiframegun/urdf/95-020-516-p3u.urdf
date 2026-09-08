@@ -1,0 +1,725 @@
+<?xml version='1.0' encoding='utf-8'?>
+<robot name="95-020-516-p3u">
+  <link name="mount" />
+  <link name="coupling">
+    <visual name="mount_plate">
+      <geometry>
+        <mesh filename="../meshes/mount_plate.stl" />
+      </geometry>
+      <material name="mount_plate_material">
+        <color rgba="0.4 0.44 0.46 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0.0035" rpy="0 0 0" />
+      <geometry>
+        <box size="0.182 0.186 0.007" />
+      </geometry>
+    </collision>
+    <visual name="quick_coupling_housing">
+      <geometry>
+        <mesh filename="../meshes/quick_coupling_housing.stl" />
+      </geometry>
+      <material name="quick_coupling_housing_material">
+        <color rgba="0.68 0.71 0.72 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0.013" rpy="0 0 0" />
+      <geometry>
+        <cylinder radius="0.083" length="0.012" />
+      </geometry>
+    </collision>
+    <visual name="location_pin">
+      <geometry>
+        <mesh filename="../meshes/location_pin.stl" />
+      </geometry>
+      <material name="location_pin_material">
+        <color rgba="0.4 0.44 0.46 1" />
+      </material>
+    </visual>
+    <visual name="washer_h1">
+      <geometry>
+        <mesh filename="../meshes/washer_h1.stl" />
+      </geometry>
+      <material name="washer_h1_material">
+        <color rgba="0.4 0.44 0.46 1" />
+      </material>
+    </visual>
+    <visual name="washer_h2">
+      <geometry>
+        <mesh filename="../meshes/washer_h2.stl" />
+      </geometry>
+      <material name="washer_h2_material">
+        <color rgba="0.4 0.44 0.46 1" />
+      </material>
+    </visual>
+    <visual name="washer_h3">
+      <geometry>
+        <mesh filename="../meshes/washer_h3.stl" />
+      </geometry>
+      <material name="washer_h3_material">
+        <color rgba="0.4 0.44 0.46 1" />
+      </material>
+    </visual>
+    <visual name="washer_h4">
+      <geometry>
+        <mesh filename="../meshes/washer_h4.stl" />
+      </geometry>
+      <material name="washer_h4_material">
+        <color rgba="0.4 0.44 0.46 1" />
+      </material>
+    </visual>
+    <visual name="washer_h5">
+      <geometry>
+        <mesh filename="../meshes/washer_h5.stl" />
+      </geometry>
+      <material name="washer_h5_material">
+        <color rgba="0.4 0.44 0.46 1" />
+      </material>
+    </visual>
+    <visual name="washer_h6">
+      <geometry>
+        <mesh filename="../meshes/washer_h6.stl" />
+      </geometry>
+      <material name="washer_h6_material">
+        <color rgba="0.4 0.44 0.46 1" />
+      </material>
+    </visual>
+    <visual name="washer_h7">
+      <geometry>
+        <mesh filename="../meshes/washer_h7.stl" />
+      </geometry>
+      <material name="washer_h7_material">
+        <color rgba="0.4 0.44 0.46 1" />
+      </material>
+    </visual>
+    <visual name="washer_h8">
+      <geometry>
+        <mesh filename="../meshes/washer_h8.stl" />
+      </geometry>
+      <material name="washer_h8_material">
+        <color rgba="0.4 0.44 0.46 1" />
+      </material>
+    </visual>
+    <visual name="washer_h9">
+      <geometry>
+        <mesh filename="../meshes/washer_h9.stl" />
+      </geometry>
+      <material name="washer_h9_material">
+        <color rgba="0.4 0.44 0.46 1" />
+      </material>
+    </visual>
+    <visual name="washer_h10">
+      <geometry>
+        <mesh filename="../meshes/washer_h10.stl" />
+      </geometry>
+      <material name="washer_h10_material">
+        <color rgba="0.4 0.44 0.46 1" />
+      </material>
+    </visual>
+  </link>
+  <link name="flange">
+    <visual name="flange_plate">
+      <geometry>
+        <mesh filename="../meshes/flange_plate.stl" />
+      </geometry>
+      <material name="flange_plate_material">
+        <color rgba="0.68 0.71 0.72 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0.0115" rpy="0 0 0" />
+      <geometry>
+        <box size="0.177 0.172 0.023" />
+      </geometry>
+    </collision>
+  </link>
+  <link name="body">
+    <visual name="lower_frame_left">
+      <geometry>
+        <mesh filename="../meshes/lower_frame_left.stl" />
+      </geometry>
+      <material name="lower_frame_left_material">
+        <color rgba="0.68 0.71 0.72 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="-0.0134 -0.058 0.235" rpy="0 0 0" />
+      <geometry>
+        <box size="0.15 0.012 0.47" />
+      </geometry>
+    </collision>
+    <visual name="transformer_cheek_left">
+      <geometry>
+        <mesh filename="../meshes/transformer_cheek_left.stl" />
+      </geometry>
+      <material name="transformer_cheek_left_material">
+        <color rgba="0.68 0.71 0.72 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="-0.12 -0.058 0.468" rpy="0 0 0" />
+      <geometry>
+        <box size="0.32 0.012 0.14" />
+      </geometry>
+    </collision>
+    <visual name="lower_frame_right">
+      <geometry>
+        <mesh filename="../meshes/lower_frame_right.stl" />
+      </geometry>
+      <material name="lower_frame_right_material">
+        <color rgba="0.68 0.71 0.72 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="-0.0134 0.058 0.235" rpy="0 0 0" />
+      <geometry>
+        <box size="0.15 0.012 0.47" />
+      </geometry>
+    </collision>
+    <visual name="transformer_cheek_right">
+      <geometry>
+        <mesh filename="../meshes/transformer_cheek_right.stl" />
+      </geometry>
+      <material name="transformer_cheek_right_material">
+        <color rgba="0.68 0.71 0.72 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="-0.12 0.058 0.468" rpy="0 0 0" />
+      <geometry>
+        <box size="0.32 0.012 0.14" />
+      </geometry>
+    </collision>
+    <visual name="transformer_core">
+      <geometry>
+        <mesh filename="../meshes/transformer_core.stl" />
+      </geometry>
+      <material name="transformer_core_material">
+        <color rgba="0.12 0.34 0.47 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="-0.16 0 0.158" rpy="0 0 0" />
+      <geometry>
+        <box size="0.24 0.142 0.25" />
+      </geometry>
+    </collision>
+    <visual name="transformer_rib_95">
+      <geometry>
+        <mesh filename="../meshes/transformer_rib_95.stl" />
+      </geometry>
+      <material name="transformer_rib_95_material">
+        <color rgba="0.68 0.71 0.72 1" />
+      </material>
+    </visual>
+    <visual name="transformer_rib_145">
+      <geometry>
+        <mesh filename="../meshes/transformer_rib_145.stl" />
+      </geometry>
+      <material name="transformer_rib_145_material">
+        <color rgba="0.68 0.71 0.72 1" />
+      </material>
+    </visual>
+    <visual name="transformer_rib_195">
+      <geometry>
+        <mesh filename="../meshes/transformer_rib_195.stl" />
+      </geometry>
+      <material name="transformer_rib_195_material">
+        <color rgba="0.68 0.71 0.72 1" />
+      </material>
+    </visual>
+    <visual name="transformer_rib_245">
+      <geometry>
+        <mesh filename="../meshes/transformer_rib_245.stl" />
+      </geometry>
+      <material name="transformer_rib_245_material">
+        <color rgba="0.68 0.71 0.72 1" />
+      </material>
+    </visual>
+    <visual name="transformer_rib_295">
+      <geometry>
+        <mesh filename="../meshes/transformer_rib_295.stl" />
+      </geometry>
+      <material name="transformer_rib_295_material">
+        <color rgba="0.68 0.71 0.72 1" />
+      </material>
+    </visual>
+    <visual name="drive_housing">
+      <geometry>
+        <mesh filename="../meshes/drive_housing.stl" />
+      </geometry>
+      <material name="drive_housing_material">
+        <color rgba="0.12 0.15 0.16 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="-0.1725 0 0.393" rpy="0 1.16354047872 0" />
+      <geometry>
+        <cylinder radius="0.05" length="0.27771388153997634" />
+      </geometry>
+    </collision>
+    <visual name="drive_rod_closed_pose">
+      <geometry>
+        <mesh filename="../meshes/drive_rod_closed_pose.stl" />
+      </geometry>
+      <material name="drive_rod_closed_pose_material">
+        <color rgba="0.4 0.44 0.46 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0.0775 0 0.503" rpy="0 1.14879129689 0" />
+      <geometry>
+        <cylinder radius="0.018" length="0.2685609800399157" />
+      </geometry>
+    </collision>
+    <visual name="gun_pivot">
+      <geometry>
+        <mesh filename="../meshes/gun_pivot.stl" />
+      </geometry>
+      <material name="gun_pivot_material">
+        <color rgba="0.4 0.44 0.46 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="-0.0134 0 0.59" rpy="-1.57079632679 1.57079632679 0" />
+      <geometry>
+        <cylinder radius="0.045" length="0.18" />
+      </geometry>
+    </collision>
+    <visual name="left_arm_clamp">
+      <geometry>
+        <mesh filename="../meshes/left_arm_clamp.stl" />
+      </geometry>
+      <material name="left_arm_clamp_material">
+        <color rgba="0.68 0.71 0.72 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="-0.2259 0 0.59" rpy="0 0 0" />
+      <geometry>
+        <box size="0.18 0.1 0.1" />
+      </geometry>
+    </collision>
+    <visual name="left_arm_lower">
+      <geometry>
+        <mesh filename="../meshes/left_arm_lower.stl" />
+      </geometry>
+      <material name="left_arm_lower_material">
+        <color rgba="0.65 0.36 0.19 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="-0.2259 0 0.64" rpy="0 0 0" />
+      <geometry>
+        <box size="0.09 0.04 0.2" />
+      </geometry>
+    </collision>
+    <visual name="left_arm_blade">
+      <geometry>
+        <mesh filename="../meshes/left_arm_blade.stl" />
+      </geometry>
+      <material name="left_arm_blade_material">
+        <color rgba="0.65 0.36 0.19 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="-0.2009 0 1.005" rpy="0 0 0" />
+      <geometry>
+        <box size="0.055 0.04 0.53" />
+      </geometry>
+    </collision>
+    <visual name="left_arm_tip_bend">
+      <geometry>
+        <mesh filename="../meshes/left_arm_tip_bend.stl" />
+      </geometry>
+      <material name="left_arm_tip_bend_material">
+        <color rgba="0.65 0.36 0.19 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="-0.18215 0 1.274" rpy="0 0.864370271139 0" />
+      <geometry>
+        <cylinder radius="0.02" length="0.0492975658628294" />
+      </geometry>
+    </collision>
+    <visual name="right_arm_clamp">
+      <geometry>
+        <mesh filename="../meshes/right_arm_clamp.stl" />
+      </geometry>
+      <material name="right_arm_clamp_material">
+        <color rgba="0.68 0.71 0.72 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0.1991 0 0.59" rpy="0 0 0" />
+      <geometry>
+        <box size="0.18 0.1 0.1" />
+      </geometry>
+    </collision>
+    <visual name="right_arm_lower">
+      <geometry>
+        <mesh filename="../meshes/right_arm_lower.stl" />
+      </geometry>
+      <material name="right_arm_lower_material">
+        <color rgba="0.65 0.36 0.19 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0.1991 0 0.64" rpy="0 0 0" />
+      <geometry>
+        <box size="0.09 0.04 0.2" />
+      </geometry>
+    </collision>
+    <visual name="right_arm_blade">
+      <geometry>
+        <mesh filename="../meshes/right_arm_blade.stl" />
+      </geometry>
+      <material name="right_arm_blade_material">
+        <color rgba="0.65 0.36 0.19 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0.1741 0 1.005" rpy="0 0 0" />
+      <geometry>
+        <box size="0.055 0.04 0.53" />
+      </geometry>
+    </collision>
+    <visual name="right_arm_tip_bend">
+      <geometry>
+        <mesh filename="../meshes/right_arm_tip_bend.stl" />
+      </geometry>
+      <material name="right_arm_tip_bend_material">
+        <color rgba="0.65 0.36 0.19 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0.15535 0 1.274" rpy="0 -0.864370271139 0" />
+      <geometry>
+        <cylinder radius="0.02" length="0.0492975658628294" />
+      </geometry>
+    </collision>
+    <visual name="cross_support">
+      <geometry>
+        <mesh filename="../meshes/cross_support.stl" />
+      </geometry>
+      <material name="cross_support_material">
+        <color rgba="0.68 0.71 0.72 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="-0.0134 0 0.568" rpy="0 0 0" />
+      <geometry>
+        <box size="0.4 0.075 0.075" />
+      </geometry>
+    </collision>
+    <visual name="left_holder">
+      <geometry>
+        <mesh filename="../meshes/left_holder.stl" />
+      </geometry>
+      <material name="left_holder_material">
+        <color rgba="0.65 0.36 0.19 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="-0.0984 0 1.29" rpy="-0 1.57079632679 0" />
+      <geometry>
+        <cylinder radius="0.0132" length="0.13" />
+      </geometry>
+    </collision>
+    <visual name="right_holder">
+      <geometry>
+        <mesh filename="../meshes/right_holder.stl" />
+      </geometry>
+      <material name="right_holder_material">
+        <color rgba="0.65 0.36 0.19 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0.0716 0 1.29" rpy="0 -1.57079632679 0" />
+      <geometry>
+        <cylinder radius="0.0132" length="0.13" />
+      </geometry>
+    </collision>
+    <visual name="left_electrode">
+      <geometry>
+        <mesh filename="../meshes/left_electrode.stl" />
+      </geometry>
+      <material name="left_electrode_material">
+        <color rgba="0.65 0.36 0.19 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="-0.0234 0 1.29" rpy="-0 1.57079632679 0" />
+      <geometry>
+        <cylinder radius="0.008" length="0.019999999999999997" />
+      </geometry>
+    </collision>
+    <visual name="right_electrode">
+      <geometry>
+        <mesh filename="../meshes/right_electrode.stl" />
+      </geometry>
+      <material name="right_electrode_material">
+        <color rgba="0.65 0.36 0.19 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="-0.0034 0 1.29" rpy="0 -1.57079632679 0" />
+      <geometry>
+        <cylinder radius="0.008" length="0.02" />
+      </geometry>
+    </collision>
+  </link>
+  <link name="cad_tip" />
+  <joint name="mount_to_coupling" type="fixed">
+    <parent link="mount" />
+    <child link="coupling" />
+    <origin xyz="0 0 0" rpy="0 0 0" />
+  </joint>
+  <joint name="coupling_to_flange" type="fixed">
+    <parent link="coupling" />
+    <child link="flange" />
+    <origin xyz="0 0 0.019" rpy="0 0 0" />
+  </joint>
+  <joint name="flange_to_body" type="fixed">
+    <parent link="flange" />
+    <child link="body" />
+    <origin xyz="0 0 0.023" rpy="0 0 0" />
+  </joint>
+  <joint name="cad_tip_joint" type="fixed">
+    <parent link="body" />
+    <child link="cad_tip" />
+    <origin xyz="-0.0134 0 1.29" rpy="0 1.57079632679 0" />
+  </joint>
+  <link name="mount_bolt_h1">
+    <visual name="CB10_25_shaft_h1">
+      <geometry>
+        <mesh filename="../meshes/CB10_25_shaft_h1.stl" />
+      </geometry>
+      <material name="CB10_25_shaft_h1_material">
+        <color rgba="0.12 0.15 0.16 1" />
+      </material>
+    </visual>
+    <visual name="CB10_25_head_h1">
+      <geometry>
+        <mesh filename="../meshes/CB10_25_head_h1.stl" />
+      </geometry>
+      <material name="CB10_25_head_h1_material">
+        <color rgba="0.12 0.15 0.16 1" />
+      </material>
+    </visual>
+  </link>
+  <joint name="mount_bolt_h1_joint" type="fixed">
+    <parent link="coupling" />
+    <child link="mount_bolt_h1" />
+    <origin xyz="-0.069282032 -0.04 0.008" rpy="0 0 0" />
+  </joint>
+  <link name="mount_bolt_h2">
+    <visual name="CB10_25_shaft_h2">
+      <geometry>
+        <mesh filename="../meshes/CB10_25_shaft_h2.stl" />
+      </geometry>
+      <material name="CB10_25_shaft_h2_material">
+        <color rgba="0.12 0.15 0.16 1" />
+      </material>
+    </visual>
+    <visual name="CB10_25_head_h2">
+      <geometry>
+        <mesh filename="../meshes/CB10_25_head_h2.stl" />
+      </geometry>
+      <material name="CB10_25_head_h2_material">
+        <color rgba="0.12 0.15 0.16 1" />
+      </material>
+    </visual>
+  </link>
+  <joint name="mount_bolt_h2_joint" type="fixed">
+    <parent link="coupling" />
+    <child link="mount_bolt_h2" />
+    <origin xyz="-0.069282032 0.04 0.008" rpy="0 0 0" />
+  </joint>
+  <link name="mount_bolt_h3">
+    <visual name="CB10_25_shaft_h3">
+      <geometry>
+        <mesh filename="../meshes/CB10_25_shaft_h3.stl" />
+      </geometry>
+      <material name="CB10_25_shaft_h3_material">
+        <color rgba="0.12 0.15 0.16 1" />
+      </material>
+    </visual>
+    <visual name="CB10_25_head_h3">
+      <geometry>
+        <mesh filename="../meshes/CB10_25_head_h3.stl" />
+      </geometry>
+      <material name="CB10_25_head_h3_material">
+        <color rgba="0.12 0.15 0.16 1" />
+      </material>
+    </visual>
+  </link>
+  <joint name="mount_bolt_h3_joint" type="fixed">
+    <parent link="coupling" />
+    <child link="mount_bolt_h3" />
+    <origin xyz="-0.04 -0.069282032 0.008" rpy="0 0 0" />
+  </joint>
+  <link name="mount_bolt_h4">
+    <visual name="CB10_25_shaft_h4">
+      <geometry>
+        <mesh filename="../meshes/CB10_25_shaft_h4.stl" />
+      </geometry>
+      <material name="CB10_25_shaft_h4_material">
+        <color rgba="0.12 0.15 0.16 1" />
+      </material>
+    </visual>
+    <visual name="CB10_25_head_h4">
+      <geometry>
+        <mesh filename="../meshes/CB10_25_head_h4.stl" />
+      </geometry>
+      <material name="CB10_25_head_h4_material">
+        <color rgba="0.12 0.15 0.16 1" />
+      </material>
+    </visual>
+  </link>
+  <joint name="mount_bolt_h4_joint" type="fixed">
+    <parent link="coupling" />
+    <child link="mount_bolt_h4" />
+    <origin xyz="-0.04 0.069282032 0.008" rpy="0 0 0" />
+  </joint>
+  <link name="mount_bolt_h5">
+    <visual name="CB10_25_shaft_h5">
+      <geometry>
+        <mesh filename="../meshes/CB10_25_shaft_h5.stl" />
+      </geometry>
+      <material name="CB10_25_shaft_h5_material">
+        <color rgba="0.12 0.15 0.16 1" />
+      </material>
+    </visual>
+    <visual name="CB10_25_head_h5">
+      <geometry>
+        <mesh filename="../meshes/CB10_25_head_h5.stl" />
+      </geometry>
+      <material name="CB10_25_head_h5_material">
+        <color rgba="0.12 0.15 0.16 1" />
+      </material>
+    </visual>
+  </link>
+  <joint name="mount_bolt_h5_joint" type="fixed">
+    <parent link="coupling" />
+    <child link="mount_bolt_h5" />
+    <origin xyz="0 -0.08 0.008" rpy="0 0 0" />
+  </joint>
+  <link name="mount_bolt_h6">
+    <visual name="CB10_25_shaft_h6">
+      <geometry>
+        <mesh filename="../meshes/CB10_25_shaft_h6.stl" />
+      </geometry>
+      <material name="CB10_25_shaft_h6_material">
+        <color rgba="0.12 0.15 0.16 1" />
+      </material>
+    </visual>
+    <visual name="CB10_25_head_h6">
+      <geometry>
+        <mesh filename="../meshes/CB10_25_head_h6.stl" />
+      </geometry>
+      <material name="CB10_25_head_h6_material">
+        <color rgba="0.12 0.15 0.16 1" />
+      </material>
+    </visual>
+  </link>
+  <joint name="mount_bolt_h6_joint" type="fixed">
+    <parent link="coupling" />
+    <child link="mount_bolt_h6" />
+    <origin xyz="0 0.08 0.008" rpy="0 0 0" />
+  </joint>
+  <link name="mount_bolt_h7">
+    <visual name="CB10_25_shaft_h7">
+      <geometry>
+        <mesh filename="../meshes/CB10_25_shaft_h7.stl" />
+      </geometry>
+      <material name="CB10_25_shaft_h7_material">
+        <color rgba="0.12 0.15 0.16 1" />
+      </material>
+    </visual>
+    <visual name="CB10_25_head_h7">
+      <geometry>
+        <mesh filename="../meshes/CB10_25_head_h7.stl" />
+      </geometry>
+      <material name="CB10_25_head_h7_material">
+        <color rgba="0.12 0.15 0.16 1" />
+      </material>
+    </visual>
+  </link>
+  <joint name="mount_bolt_h7_joint" type="fixed">
+    <parent link="coupling" />
+    <child link="mount_bolt_h7" />
+    <origin xyz="0.04 -0.069282032 0.008" rpy="0 0 0" />
+  </joint>
+  <link name="mount_bolt_h8">
+    <visual name="CB10_25_shaft_h8">
+      <geometry>
+        <mesh filename="../meshes/CB10_25_shaft_h8.stl" />
+      </geometry>
+      <material name="CB10_25_shaft_h8_material">
+        <color rgba="0.12 0.15 0.16 1" />
+      </material>
+    </visual>
+    <visual name="CB10_25_head_h8">
+      <geometry>
+        <mesh filename="../meshes/CB10_25_head_h8.stl" />
+      </geometry>
+      <material name="CB10_25_head_h8_material">
+        <color rgba="0.12 0.15 0.16 1" />
+      </material>
+    </visual>
+  </link>
+  <joint name="mount_bolt_h8_joint" type="fixed">
+    <parent link="coupling" />
+    <child link="mount_bolt_h8" />
+    <origin xyz="0.04 0.069282032 0.008" rpy="0 0 0" />
+  </joint>
+  <link name="mount_bolt_h9">
+    <visual name="CB10_25_shaft_h9">
+      <geometry>
+        <mesh filename="../meshes/CB10_25_shaft_h9.stl" />
+      </geometry>
+      <material name="CB10_25_shaft_h9_material">
+        <color rgba="0.12 0.15 0.16 1" />
+      </material>
+    </visual>
+    <visual name="CB10_25_head_h9">
+      <geometry>
+        <mesh filename="../meshes/CB10_25_head_h9.stl" />
+      </geometry>
+      <material name="CB10_25_head_h9_material">
+        <color rgba="0.12 0.15 0.16 1" />
+      </material>
+    </visual>
+  </link>
+  <joint name="mount_bolt_h9_joint" type="fixed">
+    <parent link="coupling" />
+    <child link="mount_bolt_h9" />
+    <origin xyz="0.069282032 -0.04 0.008" rpy="0 0 0" />
+  </joint>
+  <link name="mount_bolt_h10">
+    <visual name="CB10_25_shaft_h10">
+      <geometry>
+        <mesh filename="../meshes/CB10_25_shaft_h10.stl" />
+      </geometry>
+      <material name="CB10_25_shaft_h10_material">
+        <color rgba="0.12 0.15 0.16 1" />
+      </material>
+    </visual>
+    <visual name="CB10_25_head_h10">
+      <geometry>
+        <mesh filename="../meshes/CB10_25_head_h10.stl" />
+      </geometry>
+      <material name="CB10_25_head_h10_material">
+        <color rgba="0.12 0.15 0.16 1" />
+      </material>
+    </visual>
+  </link>
+  <joint name="mount_bolt_h10_joint" type="fixed">
+    <parent link="coupling" />
+    <child link="mount_bolt_h10" />
+    <origin xyz="0.069282032 0.04 0.008" rpy="0 0 0" />
+  </joint>
+</robot>
