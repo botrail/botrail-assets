@@ -1,0 +1,12 @@
+<!doctype html><html lang="en"><meta charset="utf-8"><title>onrobot-quick-changer reference model</title>
+<style>body{margin:0;font:14px system-ui;overflow:hidden}.panel{position:absolute;top:18px;left:18px;background:#fffE;border:1px solid #ddd;border-radius:10px;padding:16px;max-width:340px}h1{font-size:19px;margin:0 0 8px}p{color:#54616d}button,select{margin:4px;padding:6px}label{display:block}</style>
+<div class="panel"><h1>onrobot-quick-changer</h1><p>Independently authored reference geometry.<br>Shell details and collision envelopes are approximate.</p><label hidden>Motion <input id="joint" type="range" min="0" max="0" step=".0005" value="0"></label><div><button id="iso">Perspective</button><button id="side">Side</button><button id="top">Top</button></div></div>
+<script type="importmap">{"imports":{"three":"/authoring/node_modules/three/build/three.module.js","three/addons/":"/authoring/node_modules/three/examples/jsm/","@botrail/authoring/":"/authoring/"}}</script>
+<script type="module">
+import {definition} from './model.mjs';
+import {referenceScene} from '@botrail/authoring/reference-model.mjs';
+import {mountAuthoring} from '@botrail/authoring/viewer.mjs';
+const type=undefined;
+const model=referenceScene(definition(type));model.pose({no_joint:0});
+mountAuthoring(model.root,{onJoint:q=>model.pose({no_joint:q})});window.reference=model;
+</script></html>

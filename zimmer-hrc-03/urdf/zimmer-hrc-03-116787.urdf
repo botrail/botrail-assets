@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<robot name="zimmer_hrc_03_116787">
+<link name="mount"><visual ><geometry ><mesh filename="../meshes/116787/mount.obj"/></geometry></visual><collision ><origin xyz="0 0 0.0215" rpy="0 0 0"/><geometry ><cylinder radius="0.035" length="0.043"/></geometry></collision><collision ><origin xyz="0 0 0.06745" rpy="0 0 0"/><geometry ><cylinder radius="0.021" length="0.0489"/></geometry></collision><collision ><origin xyz="0.046 0 0.011" rpy="0 0 0"/><geometry ><box size="0.042 0.056 0.022"/></geometry></collision></link>
+<link name="left_jaw"><visual ><geometry ><mesh filename="../meshes/116787/left_jaw.obj"/></geometry></visual><collision ><origin xyz="0.01165 0 0.11365" rpy="0 0 0"/><geometry ><box size="0.0105 0.016 0.0435"/></geometry></collision><collision ><origin xyz="0.0144 0 0.094" rpy="0 0 0"/><geometry ><box size="0.016 0.023 0.013"/></geometry></collision></link>
+<link name="left_contact"></link>
+<link name="right_jaw"><visual ><geometry ><mesh filename="../meshes/116787/right_jaw.obj"/></geometry></visual><collision ><origin xyz="-0.01165 0 0.11365" rpy="0 0 0"/><geometry ><box size="0.0105 0.016 0.0435"/></geometry></collision><collision ><origin xyz="-0.0144 0 0.094" rpy="0 0 0"/><geometry ><box size="0.016 0.023 0.013"/></geometry></collision></link>
+<link name="right_contact"></link>
+<link name="tcp"></link>
+<joint name="jaw_joint" type="prismatic"><parent link="mount"/><child link="left_jaw"/><origin xyz="0 0 0" rpy="0 0 0"/><axis xyz="1 0 0"/><limit lower="0" upper="0.01" velocity="0.03" effort="50"/></joint>
+<joint name="left_contact_joint" type="fixed"><parent link="left_jaw"/><child link="left_contact"/><origin xyz="0.0064 0 0.126" rpy="0 0 0"/></joint>
+<joint name="jaw_mirror_joint" type="prismatic"><parent link="mount"/><child link="right_jaw"/><origin xyz="0 0 0" rpy="0 0 0"/><axis xyz="-1 0 0"/><limit lower="0" upper="0.01" velocity="0.03" effort="50"/><mimic joint="jaw_joint" multiplier="1" offset="0"/></joint>
+<joint name="right_contact_joint" type="fixed"><parent link="right_jaw"/><child link="right_contact"/><origin xyz="-0.0064 0 0.126" rpy="0 0 0"/></joint>
+<joint name="tcp_joint" type="fixed"><parent link="mount"/><child link="tcp"/><origin xyz="0 0 0.1354" rpy="0 0 0"/></joint>
+</robot>

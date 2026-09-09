@@ -1,0 +1,6 @@
+<?xml version="1.0"?>
+<robot name="onrobot_quick_changer_109498">
+<link name="mount"><visual ><geometry ><mesh filename="../meshes/mount.obj"/></geometry></visual><collision ><origin xyz="0 0 0.0068" rpy="0 0 0"/><geometry ><cylinder radius="0.0355" length="0.0136"/></geometry></collision></link>
+<link name="flange"></link>
+<joint name="flange_joint" type="fixed"><parent link="mount"/><child link="flange"/><origin xyz="0 0 0.0136" rpy="0 0 0"/></joint>
+</robot>
