@@ -201,79 +201,51 @@
       </material>
     </visual>
     <collision>
-      <origin xyz="-0.16 0 0.158" rpy="0 0 0" />
+      <origin xyz="-0.17 0 0.381" rpy="0 0 0" />
       <geometry>
-        <box size="0.24 0.142 0.25" />
+        <box size="0.32 0.106 0.17" />
       </geometry>
     </collision>
-    <visual name="transformer_rib_95">
+    <visual name="transformer_rib_350">
       <geometry>
-        <mesh filename="../meshes/transformer_rib_95.stl" />
+        <mesh filename="../meshes/transformer_rib_350.stl" />
       </geometry>
-      <material name="transformer_rib_95_material">
+      <material name="transformer_rib_350_material">
         <color rgba="0.68 0.71 0.72 1" />
       </material>
     </visual>
-    <visual name="transformer_rib_145">
+    <visual name="transformer_rib_385">
       <geometry>
-        <mesh filename="../meshes/transformer_rib_145.stl" />
+        <mesh filename="../meshes/transformer_rib_385.stl" />
       </geometry>
-      <material name="transformer_rib_145_material">
+      <material name="transformer_rib_385_material">
         <color rgba="0.68 0.71 0.72 1" />
       </material>
     </visual>
-    <visual name="transformer_rib_195">
+    <visual name="transformer_rib_420">
       <geometry>
-        <mesh filename="../meshes/transformer_rib_195.stl" />
+        <mesh filename="../meshes/transformer_rib_420.stl" />
       </geometry>
-      <material name="transformer_rib_195_material">
+      <material name="transformer_rib_420_material">
         <color rgba="0.68 0.71 0.72 1" />
       </material>
     </visual>
-    <visual name="transformer_rib_245">
+    <visual name="transformer_rib_455">
       <geometry>
-        <mesh filename="../meshes/transformer_rib_245.stl" />
+        <mesh filename="../meshes/transformer_rib_455.stl" />
       </geometry>
-      <material name="transformer_rib_245_material">
+      <material name="transformer_rib_455_material">
         <color rgba="0.68 0.71 0.72 1" />
       </material>
     </visual>
-    <visual name="transformer_rib_295">
+    <visual name="transformer_rib_490">
       <geometry>
-        <mesh filename="../meshes/transformer_rib_295.stl" />
+        <mesh filename="../meshes/transformer_rib_490.stl" />
       </geometry>
-      <material name="transformer_rib_295_material">
+      <material name="transformer_rib_490_material">
         <color rgba="0.68 0.71 0.72 1" />
       </material>
     </visual>
-    <visual name="drive_housing">
-      <geometry>
-        <mesh filename="../meshes/drive_housing.stl" />
-      </geometry>
-      <material name="drive_housing_material">
-        <color rgba="0.12 0.15 0.16 1" />
-      </material>
-    </visual>
-    <collision>
-      <origin xyz="-0.1725 0 0.393" rpy="0 1.16354047872 0" />
-      <geometry>
-        <cylinder radius="0.05" length="0.27771388153997634" />
-      </geometry>
-    </collision>
-    <visual name="drive_rod_closed_pose">
-      <geometry>
-        <mesh filename="../meshes/drive_rod_closed_pose.stl" />
-      </geometry>
-      <material name="drive_rod_closed_pose_material">
-        <color rgba="0.4 0.44 0.46 1" />
-      </material>
-    </visual>
-    <collision>
-      <origin xyz="0.0775 0 0.503" rpy="0 1.14879129689 0" />
-      <geometry>
-        <cylinder radius="0.018" length="0.2685609800399157" />
-      </geometry>
-    </collision>
     <visual name="gun_pivot">
       <geometry>
         <mesh filename="../meshes/gun_pivot.stl" />
@@ -344,74 +316,18 @@
         <cylinder radius="0.02" length="0.0492975658628294" />
       </geometry>
     </collision>
-    <visual name="right_arm_clamp">
+    <visual name="fixed_arm_support">
       <geometry>
-        <mesh filename="../meshes/right_arm_clamp.stl" />
+        <mesh filename="../meshes/fixed_arm_support.stl" />
       </geometry>
-      <material name="right_arm_clamp_material">
+      <material name="fixed_arm_support_material">
         <color rgba="0.68 0.71 0.72 1" />
       </material>
     </visual>
     <collision>
-      <origin xyz="0.1991 0 0.59" rpy="0 0 0" />
+      <origin xyz="-0.11965 0 0.59" rpy="0 0 0" />
       <geometry>
-        <box size="0.18 0.1 0.1" />
-      </geometry>
-    </collision>
-    <visual name="right_arm_lower">
-      <geometry>
-        <mesh filename="../meshes/right_arm_lower.stl" />
-      </geometry>
-      <material name="right_arm_lower_material">
-        <color rgba="0.65 0.36 0.19 1" />
-      </material>
-    </visual>
-    <collision>
-      <origin xyz="0.1991 0 0.64" rpy="0 0 0" />
-      <geometry>
-        <box size="0.09 0.04 0.2" />
-      </geometry>
-    </collision>
-    <visual name="right_arm_blade">
-      <geometry>
-        <mesh filename="../meshes/right_arm_blade.stl" />
-      </geometry>
-      <material name="right_arm_blade_material">
-        <color rgba="0.65 0.36 0.19 1" />
-      </material>
-    </visual>
-    <collision>
-      <origin xyz="0.1741 0 1.005" rpy="0 0 0" />
-      <geometry>
-        <box size="0.055 0.04 0.53" />
-      </geometry>
-    </collision>
-    <visual name="right_arm_tip_bend">
-      <geometry>
-        <mesh filename="../meshes/right_arm_tip_bend.stl" />
-      </geometry>
-      <material name="right_arm_tip_bend_material">
-        <color rgba="0.65 0.36 0.19 1" />
-      </material>
-    </visual>
-    <collision>
-      <origin xyz="0.15535 0 1.274" rpy="0 -0.864370271139 0" />
-      <geometry>
-        <cylinder radius="0.02" length="0.0492975658628294" />
-      </geometry>
-    </collision>
-    <visual name="cross_support">
-      <geometry>
-        <mesh filename="../meshes/cross_support.stl" />
-      </geometry>
-      <material name="cross_support_material">
-        <color rgba="0.68 0.71 0.72 1" />
-      </material>
-    </visual>
-    <collision>
-      <origin xyz="-0.0134 0 0.568" rpy="0 0 0" />
-      <geometry>
-        <box size="0.4 0.075 0.075" />
+        <box size="0.2125 0.075 0.06" />
       </geometry>
     </collision>
     <visual name="left_holder">
@@ -424,20 +340,6 @@
     </visual>
     <collision>
       <origin xyz="-0.0984 0 1.29" rpy="-0 1.57079632679 0" />
-      <geometry>
-        <cylinder radius="0.0132" length="0.13" />
-      </geometry>
-    </collision>
-    <visual name="right_holder">
-      <geometry>
-        <mesh filename="../meshes/right_holder.stl" />
-      </geometry>
-      <material name="right_holder_material">
-        <color rgba="0.65 0.36 0.19 1" />
-      </material>
-    </visual>
-    <collision>
-      <origin xyz="0.0716 0 1.29" rpy="0 -1.57079632679 0" />
       <geometry>
         <cylinder radius="0.0132" length="0.13" />
       </geometry>
@@ -456,6 +358,135 @@
         <cylinder radius="0.008" length="0.019999999999999997" />
       </geometry>
     </collision>
+  </link>
+  <link name="cad_tip" />
+  <link name="moving_jaw">
+    <visual name="right_arm_clamp">
+      <geometry>
+        <mesh filename="../meshes/right_arm_clamp.stl" />
+      </geometry>
+      <material name="right_arm_clamp_material">
+        <color rgba="0.68 0.71 0.72 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0.2125 0 0" rpy="0 0 0" />
+      <geometry>
+        <box size="0.18 0.1 0.1" />
+      </geometry>
+    </collision>
+    <visual name="right_arm_lower">
+      <geometry>
+        <mesh filename="../meshes/right_arm_lower.stl" />
+      </geometry>
+      <material name="right_arm_lower_material">
+        <color rgba="0.65 0.36 0.19 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0.2125 0 0.05" rpy="0 0 0" />
+      <geometry>
+        <box size="0.09 0.04 0.2" />
+      </geometry>
+    </collision>
+    <visual name="right_arm_blade">
+      <geometry>
+        <mesh filename="../meshes/right_arm_blade.stl" />
+      </geometry>
+      <material name="right_arm_blade_material">
+        <color rgba="0.65 0.36 0.19 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0.1875 0 0.415" rpy="0 0 0" />
+      <geometry>
+        <box size="0.055 0.04 0.53" />
+      </geometry>
+    </collision>
+    <visual name="right_arm_tip_bend">
+      <geometry>
+        <mesh filename="../meshes/right_arm_tip_bend.stl" />
+      </geometry>
+      <material name="right_arm_tip_bend_material">
+        <color rgba="0.65 0.36 0.19 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0.16875 0 0.684" rpy="0 -0.864370271139 0" />
+      <geometry>
+        <cylinder radius="0.02" length="0.0492975658628294" />
+      </geometry>
+    </collision>
+    <visual name="swing_arm_support">
+      <geometry>
+        <mesh filename="../meshes/swing_arm_support.stl" />
+      </geometry>
+      <material name="swing_arm_support_material">
+        <color rgba="0.68 0.71 0.72 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0.10625 0 0" rpy="0 0 0" />
+      <geometry>
+        <box size="0.2125 0.075 0.06" />
+      </geometry>
+    </collision>
+    <visual name="swing_lever_left">
+      <geometry>
+        <mesh filename="../meshes/swing_lever_left.stl" />
+      </geometry>
+      <material name="swing_lever_left_material">
+        <color rgba="0.68 0.71 0.72 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0.13375 -0.0455 -0.124" rpy="3.14159265359 0.823207488463 3.14159265359" />
+      <geometry>
+        <cylinder radius="0.018" length="0.36477424525314284" />
+      </geometry>
+    </collision>
+    <visual name="swing_lever_right">
+      <geometry>
+        <mesh filename="../meshes/swing_lever_right.stl" />
+      </geometry>
+      <material name="swing_lever_right_material">
+        <color rgba="0.68 0.71 0.72 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0.13375 0.0455 -0.124" rpy="3.14159265359 0.823207488463 3.14159265359" />
+      <geometry>
+        <cylinder radius="0.018" length="0.36477424525314284" />
+      </geometry>
+    </collision>
+    <visual name="drive_eye_pin">
+      <geometry>
+        <mesh filename="../meshes/drive_eye_pin.stl" />
+      </geometry>
+      <material name="drive_eye_pin_material">
+        <color rgba="0.4 0.44 0.46 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0.2675 0 -0.248" rpy="-1.57079632679 1.57079632679 0" />
+      <geometry>
+        <cylinder radius="0.01" length="0.11" />
+      </geometry>
+    </collision>
+    <visual name="right_holder">
+      <geometry>
+        <mesh filename="../meshes/right_holder.stl" />
+      </geometry>
+      <material name="right_holder_material">
+        <color rgba="0.65 0.36 0.19 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0.085 0 0.7" rpy="0 -1.57079632679 0" />
+      <geometry>
+        <cylinder radius="0.0132" length="0.13" />
+      </geometry>
+    </collision>
     <visual name="right_electrode">
       <geometry>
         <mesh filename="../meshes/right_electrode.stl" />
@@ -465,13 +496,13 @@
       </material>
     </visual>
     <collision>
-      <origin xyz="-0.0034 0 1.29" rpy="0 -1.57079632679 0" />
+      <origin xyz="0.01 0 0.7" rpy="0 -1.57079632679 0" />
       <geometry>
         <cylinder radius="0.008" length="0.02" />
       </geometry>
     </collision>
   </link>
-  <link name="cad_tip" />
+  <link name="moving_tip" />
   <joint name="mount_to_coupling" type="fixed">
     <parent link="mount" />
     <child link="coupling" />
@@ -491,6 +522,18 @@
     <parent link="body" />
     <child link="cad_tip" />
     <origin xyz="-0.0134 0 1.29" rpy="0 1.57079632679 0" />
+  </joint>
+  <joint name="jaw_opening" type="revolute">
+    <parent link="body" />
+    <child link="moving_jaw" />
+    <origin xyz="-0.0134 0 0.59" rpy="0 0 0" />
+    <axis xyz="0 1 0" />
+    <limit lower="0" upper="0.349065850399" velocity="0.2" />
+  </joint>
+  <joint name="moving_tip_joint" type="fixed">
+    <parent link="moving_jaw" />
+    <child link="moving_tip" />
+    <origin xyz="0 0 0.7" rpy="0 -1.57079632679 0" />
   </joint>
   <link name="mount_bolt_h1">
     <visual name="CB10_25_shaft_h1">

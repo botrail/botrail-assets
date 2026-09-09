@@ -1,7 +1,7 @@
-"""Independently authored 95.020.516/P3U reference: received closed pose.
+"""95.020.516/P3U: measured one-sided jaw pivot, independently authored solids.
 
-Numeric CAD measurements are facts, not imported CAD topology. Drive stroke,
-opening speed and calibrated TCP are unknown. No invented motion is emitted.
+See docs/opening.md: 0..20 degrees and 0.2 rad/s are simulation settings, not
+manufacturer travel/speed limits. The nonlinear internal actuator is omitted.
 """
 from pathlib import Path
 import argparse
@@ -19,6 +19,10 @@ STEEL=(.40,.44,.46,1)
 DARK=(.12,.15,.16,1)
 COPPER=(.65,.36,.19,1)
 BLUE=(.12,.34,.47,1)
+JAW_PIVOT=(-.0134,0,.632)
+TIP=(-.0134,0,1.332)
+SIMULATION_MAX_ANGLE=math.radians(20)
+SIMULATION_SPEED=.2
 HOLES=[(-69.282032,-40),(-69.282032,40),(-40,-69.282032),(-40,69.282032),
        (0,-80),(0,80),(40,-69.282032),(40,69.282032),(69.282032,-40),(69.282032,40)]
 
@@ -30,11 +34,15 @@ def zcyl(r,z0,z1,x=0,y=0):
 def build():
     m=Model(ROOT,'95-020-516-p3u')
     for name,origin in [('mount',(0,0,0)),('coupling',(0,0,0)),('flange',(0,0,.019)),
-                        ('body',(0,0,.042)),('cad_tip',(-.0134,0,1.332))]:
+                        ('body',(0,0,.042)),('cad_tip',TIP),
+                        ('moving_jaw',JAW_PIVOT),('moving_tip',TIP)]:
         m.link(name,origin)
     for parent,child in [('mount','coupling'),('coupling','flange'),('flange','body')]:
         m.joint(parent+'_to_'+child,parent,child)
     m.joint('cad_tip_joint','body','cad_tip',rpy=(0,math.pi/2,0))
+    m.joint('jaw_opening','body','moving_jaw',axis=(0,1,0),
+            limits=(0,SIMULATION_MAX_ANGLE),velocity=SIMULATION_SPEED)
+    m.joint('moving_tip_joint','moving_jaw','moving_tip',rpy=(0,-math.pi/2,0))
     # Contact geometry: 7-mm clearance-hole plate, 1-mm washers, 25-mm screws.
     plate=tm.creation.box((.182,.186,.007),transform=tm.transformations.translation_matrix((0,0,.0035)))
     pilot=zcyl(.050,-.005,0)
@@ -63,26 +71,33 @@ def build():
         y=side*.058
         m.box('body',f'lower_frame_{slug}',(.15,.012,.47),(-.0134,y,.277),ALUMINUM)
         m.box('body',f'transformer_cheek_{slug}',(.32,.012,.14),(-.12,y,.51),ALUMINUM)
-    m.box('body','transformer_core',(.24,.142,.25),(-.16,0,.20),BLUE)
-    for z in [.095,.145,.195,.245,.295]:
-        m.box('body',f'transformer_rib_{int(z*1000)}',(.245,.148,.008),(-.16,0,z),ALUMINUM,False)
-    m.cylinder('body','drive_housing',.05,(-.30,0,.38),(-.045,0,.49),DARK)
-    m.cylinder('body','drive_rod_closed_pose',.018,(-.045,0,.49),(.20,0,.60),STEEL)
+    # H3.53N.022-1 is the transformer, not the drive. Its measured envelope is
+    # X[-344.574,1.827], Y[-53,53], Z[327.109,520.003] mm.
+    m.box('body','transformer_core',(.32,.106,.17),(-.17,0,.423),BLUE)
+    for z in [.35,.385,.42,.455,.49]:
+        m.box('body',f'transformer_rib_{int(z*1000)}',(.325,.11,.008),(-.17,0,z),ALUMINUM,False)
+    # Do not retain r3's static illustrative cylinder during jaw motion. The
+    # real cylinder pivots and retracts nonlinearly (docs/opening.md).
     m.cylinder('body','gun_pivot',.045,(-.0134,-.09,.632),(-.0134,.09,.632),STEEL)
     for x,slug in [(-.2259,'left'),(.1991,'right')]:
-        m.box('body',f'{slug}_arm_clamp',(.18,.10,.10),(x,0,.632),ALUMINUM)
-        m.box('body',f'{slug}_arm_lower',(.09,.040,.20),(x,0,.682),COPPER)
+        link='body' if x<0 else 'moving_jaw'
+        m.box(link,f'{slug}_arm_clamp',(.18,.10,.10),(x,0,.632),ALUMINUM)
+        m.box(link,f'{slug}_arm_lower',(.09,.040,.20),(x,0,.682),COPPER)
         # Blade extends to the numeric electrode holder height, leaving the
         # throat empty. Collision consists of these individual primitives.
         arm_x=x+(.025 if x<0 else -.025)
-        m.box('body',f'{slug}_arm_blade',(.055,.040,.53),(arm_x,0,1.047),COPPER)
+        m.box(link,f'{slug}_arm_blade',(.055,.040,.53),(arm_x,0,1.047),COPPER)
         holder_x=-.1634 if x<0 else .1366
-        m.cylinder('body',f'{slug}_arm_tip_bend',.020,(arm_x,0,1.300),(holder_x,0,1.332),COPPER)
-    m.box('body','cross_support',(.40,.075,.075),(-.0134,0,.61),ALUMINUM)
+        m.cylinder(link,f'{slug}_arm_tip_bend',.020,(arm_x,0,1.300),(holder_x,0,1.332),COPPER)
+    m.box('body','fixed_arm_support',(.2125,.075,.06),(-.11965,0,.632),ALUMINUM)
+    m.box('moving_jaw','swing_arm_support',(.2125,.075,.06),(.09285,0,.632),ALUMINUM)
+    for y,slug in [(-.0455,'left'),(.0455,'right')]:
+        m.cylinder('moving_jaw',f'swing_lever_{slug}',.018,(-.0134,y,.632),(.2541,y,.384),ALUMINUM)
+    m.cylinder('moving_jaw','drive_eye_pin',.01,(.2541,-.055,.384),(.2541,.055,.384),STEEL)
     m.cylinder('body','left_holder',.0132,(-.1634,0,1.332),(-.0334,0,1.332),COPPER)
-    m.cylinder('body','right_holder',.0132,(.1366,0,1.332),(.0066,0,1.332),COPPER)
+    m.cylinder('moving_jaw','right_holder',.0132,(.1366,0,1.332),(.0066,0,1.332),COPPER)
     m.cylinder('body','left_electrode',.008,(-.0334,0,1.332),(-.0134,0,1.332),COPPER)
-    m.cylinder('body','right_electrode',.008,(.0066,0,1.332),(-.0134,0,1.332),COPPER)
+    m.cylinder('moving_jaw','right_electrode',.008,(.0066,0,1.332),(-.0134,0,1.332),COPPER)
     return m
 
 

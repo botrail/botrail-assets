@@ -59,9 +59,8 @@ class ReferenceModels(unittest.TestCase):
             b=poses['parallel_arm2']@np.array([.287,-.393923,.069459,1])
             np.testing.assert_allclose(a,b,atol=1e-10)
 
-    def test_mount_bores_and_fixed_gun(self):
+    def test_mount_bores_and_gun(self):
         gun=ET.parse(ROOT/'nimak-multiframegun/urdf/95-020-516-p3u.urdf').getroot()
-        self.assertTrue(all(j.get('type')=='fixed' for j in gun.findall('joint')))
         poses=forward(gun,{})
         np.testing.assert_allclose(poses['cad_tip'][:3,3],[-.0134,0,1.332])
         bolts=[p for n,p in poses.items() if n.startswith('mount_bolt_h')]
@@ -79,5 +78,32 @@ class ReferenceModels(unittest.TestCase):
         self.assertTrue(host.contains([frame@np.array([.06,0,-.005])])[0])
         self.assertFalse(gun.findall('.//collision/geometry/mesh'))
         self.assertFalse(gun.findall('.//inertial'))
+
+    def test_nimak_single_moving_jaw(self):
+        gun=ET.parse(ROOT/'nimak-multiframegun/urdf/95-020-516-p3u.urdf').getroot()
+        moving=[j for j in gun.findall('joint') if j.get('type')!='fixed']
+        self.assertEqual([j.get('name') for j in moving],['jaw_opening'])
+        self.assertIsNone(moving[0].find('mimic'))
+        lim=moving[0].find('limit')
+        self.assertAlmostEqual(float(lim.get('upper')),math.radians(20),places=11)
+        self.assertIsNone(lim.get('effort'))
+        # Independent planar linkage construction from three measured pin axes.
+        # Check both directions: the right electrode retracts, left stays fixed.
+        for deg in [0,2,5,10,15,20,10,0]:
+            q=math.radians(deg);p=forward(gun,{'jaw_opening':q})
+            fixed=np.array([-.0134,0,1.332]);tip=fixed+np.array([.7*math.sin(q),0,.7*(math.cos(q)-1)])
+            np.testing.assert_allclose(p['cad_tip'][:3,3],fixed,atol=1e-11)
+            np.testing.assert_allclose(p['moving_tip'][:3,3],tip,atol=1e-11)
+            np.testing.assert_allclose(p['moving_tip'][:3,2],[-math.cos(q),0,math.sin(q)],atol=1e-11)
+            eye=p['moving_jaw']@np.array([.2675,0,-.248,1])
+            length=np.linalg.norm(eye[:3]-[-.1919,0,.274])
+            retract=math.hypot(.446,.110)-length
+            self.assertGreaterEqual(retract,-1e-11)
+            self.assertLessEqual(retract,.112699)
+            # Each moving visual and its collision must follow the same jaw.
+            link=gun.find("link[@name='moving_jaw']")
+            self.assertIsNotNone(link.find("visual[@name='right_electrode']"))
+            self.assertGreater(len(link.findall('collision')),5)
+        np.testing.assert_allclose(forward(gun,{'jaw_opening':0})['moving_tip'][:3,3],fixed)
 
 if __name__=='__main__':unittest.main()
