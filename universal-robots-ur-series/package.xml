@@ -1,0 +1,4 @@
+<?xml version="1.0"?>
+<package format="3"><name>botrail_ur_series</name><version>1.0.0</version>
+<description>Independently authored UR Series reference geometry, CC0-1.0.</description>
+<maintainer email="info@botrail.com">Botrail contributors</maintainer><license>CC0-1.0</license></package>

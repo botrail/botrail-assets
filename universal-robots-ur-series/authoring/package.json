@@ -1,0 +1,15 @@
+{
+  "name": "universal-robots-ur-series-authoring",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "export": "node export.mjs",
+    "check": "node export.mjs --check",
+    "test": "node --test model.test.mjs"
+  },
+  "dependencies": {
+    "three": "0.185.1",
+    "three-usd-robot": "0.11.0",
+    "@botrail/authoring": "file:../../authoring"
+  }
+}

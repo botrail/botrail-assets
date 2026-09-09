@@ -1,0 +1,166 @@
+{
+  "base_link_inertia": [
+    {
+      "kind": "cylinder",
+      "radius": 0.098,
+      "length": 0.145,
+      "xyz": [
+        0,
+        0,
+        0.0725
+      ]
+    }
+  ],
+  "shoulder_link": [
+    {
+      "kind": "cylinder",
+      "radius": 0.074,
+      "length": 0.1,
+      "xyz": [
+        0,
+        0,
+        -0.046
+      ]
+    }
+  ],
+  "upper_arm_link": [
+    {
+      "kind": "cylinder",
+      "radius": 0.074,
+      "length": 0.24,
+      "xyz": [
+        0,
+        0,
+        0.095
+      ]
+    },
+    {
+      "kind": "cylinder",
+      "radius": 0.074,
+      "length": 0.24,
+      "xyz": [
+        -0.475,
+        0,
+        0.095
+      ]
+    },
+    {
+      "kind": "cylinder",
+      "radius": 0.05179999999999999,
+      "length": 0.475,
+      "xyz": [
+        -0.2375,
+        0,
+        0.1482
+      ],
+      "rpy": [
+        0,
+        1.5707963267948966,
+        0
+      ]
+    }
+  ],
+  "forearm_link": [
+    {
+      "kind": "cylinder",
+      "radius": 0.0592,
+      "length": 0.12,
+      "xyz": [
+        0,
+        0,
+        0.018
+      ]
+    },
+    {
+      "kind": "cylinder",
+      "radius": 0.0416,
+      "length": 0.3389,
+      "xyz": [
+        -0.16945,
+        0,
+        0.043
+      ],
+      "rpy": [
+        0,
+        1.5707963267948966,
+        0
+      ]
+    },
+    {
+      "kind": "cylinder",
+      "radius": 0.052,
+      "length": 0.1824,
+      "xyz": [
+        -0.3389,
+        0,
+        0.0912
+      ]
+    }
+  ],
+  "wrist_1_link": [
+    {
+      "kind": "cylinder",
+      "radius": 0.052,
+      "length": 0.08,
+      "xyz": [
+        0,
+        0,
+        -0.018
+      ]
+    },
+    {
+      "kind": "cylinder",
+      "radius": 0.04056,
+      "length": 0.1361,
+      "xyz": [
+        0,
+        -0.06805,
+        0
+      ],
+      "rpy": [
+        1.5707963267948966,
+        0,
+        0
+      ]
+    }
+  ],
+  "wrist_2_link": [
+    {
+      "kind": "cylinder",
+      "radius": 0.052,
+      "length": 0.073,
+      "xyz": [
+        0,
+        0,
+        -0.016
+      ]
+    },
+    {
+      "kind": "cylinder",
+      "radius": 0.03536,
+      "length": 0.1434,
+      "xyz": [
+        0,
+        0.0717,
+        -0.019
+      ],
+      "rpy": [
+        1.5707963267948966,
+        0,
+        0
+      ]
+    }
+  ],
+  "wrist_3_link": [
+    {
+      "kind": "cylinder",
+      "radius": 0.0375,
+      "length": 0.043,
+      "xyz": [
+        0,
+        0,
+        -0.0215
+      ]
+    }
+  ]
+}
