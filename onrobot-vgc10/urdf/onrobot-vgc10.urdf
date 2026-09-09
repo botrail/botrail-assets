@@ -1,0 +1,26 @@
+<?xml version="1.0"?>
+<robot name="onrobot_vgc10_102844">
+<link name="mount"><visual ><geometry ><mesh filename="../meshes/mount.obj"/></geometry></visual><collision ><origin xyz="0 0 0.006" rpy="0 0 0"/><geometry ><cylinder radius="0.0355" length="0.012"/></geometry></collision><collision ><origin xyz="0 0 0.0295" rpy="0 0 0"/><geometry ><box size="0.1 0.1 0.035"/></geometry></collision><collision ><origin xyz="0 0 0.067" rpy="0 0 0"/><geometry ><box size="0.086 0.09 0.04"/></geometry></collision></link>
+<link name="cup_a1"><visual ><geometry ><mesh filename="../meshes/cup_a1.obj"/></geometry></visual><collision ><origin xyz="0 0 0.005" rpy="0 0 0"/><geometry ><cylinder radius="0.006" length="0.01"/></geometry></collision><collision ><origin xyz="0 0 0.01675" rpy="0 0 0"/><geometry ><cylinder radius="0.015" length="0.0195"/></geometry></collision></link>
+<link name="cup_a1_contact"></link>
+<link name="cup_a2"><visual ><geometry ><mesh filename="../meshes/cup_a2.obj"/></geometry></visual><collision ><origin xyz="0 0 0.005" rpy="0 0 0"/><geometry ><cylinder radius="0.006" length="0.01"/></geometry></collision><collision ><origin xyz="0 0 0.01675" rpy="0 0 0"/><geometry ><cylinder radius="0.015" length="0.0195"/></geometry></collision></link>
+<link name="cup_a2_contact"></link>
+<link name="cup_b1"><visual ><geometry ><mesh filename="../meshes/cup_b1.obj"/></geometry></visual><collision ><origin xyz="0 0 0.005" rpy="0 0 0"/><geometry ><cylinder radius="0.006" length="0.01"/></geometry></collision><collision ><origin xyz="0 0 0.01675" rpy="0 0 0"/><geometry ><cylinder radius="0.015" length="0.0195"/></geometry></collision></link>
+<link name="cup_b1_contact"></link>
+<link name="cup_b2"><visual ><geometry ><mesh filename="../meshes/cup_b2.obj"/></geometry></visual><collision ><origin xyz="0 0 0.005" rpy="0 0 0"/><geometry ><cylinder radius="0.006" length="0.01"/></geometry></collision><collision ><origin xyz="0 0 0.01675" rpy="0 0 0"/><geometry ><cylinder radius="0.015" length="0.0195"/></geometry></collision></link>
+<link name="cup_b2_contact"></link>
+<link name="channel_a"></link>
+<link name="channel_b"></link>
+<link name="tcp"></link>
+<joint name="cup_a1_joint" type="fixed"><parent link="mount"/><child link="cup_a1"/><origin xyz="-0.018 -0.018 0.087" rpy="0 0 0"/></joint>
+<joint name="cup_a1_contact_joint" type="fixed"><parent link="cup_a1"/><child link="cup_a1_contact"/><origin xyz="0 0 0.0265" rpy="0 0 0"/></joint>
+<joint name="cup_a2_joint" type="fixed"><parent link="mount"/><child link="cup_a2"/><origin xyz="0.018 -0.018 0.087" rpy="0 0 0"/></joint>
+<joint name="cup_a2_contact_joint" type="fixed"><parent link="cup_a2"/><child link="cup_a2_contact"/><origin xyz="0 0 0.0265" rpy="0 0 0"/></joint>
+<joint name="cup_b1_joint" type="fixed"><parent link="mount"/><child link="cup_b1"/><origin xyz="-0.018 0.018 0.087" rpy="0 0 0"/></joint>
+<joint name="cup_b1_contact_joint" type="fixed"><parent link="cup_b1"/><child link="cup_b1_contact"/><origin xyz="0 0 0.0265" rpy="0 0 0"/></joint>
+<joint name="cup_b2_joint" type="fixed"><parent link="mount"/><child link="cup_b2"/><origin xyz="0.018 0.018 0.087" rpy="0 0 0"/></joint>
+<joint name="cup_b2_contact_joint" type="fixed"><parent link="cup_b2"/><child link="cup_b2_contact"/><origin xyz="0 0 0.0265" rpy="0 0 0"/></joint>
+<joint name="channel_a_joint" type="fixed"><parent link="mount"/><child link="channel_a"/><origin xyz="0 -0.018 0.1135" rpy="0 0 0"/></joint>
+<joint name="channel_b_joint" type="fixed"><parent link="mount"/><child link="channel_b"/><origin xyz="0 0.018 0.1135" rpy="0 0 0"/></joint>
+<joint name="tcp_joint" type="fixed"><parent link="mount"/><child link="tcp"/><origin xyz="0 0 0.1135" rpy="0 0 0"/></joint>
+</robot>

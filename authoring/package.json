@@ -13,7 +13,8 @@
     "README.md",
     "LICENSE",
     "reference-model.mjs",
-    "reference-export.mjs"
+    "reference-export.mjs",
+    "tool-shapes.mjs"
   ],
   "exports": {
     "./geometry.mjs": "./geometry.mjs",
@@ -22,7 +23,8 @@
     "./display.mjs": "./display.mjs",
     "./viewer.mjs": "./viewer.mjs",
     "./reference-model.mjs": "./reference-model.mjs",
-    "./reference-export.mjs": "./reference-export.mjs"
+    "./reference-export.mjs": "./reference-export.mjs",
+    "./tool-shapes.mjs": "./tool-shapes.mjs"
   },
   "scripts": {
     "test": "node --test test/*.test.mjs",

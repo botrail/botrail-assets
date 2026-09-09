@@ -1,0 +1,6 @@
+<?xml version="1.0"?>
+<robot name="robotiq_grp_es_cpl_077">
+<link name="mount"><visual ><geometry ><mesh filename="../meshes/mount.obj"/></geometry></visual><collision ><origin xyz="0 0 0.00695" rpy="0 0 0"/><geometry ><cylinder radius="0.0375" length="0.0139"/></geometry></collision></link>
+<link name="flange"></link>
+<joint name="flange_joint" type="fixed"><parent link="mount"/><child link="flange"/><origin xyz="0 0 0.0139" rpy="0 0 0"/></joint>
+</robot>
