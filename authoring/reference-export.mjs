@@ -14,6 +14,9 @@ export function meshFiles(links) {
   const files = {};
   for (const link of links) {
     if (!link.visual) continue;
+    // OBJExporter reads matrixWorld without updating it. Exporting a freshly
+    // authored group otherwise loses each component's translation/rotation.
+    link.visual.updateMatrixWorld(true);
     const materials = new Map();
     link.visual.traverse(object => {
       if (!object.isMesh) return;
