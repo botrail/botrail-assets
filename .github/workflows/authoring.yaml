@@ -4,6 +4,9 @@ on:
   push:
     paths:
       - 'authoring/**'
+      - 'universal-robots-ur-series/**'
+      - 'onrobot-rg6/**'
+      - 'ewellix-liftkit-ur620/**'
       - 'mid-360/authoring/**'
       - 'mid-360/usd/**'
       - 'vacuum-gripper-ecbpi/authoring/**'
@@ -18,6 +21,9 @@ on:
   pull_request:
     paths:
       - 'authoring/**'
+      - 'universal-robots-ur-series/**'
+      - 'onrobot-rg6/**'
+      - 'ewellix-liftkit-ur620/**'
       - 'mid-360/authoring/**'
       - 'mid-360/usd/**'
       - 'vacuum-gripper-ecbpi/authoring/**'
@@ -46,7 +52,7 @@ jobs:
         shell: bash
         run: |
           npm --prefix authoring ci --ignore-scripts --no-audit --no-fund
-          for asset in mid-360 vacuum-gripper-ecbpi weld-gun-x16005; do
+          for asset in mid-360 vacuum-gripper-ecbpi weld-gun-x16005 universal-robots-ur-series onrobot-rg6 ewellix-liftkit-ur620; do
             (cd "$asset/authoring" && npm ci --ignore-scripts --no-audit --no-fund)
           done
       - name: Shared helpers
@@ -57,3 +63,9 @@ jobs:
         run: |
           node x-guard-classic/authoring/export.mjs --check
           node nito-fz/authoring/export.mjs --check
+      - name: Public UR+ reference geometry and motion
+        run: |
+          for asset in universal-robots-ur-series onrobot-rg6 ewellix-liftkit-ur620; do
+            npm --prefix "$asset/authoring" test
+            npm --prefix "$asset/authoring" run check
+          done

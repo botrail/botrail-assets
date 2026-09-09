@@ -101,3 +101,12 @@ mountAuthoring(definition().body);
 `exportFixedModel`は損失のある出力警告をエラーにする。
 複数材質を持つMeshは、頂点法線を保持した材質別Meshへ分けてから渡す。
 材質名が出力USDのどこかに存在するだけでは、正しい面への割当てを保証しない。
+
+## 関節を持つ独自参照形状
+
+UR Series、RG6、LIFTKIT-UR 620はThree.jsでリンクごとに形状を著作する。
+`reference-model.mjs`はURDFの固定軸RPYとmimicを使ったブラウザ表示、
+`reference-export.mjs`はOBJ/MTL・URDFの決定的な出力に使う。
+製品の寸法、材質、collision、出典は各製品ディレクトリにある。
+URのカタログ運動学は公式BSDマクロを使用し、ブラウザの理想角度ツリーとは区別する。
+これらの配布USDはcatalog-builderがURDFから生成する。
