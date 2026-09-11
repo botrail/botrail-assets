@@ -3,7 +3,8 @@
  * Shell radii, bevels and finish are visual approximations, never clearance proof.
  */
 import * as THREE from 'three';
-import {addMesh, namedMaterial, cylinderZ, cylinderBetween, ringGeometry} from '@botrail/authoring/geometry.mjs';
+import {addMesh, cylinderZ, ringGeometry} from '@botrail/authoring/geometry.mjs';
+import {finishes, barrel, cover, armTube, armEnd, baseSkirt} from './visual.mjs';
 
 export const dimensions = {
   ur8long: {d1:.2186,a2:.8989,a3:.7149,d4:.1824,d5:.1361,d6:.1434,large:false},
@@ -12,64 +13,94 @@ export const dimensions = {
   ur20: {d1:.2363,a2:.862,a3:.7287,d4:.201,d5:.1593,d6:.1543,large:true},
   ur30: {d1:.2363,a2:.637,a3:.5037,d4:.201,d5:.1593,d6:.1543,large:true},
 };
-const silver = namedMaterial('satin_aluminium', '#afb6bd', .7, .3);
-const graphite = namedMaterial('joint_graphite', '#343e48', .45, .38);
-const blue = namedMaterial('actuator_blue', '#78b5d5', .2, .35);
-const steel = namedMaterial('flange_steel', '#c4c8ca', .85, .28);
-const cyl = (group,name,r,h,at,mat) => addMesh(group,name,cylinderZ(r,h,{radial:48}),mat,at);
+// Public footprint / tool-face dimensions, plus explicit photo-based shell estimates.
+// See README for source URLs and the boundary between facts and approximations.
+export const appearance = {
+  small: {baseRadius:.102,basePitch:.090,neck:.078,shoulder:.089,elbow:.068,wrist:.050,
+    upperPlane:.142,forearmPlane:.041,faceRadius:.0315,faceBore:.01575,toolHousing:.045},
+  large: {baseRadius:.1225,basePitch:.105,neck:.091,shoulder:.102,elbow:.081,wrist:.058,
+    upperPlane:.155,forearmPlane:.044,faceRadius:.050,faceBore:.025,toolHousing:.050},
+};
+const {aluminium:silver,housing,seal:graphite,steel,indicator}=finishes;
+const cyl = (g,n,r,h,at,mat) => addMesh(g,n,cylinderZ(r,h,{radial:64}),mat,at);
+const boltCircle = (pitch,count,radius,phase=0) => Array.from({length:count},(_,i)=>{
+  const a=phase+i*2*Math.PI/count;return [pitch*Math.cos(a),pitch*Math.sin(a),radius];
+});
 const group = name => {const g = new THREE.Group();g.name=name;return g;};
 const collision = (r,l,xyz) => ({kind:'cylinder',radius:r,length:l,xyz});
 
 export function definition(type = 'ur20') {
   const p=dimensions[type]; if (!p) throw new Error(`Unknown UR model: ${type}`);
   const radius=p.large?.088:.074, wrist=p.large?.061:.052, offset=p.large?.215:.19;
+  const v=appearance[p.large?'large':'small'];
   const links=[];
   function link(name,build,collisions) {const visual=group(name);build(visual);links.push({name,visual,collisions});}
   link('base_link_inertia',g=>{
-    cyl(g,'foot',p.large?.11:.098,.024,[0,0,.012],graphite);
-    cyl(g,'pedestal',radius,.104,[0,0,.076],silver);
-    cyl(g,'yaw_seal',radius+.002,.013,[0,0,.132],graphite);
+    // Nominal footprint is factual. Plate thickness, access bores and skirt are estimates.
+    addMesh(g,'base_mounting_plate',ringGeometry(v.baseRadius,.040,.017,
+      boltCircle(v.basePitch,6,.0055)),silver);
+    baseSkirt(g,v.baseRadius-.002,v.neck,.082,.017);
+    barrel(g,'base_core',v.neck-.009,.071,[0,0,.048],housing,.006);
+    barrel(g,'indicator_lower_seal',v.neck,.004,[0,0,.082],graphite,.001);
+    barrel(g,'base_status_ring',v.neck,.007,[0,0,.0875],indicator,.001);
+    barrel(g,'yaw_seal',v.neck,.017,[0,0,.0995],graphite,.001);
   },[collision(p.large?.11:.098,.145,[0,0,.0725])]);
   link('shoulder_link',g=>{
-    cyl(g,'yaw_housing',radius,.092,[0,0,-.05],silver);
-    cyl(g,'service_cap',radius*.82,.006,[0,0,-.001],blue);
+    const lower=.109-p.d1,upper=v.shoulder*.76;
+    barrel(g,'yaw_housing',v.neck,upper-lower,[0,0,(lower+upper)/2],housing,.012);
+    barrel(g,'yaw_service_lid',v.neck*.88,.005,[0,0,upper],housing,.002);
+    // Bearing seat aligns the perpendicular shoulder joint to its unchanged origin.
+    barrel(g,'shoulder_bearing_seat',v.shoulder*.84,.056,[0,-.020,0],housing,.009,[0,1,0]);
   },[collision(radius,.1,[0,0,-.046])]);
   link('upper_arm_link',g=>{
-    for (const [i,x] of [0,-p.a2].entries()) {
-      cyl(g,`joint_${i}`,radius,offset+.032,[x,0,offset/2],silver);
-      cyl(g,`joint_ring_${i}`,radius+.001,.014,[x,0,offset+.015],graphite);
-      cyl(g,`cap_${i}`,radius*.9,.009,[x,0,offset+.026],blue);
-    }
-    cylinderBetween(g,'upper_tube',[-radius*.45,0,offset*.78],[-p.a2+radius*.45,0,offset*.78],radius*.69,silver,{radial:48});
-    for (const [i,x] of [-radius,-p.a2+radius].entries())
-      cylinderBetween(g,`tube_collar_${i}`,[x-.012,0,offset*.78],[x+.012,0,offset*.78],radius*.73,graphite,{radial:48});
+    const z=v.upperPlane, shoulder=v.shoulder, elbow=v.elbow;
+    armEnd(g,'shoulder',shoulder,-.012,z+shoulder*.90,0,z,-1);
+    cover(g,'shoulder_cap',shoulder*.77,[0,0,z+shoulder*.90]);
+    armEnd(g,'upper_elbow',elbow,.039,z+elbow*.96,-p.a2,z,1);
+    cover(g,'upper_elbow_cap',elbow*.82,[-p.a2,0,z+elbow*.96]);
+    armTube(g,'upper_tube',[-shoulder*1.5,0,z],[-p.a2+elbow*1.5,0,z],shoulder*.965,elbow*.965);
   },[collision(radius,offset+.05,[0,0,offset/2]),collision(radius,offset+.05,[-p.a2,0,offset/2]),
     {...collision(radius*.7,p.a2,[-p.a2/2,0,offset*.78]),rpy:[0,Math.PI/2,0]}]);
   link('forearm_link',g=>{
-    cyl(g,'elbow',radius*.8,.104,[0,0,.022],silver);
-    cyl(g,'elbow_seal',radius*.8,.012,[0,0,-.034],graphite);
-    cylinderBetween(g,'forearm_tube',[-radius*.4,0,.043],[-p.a3+wrist*.4,0,.043],wrist*.78,silver,{radial:48});
-    cyl(g,'wrist_support',wrist,p.d4-.005,[-p.a3,0,p.d4/2],silver);
-    cyl(g,'elbow_cap',radius*.72,.009,[0,0,-.044],blue);
+    const r=v.elbow,z=v.forearmPlane,w=v.wrist;
+    armEnd(g,'forearm_elbow',r,-.039,.102,0,z,-1);
+    cover(g,'elbow_cap',r*.82,[0,0,-.040],-1);
+    barrel(g,'elbow_bearing_seam',r*.89,.005,[0,0,.102],graphite,.001);
+    armEnd(g,'forearm_wrist',w,-.015,p.d4+.018,-p.a3,z,1);
+    cover(g,'forearm_wrist_cap',w*.97,[-p.a3,0,-.017],-1,true);
+    armTube(g,'forearm_tube',[-r*1.5,0,z],[-p.a3+w*1.5,0,z],r*.965,w*.965);
   },[collision(radius*.8,.12,[0,0,.018]),{...collision(wrist*.8,p.a3,[-p.a3/2,0,.043]),rpy:[0,Math.PI/2,0]},collision(wrist,p.d4,[-p.a3,0,p.d4/2])]);
   link('wrist_1_link',g=>{
-    cyl(g,'wrist_axis',wrist,.07,[0,0,-.022],silver);
-    cyl(g,'wrist_ring',wrist+.001,.008,[0,0,.018],graphite);
-    cyl(g,'wrist_cap',wrist*.9,.007,[0,0,.026],blue);
-    cylinderBetween(g,'wrist_bridge',[0,0,0],[0,-p.d5,0],wrist*.77,silver,{radial:48});
+    const w=v.wrist;
+    barrel(g,'wrist_axis',w,.093,[0,0,-.022],housing,w*.24);
+    cover(g,'wrist_cap',w*.97,[0,0,.026],1,true);
+    barrel(g,'wrist_bridge',w*.93,p.d5-.012,[0,-p.d5/2,0],housing,w*.44,[0,1,0]);
+    barrel(g,'wrist_output_seal',w*.935,.009,[0,-p.d5+.019,0],graphite,.001,[0,1,0]);
   },[collision(wrist,.08,[0,0,-.018]),{...collision(wrist*.78,p.d5,[0,-p.d5/2,0]),rpy:[Math.PI/2,0,0]}]);
   link('wrist_2_link',g=>{
-    cyl(g,'wrist_axis',wrist,.064,[0,0,-.019],silver);
-    cyl(g,'wrist_ring',wrist+.001,.008,[0,0,.017],graphite);
-    cyl(g,'wrist_cap',wrist*.9,.007,[0,0,.025],blue);
-    cylinderBetween(g,'tool_bridge',[0,0,-.019],[0,p.d6,-.019],wrist*.67,silver,{radial:48});
+    const w=v.wrist;
+    barrel(g,'wrist_axis',w,.086,[0,0,-.017],housing,w*.24);
+    cover(g,'wrist_cap',w*.97,[0,0,.028],1,true);
+    barrel(g,'tool_bridge',w*.91,p.d6-.044,[0,(p.d6-.044)/2,-.017],housing,w*.45,[0,1,0]);
+    barrel(g,'tool_bearing_seal',v.toolHousing,.008,[0,p.d6-.055,0],graphite,.001,[0,1,0]);
   },[collision(wrist,.073,[0,0,-.016]),{...collision(wrist*.68,p.d6,[0,p.d6/2,-.019]),rpy:[Math.PI/2,0,0]}]);
   link('wrist_3_link',g=>{
-    const r=p.large?.045:.0315, pcd=p.large?.04:.025, count=p.large?6:4, hole=p.large?.004:.003;
-    cyl(g,'tool_seal',r+.006,.025,[0,0,-.03],graphite);
-    // ISO bolt pitch is factual; screw threads, dowel and tolerances are omitted.
-    const holes=Array.from({length:count},(_,i)=>[pcd*Math.cos(i*2*Math.PI/count),pcd*Math.sin(i*2*Math.PI/count),hole]);
-    addMesh(g,'tool_face',ringGeometry(r,.008,.017,holes),steel,[0,0,-.017]);
+    // Tool0 contact stays at z=0. The central register is a recess, not a through bore.
+    const r=v.faceRadius,pcd=p.large?.04:.025,count=p.large?6:4,hole=p.large?.004:.003;
+    const phase=p.large?0:Math.PI/4;
+    const holes=boltCircle(pcd,count,hole,phase);
+    holes.push([0,pcd,p.large?.004:.003]); // Published locating-hole position, no tolerance fit.
+    barrel(g,'tool_sensor_housing',v.toolHousing,.040,[0,0,-.036],silver,.004);
+    barrel(g,'tool_seal',v.toolHousing+.0005,.005,[0,0,-.057],graphite,.001);
+    addMesh(g,'tool_face',ringGeometry(r,v.faceBore,.016,holes),steel,[0,0,-.016]);
+    cyl(g,'tool_register_floor',v.faceBore,.003,[0,0,-.0077],steel);
+    // Small M8 tool-I/O socket on the side; pin placement is an illustrative estimate.
+    const socket=new THREE.Group();socket.name='tool_io';socket.position.set(v.toolHousing,0,-.035);
+    socket.rotation.y=Math.PI/2;g.add(socket);
+    addMesh(socket,'tool_io_rim',ringGeometry(.0055,.004,.003),steel);
+    cyl(socket,'tool_io_insert',.0038,.001,[0,0,.001],graphite);
+    for(const [i,[x,y]] of boltCircle(.0026,8,0).entries())
+      cyl(socket,`tool_io_contact_${i}`,.00032,.0008,[x,y,.0017],steel);
   },[collision(p.large?.051:.0375,.043,[0,0,-.0215])]);
   // Browser reference tree only; the catalog uses the complete official BSD macro,
   // including physical parameters, limits, tiny calibrated rotations and tool0.

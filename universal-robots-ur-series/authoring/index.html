@@ -1,12 +1,17 @@
 <!doctype html><html lang="en"><meta charset="utf-8"><title>Universal Robots UR Series reference model</title>
 <style>body{margin:0;font:14px system-ui;overflow:hidden}.panel{position:absolute;top:18px;left:18px;background:#fffE;border:1px solid #ddd;border-radius:10px;padding:16px;max-width:340px}h1{font-size:19px;margin:0 0 8px}p{color:#54616d}button,select{margin:4px;padding:6px}label{display:block}</style>
-<div class="panel"><h1>Universal Robots UR Series</h1><p>Independently authored reference geometry.<br>Shell details and collision envelopes are approximate.</p><select id="model"><option>ur20</option><option>ur30</option><option>ur8long</option><option>ur15</option><option>ur18</option></select><div><button id="iso">Perspective</button><button id="side">Side</button><button id="top">Top</button></div></div>
+<div class="panel"><h1>Universal Robots UR Series</h1><p>Independently authored reference geometry.<br>Shell details and collision envelopes are approximate.</p><label>Robot <select id="model"><option>ur20</option><option>ur30</option><option>ur8long</option><option>ur15</option><option>ur18</option></select></label><label>Pose <select id="pose"><option value="presentation">Presentation</option><option value="inspection">Right angle</option><option value="extended">Extended</option></select></label><div><button id="iso">Perspective</button><button id="side">Side</button><button id="top">Top</button></div></div>
 <script type="importmap">{"imports":{"three":"./node_modules/three/build/three.module.js","three/addons/":"./node_modules/three/examples/jsm/","@botrail/authoring/":"./node_modules/@botrail/authoring/"}}</script>
 <script type="module">
 import {definition} from './model.mjs';
+import {poses} from './poses.mjs';
 import {referenceScene} from '@botrail/authoring/reference-model.mjs';
 import {mountAuthoring} from '@botrail/authoring/viewer.mjs';
-const type=new URLSearchParams(location.search).get("model")??"ur20";document.querySelector("#model").value=type;document.querySelector("#model").onchange=e=>location.search="model="+e.target.value;
-const model=referenceScene(definition(type));model.pose({shoulder_lift_joint:-Math.PI/2,elbow_joint:Math.PI/2,wrist_1_joint:-Math.PI/2,wrist_2_joint:-Math.PI/2});
-mountAuthoring(model.root,{onJoint:q=>model.pose({lift_lower_joint:q})});window.reference=model;
+const params=new URLSearchParams(location.search),type=params.get('model')??'ur20',pose=params.get('pose')??'presentation';
+for(const [key,value] of [['model',type],['pose',pose]]) {
+  document.querySelector(`#${key}`).value=value;
+  document.querySelector(`#${key}`).onchange=e=>{params.set(key,e.target.value);location.search=params.toString();};
+}
+const model=referenceScene(definition(type));model.pose(poses[pose]??poses.presentation);
+mountAuthoring(model.root,{iso:[1,1.7,.7]});window.reference=model;
 </script></html>
