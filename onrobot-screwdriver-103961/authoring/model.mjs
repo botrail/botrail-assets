@@ -26,8 +26,8 @@ export function definition(extension = 0) {
   housing(body, 'aluminium_shell', .220, -.0311, .043, silver);
   for (const x of [-.1484, .0862]) housing(body, 'end_cap_' + x, .014, x, .041, dark);
   for (const y of [-.042, .042]) {
-    box(body, 'seam_' + y, [.216, .002, .002], [-.0311, y, AXIS_Z + .032]);
-    box(body, 'label_' + y, [.05, .002, .028], [-.050, y, AXIS_Z - .004], blue);
+    box(body, 'seam_' + y, [.216, .002, .002], [-.0311, y, .064]);
+    box(body, 'label_' + y, [.05, .001, .020], [-.050, Math.sign(y) * .0427, .064], blue);
   }
   // Axis-aligned cylinders in the tool's native X direction.
   const axis = [0, Math.PI / 2, 0], noseCollisions = [];
