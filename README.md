@@ -55,6 +55,9 @@ gun = bt.Robot.from_catalog("weld-gun-x1")  # カタログ ID (下表の右列) 
 | [robotiq-grp-es-cpl-077](./robotiq-grp-es-cpl-077) | URメス手首向けカップリングの近似外形 | Robotiq GRP-ES-CPL-077 | `robotiq/coupling/grp-es-cpl-077/r1` |
 | [zimmer-hrc-03](./zimmer-hrc-03) | 平行二指、UR / CRX / Doosan用の4構成 | Zimmer HRC-03-118505 / 118506 / 116787 / 126895 | `zimmer/hrc/hrc-03-<SKU>/r1` |
 | [onrobot-quick-changer](./onrobot-quick-changer) | ロボット側Quick Changer v3 | OnRobot 109498 | `onrobot/quick-changer/109498/r1` |
+| [onrobot-dual-quick-changer-109878](./onrobot-dual-quick-changer-109878) | 2工具用の側面取付具 | OnRobot Dual Quick Changer v3 109878 | `onrobot/quick-changer/109878/r1` (公開前) |
+| [onrobot-screwdriver-103961](./onrobot-screwdriver-103961) | 側面支持・55 mm送り軸 | OnRobot Screwdriver 103961、109301装着構成 | `onrobot/screwdriver/103961/r1` / `103961-a50/r1` (公開前) |
+| [onrobot-bit-extender-109301](./onrobot-bit-extender-109301) | 50 mm追加リーチの参照形状 | OnRobot Bit Extender A 109301 | `onrobot/bit-extender/109301/r1` (公開前) |
 | [onrobot-vgc10](./onrobot-vgc10) | 30 mmカップ4個、独立2流路の参照モデル | OnRobot VGC10 102844 | `onrobot/vgc/vgc10/r1` |
 | [lms1xx](./lms1xx) | **ROS パッケージ `lms1xx` の CC0 代替 (スタブ)** — 2D 安全レーザスキャナ | — (独自著作。LMS1xx フォームファクタ) | — (カタログ製品ではない) |
 

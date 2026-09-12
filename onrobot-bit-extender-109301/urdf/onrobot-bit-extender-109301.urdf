@@ -1,0 +1,6 @@
+<?xml version="1.0"?>
+<robot name="onrobot_bit_extender_109301">
+<link name="mount"><visual ><geometry ><mesh filename="../meshes/mount.obj"/></geometry></visual><collision ><origin xyz="0 0 0.025" rpy="0 0 0"/><geometry ><cylinder radius="0.0061" length="0.05"/></geometry></collision></link>
+<link name="flange"></link>
+<joint name="flange_fixed" type="fixed"><parent link="mount"/><child link="flange"/><origin xyz="0 0 0.05" rpy="0 0 0"/></joint>
+</robot>

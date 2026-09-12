@@ -6,6 +6,9 @@ on:
       - 'authoring/**'
       - 'universal-robots-ur-series/**'
       - 'onrobot-rg6/**'
+      - 'onrobot-dual-quick-changer-109878/**'
+      - 'onrobot-screwdriver-103961/**'
+      - 'onrobot-bit-extender-109301/**'
       - 'ewellix-liftkit-ur620/**'
       - 'mid-360/authoring/**'
       - 'mid-360/usd/**'
@@ -23,6 +26,9 @@ on:
       - 'authoring/**'
       - 'universal-robots-ur-series/**'
       - 'onrobot-rg6/**'
+      - 'onrobot-dual-quick-changer-109878/**'
+      - 'onrobot-screwdriver-103961/**'
+      - 'onrobot-bit-extender-109301/**'
       - 'ewellix-liftkit-ur620/**'
       - 'mid-360/authoring/**'
       - 'mid-360/usd/**'
@@ -68,4 +74,11 @@ jobs:
           for asset in universal-robots-ur-series onrobot-rg6 ewellix-liftkit-ur620; do
             npm --prefix "$asset/authoring" test
             npm --prefix "$asset/authoring" run check
+          done
+
+      - name: OnRobot assembly tooling
+        run: |
+          node --test onrobot-screwdriver-103961/authoring/model.test.mjs
+          for asset in onrobot-dual-quick-changer-109878 onrobot-screwdriver-103961 onrobot-bit-extender-109301; do
+            node "$asset/authoring/export.mjs" --check
           done

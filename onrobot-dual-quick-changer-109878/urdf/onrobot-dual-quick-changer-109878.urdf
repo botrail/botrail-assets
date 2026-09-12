@@ -1,0 +1,8 @@
+<?xml version="1.0"?>
+<robot name="onrobot_dual_quick_changer_109878">
+<link name="mount"><visual ><geometry ><mesh filename="../meshes/mount.obj"/></geometry></visual><collision ><origin xyz="0 0 0.009" rpy="0 0 0"/><geometry ><cylinder radius="0.0355" length="0.018"/></geometry></collision><collision ><origin xyz="0 0 0.034" rpy="0 0 0"/><geometry ><box size="0.052 0.052 0.038"/></geometry></collision><collision ><origin xyz="0.0370897459622 0 0.0577560981657" rpy="0 1.0471975512 0"/><geometry ><cylinder radius="0.0355" length="0.02"/></geometry></collision><collision ><origin xyz="-0.0370897459622 0 0.0577560981657" rpy="0 -1.0471975512 0"/><geometry ><cylinder radius="0.0355" length="0.02"/></geometry></collision></link>
+<link name="flange_a"></link>
+<link name="flange_b"></link>
+<joint name="flange_a_joint" type="fixed"><parent link="mount"/><child link="flange_a"/><origin xyz="0.04575 0 0.0627560981657" rpy="0 1.0471975512 0"/></joint>
+<joint name="flange_b_joint" type="fixed"><parent link="mount"/><child link="flange_b"/><origin xyz="-0.04575 0 0.0627560981657" rpy="0 -1.0471975512 0"/></joint>
+</robot>
