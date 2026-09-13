@@ -59,6 +59,8 @@ gun = bt.Robot.from_catalog("weld-gun-x1")  # カタログ ID (下表の右列) 
 | [onrobot-screwdriver-103961](./onrobot-screwdriver-103961) | 側面支持・55 mm送り軸 | OnRobot Screwdriver 103961、109301装着構成 | `onrobot/screwdriver/103961/r1` / `103961-a50/r1` (公開前) |
 | [onrobot-bit-extender-109301](./onrobot-bit-extender-109301) | 50 mm追加リーチの参照形状 | OnRobot Bit Extender A 109301 | `onrobot/bit-extender/109301/r1` (公開前) |
 | [onrobot-vgc10](./onrobot-vgc10) | 30 mmカップ4個、独立2流路の参照モデル | OnRobot VGC10 102844 | `onrobot/vgc/vgc10/r1` |
+| [mir1350](./mir1350) | パレット級 AMR の参照モデル(車輪 6・スキャナ 2・別リンクの上部カバー) | MiR1350 | `mobile_industrial_robots/mir/mir1350/r1` |
+| [mir-eu-pallet-lift-1350](./mir-eu-pallet-lift-1350) | EUR パレット用 1 軸リフト(揚程 60 mm) | MiR EU Pallet Lift 1350 | `mobile_industrial_robots/mir/eu-pallet-lift-1350/r1` |
 | [lms1xx](./lms1xx) | **ROS パッケージ `lms1xx` の CC0 代替 (スタブ)** — 2D 安全レーザスキャナ | — (独自著作。LMS1xx フォームファクタ) | — (カタログ製品ではない) |
 
 **lms1xx だけ性格が違う**: これはカタログに載せる製品モデルではなく、Clearpath の
@@ -77,6 +79,9 @@ weld ガン 2 種のみ、カタログ ID が歴史的な名前のまま (公開
 | [x-guard-classic](./x-guard-classic) | Axelent X-Guard Classic | `bt.parts.fence` |
 | [belgotch-type34-s1](./belgotch-type34-s1) | マキテック Type34-S1 / 34CSH | `bt.parts.conveyor` |
 | [nito-fz](./nito-fz) | 日東工業 FZ / FCX-Z | `bt.parts.cabinet` |
+| [nord-pallet-rack](./nord-pallet-rack) | Nord Modules Pallet Rack (EU) | `bt.parts.pallet_stand` |
+| [trusco-pallet-rack](./trusco-pallet-rack) | TRUSCO 重量パレットラック 1 トン用 | `bt.parts.pallet_rack` |
+| [mir-charge-48v](./mir-charge-48v) | MiR Charge 48V | `bt.parts.charging_station` |
 
 これらは固定寸法ロボットのURDFではなく、対応するスペックパックの
 `components[].trim` が参照する表示用xacro＋軽量メッシュ。

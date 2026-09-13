@@ -1,0 +1,35 @@
+<?xml version="1.0"?>
+<!--
+  mir-charge-48v — the look of a MiR Charge 48V (CC0-1.0). Published: 237 long
+  (487 with the charging plate), 622 wide, 287 tall, 20 kg, aluminium cover.
+  Origin: floor level at the housing's centre; +X points out over the charging
+  plate, where the robot backs in. Decoration only — the housing and plate that
+  collide are placed (hidden) by bt.parts.charging_station.
+-->
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="mir-charge-48v-station">
+  <xacro:include filename="../../equipment-common/visual/primitives.xacro"/>
+  <xacro:arg name="length" default="0.237"/>
+  <xacro:arg name="width" default="0.622"/>
+  <xacro:arg name="height" default="0.287"/>
+  <xacro:arg name="plate" default="0.25"/>
+  <xacro:property name="l" value="$(arg length)"/>
+  <xacro:property name="w" value="$(arg width)"/>
+  <xacro:property name="h" value="$(arg height)"/>
+  <xacro:property name="p" value="$(arg plate)"/>
+  <material name="aluminium"><color rgba="0.55 0.57 0.58 1"/></material>
+  <material name="dark"><color rgba="0.06 0.065 0.07 1"/></material>
+  <material name="copper"><color rgba="0.55 0.28 0.10 1"/></material>
+  <material name="led"><color rgba="0.05 0.55 0.15 1"/></material>
+  <link name="root"/>
+  <xacro:box name="housing" size="${l} ${w} ${h - 0.02}" xyz="0 0 ${(h - 0.02)/2}" mat="aluminium"/>
+  <xacro:box name="housing_cap" size="${l - 0.02} ${w - 0.02} 0.02" xyz="0 0 ${h - 0.01}" mat="dark"/>
+  <xacro:box name="charging_plate" size="${p} ${w*0.8} 0.008" xyz="${l/2 + p/2} 0 0.004" mat="dark"/>
+  <!-- the sloped contact block on the front face, and the two charging bars -->
+  <xacro:box name="contact_block" size="0.04 0.30 0.16" xyz="${l/2 + 0.02} 0 ${h*0.45}" mat="dark"/>
+  <xacro:box name="contact_upper" size="0.012 0.26 0.02" xyz="${l/2 + 0.046} 0 ${h*0.45 + 0.03}" mat="copper"/>
+  <xacro:box name="contact_lower" size="0.012 0.26 0.02" xyz="${l/2 + 0.046} 0 ${h*0.45 - 0.03}" mat="copper"/>
+  <xacro:box name="status_led" size="0.004 0.03 0.03" xyz="${l/2 + 0.002} ${w/2 - 0.05} ${h - 0.05}" mat="led"/>
+  <!-- guide rails on the plate that centre the robot's contacts -->
+  <xacro:box name="plate_lip_l" size="${p} 0.02 0.012" xyz="${l/2 + p/2} ${w*0.3} 0.014" mat="dark"/>
+  <xacro:box name="plate_lip_r" size="${p} 0.02 0.012" xyz="${l/2 + p/2} ${-w*0.3} 0.014" mat="dark"/>
+</robot>

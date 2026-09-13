@@ -1,0 +1,84 @@
+<?xml version="1.0"?>
+<!--
+  trusco-pallet-rack — the look of one bay of a TRUSCO 重量パレットラック (1-ton
+  series, CC0-1.0): the far upright frame, the near one when `first` is 1 (the
+  単体 unit; a 連結 extension shares the frame of its neighbour), and the beam pair
+  of every level whose top height z1..z3 is given (0 = no beam).
+
+  Published: clear width 2500, depth 1100, heights 2500-4000, 50 mm beam pitch.
+  The 90 x 70 mm post section, the 100 mm box beam, the bracing pattern and the
+  foot plates are estimates. Origin: floor level, centre of the bay; X = along the
+  bay, Y = the depth (the aisle faces are ±Y), Z up. Metres. Decoration only —
+  the posts and beams that collide are placed (hidden) by bt.parts.pallet_rack.
+-->
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="trusco-pallet-rack-bay">
+  <xacro:include filename="../../equipment-common/visual/primitives.xacro"/>
+  <xacro:arg name="width" default="2.5"/>
+  <xacro:arg name="depth" default="1.1"/>
+  <xacro:arg name="height" default="4.0"/>
+  <xacro:arg name="upright" default="0.09"/>
+  <xacro:arg name="upright_depth" default="0.07"/>
+  <xacro:arg name="beam" default="0.10"/>
+  <xacro:arg name="first" default="1"/>
+  <xacro:arg name="z1" default="1.3"/>
+  <xacro:arg name="z2" default="2.6"/>
+  <xacro:arg name="z3" default="3.9"/>
+  <xacro:property name="w" value="$(arg width)"/>
+  <xacro:property name="d" value="$(arg depth)"/>
+  <xacro:property name="h" value="$(arg height)"/>
+  <xacro:property name="u" value="$(arg upright)"/>
+  <xacro:property name="ud" value="$(arg upright_depth)"/>
+  <xacro:property name="b" value="$(arg beam)"/>
+  <xacro:property name="first" value="$(arg first)"/>
+  <xacro:property name="py" value="${d/2 - ud/2}"/>
+  <xacro:property name="run" value="${d - ud}"/>
+  <xacro:property name="panel" value="${h / 4}"/>
+  <xacro:property name="brace_len" value="${hypot(run, panel)}"/>
+  <xacro:property name="tilt" value="${atan2(panel, run)}"/>
+  <material name="neo_grey"><color rgba="0.38 0.40 0.42 1"/></material>
+  <material name="foot"><color rgba="0.20 0.21 0.23 1"/></material>
+  <material name="connector"><color rgba="0.24 0.25 0.27 1"/></material>
+  <link name="root"/>
+  <xacro:macro name="box_r" params="name size xyz rpy mat">
+    <link name="${name}"><visual><origin xyz="${xyz}" rpy="${rpy}"/>
+      <geometry><box size="${size}"/></geometry><material name="${mat}"/>
+    </visual></link>
+    <joint name="j_${name}" type="fixed"><parent link="root"/><child link="${name}"/></joint>
+  </xacro:macro>
+  <!-- one upright frame at x: two posts, feet, a horizontal per panel and alternating diagonals -->
+  <xacro:macro name="bracing" params="tag x i n sign">
+    <xacro:if value="${i &lt; n}">
+      <xacro:property name="z0" value="${panel * i}"/>
+      <xacro:box name="${tag}_horizontal${i}" size="${u*0.35} ${run} ${u*0.35}" xyz="${x} 0 ${z0 + u*0.2 + 0.02}" mat="neo_grey"/>
+      <xacro:box_r name="${tag}_diagonal${i}" size="${u*0.3} ${brace_len} ${u*0.3}" xyz="${x} 0 ${z0 + panel/2}"
+                   rpy="${tilt * sign} 0 0" mat="neo_grey"/>
+      <xacro:bracing tag="${tag}" x="${x}" i="${i+1}" n="${n}" sign="${sign * -1}"/>
+    </xacro:if>
+  </xacro:macro>
+  <xacro:macro name="frame" params="tag x">
+    <xacro:box name="${tag}_post_f" size="${u} ${ud} ${h}" xyz="${x} ${-py} ${h/2}" mat="neo_grey"/>
+    <xacro:box name="${tag}_post_b" size="${u} ${ud} ${h}" xyz="${x} ${py} ${h/2}" mat="neo_grey"/>
+    <xacro:box name="${tag}_foot_f" size="${u*1.6} ${ud*1.8} 0.010" xyz="${x} ${-py} 0.005" mat="foot"/>
+    <xacro:box name="${tag}_foot_b" size="${u*1.6} ${ud*1.8} 0.010" xyz="${x} ${py} 0.005" mat="foot"/>
+    <xacro:bracing tag="${tag}" x="${x}" i="0" n="4" sign="1"/>
+    <xacro:box name="${tag}_horizontal_top" size="${u*0.35} ${run} ${u*0.35}" xyz="${x} 0 ${h - u*0.2}" mat="neo_grey"/>
+  </xacro:macro>
+  <xacro:frame tag="far" x="${w/2 + u/2}"/>
+  <xacro:if value="${first == 1}">
+    <xacro:frame tag="near" x="${-w/2 - u/2}"/>
+  </xacro:if>
+  <!-- a beam pair with its end connectors and lock pins -->
+  <xacro:macro name="level" params="k z">
+    <xacro:if value="${z &gt; 0}">
+      <xacro:box name="beam${k}_f" size="${w} 0.05 ${b}" xyz="0 ${-py} ${z - b/2}" mat="neo_grey"/>
+      <xacro:box name="beam${k}_b" size="${w} 0.05 ${b}" xyz="0 ${py} ${z - b/2}" mat="neo_grey"/>
+      <xacro:box name="beam${k}_conn_lf" size="0.012 ${ud} ${b + 0.06}" xyz="${-w/2 - 0.006} ${-py} ${z - b/2 + 0.01}" mat="connector"/>
+      <xacro:box name="beam${k}_conn_rf" size="0.012 ${ud} ${b + 0.06}" xyz="${w/2 + 0.006} ${-py} ${z - b/2 + 0.01}" mat="connector"/>
+      <xacro:box name="beam${k}_conn_lb" size="0.012 ${ud} ${b + 0.06}" xyz="${-w/2 - 0.006} ${py} ${z - b/2 + 0.01}" mat="connector"/>
+      <xacro:box name="beam${k}_conn_rb" size="0.012 ${ud} ${b + 0.06}" xyz="${w/2 + 0.006} ${py} ${z - b/2 + 0.01}" mat="connector"/>
+    </xacro:if>
+  </xacro:macro>
+  <xacro:level k="1" z="$(arg z1)"/>
+  <xacro:level k="2" z="$(arg z2)"/>
+  <xacro:level k="3" z="$(arg z3)"/>
+</robot>

@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<robot name="mir_eu_pallet_lift_1350_reference">
+<link name="mount"></link>
+<link name="frame"><visual ><geometry ><mesh filename="../meshes/frame.obj"/></geometry></visual><collision ><origin xyz="0 0 0.0335" rpy="0 0 0"/><geometry ><box size="1.371 0.853 0.067"/></geometry></collision></link>
+<link name="platform"><visual ><geometry ><mesh filename="../meshes/platform.obj"/></geometry></visual><collision ><origin xyz="0 -0.3 0.0435" rpy="0 0 0"/><geometry ><box size="1.2 0.162 0.087"/></geometry></collision><collision ><origin xyz="0 0.3 0.0435" rpy="0 0 0"/><geometry ><box size="1.2 0.162 0.087"/></geometry></collision></link>
+<link name="pallet"></link>
+<joint name="frame_joint" type="fixed"><parent link="mount"/><child link="frame"/><origin xyz="0 0 0" rpy="0 0 0"/></joint>
+<joint name="lift" type="prismatic"><parent link="frame"/><child link="platform"/><origin xyz="0 0 0.067" rpy="0 0 0"/><axis xyz="0 0 1"/><limit lower="0" upper="0.06" velocity="0.015" effort="15000"/></joint>
+<joint name="pallet_joint" type="fixed"><parent link="platform"/><child link="pallet"/><origin xyz="0 0 0.087" rpy="0 0 0"/></joint>
+</robot>

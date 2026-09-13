@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<robot name="mir1350_reference">
+<link name="base_footprint"></link>
+<link name="base_link"><visual ><geometry ><mesh filename="../meshes/base_link.obj"/></geometry></visual><collision ><origin xyz="0 0 0.1095" rpy="0 0 0"/><geometry ><box size="1.35 0.91 0.165"/></geometry></collision></link>
+<link name="top_cover"><visual ><geometry ><mesh filename="../meshes/top_cover.obj"/></geometry></visual><collision ><origin xyz="0 0 0.065" rpy="0 0 0"/><geometry ><box size="1.35 0.91 0.13"/></geometry></collision></link>
+<link name="left_wheel_link"><visual ><geometry ><mesh filename="../meshes/left_wheel_link.obj"/></geometry></visual></link>
+<link name="right_wheel_link"><visual ><geometry ><mesh filename="../meshes/right_wheel_link.obj"/></geometry></visual></link>
+<link name="fl_caster_wheel_link"><visual ><geometry ><mesh filename="../meshes/fl_caster_wheel_link.obj"/></geometry></visual></link>
+<link name="fr_caster_wheel_link"><visual ><geometry ><mesh filename="../meshes/fr_caster_wheel_link.obj"/></geometry></visual></link>
+<link name="bl_caster_wheel_link"><visual ><geometry ><mesh filename="../meshes/bl_caster_wheel_link.obj"/></geometry></visual></link>
+<link name="br_caster_wheel_link"><visual ><geometry ><mesh filename="../meshes/br_caster_wheel_link.obj"/></geometry></visual></link>
+<link name="deck"></link>
+<link name="cover_top"></link>
+<joint name="base_link_joint" type="fixed"><parent link="base_footprint"/><child link="base_link"/><origin xyz="0 0 0" rpy="0 0 0"/></joint>
+<joint name="top_cover_joint" type="fixed"><parent link="base_link"/><child link="top_cover"/><origin xyz="0 0 0.192" rpy="0 0 0"/></joint>
+<joint name="left_wheel_link_joint" type="continuous"><parent link="base_link"/><child link="left_wheel_link"/><origin xyz="0 0.36 0.1" rpy="0 0 0"/><axis xyz="0 1 0"/><limit effort="100" velocity="12"/></joint>
+<joint name="right_wheel_link_joint" type="continuous"><parent link="base_link"/><child link="right_wheel_link"/><origin xyz="0 -0.36 0.1" rpy="0 0 0"/><axis xyz="0 1 0"/><limit effort="100" velocity="12"/></joint>
+<joint name="fl_caster_wheel_link_joint" type="continuous"><parent link="base_link"/><child link="fl_caster_wheel_link"/><origin xyz="0.52 0.33 0.05" rpy="0 0 0"/><axis xyz="0 1 0"/><limit effort="100" velocity="12"/></joint>
+<joint name="fr_caster_wheel_link_joint" type="continuous"><parent link="base_link"/><child link="fr_caster_wheel_link"/><origin xyz="0.52 -0.33 0.05" rpy="0 0 0"/><axis xyz="0 1 0"/><limit effort="100" velocity="12"/></joint>
+<joint name="bl_caster_wheel_link_joint" type="continuous"><parent link="base_link"/><child link="bl_caster_wheel_link"/><origin xyz="-0.52 0.33 0.05" rpy="0 0 0"/><axis xyz="0 1 0"/><limit effort="100" velocity="12"/></joint>
+<joint name="br_caster_wheel_link_joint" type="continuous"><parent link="base_link"/><child link="br_caster_wheel_link"/><origin xyz="-0.52 -0.33 0.05" rpy="0 0 0"/><axis xyz="0 1 0"/><limit effort="100" velocity="12"/></joint>
+<joint name="deck_joint" type="fixed"><parent link="base_link"/><child link="deck"/><origin xyz="0 0 0.192" rpy="0 0 0"/></joint>
+<joint name="cover_top_joint" type="fixed"><parent link="base_link"/><child link="cover_top"/><origin xyz="0 0 0.322" rpy="0 0 0"/></joint>
+</robot>

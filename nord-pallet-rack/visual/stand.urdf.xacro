@@ -1,0 +1,49 @@
+<?xml version="1.0"?>
+<!--
+  nord-pallet-rack — the look of a Nord Modules Pallet Rack (EU) (CC0-1.0).
+
+  Drawn from the published envelope only: 1300 long (the drive-in direction, X),
+  1178 wide (Y), 389 tall, the pallet resting 348 mm over the floor. Two sections
+  stand either side of the robot's path; each is two posts, a support rail and a
+  taller rear stop. Origin: floor level, centre of the stand; X = the direction the
+  robot drives in, Z up. All arguments in metres. Decoration only — the boxes that
+  collide are placed (hidden) by bt.parts.pallet_stand.
+-->
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="nord-pallet-rack-stand">
+  <xacro:include filename="../../equipment-common/visual/primitives.xacro"/>
+  <xacro:arg name="length" default="1.3"/>
+  <xacro:arg name="width" default="1.178"/>
+  <xacro:arg name="height" default="0.389"/>
+  <xacro:arg name="support" default="0.348"/>
+  <xacro:arg name="inner" default="1.0"/>
+  <xacro:arg name="leg" default="0.06"/>
+  <xacro:property name="l" value="$(arg length)"/>
+  <xacro:property name="w" value="$(arg width)"/>
+  <xacro:property name="h" value="$(arg height)"/>
+  <xacro:property name="s" value="$(arg support)"/>
+  <xacro:property name="inner" value="$(arg inner)"/>
+  <xacro:property name="a" value="$(arg leg)"/>
+  <xacro:property name="rail_w" value="${(w - inner) / 2}"/>
+  <xacro:property name="rail_y" value="${inner / 2 + rail_w / 2}"/>
+  <xacro:property name="rail_t" value="0.04"/>
+  <material name="jet_black"><color rgba="0.012 0.012 0.013 1"/></material>
+  <material name="zinc"><color rgba="0.43 0.46 0.49 1"/></material>
+  <material name="marker"><color rgba="0.85 0.55 0.02 1"/></material>
+  <link name="root"/>
+  <xacro:macro name="section" params="sy tag">
+    <!-- posts at both ends of the rail, on zinc foot plates with anchor heads -->
+    <xacro:box name="post_front_${tag}" size="${a} ${a} ${s - rail_t}" xyz="${l/2 - a/2} ${sy*rail_y} ${(s - rail_t)/2}" mat="jet_black"/>
+    <xacro:box name="post_rear_${tag}" size="${a} ${a} ${s - rail_t}" xyz="${-l/2 + a/2} ${sy*rail_y} ${(s - rail_t)/2}" mat="jet_black"/>
+    <xacro:box name="foot_front_${tag}" size="${a*2.2} ${a*2.2} 0.008" xyz="${l/2 - a/2} ${sy*rail_y} 0.004" mat="zinc"/>
+    <xacro:box name="foot_rear_${tag}" size="${a*2.2} ${a*2.2} 0.008" xyz="${-l/2 + a/2} ${sy*rail_y} 0.004" mat="zinc"/>
+    <!-- the support rail the pallet's edge rests on, its top at `support` -->
+    <xacro:box name="rail_${tag}" size="${l} ${rail_w} ${rail_t}" xyz="0 ${sy*rail_y} ${s - rail_t/2}" mat="jet_black"/>
+    <!-- the rear stop rising to the overall height -->
+    <xacro:box name="stop_${tag}" size="${a} ${rail_w} ${h - s}" xyz="${-l/2 + a/2} ${sy*rail_y} ${(h + s)/2}" mat="jet_black"/>
+    <xacro:box name="stop_marker_${tag}" size="0.004 ${rail_w*0.7} 0.02" xyz="${-l/2 - 0.002} ${sy*rail_y} ${h - 0.02}" mat="marker"/>
+    <!-- the centring flare at the entry end, angled in from the rail's inner edge -->
+    <xacro:box name="flare_${tag}" size="0.16 0.012 0.05" xyz="${l/2 - 0.06} ${sy*(inner/2 + 0.02)} ${s - 0.025}" mat="jet_black"/>
+  </xacro:macro>
+  <xacro:section sy="-1" tag="r"/>
+  <xacro:section sy="1" tag="l"/>
+</robot>

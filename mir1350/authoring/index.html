@@ -1,0 +1,11 @@
+<!doctype html><html lang="en"><meta charset="utf-8"><title>MiR1350 reference model</title>
+<style>body{margin:0;font:14px system-ui;overflow:hidden}.panel{position:absolute;top:18px;left:18px;background:#fffE;border:1px solid #ddd;border-radius:10px;padding:16px;max-width:340px}h1{font-size:19px;margin:0 0 8px}p{color:#54616d}button{margin:4px;padding:6px}</style>
+<div class="panel"><h1>MiR1350</h1><p>Independently authored reference geometry.<br>Shell details are approximate; the envelope is the published 1350 × 910 × 322 mm.</p><div><button id="iso">Perspective</button><button id="side">Side</button><button id="top">Top</button><button id="bottom">Bottom</button></div></div>
+<script type="importmap">{"imports":{"three":"./node_modules/three/build/three.module.js","three/addons/":"./node_modules/three/examples/jsm/","@botrail/authoring/":"./node_modules/@botrail/authoring/"}}</script>
+<script type="module">
+import {definition} from './model.mjs';
+import {referenceScene} from '@botrail/authoring/reference-model.mjs';
+import {mountAuthoring} from '@botrail/authoring/viewer.mjs';
+const model=referenceScene(definition());
+mountAuthoring(model.root);window.reference=model;
+</script></html>
