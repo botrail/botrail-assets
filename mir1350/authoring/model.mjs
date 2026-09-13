@@ -34,10 +34,12 @@ export function definition() {
 
   // --- chassis: the part that stays when a top module replaces the cover ---
   const chassis=G();
-  const lower=d.deck-0.042-d.clearance;               // graphite band, clearance to 150 mm
-  addMesh(chassis,'chassis_lower',roundedBox([L,W,lower],0.02,3),graphite,[0,0,d.clearance+lower/2]);
-  addMesh(chassis,'chassis_upper',roundedBox([L,W,0.042],0.01,2),white,[0,0,d.deck-0.021]);
-  addMesh(chassis,'bumper_skirt',roundedBox([L+0.006,W+0.006,0.030],0.012,2),bumper,[0,0,d.clearance+0.018]);
+  // The white shell runs from the skirt to the top-module interface; the
+  // graphite band under it is the bumper line the real machine shows.
+  const skirt=0.048, shellH=d.deck-d.clearance-skirt;
+  addMesh(chassis,'chassis_skirt',roundedBox([L,W,skirt],0.012,2),graphite,[0,0,d.clearance+skirt/2]);
+  addMesh(chassis,'chassis_shell',roundedBox([L,W,shellH],0.02,3),white,[0,0,d.clearance+skirt+shellH/2]);
+  addMesh(chassis,'bumper_strip',roundedBox([L+0.006,W+0.006,0.024],0.010,2),bumper,[0,0,d.clearance+0.014]);
   addMesh(chassis,'interface_plate',roundedBox([d.loadSurface[0],d.loadSurface[1],0.004],0.002,1),plate,[0,0,d.deck-0.002]);
   for(const [sx,sy] of [[1,1],[-1,-1]]) {
     // microScan3 stations: front-left and rear-right corners, 4 mm proud so they read
