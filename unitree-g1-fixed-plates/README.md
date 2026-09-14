@@ -29,9 +29,11 @@ encloses the reference model but is not a verified envelope of the real part.
 The model root `mount` is a **reference placement datum**. `sensor_mount` lies
 2.2 mm above it, clear of the bevel. These frames permit a reproducible visual
 assembly; they do not certify mating surfaces, hole alignment or screw length.
-The intended demo retains G1's sensor-frame positions and seats the separate
-sensor models on these plates. The source of that pose must remain distinct
-from the unverified plate dimensions.
+Start a visual assembly from G1's nominal sensor datums and seat the separate
+sensor models on these plates. Any further adjustment needed by approximate
+housing or head geometry must be declared by the consuming demo; it is not a
+measured sensor calibration. Keep these assumptions distinct from verified
+robot poses and the unverified plate dimensions.
 
 Models are Z-up, metres, with separate visuals and analytic collisions in
 `usd/camera-fixed-plate.usda` and `usd/radar-fixed-plate.usda`. Generated with
