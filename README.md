@@ -83,6 +83,9 @@ weld ガン 2 種のみ、カタログ ID が歴史的な名前のまま (公開
 | [nord-pallet-rack](./nord-pallet-rack) | Nord Modules Pallet Rack (EU) | `bt.parts.pallet_stand` |
 | [trusco-pallet-rack](./trusco-pallet-rack) | TRUSCO 重量パレットラック 1 トン用 | `bt.parts.pallet_rack` |
 | [mir-charge-48v](./mir-charge-48v) | MiR Charge 48V | `bt.parts.charging_station` |
+| [trusco-ae-1500](./trusco-ae-1500) | TRUSCO 軽量作業台 AE-1500 | `bt.parts.table` |
+| [schneider-xalk178f](./schneider-xalk178f) | Schneider Electric Harmony XALK178F | `bt.parts.operator_panel` |
+| [screw-presenter](./screw-presenter) | (汎用) レール式スクリュープレゼンタ | `bt.parts.screw_feeder` |
 
 これらは固定寸法ロボットのURDFではなく、対応するスペックパックの
 `components[].trim` が参照する表示用xacro＋軽量メッシュ。

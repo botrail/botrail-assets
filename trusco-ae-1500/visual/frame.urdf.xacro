@@ -1,0 +1,58 @@
+<?xml version="1.0"?>
+<!-- CC0. TRUSCO AE-1500 light-duty workbench: floor centre, X along the 1500 side,
+     Y across the 750 depth, Z up. The maker's frame is inset from the laminate board
+     (not four posts at its corners); the C-section legs, aprons, ties, adjusters and
+     bolt positions are approximations — public overall dimensions only, no vendor CAD.
+     The board is the link `top`: botrail hides its own top massing when a frame trim
+     draws one. Nothing here collides; the generator's inset legs and board do. -->
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="trusco-ae-1500-frame">
+  <xacro:include filename="../../equipment-common/visual/primitives.xacro"/>
+  <xacro:arg name="width" default="1.5"/><xacro:arg name="depth" default="0.75"/>
+  <xacro:arg name="height" default="0.74"/><xacro:arg name="leg" default="0.045"/>
+  <xacro:arg name="top_thickness" default="0.021"/>
+  <xacro:arg name="inset_length" default="0.085"/><xacro:arg name="inset_width" default="0.070"/>
+  <xacro:property name="w" value="$(arg width)"/><xacro:property name="d" value="$(arg depth)"/>
+  <xacro:property name="h" value="$(arg height)"/><xacro:property name="leg" value="$(arg leg)"/>
+  <xacro:property name="t" value="$(arg top_thickness)"/>
+  <xacro:property name="ix" value="$(arg inset_length)"/><xacro:property name="iy" value="$(arg inset_width)"/>
+  <xacro:property name="foot" value="0.035"/>       <!-- adjuster: pad + stem under the leg -->
+  <xacro:property name="hl" value="${h - t - foot}"/> <!-- the folded leg itself -->
+  <material name="paint"><color rgba="0.10 0.22 0.17 1"/></material>
+  <material name="laminate"><color rgba="0.66 0.64 0.57 1"/></material>
+  <material name="edge"><color rgba="0.17 0.16 0.14 1"/></material>
+  <material name="zinc"><color rgba="0.48 0.51 0.55 1"/></material>
+  <material name="rubber"><color rgba="0.025 0.032 0.040 1"/></material>
+  <link name="root"/>
+  <!-- The laminate board with its dark edge band. -->
+  <xacro:box name="top" size="${w} ${d} ${t}" xyz="0 0 ${h - t/2}" mat="laminate"/>
+  <xacro:box name="edge_front" size="${w} 0.002 ${t - 0.003}" xyz="0 ${-d/2 - 0.001} ${h - t/2}" mat="edge"/>
+  <xacro:box name="edge_back" size="${w} 0.002 ${t - 0.003}" xyz="0 ${d/2 + 0.001} ${h - t/2}" mat="edge"/>
+  <xacro:box name="edge_left" size="0.002 ${d + 0.004} ${t - 0.003}" xyz="${-w/2 - 0.001} 0 ${h - t/2}" mat="edge"/>
+  <xacro:box name="edge_right" size="0.002 ${d + 0.004} ${t - 0.003}" xyz="${w/2 + 0.001} 0 ${h - t/2}" mat="edge"/>
+  <!-- A folded C-section leg at each inset corner, open toward the bench's centre,
+       standing on an adjuster; two bolt heads where the aprons and ties meet it. -->
+  <xacro:macro name="leg" params="i sx sy">
+    <xacro:property name="px" value="${sx * (w/2 - ix)}"/>
+    <xacro:property name="py" value="${sy * (d/2 - iy)}"/>
+    <xacro:cylinder name="pad_${i}" radius="0.027" length="0.014" xyz="${px} ${py} 0.007" rpy="0 0 0" mat="rubber"/>
+    <xacro:cylinder name="stem_${i}" radius="0.008" length="${foot - 0.007}" xyz="${px} ${py} ${(foot + 0.007)/2}" rpy="0 0 0" mat="zinc"/>
+    <xacro:box name="web_${i}" size="0.0025 ${leg} ${hl}" xyz="${px + sx * (leg/2 - 0.00125)} ${py} ${foot + hl/2}" mat="paint"/>
+    <xacro:box name="flange_front_${i}" size="${leg} 0.0025 ${hl}" xyz="${px} ${py - leg/2 + 0.00125} ${foot + hl/2}" mat="paint"/>
+    <xacro:box name="flange_back_${i}" size="${leg} 0.0025 ${hl}" xyz="${px} ${py + leg/2 - 0.00125} ${foot + hl/2}" mat="paint"/>
+    <xacro:cylinder name="bolt_upper_${i}" radius="0.005" length="0.003" xyz="${px} ${py + sy * (leg/2 + 0.0015)} ${h - t - 0.035}" rpy="${pi/2} 0 0" mat="zinc"/>
+    <xacro:cylinder name="bolt_lower_${i}" radius="0.005" length="0.003" xyz="${px} ${py + sy * (leg/2 + 0.0015)} 0.265" rpy="${pi/2} 0 0" mat="zinc"/>
+  </xacro:macro>
+  <xacro:leg i="0" sx="-1" sy="-1"/><xacro:leg i="1" sx="1" sy="-1"/>
+  <xacro:leg i="2" sx="1" sy="1"/><xacro:leg i="3" sx="-1" sy="1"/>
+  <!-- Aprons and end rails under the board, between the legs; a low rear stretcher
+       and end ties keep the front knee space open. -->
+  <xacro:property name="ax" value="${w - 2*ix + leg}"/>
+  <xacro:property name="ay" value="${d - 2*iy + leg}"/>
+  <xacro:box name="apron_front" size="${ax} 0.025 0.07" xyz="0 ${-(d/2 - iy)} ${h - t - 0.035}" mat="paint"/>
+  <xacro:box name="apron_back" size="${ax} 0.025 0.07" xyz="0 ${d/2 - iy} ${h - t - 0.035}" mat="paint"/>
+  <xacro:box name="end_left" size="0.025 ${ay} 0.07" xyz="${-(w/2 - ix)} 0 ${h - t - 0.035}" mat="paint"/>
+  <xacro:box name="end_right" size="0.025 ${ay} 0.07" xyz="${w/2 - ix} 0 ${h - t - 0.035}" mat="paint"/>
+  <xacro:box name="tie_left" size="0.025 ${ay} 0.06" xyz="${-(w/2 - ix)} 0 0.265" mat="paint"/>
+  <xacro:box name="tie_right" size="0.025 ${ay} 0.06" xyz="${w/2 - ix} 0 0.265" mat="paint"/>
+  <xacro:box name="rear_stretcher" size="${ax} 0.025 0.09" xyz="0 ${d/2 - iy} 0.265" mat="paint"/>
+</robot>

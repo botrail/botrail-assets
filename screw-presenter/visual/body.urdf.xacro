@@ -1,0 +1,37 @@
+<?xml version="1.0"?>
+<!-- CC0. A generic rail-type screw presenter: the foot's centre, X along the body,
+     the pick point toward -Y (the front), Z up. No reference product: the seams, the
+     hopper lid, the vents, the controls and the fasteners are authored details of
+     a market-typical unit. Nothing here collides; the generator's body box does. -->
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="screw-presenter-body">
+  <xacro:include filename="../../equipment-common/visual/primitives.xacro"/>
+  <xacro:arg name="length" default="0.22"/><xacro:arg name="width" default="0.16"/>
+  <xacro:arg name="height" default="0.15"/>
+  <xacro:property name="l" value="$(arg length)"/><xacro:property name="w" value="$(arg width)"/>
+  <xacro:property name="h" value="$(arg height)"/>
+  <material name="sheet"><color rgba="0.57 0.59 0.58 1"/></material>
+  <material name="dark"><color rgba="0.025 0.032 0.040 1"/></material>
+  <material name="lid"><color rgba="0.21 0.25 0.28 1"/></material>
+  <material name="switch"><color rgba="0.06 0.25 0.10 1"/></material>
+  <material name="steel"><color rgba="0.48 0.51 0.55 1"/></material>
+  <link name="root"/>
+  <xacro:box name="shell" size="${l} ${w} ${h}" xyz="0 0 ${h/2}" mat="sheet"/>
+  <xacro:box name="base" size="${l + 0.004} ${w + 0.004} 0.008" xyz="0 0 0.004" mat="dark"/>
+  <!-- The hopper lid over the rear of the top, its seam and a grip. -->
+  <xacro:box name="lid_seam" size="${l - 0.010} ${w * 0.43} 0.002" xyz="0 ${w * 0.22} ${h + 0.001}" mat="dark"/>
+  <xacro:box name="hopper_lid" size="${l - 0.018} ${w * 0.39} 0.004" xyz="0 ${w * 0.22} ${h + 0.004}" mat="lid"/>
+  <xacro:box name="handle" size="0.040 0.010 0.006" xyz="0 ${w * 0.22} ${h + 0.009}" mat="dark"/>
+  <!-- Ventilation slots and fasteners on the front, the control bezel and its switch. -->
+  <xacro:macro name="vent" params="i">
+    <xacro:box name="vent_${i}" size="0.004 0.001 0.025" xyz="${-0.070 + i * 0.012} ${-w/2 - 0.0006} ${h * 0.40}" mat="dark"/>
+  </xacro:macro>
+  <xacro:vent i="0"/><xacro:vent i="1"/><xacro:vent i="2"/><xacro:vent i="3"/><xacro:vent i="4"/>
+  <xacro:vent i="5"/><xacro:vent i="6"/><xacro:vent i="7"/><xacro:vent i="8"/>
+  <xacro:macro name="fastener" params="i sx z">
+    <xacro:cylinder name="fastener_${i}" radius="0.0028" length="0.0015" xyz="${sx * (l/2 - 0.014)} ${-w/2 - 0.001} ${z}" rpy="${pi/2} 0 0" mat="steel"/>
+  </xacro:macro>
+  <xacro:fastener i="0" sx="-1" z="0.018"/><xacro:fastener i="1" sx="-1" z="${h - 0.018}"/>
+  <xacro:fastener i="2" sx="1" z="0.018"/><xacro:fastener i="3" sx="1" z="${h - 0.018}"/>
+  <xacro:box name="control_bezel" size="0.036 0.002 0.020" xyz="${l * 0.28} ${-w/2 - 0.0015} ${h - 0.038}" mat="dark"/>
+  <xacro:box name="power_switch" size="0.012 0.003 0.013" xyz="${l * 0.28} ${-w/2 - 0.004} ${h - 0.038}" mat="switch"/>
+</robot>

@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<!-- CC0. Schneider Electric Harmony XALK178F emergency-stop station: the plate's
+     centre, the face toward -Y, Z up. The public figures are the 68 x 68 face and
+     the 53 mm enclosure (92.5 mm over the operator); the yellow lid and its two
+     captive screws are approximations from the product view. Nothing here collides;
+     the generator's plate does, and the generator draws the operator itself. -->
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="schneider-xalk178f-box">
+  <xacro:include filename="../../equipment-common/visual/primitives.xacro"/>
+  <xacro:arg name="width" default="0.068"/><xacro:arg name="height" default="0.068"/>
+  <xacro:arg name="thickness" default="0.053"/>
+  <xacro:property name="w" value="$(arg width)"/><xacro:property name="h" value="$(arg height)"/>
+  <xacro:property name="t" value="$(arg thickness)"/>
+  <material name="enclosure"><color rgba="0.16 0.17 0.18 1"/></material>
+  <material name="lid"><color rgba="0.95 0.62 0.015 1"/></material>
+  <material name="screw"><color rgba="0.48 0.51 0.55 1"/></material>
+  <link name="root"/>
+  <xacro:box name="enclosure" size="${w} ${t - 0.002} ${h}" xyz="0 0.001 0" mat="enclosure"/>
+  <!-- The lid stands 2 mm proud of the enclosure; the operator's collar sits on it. -->
+  <xacro:box name="lid" size="${w} 0.002 ${h}" xyz="0 ${-t/2 - 0.001} 0" mat="lid"/>
+  <xacro:cylinder name="screw_lower_left" radius="0.0024" length="0.001" xyz="${-w/2 + 0.009} ${-t/2 - 0.0025} ${-h/2 + 0.009}" rpy="${pi/2} 0 0" mat="screw"/>
+  <xacro:cylinder name="screw_upper_right" radius="0.0024" length="0.001" xyz="${w/2 - 0.009} ${-t/2 - 0.0025} ${h/2 - 0.009}" rpy="${pi/2} 0 0" mat="screw"/>
+</robot>
