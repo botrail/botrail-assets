@@ -1,0 +1,49 @@
+{
+  "schema_version": 1,
+  "license": "CC0-1.0",
+  "geometry": "independently_authored_photo_reference",
+  "verified": {
+    "manufacturer_as_listed": "Unitree",
+    "camera": {
+      "seller": "QUADRUPED.DE",
+      "seller_article_number": "1297",
+      "gtin": "0658917598341",
+      "url": "https://www.quadruped.de/Unitree-G1-Camera-fixed-plate"
+    },
+    "radar": {
+      "seller": "QUADRUPED.DE",
+      "seller_article_number": "1296",
+      "gtin": "0658917598334",
+      "url": "https://www.quadruped.de/Unitree-G1-Radar-fixed-plate"
+    }
+  },
+  "estimated_geometry": {
+    "camera_plate_blank_mm": [
+      44,
+      60,
+      2
+    ],
+    "radar_plate_blank_mm": [
+      49.6,
+      62.4,
+      2
+    ],
+    "edge_bevel_mm": 0.2,
+    "visual_hole_diameter_mm": 4,
+    "sensor_mount_z_mm": 2.2,
+    "source": "Silhouette and visible apertures in seller product photos; absolute scale inferred for visual assembly with the sensor envelopes, not measured from either plate."
+  },
+  "unknown": [
+    "Unitree OEM part number",
+    "plate dimensions and hole pitch",
+    "fastener specification",
+    "supported G1 hardware revisions",
+    "mass",
+    "centre of mass",
+    "inertia",
+    "detailed mounting fit"
+  ],
+  "collision": "Analytic box enclosing the reference model; no plate holes or manufacturing fit guarantee",
+  "manufacturer_cad_used": false,
+  "vendor_images_redistributed": false
+}

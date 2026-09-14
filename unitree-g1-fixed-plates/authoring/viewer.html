@@ -1,0 +1,5 @@
+<!doctype html><html><head><meta charset="utf-8"><title>G1 fixed plate reference models</title>
+<style>body{margin:0}#note{position:fixed;z-index:2;background:#fffd;padding:8px;font:14px sans-serif}</style>
+<script type="importmap">{"imports":{"three":"./node_modules/three/build/three.module.js","three/addons/":"./node_modules/three/examples/jsm/","three-usd-robot":"./node_modules/three-usd-robot/dist/index.js","@botrail/authoring/":"./node_modules/@botrail/authoring/"}}</script></head>
+<body><div id="note">G1 fixed plates — inferred geometry; fit unverified. <a href="?camera">Camera</a> / <a href="?radar">Radar</a></div>
+<script type="module">import {mountAuthoring} from '@botrail/authoring/viewer.mjs';import {definition} from './model.mjs';mountAuthoring(definition(location.search.includes('radar')?'radar':'camera').body);</script></body></html>
