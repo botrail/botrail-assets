@@ -20,6 +20,7 @@ on:
       - 'belgotch-type34-s1/**'
       - 'nito-fz/**'
       - 'equipment-common/**'
+      - 'workshop-shapes/**'
       - '.github/workflows/authoring.yaml'
   pull_request:
     paths:
@@ -40,6 +41,7 @@ on:
       - 'belgotch-type34-s1/**'
       - 'nito-fz/**'
       - 'equipment-common/**'
+      - 'workshop-shapes/**'
       - '.github/workflows/authoring.yaml'
   workflow_dispatch:
 
@@ -58,7 +60,7 @@ jobs:
         shell: bash
         run: |
           npm --prefix authoring ci --ignore-scripts --no-audit --no-fund
-          for asset in mid-360 vacuum-gripper-ecbpi weld-gun-x16005 universal-robots-ur-series onrobot-rg6 ewellix-liftkit-ur620; do
+          for asset in mid-360 vacuum-gripper-ecbpi weld-gun-x16005 universal-robots-ur-series onrobot-rg6 ewellix-liftkit-ur620 workshop-shapes; do
             (cd "$asset/authoring" && npm ci --ignore-scripts --no-audit --no-fund)
           done
       - name: Shared helpers
@@ -69,6 +71,10 @@ jobs:
         run: |
           node x-guard-classic/authoring/export.mjs --check
           node nito-fz/authoring/export.mjs --check
+      - name: Workshop shape layers match their authoring source
+        run: |
+          npm --prefix workshop-shapes/authoring test
+          node workshop-shapes/authoring/export.mjs --check
       - name: Public UR+ reference geometry and motion
         run: |
           for asset in universal-robots-ur-series onrobot-rg6 ewellix-liftkit-ur620; do

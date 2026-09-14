@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="ja">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>汎用形状ライブラリ — workshop-shapes</title>
+<style>
+body { margin: 0; font: 15px system-ui, sans-serif; background: #e9edf1; color: #233340; }
+canvas { display: block; }
+header { position: fixed; top: 24px; left: 28px; pointer-events: none; }
+h1 { margin: 0 0 8px; font-size: 24px; }
+p { margin: 6px 0; font-size: 13px; }
+footer { position: fixed; bottom: 24px; left: 28px; background: #fffffff0; border-radius: 8px; padding: 15px; }
+button { padding: 7px 14px; margin-right: 7px; cursor: pointer; }
+</style>
+<header><h1>汎用形状ライブラリ</h1><p id="names"></p>
+<p>参照実機のない独自著作。単位箱 [-0.5, 0.5]³ の形を、利用側が実寸に伸縮します。</p></header>
+<footer><button data-view="iso">斜視</button><button data-view="side">側面</button>
+<button data-view="top">上面</button><button data-view="bottom">底面</button>
+<p>ここでは各形状を 0.3 m 角に並べて表示。型番・寸法の主張はありません。</p></footer>
+<script type="importmap">{"imports":{
+  "three":"./node_modules/three/build/three.module.js",
+  "@botrail/authoring/": "./node_modules/@botrail/authoring/",
+  "three/addons/":"./node_modules/three/examples/jsm/"
+}}</script>
+<script type="module">
+import * as THREE from "three";
+import { mountAuthoring } from "@botrail/authoring/viewer.mjs";
+import { SHAPES, buildShape, mergeShape } from "./shapes.mjs";
+const row = new THREE.Group();
+SHAPES.forEach((name, i) => {
+  const mesh = mergeShape(buildShape(name));
+  mesh.scale.setScalar(0.3); mesh.position.set(0.4 * i - 0.4 * (SHAPES.length - 1) / 2, 0, 0.15);
+  row.add(mesh);
+});
+document.querySelector("#names").textContent = SHAPES.join(" · ");
+mountAuthoring(row, { iso: [0.3, -1.5, 0.8] });
+</script>
+</html>
