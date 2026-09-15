@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="ja">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>GH-160 ギヤハウジングとカバー — gear-cover-set</title>
+<style>
+body { margin: 0; font: 15px system-ui, sans-serif; background: #e9edf1; color: #233340; }
+canvas { display: block; }
+header { position: fixed; top: 24px; left: 28px; pointer-events: none; }
+h1 { margin: 0 0 8px; font-size: 24px; }
+p { margin: 6px 0; font-size: 13px; }
+footer { position: fixed; bottom: 24px; left: 28px; background: #fffffff0; border-radius: 8px; padding: 15px; }
+button { padding: 7px 14px; margin-right: 7px; cursor: pointer; }
+</style>
+<header><h1>GH-160 ギヤハウジングとカバー</h1>
+<p>botrail の組立デモの設計値。160 × 120 × 60 のハウジング、10 mm のカバーと φ45 × 30 のボス。図面のある製品ではありません。</p></header>
+<footer><button data-view="iso">斜視</button><button data-view="side">側面</button>
+<button data-view="top">上面</button><button data-view="bottom">底面</button></footer>
+<script type="importmap">{"imports":{
+  "three":"./node_modules/three/build/three.module.js",
+  "@botrail/authoring/": "./node_modules/@botrail/authoring/",
+  "three/addons/":"./node_modules/three/examples/jsm/"
+}}</script>
+<script type="module">
+import * as THREE from "three";
+import { mountAuthoring } from "@botrail/authoring/viewer.mjs";
+import { buildHousing, buildCover, mergePart } from "./model.mjs";
+const pair = new THREE.Group();
+const housing = mergePart(buildHousing()); housing.position.set(-0.11, 0, 0.03); pair.add(housing);
+const cover = mergePart(buildCover()); cover.position.set(0.11, 0, 0); pair.add(cover);
+mountAuthoring(pair, { iso: [0.6, -1.2, 0.8] });
+</script>
+</html>

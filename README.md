@@ -86,6 +86,7 @@ weld ガン 2 種のみ、カタログ ID が歴史的な名前のまま (公開
 | [trusco-ae-1500](./trusco-ae-1500) | TRUSCO 軽量作業台 AE-1500 | `bt.parts.table` |
 | [schneider-xalk178f](./schneider-xalk178f) | Schneider Electric Harmony XALK178F | `bt.parts.operator_panel` |
 | [screw-presenter](./screw-presenter) | (汎用) レール式スクリュープレゼンタ | `bt.parts.screw_feeder` |
+| [gear-cover-set](./gear-cover-set) | (設計値) GH-160 ギヤハウジングとカバー — `components[].visual` の USD prim | `bt.parts.workpiece` |
 
 これらは固定寸法ロボットのURDFではなく、対応するスペックパックの
 `components[].trim` が参照する表示用xacro＋軽量メッシュ。
