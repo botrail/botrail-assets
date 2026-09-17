@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<robot name="aubo_amr300_reference">
+<link name="base_footprint"></link>
+<link name="base_link"><visual ><geometry ><mesh filename="../meshes/base_link.obj"/></geometry></visual><collision ><origin xyz="0 0 0.12" rpy="0 0 0"/><geometry ><box size="0.94 0.64 0.19"/></geometry></collision><collision ><origin xyz="0 0 0.4075" rpy="0 0 0"/><geometry ><box size="1 0.7 0.385"/></geometry></collision></link>
+<link name="left_wheel_link"><visual ><geometry ><mesh filename="../meshes/left_wheel_link.obj"/></geometry></visual></link>
+<link name="right_wheel_link"><visual ><geometry ><mesh filename="../meshes/right_wheel_link.obj"/></geometry></visual></link>
+<link name="fl_caster_wheel_link"><visual ><geometry ><mesh filename="../meshes/fl_caster_wheel_link.obj"/></geometry></visual></link>
+<link name="fr_caster_wheel_link"><visual ><geometry ><mesh filename="../meshes/fr_caster_wheel_link.obj"/></geometry></visual></link>
+<link name="bl_caster_wheel_link"><visual ><geometry ><mesh filename="../meshes/bl_caster_wheel_link.obj"/></geometry></visual></link>
+<link name="br_caster_wheel_link"><visual ><geometry ><mesh filename="../meshes/br_caster_wheel_link.obj"/></geometry></visual></link>
+<link name="deck"></link>
+<link name="load_surface"></link>
+<link name="arm_mount"></link>
+<joint name="base_link_joint" type="fixed"><parent link="base_footprint"/><child link="base_link"/><origin xyz="0 0 0" rpy="0 0 0"/></joint>
+<joint name="left_wheel_link_joint" type="continuous"><parent link="base_link"/><child link="left_wheel_link"/><origin xyz="0 0.29 0.08" rpy="0 0 0"/><axis xyz="0 1 0"/><limit effort="100" velocity="12"/></joint>
+<joint name="right_wheel_link_joint" type="continuous"><parent link="base_link"/><child link="right_wheel_link"/><origin xyz="0 -0.29 0.08" rpy="0 0 0"/><axis xyz="0 1 0"/><limit effort="100" velocity="12"/></joint>
+<joint name="fl_caster_wheel_link_joint" type="continuous"><parent link="base_link"/><child link="fl_caster_wheel_link"/><origin xyz="0.38 0.25 0.05" rpy="0 0 0"/><axis xyz="0 1 0"/><limit effort="100" velocity="12"/></joint>
+<joint name="fr_caster_wheel_link_joint" type="continuous"><parent link="base_link"/><child link="fr_caster_wheel_link"/><origin xyz="0.38 -0.25 0.05" rpy="0 0 0"/><axis xyz="0 1 0"/><limit effort="100" velocity="12"/></joint>
+<joint name="bl_caster_wheel_link_joint" type="continuous"><parent link="base_link"/><child link="bl_caster_wheel_link"/><origin xyz="-0.38 0.25 0.05" rpy="0 0 0"/><axis xyz="0 1 0"/><limit effort="100" velocity="12"/></joint>
+<joint name="br_caster_wheel_link_joint" type="continuous"><parent link="base_link"/><child link="br_caster_wheel_link"/><origin xyz="-0.38 -0.25 0.05" rpy="0 0 0"/><axis xyz="0 1 0"/><limit effort="100" velocity="12"/></joint>
+<joint name="deck_joint" type="fixed"><parent link="base_link"/><child link="deck"/><origin xyz="0 0 0.6" rpy="0 0 0"/></joint>
+<joint name="load_surface_joint" type="fixed"><parent link="base_link"/><child link="load_surface"/><origin xyz="0.1 0 0.6" rpy="0 0 0"/></joint>
+<joint name="arm_mount_joint" type="fixed"><parent link="base_link"/><child link="arm_mount"/><origin xyz="0.18 0 0.6" rpy="0 0 0"/></joint>
+</robot>
