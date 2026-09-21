@@ -46,7 +46,7 @@ gun = bt.Robot.from_catalog("weld-gun-x1")  # カタログ ID (下表の右列) 
 | [biw-sedan](./biw-sedan) | ワークピース: BIW (コンパクトセダン) | — (独自著作) | `biw-sedan` |
 | [spindle-emsf3060](./spindle-emsf3060) | 切削スピンドル (フランジ付きモータ) | ナカニシ EMSF-3060K | `spindle-emsf3060` |
 | [ati-rcv250-crx-kit](./ati-rcv250-crx-kit) | スピンドル＋取付プレート2点 | ATI 9150-COB-CRX10-RCV250-01 / RCV-250 | `rcv-250-crx10-kit` / `rcv-250` / `3700-50-9210` / `9005-50-6091` |
-| [kuka-kr210-l150](./kuka-kr210-l150) | 6軸アームの独自参照形状 | KUKA KR 210 L150-2 | `kuka/kr210/kr210-l150/r2` (公開前) |
+| [kuka-kr210-l150](./kuka-kr210-l150) | 6軸アームの独自参照形状 | KUKA KR 210 L150-2 | `kuka/kr210/kr210-l150/r2` |
 | [kawasaki-bx250l](./kawasaki-bx250l) | 6軸アーム＋平行リンクの参照モデル | Kawasaki BX250L-B001 / GUN BRACKET 160 | `kawasaki/bx/bx250l-b001/r2` |
 | [nimak-multiframegun](./nimak-multiframegun) | 片側開閉の取付参照モデル＋指定ボルト10本 | NIMAK 95.020.516 / P3U、BX-NIMAK-HW-A構成 | `nimak/multiframegun/95-020-516-p3u/r4` |
 | [universal-robots-ur-series](./universal-robots-ur-series) | 6軸協働ロボットの独自形状 | UR8 Long / UR15 / UR18 / UR20 / UR30 | `ur8-long` / `ur15` / `ur18` / `ur20` / `ur30` (r2) |
@@ -60,7 +60,7 @@ gun = bt.Robot.from_catalog("weld-gun-x1")  # カタログ ID (下表の右列) 
 | [onrobot-screwdriver-103961](./onrobot-screwdriver-103961) | 側面支持・55 mm送り軸 | OnRobot Screwdriver 103961、109301装着構成 | `onrobot/screwdriver/103961/r1` / `103961-a50/r1` (公開前) |
 | [onrobot-bit-extender-109301](./onrobot-bit-extender-109301) | 50 mm追加リーチの参照形状 | OnRobot Bit Extender A 109301 | `onrobot/bit-extender/109301/r1` (公開前) |
 | [onrobot-vgc10](./onrobot-vgc10) | 30 mmカップ4個、独立2流路の参照モデル | OnRobot VGC10 102844 | `onrobot/vgc/vgc10/r1` |
-| [mir250](./mir250) | 差動2輪 + 旋回キャスタ4輪の独自参照形状 | MiR250 | `mobile_industrial_robots/mir/mir250/r2` (公開前) |
+| [mir250](./mir250) | 差動2輪 + 旋回キャスタ4輪の独自参照形状 | MiR250 | `mobile_industrial_robots/mir/mir250/r2` |
 | [mir1350](./mir1350) | パレット級 AMR の参照モデル(車輪 6・スキャナ 2・別リンクの上部カバー) | MiR1350 | `mobile_industrial_robots/mir/mir1350/r1` |
 | [aubo-amr300](./aubo-amr300) | 差動 2 輪 AMR の参照モデル(駆動輪 2 + キャスタ 4・スキャナ 2・上面のアーム取付フレーム) | AUBO-AMR300(海纳系列) | `aubo/amr/amr300/r1` |
 | [mir-eu-pallet-lift-1350](./mir-eu-pallet-lift-1350) | EUR パレット用 1 軸リフト(揚程 60 mm) | MiR EU Pallet Lift 1350 | `mobile_industrial_robots/mir/eu-pallet-lift-1350/r1` |
