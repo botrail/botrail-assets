@@ -1,0 +1,13 @@
+<!doctype html><html lang="en"><meta charset="utf-8"><title>KUKA KR 210 L150-2 reference model</title>
+<style>body{margin:0;font:14px system-ui;overflow:hidden}.panel{position:absolute;top:18px;left:18px;background:#fffE;border:1px solid #ddd;border-radius:10px;padding:16px;max-width:290px}h1{font-size:19px;margin:0 0 8px}p{color:#54616d}button{margin:4px;padding:6px}</style>
+<div class="panel"><h1>KUKA KR 210 L150-2</h1><p>6-axis reference model · 150 kg / 3100 mm</p><p>Independently authored reference geometry.<br>Shell details and collisions are approximate.</p><div><button id="iso">Perspective</button><button id="side">Side</button><button id="top">Top</button><button id="bottom">Bottom</button><button id="zero">Zero pose</button><button id="posed">Motion pose</button></div></div>
+<script type="importmap">{"imports":{"three":"./node_modules/three/build/three.module.js","three/addons/":"./node_modules/three/examples/jsm/","@botrail/authoring/":"./node_modules/@botrail/authoring/"}}</script>
+<script type="module">
+import {definition} from './model.mjs';
+import {referenceScene} from '@botrail/authoring/reference-model.mjs';
+import {mountAuthoring} from '@botrail/authoring/viewer.mjs';
+const model=referenceScene(definition());
+const viewer=mountAuthoring(model.root,{iso:[1.5,-2,1]});window.reference=model;
+document.querySelector('#zero').onclick=()=>{model.pose();viewer.render();};
+document.querySelector('#posed').onclick=()=>{model.pose({joint_a1:0.25,joint_a2:-0.30,joint_a3:0.40,joint_a4:0.35,joint_a5:-0.45,joint_a6:0.2});viewer.render();};
+</script></html>

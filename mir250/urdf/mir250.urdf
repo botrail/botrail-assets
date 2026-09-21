@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<robot name="mir250_reference">
+<link name="base_footprint"></link>
+<link name="base_link"><visual ><geometry ><mesh filename="../meshes/base_link.obj"/></geometry></visual><collision ><origin xyz="0 0 0.1625" rpy="0 0 0"/><geometry ><box size="0.8 0.58 0.275"/></geometry></collision></link>
+<link name="left_wheel_link"><visual ><geometry ><mesh filename="../meshes/left_wheel_link.obj"/></geometry></visual></link>
+<link name="right_wheel_link"><visual ><geometry ><mesh filename="../meshes/right_wheel_link.obj"/></geometry></visual></link>
+<link name="fl_caster_rotation_link"><visual ><geometry ><mesh filename="../meshes/fl_caster_rotation_link.obj"/></geometry></visual></link>
+<link name="fl_caster_wheel_link"><visual ><geometry ><mesh filename="../meshes/fl_caster_wheel_link.obj"/></geometry></visual></link>
+<link name="fr_caster_rotation_link"><visual ><geometry ><mesh filename="../meshes/fr_caster_rotation_link.obj"/></geometry></visual></link>
+<link name="fr_caster_wheel_link"><visual ><geometry ><mesh filename="../meshes/fr_caster_wheel_link.obj"/></geometry></visual></link>
+<link name="bl_caster_rotation_link"><visual ><geometry ><mesh filename="../meshes/bl_caster_rotation_link.obj"/></geometry></visual></link>
+<link name="bl_caster_wheel_link"><visual ><geometry ><mesh filename="../meshes/bl_caster_wheel_link.obj"/></geometry></visual></link>
+<link name="br_caster_rotation_link"><visual ><geometry ><mesh filename="../meshes/br_caster_rotation_link.obj"/></geometry></visual></link>
+<link name="br_caster_wheel_link"><visual ><geometry ><mesh filename="../meshes/br_caster_wheel_link.obj"/></geometry></visual></link>
+<link name="deck"></link>
+<link name="surface"></link>
+<joint name="base_joint" type="fixed"><parent link="base_footprint"/><child link="base_link"/><origin xyz="0 0 0" rpy="0 0 0"/></joint>
+<joint name="left_wheel_joint" type="continuous"><parent link="base_link"/><child link="left_wheel_link"/><origin xyz="0 0.2015 0.1" rpy="0 0 0"/><axis xyz="0 1 0"/><limit velocity="20"/></joint>
+<joint name="right_wheel_joint" type="continuous"><parent link="base_link"/><child link="right_wheel_link"/><origin xyz="0 -0.2015 0.1" rpy="0 0 0"/><axis xyz="0 1 0"/><limit velocity="20"/></joint>
+<joint name="fl_caster_rotation_joint" type="continuous"><parent link="base_link"/><child link="fl_caster_rotation_link"/><origin xyz="0.295 0.188 0.1565" rpy="0 0 0"/><axis xyz="0 0 1"/><limit /></joint>
+<joint name="fl_caster_wheel_joint" type="continuous"><parent link="fl_caster_rotation_link"/><child link="fl_caster_wheel_link"/><origin xyz="-0.0382 0 -0.094" rpy="0 0 0"/><axis xyz="0 1 0"/><limit velocity="32"/></joint>
+<joint name="fr_caster_rotation_joint" type="continuous"><parent link="base_link"/><child link="fr_caster_rotation_link"/><origin xyz="0.295 -0.188 0.1565" rpy="0 0 0"/><axis xyz="0 0 1"/><limit /></joint>
+<joint name="fr_caster_wheel_joint" type="continuous"><parent link="fr_caster_rotation_link"/><child link="fr_caster_wheel_link"/><origin xyz="-0.0382 0 -0.094" rpy="0 0 0"/><axis xyz="0 1 0"/><limit velocity="32"/></joint>
+<joint name="bl_caster_rotation_joint" type="continuous"><parent link="base_link"/><child link="bl_caster_rotation_link"/><origin xyz="-0.295 0.188 0.1565" rpy="0 0 0"/><axis xyz="0 0 1"/><limit /></joint>
+<joint name="bl_caster_wheel_joint" type="continuous"><parent link="bl_caster_rotation_link"/><child link="bl_caster_wheel_link"/><origin xyz="-0.0382 0 -0.094" rpy="0 0 0"/><axis xyz="0 1 0"/><limit velocity="32"/></joint>
+<joint name="br_caster_rotation_joint" type="continuous"><parent link="base_link"/><child link="br_caster_rotation_link"/><origin xyz="-0.295 -0.188 0.1565" rpy="0 0 0"/><axis xyz="0 0 1"/><limit /></joint>
+<joint name="br_caster_wheel_joint" type="continuous"><parent link="br_caster_rotation_link"/><child link="br_caster_wheel_link"/><origin xyz="-0.0382 0 -0.094" rpy="0 0 0"/><axis xyz="0 1 0"/><limit velocity="32"/></joint>
+<joint name="deck_joint" type="fixed"><parent link="base_link"/><child link="deck"/><origin xyz="0 0 0.3" rpy="0 0 0"/></joint>
+<joint name="surface_joint" type="fixed"><parent link="base_link"/><child link="surface"/><origin xyz="0 0 0.3" rpy="0 0 0"/></joint>
+</robot>
