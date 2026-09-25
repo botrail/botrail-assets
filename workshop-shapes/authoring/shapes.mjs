@@ -23,8 +23,10 @@ export const MATERIALS = Object.freeze({
   paper: namedMaterial("label_paper", linear(.87, .85, .78), 0, .8),
   ink: namedMaterial("label_ink", linear(.035, .04, .04), 0, .8),
   panel: namedMaterial("laminate", linear(.40, .45, .39), 0, .58),
+  // The blue of a VDA KLT (RAL 5003-ish); the consumer usually tints it anyway.
+  tote: namedMaterial("polypropylene", linear(.05, .12, .35), 0, .55),
 });
-const { steel, aluminium, rubber, kraft, tape, paper, ink, panel } = MATERIALS;
+const { steel, aluminium, rubber, kraft, tape, paper, ink, panel, tote } = MATERIALS;
 
 const box = (g, n, size, at, m, r = .005) => addMesh(g, n,
   r < .002 ? new THREE.BoxGeometry(...size) : roundedBox(size, Math.min(r, ...size.map(v => v / 3)), 1), m, at);
@@ -109,6 +111,39 @@ const builders = {
   },
   hose(g) {
     tube(g, "drain_hose", [[0, 0, .45], [.35, 0, .35], [.36, 0, -.15], [0, 0, -.4], [-.3, 0, -.3]], .055, rubber);
+  },
+  tote(g) {
+    // The ribbed sleeve of a small-load container (a VDA KLT): the outer
+    // skin, its vertical ribs, the stacking rim and the base band, a grip
+    // ledge on each end and a card pocket on one long side. Open inside
+    // and below — the walls and floor are the consumer's plain boxes,
+    // which this wraps (botrail scales it a little past them, so the skin
+    // stands just outside their faces and the ribs stand proud of that).
+    // Depths are fractions of the side, so a 300 mm and a 600 mm bin get
+    // ribs in proportion. No SKU: an illustrative form of "a KLT".
+    const rib = .012, skin = .012;                   // rib depth, skin thickness (of the side)
+    const outer = .5 - rib, inner = outer - skin;    // the skin's two faces
+    const ring = roundedRectangle(2 * outer, 2 * outer, .03);
+    ring.holes.push(roundedRectangle(2 * inner, 2 * inner, .02));
+    extrude(g, "skin", ring, .92, -.46, tote, 0);
+    for (const [name, z] of [["rim", .48], ["base_band", -.48]]) {
+      const band = roundedRectangle(1, 1, .04);
+      band.holes.push(roundedRectangle(2 * (inner - .032), 2 * (inner - .032), .02));
+      extrude(g, name, band, .04, z - .02, tote, 0);
+    }
+    // Vertical ribs on every face, between the bands; the long sides get
+    // more of them. Each is a slab standing on the skin, rib deep.
+    const along = (n, span) => Array.from({ length: n }, (_, i) => -span / 2 + span * (i + .5) / n);
+    for (const x of along(5, .8)) for (const side of [-1, 1]) {
+      box(g, `rib_y${side}_${x.toFixed(2)}`, [.022, rib, .9], [x, side * (outer + rib / 2), 0], tote, 0);
+    }
+    for (const y of along(3, .6)) for (const side of [-1, 1]) {
+      box(g, `rib_x${side}_${y.toFixed(2)}`, [rib, .022, .9], [side * (outer + rib / 2), y, 0], tote, 0);
+    }
+    // A grip ledge under the rim on each end (the KLT's under-grip), and
+    // the card pocket on one long side.
+    for (const side of [-1, 1]) box(g, `grip_${side}`, [rib, .42, .05], [side * (outer + rib / 2), 0, .32], tote, 0);
+    box(g, "card_pocket", [.34, rib * .6, .2], [-.1, -(outer + rib * .3), .2], tote, 0);
   },
 };
 

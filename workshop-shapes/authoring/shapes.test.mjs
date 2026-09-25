@@ -13,7 +13,7 @@ const probe = name => {
 };
 
 test("every shape is registered into the unit box", () => {
-  assert.deepEqual([...SHAPES], ["adjuster", "basket", "carton", "handle", "hose", "panel", "rim", "tray", "workpiece"]);
+  assert.deepEqual([...SHAPES], ["adjuster", "basket", "carton", "handle", "hose", "panel", "rim", "tote", "tray", "workpiece"]);
   for (const name of SHAPES) {
     const bounds = new THREE.Box3().setFromObject(buildShape(name));
     for (const axis of ["x", "y", "z"]) {
@@ -30,6 +30,11 @@ test("the workpiece's bores and the basket's perforations are open geometry", ()
   const basket = probe("basket");
   assert.equal(basket(-.42, -.42), false, "a perforation");
   assert.equal(basket(-.3675, -.42), true, "the sheet between two perforations");
+  // The tote is a sleeve: open inside (the consumer's boxes are the walls
+  // and floor) and skinned round the outside, with ribs standing proud.
+  const tote = probe("tote");
+  assert.equal(tote(0, 0), false, "open inside");
+  assert.equal(tote(.47, 0), true, "the skin");
 });
 
 test("finishes survive flattening as material groups", () => {
