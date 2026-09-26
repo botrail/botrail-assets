@@ -48,6 +48,7 @@ gun = bt.Robot.from_catalog("weld-gun-x1")  # カタログ ID (下表の右列) 
 | [ati-rcv250-crx-kit](./ati-rcv250-crx-kit) | スピンドル＋取付プレート2点 | ATI 9150-COB-CRX10-RCV250-01 / RCV-250 | `rcv-250-crx10-kit` / `rcv-250` / `3700-50-9210` / `9005-50-6091` |
 | [kuka-kr210-l150](./kuka-kr210-l150) | 6軸アームの独自参照形状 | KUKA KR 210 L150-2 | `kuka/kr210/kr210-l150/r2` |
 | [kawasaki-bx250l](./kawasaki-bx250l) | 6軸アーム＋平行リンクの参照モデル | Kawasaki BX250L-B001 / GUN BRACKET 160 | `kawasaki/bx/bx250l-b001/r2` |
+| [fanuc-m410ic-185](./fanuc-m410ic-185) | 4軸パレタイジングロボット、平行リンクを mimic で表した参照モデル | FANUC M-410iC/185 (ペデスタル形) | `fanuc/m410ic/m410ic-185/r1` (公開前) |
 | [nimak-multiframegun](./nimak-multiframegun) | 片側開閉の取付参照モデル＋指定ボルト10本 | NIMAK 95.020.516 / P3U、BX-NIMAK-HW-A構成 | `nimak/multiframegun/95-020-516-p3u/r4` |
 | [universal-robots-ur-series](./universal-robots-ur-series) | 6軸協働ロボットの独自形状 | UR8 Long / UR15 / UR18 / UR20 / UR30 | `ur8-long` / `ur15` / `ur18` / `ur20` / `ur30` (r2) |
 | [onrobot-rg6](./onrobot-rg6) | 平行リンクグリッパの参照モデル | OnRobot RG6 v2 | `onrobot/rg/rg6/r2` |
@@ -101,7 +102,8 @@ weld ガン 2 種のみ、カタログ ID が歴史的な名前のまま (公開
 
 | アセット | 中身 | 利用側 |
 | --- | --- | --- |
-| [workshop-shapes](./workshop-shapes) | 箱では描けない汎用の形 9 つ (段ボール・プレス皿・パンチングかご・アジャスタ足・取っ手・ホース・穴あきワーク …)。単位箱に正規化した 1 形状 1 USD | botrail が `python/botrail/_shapes/` にベンダリングし、`bt.parts.appearance` が衝突用の箱に被せて描く |
+| [workshop-shapes](./workshop-shapes) | 箱では描けない汎用の形 10 (`tote` を含む) (段ボール・プレス皿・パンチングかご・アジャスタ足・取っ手・ホース・穴あきワーク …)。単位箱に正規化した 1 形状 1 USD | botrail が `python/botrail/_shapes/` にベンダリングし、`bt.parts.appearance` が衝突用の箱に被せて描く |
+| [franka-hand-d405-clip](./franka-hand-d405-clip) | RealSense D405 を Franka Hand の面に留めるプリント用クリップ (リングに引っかけ、面に沿い、底を引っかけ、30° の座)。ハンド座標で著作、手の実測面にフィット | botrail が `examples/assets/` にベンダリングし、卓上 RL 例の手先カメラの見た目にする |
 
 参照実機を持たない独自著作で、型番・寸法を主張しない。実在製品の見た目は製品側の
 アセットが持つ。

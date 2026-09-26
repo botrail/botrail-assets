@@ -1,0 +1,16 @@
+<!doctype html><html lang="en"><meta charset="utf-8"><title>FANUC M-410iC/185 reference model</title>
+<style>body{margin:0;font:14px system-ui;overflow:hidden}.panel{position:absolute;top:18px;left:18px;background:#fffE;border:1px solid #ddd;border-radius:10px;padding:16px;max-width:300px}h1{font-size:19px;margin:0 0 8px}p{color:#54616d}button{margin:4px;padding:6px}</style>
+<div class="panel"><h1>FANUC M-410iC/185</h1><p>4-axis palletizing reference model · 185 kg / 3143 mm · pedestal type base</p><p>Independently authored reference geometry.<br>Shells, parallel links and collisions are approximate.</p><div><button id="iso">Perspective</button><button id="side">Side</button><button id="front">Front</button><button id="top">Top</button><button id="zero">Zero pose</button><button id="reach">Reach</button><button id="low">Low</button><button id="folded">Folded</button></div></div>
+<script type="importmap">{"imports":{"three":"./node_modules/three/build/three.module.js","three/addons/":"./node_modules/three/examples/jsm/","@botrail/authoring/":"./node_modules/@botrail/authoring/"}}</script>
+<script type="module">
+import {definition} from './model.mjs';
+import {referenceScene} from '@botrail/authoring/reference-model.mjs';
+import {mountAuthoring} from '@botrail/authoring/viewer.mjs';
+const d=Math.PI/180, model=referenceScene(definition());
+const viewer=mountAuthoring(model.root,{iso:[1.6,-2.2,1.1]});window.reference=model;
+const pose=q=>{model.pose(q);viewer.render();};
+document.querySelector('#zero').onclick=()=>pose({});
+document.querySelector('#reach').onclick=()=>pose({J1:30*d,J2:79*d,J3:0,J4:40*d});
+document.querySelector('#low').onclick=()=>pose({J1:-20*d,J2:100*d,J3:-90*d});
+document.querySelector('#folded').onclick=()=>pose({J2:-44*d,J3:-26*d});
+</script></html>

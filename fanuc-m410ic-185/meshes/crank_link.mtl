@@ -1,0 +1,9 @@
+newmtl fanuc_yellow
+Kd 0.949020403495 0.815688949457 0
+d 1
+Ns 40
+
+newmtl faceplate_steel
+Kd 0.619612669717 0.643141866863 0.66274952144
+d 1
+Ns 40

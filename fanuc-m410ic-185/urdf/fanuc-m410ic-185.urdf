@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<robot name="fanuc_m410ic_185_reference">
+<link name="base_link"><visual ><geometry ><mesh filename="../meshes/base_link.obj"/></geometry></visual><collision ><origin xyz="-0.07 0 0.285" rpy="0 0 0"/><geometry ><box size="1.02 0.9 0.57"/></geometry></collision></link>
+<link name="J1_link"><visual ><geometry ><mesh filename="../meshes/J1_link.obj"/></geometry></visual><collision ><origin xyz="0 0 0.2" rpy="0 0 0"/><geometry ><box size="0.8 0.62 0.4"/></geometry></collision><collision ><origin xyz="-0.36 0 0.2" rpy="0 0 0"/><geometry ><box size="0.34 0.5 0.3"/></geometry></collision><collision ><origin xyz="0.39 0 0.495" rpy="1.57079632679 0 0"/><geometry ><cylinder radius="0.25" length="0.62"/></geometry></collision><collision ><origin xyz="0.22 0 0.3" rpy="0 0 0"/><geometry ><box size="0.24 1.1 0.24"/></geometry></collision></link>
+<link name="J2_link"><visual ><geometry ><mesh filename="../meshes/J2_link.obj"/></geometry></visual><collision ><origin xyz="0 0 0.62" rpy="0 0 0"/><geometry ><box size="0.3 0.36 1.4"/></geometry></collision></link>
+<link name="elbow_link"><visual ><geometry ><mesh filename="../meshes/elbow_link.obj"/></geometry></visual><collision ><origin xyz="0 0 0" rpy="0 0 0"/><geometry ><box size="0.1 0.06 0.1"/></geometry></collision></link>
+<link name="J3_link"><visual ><geometry ><mesh filename="../meshes/J3_link.obj"/></geometry></visual><collision ><origin xyz="0.62 0 0" rpy="0 0 0"/><geometry ><box size="1.36 0.3 0.27"/></geometry></collision><collision ><origin xyz="-0.24 0 0.13" rpy="0 0 0"/><geometry ><box size="0.42 0.3 0.3"/></geometry></collision></link>
+<link name="wrist_link"><visual ><geometry ><mesh filename="../meshes/wrist_link.obj"/></geometry></visual><collision ><origin xyz="0.14 0 0.07" rpy="0 0 0"/><geometry ><box size="0.5 0.22 0.44"/></geometry></collision><collision ><origin xyz="0.255 0 -0.09" rpy="0 0 0"/><geometry ><cylinder radius="0.15" length="0.13"/></geometry></collision></link>
+<link name="J4_link"><visual ><geometry ><mesh filename="../meshes/J4_link.obj"/></geometry></visual><collision ><origin xyz="0 0 0.012" rpy="0 0 0"/><geometry ><cylinder radius="0.125" length="0.024"/></geometry></collision></link>
+<link name="crank_link"><visual ><geometry ><mesh filename="../meshes/crank_link.obj"/></geometry></visual><collision ><origin xyz="-0.255 0 0.135" rpy="0 -2.65469342178 0"/><geometry ><box size="0.57706152185 0.07 0.16"/></geometry></collision></link>
+<link name="rod_pivot_link"></link>
+<link name="rod_link"><visual ><geometry ><mesh filename="../meshes/rod_link.obj"/></geometry></visual><collision ><origin xyz="0 0 0.61" rpy="0 0 0"/><geometry ><box size="0.13 0.08 1.22"/></geometry></collision></link>
+<link name="level_lower_link"><visual ><geometry ><mesh filename="../meshes/level_lower_link.obj"/></geometry></visual><collision ><origin xyz="0 0 0.61" rpy="0 0 0"/><geometry ><box size="0.06 0.05 1.22"/></geometry></collision></link>
+<link name="level_upper_link"><visual ><geometry ><mesh filename="../meshes/level_upper_link.obj"/></geometry></visual><collision ><origin xyz="0.65 0 0" rpy="0 0 0"/><geometry ><box size="1 0.05 0.06"/></geometry></collision></link>
+<link name="flange"></link>
+<link name="tool0"></link>
+<joint name="J1" type="revolute"><parent link="base_link"/><child link="J1_link"/><origin xyz="0 0 0.615" rpy="0 0 0"/><axis xyz="0 0 1"/><limit lower="-3.141592653589793" upper="3.141592653589793" velocity="2.443460952792061"/></joint>
+<joint name="J2" type="revolute"><parent link="J1_link"/><child link="J2_link"/><origin xyz="0.39 0 0.495" rpy="0 0 0"/><axis xyz="0 1 0"/><limit lower="-0.767944870877505" upper="1.7453292519943295" velocity="2.443460952792061"/></joint>
+<joint name="J2_level" type="continuous"><parent link="J2_link"/><child link="elbow_link"/><origin xyz="0 0 1.22" rpy="0 0 0"/><axis xyz="0 1 0"/><limit velocity="10"/><mimic joint="J2" multiplier="-1" offset="0"/></joint>
+<joint name="J3" type="revolute"><parent link="elbow_link"/><child link="J3_link"/><origin xyz="0 0 0" rpy="0 0 0"/><axis xyz="0 -1 0"/><limit lower="-2.199114857512855" upper="0.17453292519943295" velocity="2.443460952792061"/></joint>
+<joint name="J3_level" type="continuous"><parent link="J3_link"/><child link="wrist_link"/><origin xyz="1.3 0 0" rpy="0 0 0"/><axis xyz="0 -1 0"/><limit velocity="10"/><mimic joint="J3" multiplier="-1" offset="0"/></joint>
+<joint name="J4" type="revolute"><parent link="wrist_link"/><child link="J4_link"/><origin xyz="0.255 0 -0.159" rpy="0 0 0"/><axis xyz="0 0 -1"/><limit lower="-6.283185307179586" upper="6.283185307179586" velocity="5.323254218582705"/></joint>
+<joint name="J4_flange" type="fixed"><parent link="J4_link"/><child link="flange"/><origin xyz="0 0 0" rpy="3.14159265359 0 0"/></joint>
+<joint name="flange_tool0" type="fixed"><parent link="flange"/><child link="tool0"/><origin xyz="0 0 0" rpy="0 0 0"/></joint>
+<joint name="J3_crank" type="continuous"><parent link="J1_link"/><child link="crank_link"/><origin xyz="0.39 -0.34 0.495" rpy="0 0 0"/><axis xyz="0 -1 0"/><limit velocity="10"/><mimic joint="J3" multiplier="1" offset="0"/></joint>
+<joint name="J3_rod_unturn" type="continuous"><parent link="crank_link"/><child link="rod_pivot_link"/><origin xyz="-0.51 -0.06 0.27" rpy="0 0 0"/><axis xyz="0 -1 0"/><limit velocity="10"/><mimic joint="J3" multiplier="-1" offset="0"/></joint>
+<joint name="J3_rod" type="continuous"><parent link="rod_pivot_link"/><child link="rod_link"/><origin xyz="0 0 0" rpy="0 0 0"/><axis xyz="0 1 0"/><limit velocity="10"/><mimic joint="J2" multiplier="1" offset="0"/></joint>
+<joint name="level_lower" type="continuous"><parent link="J1_link"/><child link="level_lower_link"/><origin xyz="0.13 0.21 0.595" rpy="0 0 0"/><axis xyz="0 1 0"/><limit velocity="10"/><mimic joint="J2" multiplier="1" offset="0"/></joint>
+<joint name="level_upper" type="continuous"><parent link="elbow_link"/><child link="level_upper_link"/><origin xyz="0.485 0 0.279" rpy="0 0 0"/><axis xyz="0 -1 0"/><limit velocity="10"/><mimic joint="J3" multiplier="1" offset="0"/></joint>
+</robot>

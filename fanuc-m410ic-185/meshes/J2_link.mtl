@@ -1,0 +1,9 @@
+newmtl fanuc_yellow
+Kd 0.949020403495 0.815688949457 0
+d 1
+Ns 40
+
+newmtl casting_recess
+Kd 0.168633001694 0.176476205958 0.184319405969
+d 1
+Ns 40
