@@ -1,0 +1,16 @@
+<!doctype html><html lang="en"><meta charset="utf-8"><title>FANUC SR-3iA reference model</title>
+<style>body{margin:0;font:14px system-ui;overflow:hidden}.panel{position:absolute;top:18px;left:18px;background:#fffE;border:1px solid #ddd;border-radius:10px;padding:16px;max-width:300px}h1{font-size:19px;margin:0 0 8px}p{color:#54616d}button{margin:4px;padding:6px}</style>
+<div class="panel"><h1>FANUC SR-3iA</h1><p>4-axis SCARA reference model · 3 kg / 400 mm · floor mount</p><p>Independently authored reference geometry.<br>Shells, cable hose and collisions are approximate.</p><div><button id="iso">Perspective</button><button id="side">Side</button><button id="front">Front</button><button id="top">Top</button><button id="zero">Zero pose</button><button id="reach">Reach</button><button id="down">Down</button><button id="folded">Folded</button></div></div>
+<script type="importmap">{"imports":{"three":"./node_modules/three/build/three.module.js","three/addons/":"./node_modules/three/examples/jsm/","@botrail/authoring/":"./node_modules/@botrail/authoring/"}}</script>
+<script type="module">
+import {definition} from './model.mjs';
+import {referenceScene} from '@botrail/authoring/reference-model.mjs';
+import {mountAuthoring} from '@botrail/authoring/viewer.mjs';
+const d=Math.PI/180, model=referenceScene(definition());
+const viewer=mountAuthoring(model.root,{iso:[1.4,-1.6,0.9]});window.reference=model;
+const pose=q=>{model.pose(q);viewer.render();};
+document.querySelector('#zero').onclick=()=>pose({});
+document.querySelector('#reach').onclick=()=>pose({J1:40*d,J2:-60*d,J3:0.05,J4:90*d});
+document.querySelector('#down').onclick=()=>pose({J1:-30*d,J2:70*d,J3:0.2,J4:-120*d});
+document.querySelector('#folded').onclick=()=>pose({J1:20*d,J2:145*d,J3:0.1});
+</script></html>
