@@ -1,0 +1,6 @@
+<?xml version="1.0"?>
+<robot name="schmalz_scpmc_05">
+<link name="mount"><visual ><geometry ><mesh filename="../meshes/mount.obj"/></geometry></visual><collision ><origin xyz="0 0 0.03265" rpy="0 0 0"/><geometry ><box size="0.0765 0.012 0.0653"/></geometry></collision></link>
+<link name="tcp"></link>
+<joint name="tcp_joint" type="fixed"><parent link="mount"/><child link="tcp"/><origin xyz="0 0 0" rpy="0 0 0"/></joint>
+</robot>

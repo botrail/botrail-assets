@@ -1,0 +1,6 @@
+<?xml version="1.0"?>
+<robot name="schmalz_pfyn_6_esd">
+<link name="mount"><visual ><geometry ><mesh filename="../meshes/mount.obj"/></geometry></visual><collision ><origin xyz="0 0 0.001" rpy="0 0 0"/><geometry ><cylinder radius="0.00462" length="0.002"/></geometry></collision><collision ><origin xyz="0 0 0.0045" rpy="0 0 0"/><geometry ><cylinder radius="0.00325" length="0.005"/></geometry></collision></link>
+<link name="tcp"></link>
+<joint name="tcp_joint" type="fixed"><parent link="mount"/><child link="tcp"/><origin xyz="0 0 0.007" rpy="0 0 0"/></joint>
+</robot>

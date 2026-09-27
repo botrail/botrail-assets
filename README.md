@@ -54,6 +54,11 @@ gun = bt.Robot.from_catalog("weld-gun-x1")  # カタログ ID (下表の右列) 
 | [universal-robots-ur-series](./universal-robots-ur-series) | 6軸協働ロボットの独自形状 | UR8 Long / UR15 / UR18 / UR20 / UR30 | `ur8-long` / `ur15` / `ur18` / `ur20` / `ur30` (r2) |
 | [onrobot-rg6](./onrobot-rg6) | 平行リンクグリッパの参照モデル | OnRobot RG6 v2 | `onrobot/rg/rg6/r2` |
 | [ewellix-liftkit-ur620](./ewellix-liftkit-ur620) | 伸縮柱の参照モデル | Ewellix LIFTKIT-UR-800-xx00-620 | `ewellix/liftkit/liftkit-ur/r2` |
+| [smc-mhz2-20d](./smc-mhz2-20d) | 小物組立用の独自参照モデル | SMC MHZ2-20D | `smc/mhz2/mhz2-20d/r1` (公開前) |
+| [schunk-mpg-plus-25](./schunk-mpg-plus-25) | 小物組立用の独自参照モデル | SCHUNK MPG-plus 25 | `schunk/mpg-plus/mpg-plus-25/r1` (公開前) |
+| [schmalz-pfyn-6-esd](./schmalz-pfyn-6-esd) | 小物組立用の独自参照モデル | Schmalz PFYN 6 NBR-ESD-55 M5-AG | `schmalz/pfyn/pfyn-6-esd/r1` (公開前) |
+| [smc-zp3-t10umn-a5](./smc-zp3-t10umn-a5) | 小物組立用の独自参照モデル | SMC ZP3-T10UMN-A5 | `smc/zp3/zp3-t10umn-a5/r1` (公開前) |
+| [schmalz-scpmc-05](./schmalz-scpmc-05) | 小物組立用の独自参照モデル | Schmalz SCPMc 05 S01 NC M8-6 PNP | `schmalz/scpmc/scpmc-05/r1` (公開前) |
 | [robotiq-hand-e](./robotiq-hand-e) | 平行二指、50 mmストローク | Robotiq HND-GRP / HND-FIN-MLD-KIT | `robotiq/hand-e/hand-e/r1` |
 | [robotiq-grp-es-cpl-077](./robotiq-grp-es-cpl-077) | URメス手首向けカップリングの近似外形 | Robotiq GRP-ES-CPL-077 | `robotiq/coupling/grp-es-cpl-077/r1` |
 | [zimmer-hrc-03](./zimmer-hrc-03) | 平行二指、UR / CRX / Doosan用の4構成 | Zimmer HRC-03-118505 / 118506 / 116787 / 126895 | `zimmer/hrc/hrc-03-<SKU>/r1` |

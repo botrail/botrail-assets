@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<robot name="schunk_mpg_plus_25">
+<link name="mount"><visual ><geometry ><mesh filename="../meshes/mount.obj"/></geometry></visual><collision ><origin xyz="0 0 0.0115" rpy="0 0 0"/><geometry ><box size="0.026 0.018 0.023"/></geometry></collision></link>
+<link name="left_jaw"><visual ><geometry ><mesh filename="../meshes/left_jaw.obj"/></geometry></visual><collision ><origin xyz="0.006 0 0.025" rpy="0 0 0"/><geometry ><box size="0.004 0.012 0.004"/></geometry></collision></link>
+<link name="left_contact"></link>
+<link name="right_jaw"><visual ><geometry ><mesh filename="../meshes/right_jaw.obj"/></geometry></visual><collision ><origin xyz="-0.006 0 0.025" rpy="0 0 0"/><geometry ><box size="0.004 0.012 0.004"/></geometry></collision></link>
+<link name="right_contact"></link>
+<link name="tcp"></link>
+<joint name="finger_joint" type="prismatic"><parent link="mount"/><child link="left_jaw"/><origin xyz="0 0 0" rpy="0 0 0"/><axis xyz="1 0 0"/><limit lower="0" upper="0.003" velocity="0.04" effort="19"/></joint>
+<joint name="left_contact_joint" type="fixed"><parent link="left_jaw"/><child link="left_contact"/><origin xyz="0.004 0 0.025" rpy="0 0 0"/></joint>
+<joint name="finger_mirror_joint" type="prismatic"><parent link="mount"/><child link="right_jaw"/><origin xyz="0 0 0" rpy="0 0 0"/><axis xyz="-1 0 0"/><limit lower="0" upper="0.003" velocity="0.04" effort="19"/><mimic joint="finger_joint" multiplier="1" offset="0"/></joint>
+<joint name="right_contact_joint" type="fixed"><parent link="right_jaw"/><child link="right_contact"/><origin xyz="-0.004 0 0.025" rpy="0 0 0"/></joint>
+<joint name="tcp_joint" type="fixed"><parent link="mount"/><child link="tcp"/><origin xyz="0 0 0.027" rpy="0 0 0"/></joint>
+</robot>
