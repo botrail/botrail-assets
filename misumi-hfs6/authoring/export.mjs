@@ -1,17 +1,38 @@
-/** `usd/hfs6-3030.usda`: `/HFS6/profile_3030`, one mesh with its material
- * subsets, and `/HFS6/Looks`. */
+/** The pack's layers, one per article family: `usd/hfs6-3030.usda`
+ * (`/HFS6/profile_3030`), `usd/hfs6-3060.usda`, `usd/hfs6-6060.usda`,
+ * `usd/hfc6-caps.usda` (`/HFS6/cap_3030`, `cap_3060`, `cap_6060`) and
+ * `usd/hblfs6.usda` (`/HFS6/bracket`) — each prim one mesh with its
+ * material subsets, and `/HFS6/Looks`. A layer per family keeps a project
+ * that uses one profile from bundling the others. */
 import { createHash } from "node:crypto";
 import { mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { fileURLToPath } from "node:url";
 import * as THREE from "three";
 import { RobotBuilder } from "three-usd-robot";
 import { serializeUsda } from "three-usd-robot/core";
-import { buildProfile, mergeProfile } from "./profile.mjs";
+import { buildProfileFor, mergeProfile } from "./profile.mjs";
+import { buildCap, buildBracket } from "./hardware.mjs";
 
 const fail = message => { throw new Error(`lossy export: ${message}`); };
 
-export function exportModel() {
-  const parts = [buildProfile()];
+/** Which prims each layer carries, in order. */
+export const LAYERS = Object.freeze({
+  "hfs6-3030": ["profile_3030"],
+  "hfs6-3060": ["profile_3060"],
+  "hfs6-6060": ["profile_6060"],
+  "hfc6-caps": ["cap_3030", "cap_3060", "cap_6060"],
+  "hblfs6": ["bracket"],
+});
+
+function build(name) {
+  if (name.startsWith("profile_")) return buildProfileFor(name);
+  if (name.startsWith("cap_")) return buildCap(name);
+  if (name === "bracket") return buildBracket();
+  throw new RangeError(`unknown part ${name}`);
+}
+
+export function exportLayer(layer) {
+  const parts = (LAYERS[layer] || fail(`unknown layer ${layer}`)).map(build);
   const looks = new RobotBuilder({ name: "HFS6", onWarn: fail });
   const flat = new RobotBuilder({ name: "HFS6", onWarn: fail });
   for (const builder of [looks, flat]) {
@@ -53,16 +74,31 @@ export function exportModel() {
     : line.replace(/-?\d+\.\d+(?:e[-+]?\d+)?/g, value => Number(Number(value).toFixed(7)).toString())).join("\n");
 }
 
+/** `{ layer: usda }` for every layer, in a fixed order. */
+export function exportLayers() {
+  return Object.fromEntries(Object.keys(LAYERS).map(layer => [layer, exportLayer(layer)]));
+}
+
+/** The first layer, under the name the 3030-only revision exported. */
+export function exportModel() {
+  return exportLayer("hfs6-3030");
+}
+
 if (process.argv[1] && fileURLToPath(import.meta.url) === process.argv[1]) {
-  const target = new URL("../usd/hfs6-3030.usda", import.meta.url);
-  const usda = exportModel();
+  const directory = new URL("../usd/", import.meta.url);
   const digest = text => createHash("sha256").update(text).digest("hex");
+  const layers = exportLayers();
   if (process.argv.includes("--check")) {
-    if (digest(readFileSync(target, "utf8")) !== digest(usda)) throw new Error("hfs6-3030.usda is stale; regenerate and review before a new revision");
-    console.log("misumi-hfs6: the checked-in layer matches its authoring source");
+    for (const [layer, usda] of Object.entries(layers)) {
+      const committed = readFileSync(new URL(`${layer}.usda`, directory), "utf8");
+      if (digest(committed) !== digest(usda)) throw new Error(`${layer}.usda is stale; regenerate and review before a new revision`);
+    }
+    console.log(`misumi-hfs6: ${Object.keys(layers).length} checked-in layers match their authoring source`);
   } else {
-    mkdirSync(new URL("../usd/", import.meta.url), { recursive: true });
-    writeFileSync(target, usda);
-    console.log(`hfs6-3030.usda: ${Math.round(Buffer.byteLength(usda) / 1024)} KiB`);
+    mkdirSync(directory, { recursive: true });
+    for (const [layer, usda] of Object.entries(layers)) {
+      writeFileSync(new URL(`${layer}.usda`, directory), usda);
+      console.log(`${layer}.usda: ${Math.round(Buffer.byteLength(usda) / 1024)} KiB`);
+    }
   }
 }

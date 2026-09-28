@@ -13,7 +13,7 @@ const probe = name => {
 };
 
 test("every shape is registered into the unit box", () => {
-  assert.deepEqual([...SHAPES], ["adjuster", "basket", "carton", "handle", "hose", "panel", "rim", "tote", "tray", "tslot", "workpiece"]);
+  assert.deepEqual([...SHAPES], ["adjuster", "basket", "bracket", "carton", "handle", "hose", "panel", "rim", "tote", "tray", "tslot", "tslot_2", "workpiece"]);
   for (const name of SHAPES) {
     const bounds = new THREE.Box3().setFromObject(buildShape(name));
     for (const axis of ["x", "y", "z"]) {
@@ -43,6 +43,31 @@ test("the workpiece's bores and the basket's perforations are open geometry", ()
   assert.equal(tslot(0, .35), false, "the T-slot's chamber");
   assert.equal(tslot(.2, .48), true, "the face beside the slot");
   assert.equal(tslot(.4, .4), true, "the corner");
+  // The 1 : 2 member: one slot in a short face, two in a long one, a bore
+  // behind each pair and the pocket between them — y is the long side.
+  const wide = probe("tslot_2");
+  assert.equal(wide(0, .49), false, "the slot in the +Y (short) face");
+  assert.equal(wide(.49, .25), false, "a slot in the +X (long) face, at the quarter point");
+  assert.equal(wide(.49, -.25), false, "...and the other");
+  assert.equal(wide(.49, 0), true, "the long face between its slots");
+  assert.equal(wide(0, .25), false, "the bore behind the upper slots");
+  assert.equal(wide(0, 0), false, "the pocket between the two cells");
+  assert.equal(wide(.3, .25), true, "the cell wall beside the bore");
+  assert.equal(wide(.4, .45), true, "a corner");
+});
+
+test("the bracket's fold corner is the box's -x -y corner, with a hole through each flange", () => {
+  const mesh = mergeShape(buildShape("bracket"));
+  mesh.material = new THREE.MeshBasicMaterial({ side: THREE.DoubleSide }); mesh.updateMatrixWorld(true);
+  const hits = (origin, direction) => new THREE.Raycaster(new THREE.Vector3(...origin), new THREE.Vector3(...direction)).intersectObject(mesh).length;
+  assert.ok(hits([-.45, -1, 0], [0, 1, 0]) > 0, "flange B stands on the -x side");
+  assert.ok(hits([-1, -.45, 0], [1, 0, 0]) > 0, "flange A lies on the -y side");
+  assert.equal(hits([.45, .45, -1], [0, 0, 1]), 0, "nothing in the open corner opposite the fold");
+  assert.equal(hits([.214, -1, 0], [0, 1, 0]), 0, "the bolt hole through flange A (20/28 of the leg from the corner)");
+  assert.equal(hits([-1, .214, 0], [1, 0, 0]), 0, "...and through flange B");
+  assert.ok(hits([.214, -1, .3], [0, 1, 0]) > 0, "the flange beside its hole");
+  assert.ok(hits([0, 0, -1], [0, 0, 1]) > 0, "a rib spans the corner");
+  assert.equal(hits([0, 0, -.2], [0, 0, 1]), 2, "...at the sides only: from the middle a ray up meets just the far rib (its two faces)");
 });
 
 test("finishes survive flattening as material groups", () => {

@@ -5,7 +5,7 @@
   "scripts": {
     "export": "node export.mjs",
     "check": "node export.mjs --check",
-    "test": "node --test profile.test.mjs"
+    "test": "node --test profile.test.mjs hardware.test.mjs"
   },
   "dependencies": {
     "three": "0.185.1",

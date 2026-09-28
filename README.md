@@ -97,7 +97,7 @@ weld ガン 2 種のみ、カタログ ID が歴史的な名前のまま (公開
 | [schneider-xalk178f](./schneider-xalk178f) | Schneider Electric Harmony XALK178F | `bt.parts.operator_panel` |
 | [screw-presenter](./screw-presenter) | (汎用) レール式スクリュープレゼンタ | `bt.parts.screw_feeder` |
 | [gear-cover-set](./gear-cover-set) | (設計値) GH-160 ギヤハウジングとカバー — `components[].visual` の USD prim | `bt.parts.workpiece` |
-| [misumi-hfs6](./misumi-hfs6) | ミスミ アルミフレーム 6 シリーズ HFS6-3030 の断面 (公表寸法からの独自著作) — 押出材の `components[].visual`、長さ方向だけ切断長に伸ばす | `bt.parts.frame_unit` |
+| [misumi-hfs6](./misumi-hfs6) | ミスミ アルミフレーム 6 シリーズの断面 HFS6-3030 / 3060 / 6060、フレームキャップ HFC6、ブラケット HBLFS6 (公表寸法からの独自著作) — 押出材の `components[].visual` は長さ方向だけ切断長に伸ばし、金具は入隅と切り口に回して置く | `bt.parts.frame_unit` |
 
 これらは固定寸法ロボットのURDFではなく、対応するスペックパックの
 `components[].trim` が参照する表示用xacro＋軽量メッシュ。
@@ -109,7 +109,7 @@ weld ガン 2 種のみ、カタログ ID が歴史的な名前のまま (公開
 
 | アセット | 中身 | 利用側 |
 | --- | --- | --- |
-| [workshop-shapes](./workshop-shapes) | 箱では描けない汎用の形 11 (`tote`・T スロット押出材 `tslot` を含む) (段ボール・プレス皿・パンチングかご・アジャスタ足・取っ手・ホース・穴あきワーク …)。単位箱に正規化した 1 形状 1 USD | botrail が `python/botrail/_shapes/` にベンダリングし、`bt.parts.appearance` が衝突用の箱に被せて描く |
+| [workshop-shapes](./workshop-shapes) | 箱では描けない汎用の形 13 (`tote`・T スロット押出材 `tslot` / `tslot_2`・その L ブラケット `bracket` を含む) (段ボール・プレス皿・パンチングかご・アジャスタ足・取っ手・ホース・穴あきワーク …)。単位箱に正規化した 1 形状 1 USD | botrail が `python/botrail/_shapes/` にベンダリングし、`bt.parts.appearance` が衝突用の箱に被せて描く |
 | [franka-hand-d405-clip](./franka-hand-d405-clip) | RealSense D405 を Franka Hand の面に留めるプリント用クリップ (リングに引っかけ、面に沿い、底を引っかけ、30° の座)。ハンド座標で著作、手の実測面にフィット | botrail が `examples/assets/` にベンダリングし、卓上 RL 例の手先カメラの見た目にする |
 
 参照実機を持たない独自著作で、型番・寸法を主張しない。実在製品の見た目は製品側の

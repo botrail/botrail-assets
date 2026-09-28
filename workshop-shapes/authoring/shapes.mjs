@@ -166,6 +166,80 @@ const builders = {
     ellipseHole(section, 0, 0, .11);
     extrude(g, "extrusion", section, 1, -.5, aluminium, 0);
   },
+  tslot_2(g) {
+    // The 1 : 2 rectangular member of the same family (a 30 x 60 on a 30 mm
+    // system): one slot in each short face, two in each long face at the
+    // quarter points, a bore behind each pair and a pocket between them.
+    // Built at 1 x 2 in the short side's units and registered into the unit
+    // box, so the consumer scales x by the short side, y by the long one and
+    // z by the cut length — the same slot on the same look as `tslot`.
+    const section = slotted(1, 2, [0], [-.5, .5]);
+    for (const y of [-.5, .5]) ellipseHole(section, 0, y, .11);
+    section.holes.push(polygon([[.43, .16], [.2, .23], [-.2, .23], [-.43, .16], [-.43, -.16], [-.2, -.23], [.2, -.23], [.43, -.16]]));
+    extrude(g, "extrusion", section, 1, -.5, aluminium, 0);
+  },
+  bracket(g) {
+    // The die-cast corner bracket of a T-slot frame: two flanges at right
+    // angles with a bolt hole each and a triangular rib down either side.
+    // The fold corner sits at the unit box's (-x, -y) corner with the
+    // flanges along +x and +y and the width along z, so a consumer scales it
+    // to (leg, leg, width) and puts that corner where two members meet.
+    // Proportions are the common 28 x 28 x 20 mm bracket of a 30 mm system
+    // (flange 4.5 thick, hole at 20 from the corner), not any maker's drawing.
+    const leg = 1, width = 20 / 28, t = 4.5 / 28, hole = 3.15 / 28, at = 20 / 28, rib = 2 / 28;
+    const flange = () => {
+      const s = new THREE.Shape();
+      s.moveTo(0, -width / 2); s.lineTo(leg, -width / 2); s.lineTo(leg, width / 2); s.lineTo(0, width / 2); s.closePath();
+      ellipseHole(s, at, 0, hole);
+      return new THREE.ExtrudeGeometry(s, { depth: t, bevelEnabled: false, curveSegments: 12 });
+    };
+    // Flange A: the sheet in the xz plane, its thickness along +y.
+    addMesh(g, "flange_a", flange().rotateX(-Math.PI / 2), aluminium);
+    // Flange B: the sheet in the yz plane, its thickness along +x (a cyclic turn, so no mirror).
+    addMesh(g, "flange_b", flange().applyMatrix4(new THREE.Matrix4().set(0, 0, 1, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1)), aluminium);
+    const gusset = new THREE.Shape();
+    gusset.moveTo(t * .8, t * .8); gusset.lineTo(leg, t * .8); gusset.lineTo(t * .8, leg); gusset.closePath();
+    for (const side of [-1, 1]) {
+      addMesh(g, `rib_${side}`, new THREE.ExtrudeGeometry(gusset, { depth: rib, bevelEnabled: false }), aluminium,
+        [0, 0, side > 0 ? width / 2 - rib : -width / 2]);
+    }
+  },
+};
+
+/** The outline of a T-slot section `w` x `d` (short side 1), centred:
+ * `slotsY` are the x positions of the slots in the +Y / -Y faces, `slotsX`
+ * the y positions of those in the +X / -X faces. Each slot is the `tslot`
+ * one — the same neck, lip, chamber and floor, as fractions of the short
+ * side — so the whole family looks alike. Counter-clockwise, chamfered corners. */
+function slotted(w, d, slotsY, slotsX) {
+  const neck = .135, deep = .07, chamber = .25, floor = .27, chamfer = .05;
+  const slot = p => [[p - neck, 0], [p - neck, deep], [p - chamber, deep], [p - chamber, floor],
+    [p + chamber, floor], [p + chamber, deep], [p + neck, deep], [p + neck, 0]];
+  // Each face: its outward normal, the direction of travel along it, its
+  // distance from the centre, its half-length and its slots (in travel order).
+  const faces = [
+    { n: [0, 1], t: [-1, 0], h: d / 2, half: w / 2, slots: slotsY.map(x => -x) },
+    { n: [-1, 0], t: [0, -1], h: w / 2, half: d / 2, slots: slotsX.map(y => -y) },
+    { n: [0, -1], t: [1, 0], h: d / 2, half: w / 2, slots: [...slotsY] },
+    { n: [1, 0], t: [0, 1], h: w / 2, half: d / 2, slots: [...slotsX] },
+  ];
+  const s = new THREE.Shape();
+  faces.forEach(({ n, t, h, half, slots }, f) => {
+    const pt = (a, depth) => [n[0] * (h - depth) + t[0] * a, n[1] * (h - depth) + t[1] * a];
+    const run = [[-(half - chamfer), 0], ...slots.sort((a, b) => a - b).flatMap(slot), [half - chamfer, 0]];
+    run.forEach(([a, depth], i) => { const [x, y] = pt(a, depth); f === 0 && i === 0 ? s.moveTo(x, y) : s.lineTo(x, y); });
+  });
+  s.closePath();
+  return s;
+}
+
+/** A real clockwise hole through a section, like `ellipseHole`. */
+const polygon = points => {
+  const ring = THREE.ShapeUtils.isClockWise(points.map(([x, y]) => new THREE.Vector2(x, y))) ? points : [...points].reverse();
+  const p = new THREE.Path();
+  ring.forEach(([x, y], i) => i === 0 ? p.moveTo(x, y) : p.lineTo(x, y));
+  p.closePath();
+  return p;
 };
 
 export const SHAPES = Object.freeze(Object.keys(builders).sort());
