@@ -145,6 +145,27 @@ const builders = {
     for (const side of [-1, 1]) box(g, `grip_${side}`, [rib, .42, .05], [side * (outer + rib / 2), 0, .32], tote, 0);
     box(g, "card_pocket", [.34, rib * .6, .2], [-.1, -(outer + rib * .3), .2], tote, 0);
   },
+  tslot(g) {
+    // A T-slot aluminium extrusion, square section, one slot per face and a
+    // hollow core — the form of "an aluminium frame member" (the 30 / 40 mm
+    // profiles every maker sells), not any maker's drawing. Proportions are
+    // fractions of the side: an 8 mm slot on a 30 mm profile is .27, so the
+    // consumer scales x and y by the section and z by the cut length, and a
+    // 30 mm and a 60 mm member keep the same look. Ends are open geometry,
+    // like the workpiece's bores (a raycast down the slot passes through).
+    const neck = .135, deep = .07, chamber = .25, floor = .23, chamfer = .05;
+    // One face (the +Y one), right to left, so the four rotated copies run
+    // counter-clockwise round the section.
+    const face = [[.5 - chamfer, .5], [neck, .5], [neck, .5 - deep], [chamber, .5 - deep], [chamber, floor],
+      [-chamber, floor], [-chamber, .5 - deep], [-neck, .5 - deep], [-neck, .5], [-(.5 - chamfer), .5]];
+    const turned = (k, [x, y]) => k === 0 ? [x, y] : turned(k - 1, [-y, x]);
+    const outline = [0, 1, 2, 3].flatMap(k => face.map(p => turned(k, p)));
+    const section = new THREE.Shape();
+    outline.forEach(([x, y], i) => i === 0 ? section.moveTo(x, y) : section.lineTo(x, y));
+    section.closePath();
+    ellipseHole(section, 0, 0, .11);
+    extrude(g, "extrusion", section, 1, -.5, aluminium, 0);
+  },
 };
 
 export const SHAPES = Object.freeze(Object.keys(builders).sort());

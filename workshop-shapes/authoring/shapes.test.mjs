@@ -13,7 +13,7 @@ const probe = name => {
 };
 
 test("every shape is registered into the unit box", () => {
-  assert.deepEqual([...SHAPES], ["adjuster", "basket", "carton", "handle", "hose", "panel", "rim", "tote", "tray", "workpiece"]);
+  assert.deepEqual([...SHAPES], ["adjuster", "basket", "carton", "handle", "hose", "panel", "rim", "tote", "tray", "tslot", "workpiece"]);
   for (const name of SHAPES) {
     const bounds = new THREE.Box3().setFromObject(buildShape(name));
     for (const axis of ["x", "y", "z"]) {
@@ -35,6 +35,14 @@ test("the workpiece's bores and the basket's perforations are open geometry", ()
   const tote = probe("tote");
   assert.equal(tote(0, 0), false, "open inside");
   assert.equal(tote(.47, 0), true, "the skin");
+  // The T-slot member is hollow, and every face is open along its slot.
+  const tslot = probe("tslot");
+  assert.equal(tslot(0, 0), false, "the hollow core");
+  assert.equal(tslot(0, .49), false, "the slot opening in the +Y face");
+  assert.equal(tslot(.49, 0), false, "...and in the +X face");
+  assert.equal(tslot(0, .35), false, "the T-slot's chamber");
+  assert.equal(tslot(.2, .48), true, "the face beside the slot");
+  assert.equal(tslot(.4, .4), true, "the corner");
 });
 
 test("finishes survive flattening as material groups", () => {
