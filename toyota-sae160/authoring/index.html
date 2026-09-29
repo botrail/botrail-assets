@@ -1,0 +1,20 @@
+<!doctype html><html lang="en"><meta charset="utf-8"><title>Toyota Autopilot SAE160 reference model</title>
+<style>body{margin:0;font:14px system-ui;overflow:hidden}.panel{position:absolute;top:18px;left:18px;background:#fffE;border:1px solid #ddd;border-radius:10px;padding:16px;max-width:360px}h1{font-size:19px;margin:0 0 8px}p{color:#54616d}button{margin:4px;padding:6px}label{display:block;margin-top:8px}</style>
+<div class="panel"><h1>Toyota Autopilot SAE160</h1><p>Independently authored reference geometry (BT Staxio, TX Hi-Lo mast; <a href="?mast=dx">DX Tele</a>).<br>Shell details are approximate; the sheet's lengths, heights, wheels and lift are exact.</p>
+<div><button id="iso">Perspective</button><button id="side">Side</button><button id="front">Front</button><button id="top">Top</button><button id="bottom">Bottom</button></div>
+<label>Lift <input id="joint" type="range" min="0" max="1" step="0.01" value="0"> <output id="angle">0.000 rad</output></label></div>
+<script type="importmap">{"imports":{"three":"./node_modules/three/build/three.module.js","three/addons/":"./node_modules/three/examples/jsm/","@botrail/authoring/":"./node_modules/@botrail/authoring/"}}</script>
+<script type="module">
+import {definition,liftJoints} from './model.mjs';
+import {referenceScene} from '@botrail/authoring/reference-model.mjs';
+import {mountAuthoring} from '@botrail/authoring/viewer.mjs';
+const mast=new URLSearchParams(location.search).get('mast')??'tx';
+const d=definition(mast), model=referenceScene(d);
+// The slider raises the forks through the mast's joints in the order the
+// machine uses them: free lift first, then the stages.
+const joints=liftJoints[mast].map(name=>d.joints.find(j=>j.name===name));
+const travel=joints.reduce((sum,j)=>sum+j.limit.upper,0);
+window.lift=fraction=>{const pose={};let left=fraction*travel;for(const j of joints){pose[j.name]=Math.min(left,j.limit.upper);left-=pose[j.name];}model.pose(pose);return pose;};
+mountAuthoring(model.root,{onJoint:lift,iso:[1.4,-1.6,0.7]});
+window.reference=model;
+</script></html>
