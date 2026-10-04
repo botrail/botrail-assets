@@ -110,7 +110,7 @@ weld ガン 2 種のみ、カタログ ID が歴史的な名前のまま (公開
 
 | アセット | 中身 | 利用側 |
 | --- | --- | --- |
-| [workshop-shapes](./workshop-shapes) | 箱では描けない汎用の形 13 (`tote`・T スロット押出材 `tslot` / `tslot_2`・その L ブラケット `bracket` を含む) (段ボール・プレス皿・パンチングかご・アジャスタ足・取っ手・ホース・穴あきワーク …)。単位箱に正規化した 1 形状 1 USD | botrail が `python/botrail/_shapes/` にベンダリングし、`bt.parts.appearance` が衝突用の箱に被せて描く |
+| [workshop-shapes](./workshop-shapes) | 箱では描けない汎用の形 18 (`tote`・T スロット押出材 `tslot` / `tslot_2`・その L ブラケット `bracket`・人 3 姿勢 `person` / `person_reach` / `person_pick`・カゴ台車 `roll_cage`・オリコンの袖 `orikon` を含む) (段ボール・プレス皿・パンチングかご・アジャスタ足・取っ手・ホース・穴あきワーク …)。単位箱に正規化した 1 形状 1 USD | botrail が `python/botrail/_shapes/` にベンダリングし、`bt.parts.appearance` が衝突用の箱に被せて描く (人は `bt.parts.person`、カゴ台車は `roll_container`、袖は `bin`) |
 | [franka-hand-d405-clip](./franka-hand-d405-clip) | RealSense D405 を Franka Hand の面に留めるプリント用クリップ (リングに引っかけ、面に沿い、底を引っかけ、30° の座)。ハンド座標で著作、手の実測面にフィット | botrail が `examples/assets/` にベンダリングし、卓上 RL 例の手先カメラの見た目にする |
 
 参照実機を持たない独自著作で、型番・寸法を主張しない。実在製品の見た目は製品側の

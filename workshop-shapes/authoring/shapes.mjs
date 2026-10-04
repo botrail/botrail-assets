@@ -10,6 +10,8 @@ import * as THREE from "three";
 import { mergeGeometries } from "three/addons/utils/BufferGeometryUtils.js";
 import { namedMaterial, addMesh, roundedBox, cylinderZ, roundedRectangle, ellipseHole,
   tubeGeometry } from "@botrail/authoring/geometry.mjs";
+import { PEOPLE, buildPerson } from "./people.mjs";
+import { orikon, rollCage } from "./logistics.mjs";
 
 // Linear RGB, the botrail convention. Metalness / roughness are authored
 // finishes, not measured surface data.
@@ -241,6 +243,11 @@ const polygon = points => {
   p.closePath();
   return p;
 };
+
+// People (`people.mjs`): one shape per posture; carriers (`logistics.mjs`).
+for (const name of PEOPLE) builders[name] = g => buildPerson(g, name);
+builders.roll_cage = rollCage;
+builders.orikon = orikon;
 
 export const SHAPES = Object.freeze(Object.keys(builders).sort());
 
