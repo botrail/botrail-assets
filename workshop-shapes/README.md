@@ -41,6 +41,8 @@
 | `roll_cage` | 2 面のカゴ台車 (ロールボックスパレット)。間口 1.10 (x)・奥行 0.80 (y)・全高 1.70 で描き、床面は 0.243 (40 mm の角パイプ枠にリブ付きの床板、φ150 のキャスター 4 輪)、間口の両端に網の側枠 (上の角を曲げた 32 mm パイプの逆 U・横桟 4 本・縦線 約 85 mm)、長辺の 2 面は開いている。床面の比率 (0.243 / 1.70) を保って使う (botrail `bt.parts.roll_container`) | zinc_steel / zinc_deck / rubber / caster_hub | 5,164 |
 | `orikon` | 折りたたみコンテナ (オリコン) の袖: 0.530 x 0.366 x 0.321 (50B の比率) で描いた 4 面の折りたたみ壁 (下にヒンジの帯、長辺にリブ枠、短辺の上に手掛け穴 — 穴は実形状)、角の丸み、スタック縁、内側に入った底の帯。**内側と底は開いている** (`tote` と同じく、壁と床は利用側の箱。botrail `bt.parts.bin` が `sleeve="orikon"` で被せる) | polypropylene (tint 前提) | 1,776 |
 | `pod` | 棚搬送型 AGV (GTP) の在庫棚の収納部: 0.956 角 (1.0 m の棚の 40 mm 支柱の内側)・高さ 1.822 で描いた 6 段の布製ビン (段ごとに 3〜5 個、前縁にラベル) を 4 面に並べ、奥は X 字の仕切りまで (面の中央のビンは深く、角は浅い)、上に天板。**支柱・AGV が持ち上げる下枠・上枠は描かない** — 利用側 (botrail `bt.parts.mobile_rack`) が実寸の断面で描き、この形はその間に伸ばす | pod_yellow / pod_yellow_inner / pod_pocket / pod_partition / label_white | 5,796 |
+| `waste_bin` | ごみ箱: 0.35 x 0.30 x 0.55 で描いた灰色の箱 (上へ 10 % 広がる壁・丸めた縁)、縁に被せた黒いゴミ袋が外側へ 6 cm 垂れる。上は開いている | bin_grey / bin_liner | 2,348 |
+| `highbay` | 丸形 LED 高天井照明: Ø 0.44 x 0.164 で描いた暗いハウジング (拡散板を囲む縁から立ち上がり、上の電源部へ絞る) と、下面の拡散板 (**発光** — `emissiveColor`)。拡散板の面が箱の底 | luminaire_housing / luminaire_diffuser | 432 |
 | `person` / `person_reach` / `person_pick` | 人 (身長 1.75 m で描いた男性、ニット・ジーンズ・革靴、+x を向く): 立ち / 両手を腰の前に出して物を扱う / 胸の高さの棚のビンに右手を伸ばす。手は掌・指 4 本・親指、頭は顔・耳・髪。**比率を崩して伸ばさない** — 利用側は姿勢ごとの寸法 (下表) で等倍に縮尺し、足元の点に合わせる (botrail `bt.parts.person`) | knit_oatmeal / knit_rib / denim / denim_seam / shoe_leather / sole_rubber / skin / lips / eye_white / eye_dark / hair | 6,748 |
 
 三角形数は three 0.185.1 での値。色は linear RGB、metalness / roughness は著作した仕上げで

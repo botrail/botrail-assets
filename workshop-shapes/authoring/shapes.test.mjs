@@ -14,8 +14,8 @@ const probe = name => {
 };
 
 test("every shape is registered into the unit box", () => {
-  assert.deepEqual([...SHAPES], ["adjuster", "basket", "bracket", "carton", "handle", "hose", "orikon", "panel", "person", "person_pick",
-    "person_reach", "pod", "rim", "roll_cage", "tote", "tray", "tslot", "tslot_2", "workpiece"]);
+  assert.deepEqual([...SHAPES], ["adjuster", "basket", "bracket", "carton", "handle", "highbay", "hose", "orikon", "panel", "person", "person_pick",
+    "person_reach", "pod", "rim", "roll_cage", "tote", "tray", "tslot", "tslot_2", "waste_bin", "workpiece"]);
   for (const name of SHAPES) {
     const bounds = new THREE.Box3().setFromObject(buildShape(name));
     for (const axis of ["x", "y", "z"]) {
@@ -150,6 +150,24 @@ test("the pod's bins open on all four faces, deep mid-face and shallow at the co
   }
   const top = new THREE.Raycaster(new THREE.Vector3(0, 0, 1), new THREE.Vector3(0, 0, -1)).intersectObject(mesh)[0];
   assert.ok(top.point.z > z(1.80), "looking down: the cap");
+});
+
+test("the waste bin is open at the top with a liner over its rim; the high-bay lights from its underside", () => {
+  const cast = (name, origin, direction) => {
+    const mesh = mergeShape(buildShape(name));
+    mesh.material = new THREE.MeshBasicMaterial({ side: THREE.DoubleSide }); mesh.updateMatrixWorld(true);
+    return new THREE.Raycaster(new THREE.Vector3(...origin), new THREE.Vector3(...direction)).intersectObject(mesh);
+  };
+  const down = cast("waste_bin", [0, 0, 1], [0, 0, -1]);
+  assert.ok(down[0].point.z < -.45, "looking in from the top: its floor, at the bottom");
+  const side = cast("waste_bin", [1, 0, .45], [-1, 0, 0]);
+  assert.ok(side[0].point.x > .49, "the liner hangs over the rim at the top of the side");
+  const group = buildShape("highbay");
+  const lit = [];
+  group.traverse(o => { if (o.isMesh) (Array.isArray(o.material) ? o.material : [o.material]).forEach(m => lit.push(m)); });
+  assert.ok(lit.some(m => m.emissive && m.emissive.getHex() !== 0), "the diffuser is emissive");
+  const up = cast("highbay", [0, 0, -1], [0, 0, 1]);
+  assert.ok(up[0].point.z < -.49, "looking up from below: the diffuser, its face at the bottom");
 });
 
 test("the folding container's sleeve is open inside with a hand hole through each end", () => {

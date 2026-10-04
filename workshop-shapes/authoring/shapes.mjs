@@ -12,6 +12,7 @@ import { namedMaterial, addMesh, roundedBox, cylinderZ, roundedRectangle, ellips
   tubeGeometry } from "@botrail/authoring/geometry.mjs";
 import { PEOPLE, buildPerson } from "./people.mjs";
 import { orikon, pod, rollCage } from "./logistics.mjs";
+import { highbay, wasteBin } from "./facility.mjs";
 
 // Linear RGB, the botrail convention. Metalness / roughness are authored
 // finishes, not measured surface data.
@@ -249,6 +250,9 @@ for (const name of PEOPLE) builders[name] = g => buildPerson(g, name);
 builders.roll_cage = rollCage;
 builders.orikon = orikon;
 builders.pod = pod;
+// The building (`facility.mjs`).
+builders.waste_bin = wasteBin;
+builders.highbay = highbay;
 
 export const SHAPES = Object.freeze(Object.keys(builders).sort());
 
