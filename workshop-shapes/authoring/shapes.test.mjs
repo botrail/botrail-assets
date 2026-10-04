@@ -15,7 +15,7 @@ const probe = name => {
 
 test("every shape is registered into the unit box", () => {
   assert.deepEqual([...SHAPES], ["adjuster", "basket", "bracket", "carton", "handle", "hose", "orikon", "panel", "person", "person_pick",
-    "person_reach", "rim", "roll_cage", "tote", "tray", "tslot", "tslot_2", "workpiece"]);
+    "person_reach", "pod", "rim", "roll_cage", "tote", "tray", "tslot", "tslot_2", "workpiece"]);
   for (const name of SHAPES) {
     const bounds = new THREE.Box3().setFromObject(buildShape(name));
     for (const axis of ["x", "y", "z"]) {
@@ -131,6 +131,25 @@ test("the roll cage is open along both long faces, decked, with a mesh frame at 
   assert.ok(cast([0, 0, 1], [0, 0, -1])[0].point.z < z(0.25), "looking down: the deck, at about 0.24 m");
   const rung = cast([-1, 0, z(0.243 + 0.27)], [1, 0, 0]);
   assert.ok(rung.some(h => h.point.x < -.45) && rung.some(h => h.point.x > .45), "a rung of each end frame");
+});
+
+test("the pod's bins open on all four faces, deep mid-face and shallow at the corners, under a cap", () => {
+  const mesh = mergeShape(buildShape("pod"));
+  mesh.material = new THREE.MeshBasicMaterial({ side: THREE.DoubleSide }); mesh.updateMatrixWorld(true);
+  const z = h => h / 1.822 - .5;                     // drawn 1.822 tall, 0.956 square
+  const depth = (u, h, dir) => {                     // from outside a face, how far in the first thing is
+    const o = { px: [1, u, z(h)], nx: [-1, -u, z(h)], py: [-u, 1, z(h)], ny: [u, -1, z(h)] }[dir];
+    const d = { px: [-1, 0, 0], nx: [1, 0, 0], py: [0, -1, 0], ny: [0, 1, 0] }[dir];
+    const hit = new THREE.Raycaster(new THREE.Vector3(...o), new THREE.Vector3(...d)).intersectObject(mesh)[0];
+    return hit ? 1 - hit.distance : null;            // 0.5 = at the face, 0 = at the centre (unit box)
+  };
+  const mid = 0.36 + 0.16;                           // half-way up the second tier (three bins), over its lips
+  for (const face of ["px", "nx", "py", "ny"]) {
+    assert.ok(depth(0, mid, face) < .12, `${face}: the middle bin runs back near the centre`);
+    assert.ok(depth(.33, mid, face) > .30, `${face}: the corner bin is shallow`);
+  }
+  const top = new THREE.Raycaster(new THREE.Vector3(0, 0, 1), new THREE.Vector3(0, 0, -1)).intersectObject(mesh)[0];
+  assert.ok(top.point.z > z(1.80), "looking down: the cap");
 });
 
 test("the folding container's sleeve is open inside with a hand hole through each end", () => {

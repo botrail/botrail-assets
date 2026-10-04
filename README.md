@@ -68,6 +68,7 @@ gun = bt.Robot.from_catalog("weld-gun-x1")  # カタログ ID (下表の右列) 
 | [onrobot-bit-extender-109301](./onrobot-bit-extender-109301) | 50 mm追加リーチの参照形状 | OnRobot Bit Extender A 109301 | `onrobot/bit-extender/109301/r1` (公開前) |
 | [onrobot-vgc10](./onrobot-vgc10) | 30 mmカップ4個、独立2流路の参照モデル | OnRobot VGC10 102844 | `onrobot/vgc/vgc10/r1` |
 | [mir250](./mir250) | 差動2輪 + 旋回キャスタ4輪の独自参照形状 | MiR250 | `mobile_industrial_robots/mir/mir250/r2` |
+| [hitachi-racrew](./hitachi-racrew) | 棚搬送 AGV(小型低床式、棚の下に潜って持ち上げる)の参照モデル: 白い車体・別リンクのターンテーブル・前後バンパ・四隅の灯具 | 日立 Racrew | `hitachi_industrial_products/racrew/racrew/r1`(公開前) |
 | [mir1350](./mir1350) | パレット級 AMR の参照モデル(車輪 6・スキャナ 2・別リンクの上部カバー) | MiR1350 | `mobile_industrial_robots/mir/mir1350/r1` |
 | [toyota-sae160](./toyota-sae160) | 自動運転スタッカ(無人フォークリフト)の参照モデル: 操舵駆動輪 + キャスタ 2 + サポートアーム輪 2、3 段マスト(フリーリフト + 段の mimic)、フォーク、ナビスキャナ。DX Tele マストは `dx/` | Toyota Autopilot SAE160(BT Staxio、TX Hi-Lo / DX Tele) | `toyota_material_handling/autopilot/sae160/r1` / `sae160-dx/r1`(公開前) |
 | [aubo-amr300](./aubo-amr300) | 差動 2 輪 AMR の参照モデル(駆動輪 2 + キャスタ 4・スキャナ 2・上面のアーム取付フレーム) | AUBO-AMR300(海纳系列) | `aubo/amr/amr300/r1` |
@@ -110,7 +111,7 @@ weld ガン 2 種のみ、カタログ ID が歴史的な名前のまま (公開
 
 | アセット | 中身 | 利用側 |
 | --- | --- | --- |
-| [workshop-shapes](./workshop-shapes) | 箱では描けない汎用の形 18 (`tote`・T スロット押出材 `tslot` / `tslot_2`・その L ブラケット `bracket`・人 3 姿勢 `person` / `person_reach` / `person_pick`・カゴ台車 `roll_cage`・オリコンの袖 `orikon` を含む) (段ボール・プレス皿・パンチングかご・アジャスタ足・取っ手・ホース・穴あきワーク …)。単位箱に正規化した 1 形状 1 USD | botrail が `python/botrail/_shapes/` にベンダリングし、`bt.parts.appearance` が衝突用の箱に被せて描く (人は `bt.parts.person`、カゴ台車は `roll_container`、袖は `bin`) |
+| [workshop-shapes](./workshop-shapes) | 箱では描けない汎用の形 19 (`tote`・T スロット押出材 `tslot` / `tslot_2`・その L ブラケット `bracket`・人 3 姿勢 `person` / `person_reach` / `person_pick`・カゴ台車 `roll_cage`・オリコンの袖 `orikon`・在庫棚のビン `pod` を含む) (段ボール・プレス皿・パンチングかご・アジャスタ足・取っ手・ホース・穴あきワーク …)。単位箱に正規化した 1 形状 1 USD | botrail が `python/botrail/_shapes/` にベンダリングし、`bt.parts.appearance` が衝突用の箱に被せて描く (人は `bt.parts.person`、カゴ台車は `roll_container`、袖は `bin`、在庫棚のビンは `mobile_rack`) |
 | [franka-hand-d405-clip](./franka-hand-d405-clip) | RealSense D405 を Franka Hand の面に留めるプリント用クリップ (リングに引っかけ、面に沿い、底を引っかけ、30° の座)。ハンド座標で著作、手の実測面にフィット | botrail が `examples/assets/` にベンダリングし、卓上 RL 例の手先カメラの見た目にする |
 
 参照実機を持たない独自著作で、型番・寸法を主張しない。実在製品の見た目は製品側の

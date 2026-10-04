@@ -1,8 +1,9 @@
 /** The carriers a logistics cell is full of: a roll cage (`roll_cage`, the
- * Japanese roll box pallet カゴ台車) and the sleeve of a folding container
- * (`orikon`, the オリコン). Illustrative and unbranded, drawn in the
- * proportions of the common sizes; the consumer (botrail `bt.parts`) scales
- * them to the size it builds.
+ * Japanese roll box pallet カゴ台車), the sleeve of a folding container
+ * (`orikon`, the オリコン) and the bins of a goods-to-person inventory pod
+ * (`pod`). Illustrative and unbranded, drawn in the proportions of the
+ * common sizes; the consumer (botrail `bt.parts`) scales them to the size it
+ * builds.
  */
 import * as THREE from "three";
 import { namedMaterial } from "@botrail/authoring/geometry.mjs";
@@ -21,6 +22,12 @@ export const LOGISTICS_MATERIALS = Object.freeze({
   hub: finish("caster_hub", [120, 124, 128], 0.35, 0.6),
   // a folding container is moulded in one colour: the consumer tints it
   pp: finish("polypropylene", [44, 104, 178], 0.55),
+  // an inventory pod: lime-yellow fabric bins, dark pockets, white labels
+  podYellow: finish("pod_yellow", [162, 180, 0], 0.9),
+  podShade: finish("pod_yellow_inner", [128, 144, 0], 0.9),
+  podPocket: finish("pod_pocket", [46, 48, 26], 0.95),
+  podPartition: finish("pod_partition", [36, 38, 30], 0.9),
+  label: finish("label_white", [236, 236, 230], 0.6),
 });
 const M = LOGISTICS_MATERIALS;
 
@@ -190,5 +197,79 @@ export function orikon(g) {
   // the stacking rim round the top and the inset base band underneath
   band(body, "rim", L, W, r, 0.024, top, rim, M.pp);
   band(body, "base_band", L - 0.014, W - 0.014, r - 0.007, 0.02, 0, base, M.pp);
+  for (const mesh of flatten(body)) g.add(mesh);
+}
+
+// ------------------------------------------------------------------ pod
+// The storage of a goods-to-person inventory pod — the shelf a drive unit
+// carries to a picking station — drawn 0.956 square (between the 40 mm
+// uprights of a 1.0 m pod) by 1.822 tall: six tiers of fabric bins on all
+// four faces, three to five a tier with a label on each lip, running back to
+// an X partition (a bin mid-face is deep, one at a corner shallow), and the
+// cap on top. The frame — the uprights, the base frame a drive unit lifts it
+// by, the top frame — is the consumer's (`bt.parts.mobile_rack` draws it at
+// the section it builds), so this stretches between them.
+const POD = { S: 0.956, tiers: [0.36, 0.32, 0.30, 0.30, 0.28, 0.25], cols: [3, 3, 4, 4, 5, 5], cap: 0.012, wall: 0.008 };
+
+/** One face's bins in its own frame: x across the face, the face at
+ * y = S / 2 (outward +y), z up from the bottom of the storage. */
+function podFace(g, tag) {
+  const { S, tiers, cols, wall } = POD, half = S / 2;
+  let z0 = 0;
+  tiers.forEach((h, ti) => {
+    const n = cols[ti], w = S / n;
+    // the bins' floor, a triangle back to the centre: two strips narrowing inward
+    for (let k = 0; k < 2; k++) {
+      const v = (k + 0.5) * (half / 2);
+      box(g, `${tag}_floor${ti}_${k}`, [2 * (half - v) + 0.002, half / 2 + 0.001, 0.010], [0, half - v, z0 + 0.005], M.podShade);
+    }
+    // each bin: a front lip with its label, and the dark back of the pocket at the bin's depth
+    for (let i = 0; i < n; i++) {
+      const u = -half + w * (i + 0.5);
+      const depth = Math.max(0.06, half - Math.abs(u) - w * 0.15);
+      const lipH = 0.055 + 0.01 * ((ti + i) % 3);
+      box(g, `${tag}_lip${ti}_${i}`, [w - wall, 0.012, lipH], [u, half - 0.006, z0 + 0.010 + lipH / 2], M.podYellow);
+      box(g, `${tag}_label${ti}_${i}`, [0.055, 0.0015, 0.024], [u - w * 0.25, half + 0.0008, z0 + 0.010 + lipH * 0.55], M.label);
+      box(g, `${tag}_pocket${ti}_${i}`, [w - wall, 0.004, h - 0.012], [u, half - depth, z0 + 0.010 + (h - 0.012) / 2], M.podPocket);
+    }
+    // the dividers, n + 1 with the outer two, their tops sloping down to the face
+    for (let i = 0; i <= n; i++) {
+      const u = -half + w * i;
+      const back = Math.max(0.06, half - Math.abs(u) - 0.01);
+      const front = 0.42 + 0.12 * ((i + ti) % 2);
+      const shape = new THREE.Shape();               // in (v, z): v the depth from the face (inward -), z up
+      shape.moveTo(0, 0);
+      shape.lineTo(0, h * front);
+      shape.lineTo(-Math.min(back, 0.16), h - 0.012);
+      shape.lineTo(-back, h - 0.012);
+      shape.lineTo(-back, 0);
+      shape.lineTo(0, 0);
+      const geo = new THREE.ExtrudeGeometry(shape, { depth: wall, bevelEnabled: false });
+      geo.applyMatrix4(new THREE.Matrix4().set(0, 0, 1, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1));   // (v, z, across) -> (across, v, z)
+      geo.translate(u - wall / 2, half, z0 + 0.010);
+      const mesh = new THREE.Mesh(geo, M.podYellow);
+      mesh.name = `${tag}_div${ti}_${i}`;
+      g.add(mesh);
+    }
+    z0 += h;
+  });
+}
+
+export function pod(g) {
+  const body = new THREE.Group();
+  const { S, tiers, cap } = POD, H = tiers.reduce((a, b) => a + b, 0);
+  for (const [k, tag] of ["py", "nx", "ny", "px"].entries()) {
+    const face = new THREE.Group();
+    podFace(face, tag);
+    face.rotation.z = (k * PI) / 2;
+    body.add(face);
+  }
+  // the X partition the bins run back to
+  for (const s of [1, -1]) {
+    const d = new THREE.Mesh(new THREE.BoxGeometry(Math.SQRT2 * (S - 0.03), 0.006, H - 0.02), M.podPartition);
+    d.name = `partition${s}`; d.position.set(0, 0, (H - 0.02) / 2); d.rotation.set(0, 0, (s * PI) / 4);
+    body.add(d);
+  }
+  box(body, "cap", [S - 0.02, S - 0.02, cap], [0, 0, H + cap / 2], M.podShade);
   for (const mesh of flatten(body)) g.add(mesh);
 }

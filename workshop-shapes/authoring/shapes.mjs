@@ -11,7 +11,7 @@ import { mergeGeometries } from "three/addons/utils/BufferGeometryUtils.js";
 import { namedMaterial, addMesh, roundedBox, cylinderZ, roundedRectangle, ellipseHole,
   tubeGeometry } from "@botrail/authoring/geometry.mjs";
 import { PEOPLE, buildPerson } from "./people.mjs";
-import { orikon, rollCage } from "./logistics.mjs";
+import { orikon, pod, rollCage } from "./logistics.mjs";
 
 // Linear RGB, the botrail convention. Metalness / roughness are authored
 // finishes, not measured surface data.
@@ -248,6 +248,7 @@ const polygon = points => {
 for (const name of PEOPLE) builders[name] = g => buildPerson(g, name);
 builders.roll_cage = rollCage;
 builders.orikon = orikon;
+builders.pod = pod;
 
 export const SHAPES = Object.freeze(Object.keys(builders).sort());
 

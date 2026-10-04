@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<robot name="racrew_reference">
+<link name="base_footprint"></link>
+<link name="base_link"><visual ><geometry ><mesh filename="../meshes/base_link.obj"/></geometry></visual><collision ><origin xyz="0 0 0.1975" rpy="0 0 0"/><geometry ><box size="0.99 0.916 0.365"/></geometry></collision></link>
+<link name="turntable"><visual ><geometry ><mesh filename="../meshes/turntable.obj"/></geometry></visual></link>
+<link name="deck"></link>
+<joint name="base_link_joint" type="fixed"><parent link="base_footprint"/><child link="base_link"/><origin xyz="0 0 0" rpy="0 0 0"/></joint>
+<joint name="turntable_joint" type="fixed"><parent link="base_link"/><child link="turntable"/><origin xyz="0 0 0.372" rpy="0 0 0"/></joint>
+<joint name="deck_joint" type="fixed"><parent link="base_link"/><child link="deck"/><origin xyz="0 0 0.38" rpy="0 0 0"/></joint>
+</robot>
