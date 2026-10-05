@@ -1,0 +1,8 @@
+<?xml version="1.0"?>
+<robot name="robotiq_wrist_camera_rwc_cam_001">
+<link name="mount"><visual ><geometry ><mesh filename="../meshes/mount.obj"/></geometry></visual><collision ><origin xyz="0 0 0.00675" rpy="0 0 0"/><geometry ><cylinder radius="0.0375" length="0.0135"/></geometry></collision><collision ><origin xyz="0 0.037 0.0112" rpy="0 0 0"/><geometry ><box size="0.046 0.026 0.0224"/></geometry></collision></link>
+<link name="flange"></link>
+<link name="camera_optical_frame"></link>
+<joint name="flange_joint" type="fixed"><parent link="mount"/><child link="flange"/><origin xyz="0 0 0.0135" rpy="0 0 0"/></joint>
+<joint name="camera_optical_frame_joint" type="fixed"><parent link="mount"/><child link="camera_optical_frame"/><origin xyz="0 0.0357 -0.0001" rpy="0.523598775598 0 0"/></joint>
+</robot>

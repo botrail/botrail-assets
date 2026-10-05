@@ -67,6 +67,10 @@ gun = bt.Robot.from_catalog("weld-gun-x1")  # カタログ ID (下表の右列) 
 | [onrobot-screwdriver-103961](./onrobot-screwdriver-103961) | 側面支持・55 mm送り軸 | OnRobot Screwdriver 103961、109301装着構成 | `onrobot/screwdriver/103961/r1` / `103961-a50/r1` (公開前) |
 | [onrobot-bit-extender-109301](./onrobot-bit-extender-109301) | 50 mm追加リーチの参照形状 | OnRobot Bit Extender A 109301 | `onrobot/bit-extender/109301/r1` (公開前) |
 | [onrobot-vgc10](./onrobot-vgc10) | 30 mmカップ4個、独立2流路の参照モデル | OnRobot VGC10 102844 | `onrobot/vgc/vgc10/r1` |
+| [onrobot-rg2](./onrobot-rg2) | 平行リンクグリッパの参照モデル (RG6 と同じ生成器、110 mm ストローク) | OnRobot RG2 (102012) | `onrobot/rg/rg2/r1` (公開前) |
+| [onrobot-hex-e-qc](./onrobot-hex-e-qc) | 6 軸力覚センサ (アダプタプレート + ロボット側 QC 内蔵) の参照モデル | OnRobot HEX-E QC | `onrobot/hex/hex-e-qc/r1` (公開前) |
+| [robotiq-epick](./robotiq-epick) | 電動真空グリッパ (1 カップ構成) の参照モデル | Robotiq EPick | `robotiq/epick/epick/r1` (公開前) |
+| [robotiq-wrist-camera](./robotiq-wrist-camera) | 手首カメラ (ツールプレート無し) の参照モデル、光学フレーム付き | Robotiq Wrist Camera RWC-CAM-001 | `robotiq/wrist-camera/wrist-camera/r1` (公開前) |
 | [mir250](./mir250) | 差動2輪 + 旋回キャスタ4輪の独自参照形状 | MiR250 | `mobile_industrial_robots/mir/mir250/r2` |
 | [hitachi-racrew](./hitachi-racrew) | 棚搬送 AGV(小型低床式、棚の下に潜って持ち上げる)の参照モデル: 白い車体・別リンクのターンテーブル・前後バンパ・四隅の灯具 | 日立 Racrew | `hitachi_industrial_products/racrew/racrew/r1`(公開前) |
 | [mir1350](./mir1350) | パレット級 AMR の参照モデル(車輪 6・スキャナ 2・別リンクの上部カバー) | MiR1350 | `mobile_industrial_robots/mir/mir1350/r1` |

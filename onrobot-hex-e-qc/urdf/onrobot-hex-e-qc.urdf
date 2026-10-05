@@ -1,0 +1,8 @@
+<?xml version="1.0"?>
+<robot name="onrobot_hex_e_qc">
+<link name="mount"><visual ><geometry ><mesh filename="../meshes/mount.obj"/></geometry></visual><collision ><origin xyz="0 0 0.025" rpy="0 0 0"/><geometry ><cylinder radius="0.036" length="0.05"/></geometry></collision><collision ><origin xyz="0 -0.051 0.016" rpy="0 0 0"/><geometry ><box size="0.022 0.03 0.02"/></geometry></collision></link>
+<link name="flange"></link>
+<link name="ft_frame"></link>
+<joint name="flange_joint" type="fixed"><parent link="mount"/><child link="flange"/><origin xyz="0 0 0.05" rpy="0 0 0"/></joint>
+<joint name="ft_frame_joint" type="fixed"><parent link="mount"/><child link="ft_frame"/><origin xyz="0 0 0.05" rpy="0 0 0"/></joint>
+</robot>

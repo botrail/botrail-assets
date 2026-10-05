@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<robot name="robotiq_epick_single_cup">
+<link name="mount"><visual ><geometry ><mesh filename="../meshes/mount.obj"/></geometry></visual><collision ><origin xyz="0 0 0.002" rpy="0 0 0"/><geometry ><cylinder radius="0.0375" length="0.004"/></geometry></collision><collision ><origin xyz="0 0 0.0525" rpy="0 0 0"/><geometry ><box size="0.083 0.062 0.097"/></geometry></collision><collision ><origin xyz="0 0 0.10165" rpy="0 0 0"/><geometry ><cylinder radius="0.01" length="0.0013"/></geometry></collision></link>
+<link name="cup_1"><visual ><geometry ><mesh filename="../meshes/cup_1.obj"/></geometry></visual><collision ><origin xyz="0 0 0.004" rpy="0 0 0"/><geometry ><cylinder radius="0.008" length="0.008"/></geometry></collision><collision ><origin xyz="0 0 0.02" rpy="0 0 0"/><geometry ><cylinder radius="0.02" length="0.024"/></geometry></collision></link>
+<link name="cup_1_contact"></link>
+<link name="tcp"></link>
+<joint name="cup_1_joint" type="fixed"><parent link="mount"/><child link="cup_1"/><origin xyz="0 0 0.1023" rpy="0 0 0"/></joint>
+<joint name="cup_1_contact_joint" type="fixed"><parent link="cup_1"/><child link="cup_1_contact"/><origin xyz="0 0 0.032" rpy="0 0 0"/></joint>
+<joint name="tcp_joint" type="fixed"><parent link="mount"/><child link="tcp"/><origin xyz="0 0 0.1343" rpy="0 0 0"/></joint>
+</robot>
