@@ -1,0 +1,6 @@
+<?xml version="1.0"?>
+<robot name="robotiq_powerpick10_vacuum_unit">
+<link name="mount"><visual ><geometry ><mesh filename="../meshes/mount.obj"/></geometry></visual><collision ><origin xyz="0 0 0.08" rpy="0 0 0"/><geometry ><box size="0.22 0.26 0.16"/></geometry></collision><collision ><origin xyz="0.045 -0.04 0.171" rpy="0 0 0"/><geometry ><cylinder radius="0.024" length="0.022"/></geometry></collision><collision ><origin xyz="0 0.1595 0.0015" rpy="0 0 0"/><geometry ><box size="0.2 0.059 0.003"/></geometry></collision></link>
+<link name="air_out"></link>
+<joint name="air_out_joint" type="fixed"><parent link="mount"/><child link="air_out"/><origin xyz="-0.075 -0.163 0.05" rpy="0 0 0"/></joint>
+</robot>

@@ -79,6 +79,12 @@ gun = bt.Robot.from_catalog("weld-gun-x1")  # カタログ ID (下表の右列) 
 | [ckd-rlsh-rhlf-rckl-ur](./ckd-rlsh-rhlf-rckl-ur) | UR 認証空圧グリッパ 3 機種の包絡ベース参照モデル (図面未入手) | CKD RLSH-UR / RHLF-UR / RCKL-UR | `ckd/rlsh/rlsh-ur/r1` / `ckd/rhlf/rhlf-ur/r1` / `ckd/rckl/rckl-ur/r1` (公開前) |
 | [kosmek-swr0070](./kosmek-swr0070) | 空圧ロボットハンドチェンジャー (マスタ + ツールアダプタ) | コスメック SWR0070-M / SWR0070-T | `kosmek/swr/swr0070-master/r1` / `-tool/r1` (公開前) |
 | [kosmek-swrz0070](./kosmek-swrz0070) | SWR0070 用 ISO 9409-1-50-4-M6 変換プレート (ロボット側 / ツール側) | コスメック SWRZ0070-MF4 / SWRZ0070-TF4 | `kosmek/swrz/swrz0070-mf4/r1` / `-tf4/r1` (公開前) |
+| [daihen-bt350rd-tmcu01](./daihen-bt350rd-tmcu01) | 協働ロボット用アーク溶接トーチ (トーチマウント込み、TCP = ワイヤ先端) の参照モデル | ダイヘン BLUE TORCH III BT350RD-30D + TMCU-01 (Welbee Co-R) | `daihen/bt350/bt350rd-30d-tmcu01/r1` (公開前) |
+| [daihen-wb-p352l](./daihen-wb-p352l) | 溶接電源 (キャスタ付き筐体) の参照モデル | ダイヘン Welbee Inverter P350L II (WB-P352L) | `daihen/welbee/wb-p352l/r1` (公開前) |
+| [daihen-cm-7403](./daihen-cm-7403) | ワイヤ送給装置 (Ø300 スプール付き) の参照モデル | ダイヘン CM-7403 | `daihen/cm/cm-7403/r1` (公開前) |
+| [robotiq-ax-series-base](./robotiq-ax-series-base) | パレタイザ基台 + 1500 mm 昇降軸 + コントローラ (prismatic 1 DOF) の参照モデル | Robotiq Palletizing Solution AX Series (AX10) | `robotiq/ax/ax10/r1` (公開前) |
+| [robotiq-powerpick10](./robotiq-powerpick10) | パレタイジング用真空グリッパ (既定構成: 200 mm オフセット + Ø77.5 カップ 4 個) の参照モデル | Robotiq PowerPick10 | `robotiq/powerpick/powerpick-10/r1` (公開前) |
+| [robotiq-powerpick10-vacuum-unit](./robotiq-powerpick10-vacuum-unit) | PowerPick10 の真空発生ユニット (壁掛け筐体) の参照モデル | Robotiq PowerPick10 Vacuum Generation Unit | `robotiq/powerpick/powerpick10-vacuum-unit/r1` (公開前) |
 | [mir250](./mir250) | 差動2輪 + 旋回キャスタ4輪の独自参照形状 | MiR250 | `mobile_industrial_robots/mir/mir250/r2` |
 | [hitachi-racrew](./hitachi-racrew) | 棚搬送 AGV(小型低床式、棚の下に潜って持ち上げる)の参照モデル: 白い車体・別リンクのターンテーブル・前後バンパ・四隅の灯具 | 日立 Racrew | `hitachi_industrial_products/racrew/racrew/r1`(公開前) |
 | [mir1350](./mir1350) | パレット級 AMR の参照モデル(車輪 6・スキャナ 2・別リンクの上部カバー) | MiR1350 | `mobile_industrial_robots/mir/mir1350/r1` |
