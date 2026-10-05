@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<robot name="smc_jmhz2_16d_x7400b">
+<link name="mount"><visual ><geometry ><mesh filename="../meshes/mount.obj"/></geometry></visual><collision ><origin xyz="0 0 0.0015" rpy="0 0 0"/><geometry ><cylinder radius="0.0315" length="0.003"/></geometry></collision><collision ><origin xyz="0 0 0.0158" rpy="0 0 0"/><geometry ><box size="0.06 0.05 0.0256"/></geometry></collision><collision ><origin xyz="0.00845 0.0017 0.0441" rpy="0 0 0"/><geometry ><box size="0.0831 0.0706 0.031"/></geometry></collision><collision ><origin xyz="0 0 0.07385" rpy="0 0 0"/><geometry ><box size="0.04 0.03 0.0285"/></geometry></collision></link>
+<link name="left_jaw"><visual ><geometry ><mesh filename="../meshes/left_jaw.obj"/></geometry></visual><collision ><origin xyz="-0.0165 0 0.0941" rpy="0 0 0"/><geometry ><box size="0.012 0.014 0.012"/></geometry></collision><collision ><origin xyz="-0.01325 0 0.1104" rpy="0 0 0"/><geometry ><box size="0.0095 0.0125 0.0492"/></geometry></collision></link>
+<link name="left_contact"></link>
+<link name="right_jaw"><visual ><geometry ><mesh filename="../meshes/right_jaw.obj"/></geometry></visual><collision ><origin xyz="0.0165 0 0.0941" rpy="0 0 0"/><geometry ><box size="0.012 0.014 0.012"/></geometry></collision><collision ><origin xyz="0.01325 0 0.1104" rpy="0 0 0"/><geometry ><box size="0.0095 0.0125 0.0492"/></geometry></collision></link>
+<link name="right_contact"></link>
+<link name="tcp"></link>
+<joint name="finger_joint" type="prismatic"><parent link="mount"/><child link="left_jaw"/><origin xyz="0 0 0" rpy="0 0 0"/><axis xyz="-1 0 0"/><limit lower="0" upper="0.005" velocity="0.05" effort="33"/></joint>
+<joint name="left_contact_joint" type="fixed"><parent link="left_jaw"/><child link="left_contact"/><origin xyz="-0.0085 0 0.122" rpy="0 0 0"/></joint>
+<joint name="finger_mirror_joint" type="prismatic"><parent link="mount"/><child link="right_jaw"/><origin xyz="0 0 0" rpy="0 0 0"/><axis xyz="1 0 0"/><limit lower="0" upper="0.005" velocity="0.05" effort="33"/><mimic joint="finger_joint" multiplier="1" offset="0"/></joint>
+<joint name="right_contact_joint" type="fixed"><parent link="right_jaw"/><child link="right_contact"/><origin xyz="0.0085 0 0.122" rpy="0 0 0"/></joint>
+<joint name="tcp_joint" type="fixed"><parent link="mount"/><child link="tcp"/><origin xyz="0 0 0.122" rpy="0 0 0"/></joint>
+</robot>

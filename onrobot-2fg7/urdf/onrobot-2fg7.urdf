@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<robot name="onrobot_2fg7_106376">
+<link name="mount"><visual ><geometry ><mesh filename="../meshes/mount.obj"/></geometry></visual><collision ><origin xyz="0 0 0.006" rpy="0 0 0"/><geometry ><cylinder radius="0.0355" length="0.012"/></geometry></collision><collision ><origin xyz="0 0 0.0555" rpy="0 0 0"/><geometry ><box size="0.09 0.071 0.087"/></geometry></collision></link>
+<link name="left_finger"><visual ><geometry ><mesh filename="../meshes/left_finger.obj"/></geometry></visual><collision ><origin xyz="-0.0115 0 0.102" rpy="0 0 0"/><geometry ><box size="0.022 0.06 0.006"/></geometry></collision><collision ><origin xyz="-0.00475 0 0.125" rpy="0 0 0"/><geometry ><box size="0.0085 0.032 0.04"/></geometry></collision></link>
+<link name="left_contact"></link>
+<link name="right_finger"><visual ><geometry ><mesh filename="../meshes/right_finger.obj"/></geometry></visual><collision ><origin xyz="0.0115 0 0.102" rpy="0 0 0"/><geometry ><box size="0.022 0.06 0.006"/></geometry></collision><collision ><origin xyz="0.00475 0 0.125" rpy="0 0 0"/><geometry ><box size="0.0085 0.032 0.04"/></geometry></collision></link>
+<link name="right_contact"></link>
+<link name="tcp"></link>
+<joint name="finger_joint" type="prismatic"><parent link="mount"/><child link="left_finger"/><origin xyz="0 0 0" rpy="0 0 0"/><axis xyz="-1 0 0"/><limit lower="0" upper="0.019" velocity="0.225" effort="140"/></joint>
+<joint name="left_contact_joint" type="fixed"><parent link="left_finger"/><child link="left_contact"/><origin xyz="-0.0005 0 0.13" rpy="0 0 0"/></joint>
+<joint name="finger_mirror_joint" type="prismatic"><parent link="mount"/><child link="right_finger"/><origin xyz="0 0 0" rpy="0 0 0"/><axis xyz="1 0 0"/><limit lower="0" upper="0.019" velocity="0.225" effort="140"/><mimic joint="finger_joint" multiplier="1" offset="0"/></joint>
+<joint name="right_contact_joint" type="fixed"><parent link="right_finger"/><child link="right_contact"/><origin xyz="0.0005 0 0.13" rpy="0 0 0"/></joint>
+<joint name="tcp_joint" type="fixed"><parent link="mount"/><child link="tcp"/><origin xyz="0 0 0.13" rpy="0 0 0"/></joint>
+</robot>

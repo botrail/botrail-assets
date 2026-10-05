@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<robot name="ckd_rhlf_ur">
+<link name="mount"><visual ><geometry ><mesh filename="../meshes/rhlf-ur/mount.obj"/></geometry></visual><collision ><origin xyz="0 0 0.009" rpy="0 0 0"/><geometry ><cylinder radius="0.038" length="0.018"/></geometry></collision><collision ><origin xyz="0 0 0.053" rpy="0 0 0"/><geometry ><box size="0.138 0.079 0.07"/></geometry></collision></link>
+<link name="left_jaw"><visual ><geometry ><mesh filename="../meshes/rhlf-ur/left_jaw.obj"/></geometry></visual><collision ><origin xyz="-0.019 0 0.092" rpy="0 0 0"/><geometry ><box size="0.018 0.028 0.008"/></geometry></collision><collision ><origin xyz="-0.017 0 0.0995" rpy="0 0 0"/><geometry ><box size="0.014 0.024 0.023"/></geometry></collision></link>
+<link name="left_contact"></link>
+<link name="right_jaw"><visual ><geometry ><mesh filename="../meshes/rhlf-ur/right_jaw.obj"/></geometry></visual><collision ><origin xyz="0.019 0 0.092" rpy="0 0 0"/><geometry ><box size="0.018 0.028 0.008"/></geometry></collision><collision ><origin xyz="0.017 0 0.0995" rpy="0 0 0"/><geometry ><box size="0.014 0.024 0.023"/></geometry></collision></link>
+<link name="right_contact"></link>
+<link name="tcp"></link>
+<joint name="left_contact_joint" type="fixed"><parent link="left_jaw"/><child link="left_contact"/><origin xyz="-0.01 0 0.101" rpy="0 0 0"/></joint>
+<joint name="finger_joint" type="prismatic"><parent link="mount"/><child link="left_jaw"/><origin xyz="0 0 0" rpy="0 0 0"/><axis xyz="-1 0 0"/><limit lower="0" upper="0.016" velocity="0.05" effort="85"/></joint>
+<joint name="right_contact_joint" type="fixed"><parent link="right_jaw"/><child link="right_contact"/><origin xyz="0.01 0 0.101" rpy="0 0 0"/></joint>
+<joint name="right_mimic_joint" type="prismatic"><parent link="mount"/><child link="right_jaw"/><origin xyz="0 0 0" rpy="0 0 0"/><axis xyz="1 0 0"/><limit lower="0" upper="0.016" velocity="0.05" effort="85"/><mimic joint="finger_joint" multiplier="1" offset="0"/></joint>
+<joint name="tcp_joint" type="fixed"><parent link="mount"/><child link="tcp"/><origin xyz="0 0 0.101" rpy="0 0 0"/></joint>
+</robot>

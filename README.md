@@ -71,6 +71,14 @@ gun = bt.Robot.from_catalog("weld-gun-x1")  # カタログ ID (下表の右列) 
 | [onrobot-hex-e-qc](./onrobot-hex-e-qc) | 6 軸力覚センサ (アダプタプレート + ロボット側 QC 内蔵) の参照モデル | OnRobot HEX-E QC | `onrobot/hex/hex-e-qc/r1` (公開前) |
 | [robotiq-epick](./robotiq-epick) | 電動真空グリッパ (1 カップ構成) の参照モデル | Robotiq EPick | `robotiq/epick/epick/r1` (公開前) |
 | [robotiq-wrist-camera](./robotiq-wrist-camera) | 手首カメラ (ツールプレート無し) の参照モデル、光学フレーム付き | Robotiq Wrist Camera RWC-CAM-001 | `robotiq/wrist-camera/wrist-camera/r1` (公開前) |
+| [smc-jmhz2-16d-x7400b](./smc-jmhz2-16d-x7400b) | UR 直付けの空圧グリッパユニット (弁・スイッチ内蔵、10 mm ストローク) の参照モデル | SMC JMHZ2-16D-X7400B | `smc/jmhz2/jmhz2-16d-x7400b/r1` (公開前) |
+| [piab-picobot](./piab-picobot) | COAX 真空グリッパ + 可変 2 カップアームの参照モデル | Piab piCOBOT for Universal Robots | `piab/picobot/picobot/r1` (公開前) |
+| [aspina-arh350a](./aspina-arh350a) | 電動 3 爪ハンド (揺動指) の参照モデル | ASPINA ARH350A | `aspina/arh/arh350a/r1` (公開前) |
+| [onrobot-2fg7](./onrobot-2fg7) | 平行 2 指電動グリッパ (38 mm ストローク、内向き指) の参照モデル | OnRobot 2FG7 (106376) | `onrobot/2fg/2fg7/r1` (公開前) |
+| [onrobot-3fg15](./onrobot-3fg15) | 3 指求心グリッパ (回転プラットフォーム) の参照モデル | OnRobot 3FG15 (103666) | `onrobot/3fg/3fg15/r1` (公開前) |
+| [ckd-rlsh-rhlf-rckl-ur](./ckd-rlsh-rhlf-rckl-ur) | UR 認証空圧グリッパ 3 機種の包絡ベース参照モデル (図面未入手) | CKD RLSH-UR / RHLF-UR / RCKL-UR | `ckd/rlsh/rlsh-ur/r1` / `ckd/rhlf/rhlf-ur/r1` / `ckd/rckl/rckl-ur/r1` (公開前) |
+| [kosmek-swr0070](./kosmek-swr0070) | 空圧ロボットハンドチェンジャー (マスタ + ツールアダプタ) | コスメック SWR0070-M / SWR0070-T | `kosmek/swr/swr0070-master/r1` / `-tool/r1` (公開前) |
+| [kosmek-swrz0070](./kosmek-swrz0070) | SWR0070 用 ISO 9409-1-50-4-M6 変換プレート (ロボット側 / ツール側) | コスメック SWRZ0070-MF4 / SWRZ0070-TF4 | `kosmek/swrz/swrz0070-mf4/r1` / `-tf4/r1` (公開前) |
 | [mir250](./mir250) | 差動2輪 + 旋回キャスタ4輪の独自参照形状 | MiR250 | `mobile_industrial_robots/mir/mir250/r2` |
 | [hitachi-racrew](./hitachi-racrew) | 棚搬送 AGV(小型低床式、棚の下に潜って持ち上げる)の参照モデル: 白い車体・別リンクのターンテーブル・前後バンパ・四隅の灯具 | 日立 Racrew | `hitachi_industrial_products/racrew/racrew/r1`(公開前) |
 | [mir1350](./mir1350) | パレット級 AMR の参照モデル(車輪 6・スキャナ 2・別リンクの上部カバー) | MiR1350 | `mobile_industrial_robots/mir/mir1350/r1` |

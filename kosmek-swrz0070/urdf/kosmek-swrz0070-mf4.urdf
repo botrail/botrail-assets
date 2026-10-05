@@ -1,0 +1,6 @@
+<?xml version="1.0"?>
+<robot name="kosmek_swrz0070_mf4">
+<link name="mount"><visual ><geometry ><mesh filename="../meshes/mf4/mount.obj"/></geometry></visual><collision ><origin xyz="0 0 0.0055" rpy="0 0 0"/><geometry ><cylinder radius="0.0315" length="0.011"/></geometry></collision><collision ><origin xyz="0 0 0.0155" rpy="0 0 0"/><geometry ><cylinder radius="0.024" length="0.009"/></geometry></collision></link>
+<link name="flange"></link>
+<joint name="flange_joint" type="fixed"><parent link="mount"/><child link="flange"/><origin xyz="0 0 0.02" rpy="0 0 0"/></joint>
+</robot>

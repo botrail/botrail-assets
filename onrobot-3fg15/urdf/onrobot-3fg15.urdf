@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<robot name="onrobot_3fg15_103666">
+<link name="mount"><visual ><geometry ><mesh filename="../meshes/mount.obj"/></geometry></visual><collision ><origin xyz="0 0 0.006" rpy="0 0 0"/><geometry ><cylinder radius="0.0355" length="0.012"/></geometry></collision><collision ><origin xyz="0 0 0.047" rpy="0 0 0"/><geometry ><cylinder radius="0.05" length="0.07"/></geometry></collision></link>
+<link name="finger_1_origin"></link>
+<link name="finger_1"><visual ><geometry ><mesh filename="../meshes/finger_1.obj"/></geometry></visual><collision ><origin xyz="0 0 0.00975" rpy="0 0 0"/><geometry ><cylinder radius="0.024" length="0.0195"/></geometry></collision><collision ><origin xyz="0.023125 0 0.0145" rpy="0 0 0"/><geometry ><box size="0.04625 0.014 0.01"/></geometry></collision><collision ><origin xyz="0.04625 0 0.047" rpy="0 0 0"/><geometry ><cylinder radius="0.00675" length="0.055"/></geometry></collision></link>
+<link name="finger_1_tip"></link>
+<link name="finger_2_origin"></link>
+<link name="finger_2"><visual ><geometry ><mesh filename="../meshes/finger_2.obj"/></geometry></visual><collision ><origin xyz="0 0 0.00975" rpy="0 0 0"/><geometry ><cylinder radius="0.024" length="0.0195"/></geometry></collision><collision ><origin xyz="0.023125 0 0.0145" rpy="0 0 0"/><geometry ><box size="0.04625 0.014 0.01"/></geometry></collision><collision ><origin xyz="0.04625 0 0.047" rpy="0 0 0"/><geometry ><cylinder radius="0.00675" length="0.055"/></geometry></collision></link>
+<link name="finger_2_tip"></link>
+<link name="finger_3_origin"></link>
+<link name="finger_3"><visual ><geometry ><mesh filename="../meshes/finger_3.obj"/></geometry></visual><collision ><origin xyz="0 0 0.00975" rpy="0 0 0"/><geometry ><cylinder radius="0.024" length="0.0195"/></geometry></collision><collision ><origin xyz="0.023125 0 0.0145" rpy="0 0 0"/><geometry ><box size="0.04625 0.014 0.01"/></geometry></collision><collision ><origin xyz="0.04625 0 0.047" rpy="0 0 0"/><geometry ><cylinder radius="0.00675" length="0.055"/></geometry></collision></link>
+<link name="finger_3_tip"></link>
+<link name="tcp"></link>
+<joint name="finger_1_origin_joint" type="fixed"><parent link="mount"/><child link="finger_1_origin"/><origin xyz="3.36777869766e-18 0.055 0.082" rpy="0 0 4.71238898038"/></joint>
+<joint name="finger_joint" type="revolute"><parent link="finger_1_origin"/><child link="finger_1"/><origin xyz="0 0 0" rpy="0 0 0"/><axis xyz="0 0 1"/><limit lower="0" upper="1.9080631037455023" velocity="1" effort="5.3"/></joint>
+<joint name="finger_1_tip_joint" type="fixed"><parent link="finger_1"/><child link="finger_1_tip"/><origin xyz="0.04625 0 0.0645" rpy="0 0 0"/></joint>
+<joint name="finger_2_origin_joint" type="fixed"><parent link="mount"/><child link="finger_2_origin"/><origin xyz="-0.0476313972081 -0.0275 0.082" rpy="0 0 6.80678408278"/></joint>
+<joint name="finger_2_mimic_joint" type="revolute"><parent link="finger_2_origin"/><child link="finger_2"/><origin xyz="0 0 0" rpy="0 0 0"/><axis xyz="0 0 1"/><limit lower="0" upper="1.9080631037455023" velocity="1" effort="5.3"/><mimic joint="finger_joint" multiplier="1" offset="0"/></joint>
+<joint name="finger_2_tip_joint" type="fixed"><parent link="finger_2"/><child link="finger_2_tip"/><origin xyz="0.04625 0 0.0645" rpy="0 0 0"/></joint>
+<joint name="finger_3_origin_joint" type="fixed"><parent link="mount"/><child link="finger_3_origin"/><origin xyz="0.0476313972081 -0.0275 0.082" rpy="0 0 8.90117918517"/></joint>
+<joint name="finger_3_mimic_joint" type="revolute"><parent link="finger_3_origin"/><child link="finger_3"/><origin xyz="0 0 0" rpy="0 0 0"/><axis xyz="0 0 1"/><limit lower="0" upper="1.9080631037455023" velocity="1" effort="5.3"/><mimic joint="finger_joint" multiplier="1" offset="0"/></joint>
+<joint name="finger_3_tip_joint" type="fixed"><parent link="finger_3"/><child link="finger_3_tip"/><origin xyz="0.04625 0 0.0645" rpy="0 0 0"/></joint>
+<joint name="tcp_joint" type="fixed"><parent link="mount"/><child link="tcp"/><origin xyz="0 0 0.1465" rpy="0 0 0"/></joint>
+</robot>

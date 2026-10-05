@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<robot name="piab_picobot_ur">
+<link name="mount"><visual ><geometry ><mesh filename="../meshes/mount.obj"/></geometry></visual><collision ><origin xyz="0 0 0.0025" rpy="0 0 0"/><geometry ><cylinder radius="0.0465" length="0.005"/></geometry></collision><collision ><origin xyz="0 0 0.0395" rpy="0 0 0"/><geometry ><cylinder radius="0.035" length="0.069"/></geometry></collision><collision ><origin xyz="0 0 0.093" rpy="0 0 0"/><geometry ><box size="0.174 0.072 0.038"/></geometry></collision></link>
+<link name="cup_a"><visual ><geometry ><mesh filename="../meshes/cup_a.obj"/></geometry></visual><collision ><origin xyz="0 0 0.003" rpy="0 0 0"/><geometry ><cylinder radius="0.006" length="0.006"/></geometry></collision><collision ><origin xyz="0 0 0.014" rpy="0 0 0"/><geometry ><cylinder radius="0.02" length="0.016"/></geometry></collision></link>
+<link name="cup_a_contact"></link>
+<link name="cup_b"><visual ><geometry ><mesh filename="../meshes/cup_b.obj"/></geometry></visual><collision ><origin xyz="0 0 0.003" rpy="0 0 0"/><geometry ><cylinder radius="0.006" length="0.006"/></geometry></collision><collision ><origin xyz="0 0 0.014" rpy="0 0 0"/><geometry ><cylinder radius="0.02" length="0.016"/></geometry></collision></link>
+<link name="cup_b_contact"></link>
+<link name="tcp"></link>
+<joint name="cup_a_joint" type="fixed"><parent link="mount"/><child link="cup_a"/><origin xyz="-0.06 0 0.112" rpy="0 0 0"/></joint>
+<joint name="cup_a_contact_joint" type="fixed"><parent link="cup_a"/><child link="cup_a_contact"/><origin xyz="0 0 0.022" rpy="0 0 0"/></joint>
+<joint name="cup_b_joint" type="fixed"><parent link="mount"/><child link="cup_b"/><origin xyz="0.06 0 0.112" rpy="0 0 0"/></joint>
+<joint name="cup_b_contact_joint" type="fixed"><parent link="cup_b"/><child link="cup_b_contact"/><origin xyz="0 0 0.022" rpy="0 0 0"/></joint>
+<joint name="tcp_joint" type="fixed"><parent link="mount"/><child link="tcp"/><origin xyz="0 0 0.134" rpy="0 0 0"/></joint>
+</robot>
