@@ -1,0 +1,8 @@
+<?xml version="1.0"?>
+<robot name="swivellink_rb_ped_24_cb200">
+<link name="base_link"><visual ><geometry ><mesh filename="../meshes/base_link.obj"/></geometry></visual><collision ><origin xyz="0 0 0.0047625" rpy="0 0 0"/><geometry ><box size="0.301625 0.301625 0.009525"/></geometry></collision><collision ><origin xyz="0 0 0.3048" rpy="0 0 0"/><geometry ><cylinder radius="0.07619999999999999" length="0.5905499999999999"/></geometry></collision><collision ><origin xyz="0 0 0.6048375" rpy="0 0 0"/><geometry ><cylinder radius="0.1016" length="0.009524999999999999"/></geometry></collision></link>
+<link name="mount"></link>
+<link name="robot_mount"></link>
+<joint name="mount_joint" type="fixed"><parent link="base_link"/><child link="mount"/><origin xyz="0 0 0" rpy="0 0 0"/></joint>
+<joint name="robot_mount_joint" type="fixed"><parent link="base_link"/><child link="robot_mount"/><origin xyz="0 0 0.6096" rpy="0 0 0"/></joint>
+</robot>

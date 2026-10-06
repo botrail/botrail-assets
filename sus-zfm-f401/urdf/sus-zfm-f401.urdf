@@ -1,0 +1,8 @@
+<?xml version="1.0"?>
+<robot name="sus_zfm_f401">
+<link name="base_link"><visual ><geometry ><mesh filename="../meshes/base_link.obj"/></geometry></visual><collision ><origin xyz="0 0 0.35" rpy="0 0 0"/><geometry ><box size="0.85 0.7 0.7"/></geometry></collision><collision ><origin xyz="0.22 0 0.71" rpy="0 0 0"/><geometry ><box size="0.22 0.19 0.02"/></geometry></collision><collision ><origin xyz="-0.384 0 0.789" rpy="0 0 0"/><geometry ><box size="0.04 0.64 0.178"/></geometry></collision><collision ><origin xyz="-0.494425 -0.419275 0.125" rpy="0 0 0"/><geometry ><box size="0.13885 0.13855 0.25"/></geometry></collision><collision ><origin xyz="-0.494425 0.419275 0.125" rpy="0 0 0"/><geometry ><box size="0.13885 0.13855 0.25"/></geometry></collision><collision ><origin xyz="0.494425 -0.419275 0.125" rpy="0 0 0"/><geometry ><box size="0.13885 0.13855 0.25"/></geometry></collision><collision ><origin xyz="0.494425 0.419275 0.125" rpy="0 0 0"/><geometry ><box size="0.13885 0.13855 0.25"/></geometry></collision></link>
+<link name="mount"></link>
+<link name="robot_mount"></link>
+<joint name="mount_joint" type="fixed"><parent link="base_link"/><child link="mount"/><origin xyz="0 0 0" rpy="0 0 0"/></joint>
+<joint name="robot_mount_joint" type="fixed"><parent link="base_link"/><child link="robot_mount"/><origin xyz="0.22 0 0.72" rpy="0 0 0"/></joint>
+</robot>

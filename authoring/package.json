@@ -14,7 +14,8 @@
     "LICENSE",
     "reference-model.mjs",
     "reference-export.mjs",
-    "tool-shapes.mjs"
+    "tool-shapes.mjs",
+    "stand-shapes.mjs"
   ],
   "exports": {
     "./geometry.mjs": "./geometry.mjs",
@@ -24,7 +25,8 @@
     "./viewer.mjs": "./viewer.mjs",
     "./reference-model.mjs": "./reference-model.mjs",
     "./reference-export.mjs": "./reference-export.mjs",
-    "./tool-shapes.mjs": "./tool-shapes.mjs"
+    "./tool-shapes.mjs": "./tool-shapes.mjs",
+    "./stand-shapes.mjs": "./stand-shapes.mjs"
   },
   "scripts": {
     "test": "node --test test/*.test.mjs",

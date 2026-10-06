@@ -1,0 +1,8 @@
+<?xml version="1.0"?>
+<robot name="nic_ak_r_fkt10">
+<link name="base_link"><visual ><geometry ><mesh filename="../meshes/base_link.obj"/></geometry></visual><collision ><origin xyz="0 0 0.4" rpy="0 0 0"/><geometry ><box size="0.65 0.84 0.8"/></geometry></collision><collision ><origin xyz="0 0.39 0.8275" rpy="0 0 0"/><geometry ><box size="0.42 0.02 0.055"/></geometry></collision><collision ><origin xyz="-0.385 -0.39 0.111" rpy="0 0 0"/><geometry ><box size="0.12 0.064 0.222"/></geometry></collision><collision ><origin xyz="-0.385 0.39 0.111" rpy="0 0 0"/><geometry ><box size="0.12 0.064 0.222"/></geometry></collision><collision ><origin xyz="0.385 -0.39 0.111" rpy="0 0 0"/><geometry ><box size="0.12 0.064 0.222"/></geometry></collision><collision ><origin xyz="0.385 0.39 0.111" rpy="0 0 0"/><geometry ><box size="0.12 0.064 0.222"/></geometry></collision></link>
+<link name="mount"></link>
+<link name="robot_mount"></link>
+<joint name="mount_joint" type="fixed"><parent link="base_link"/><child link="mount"/><origin xyz="0 0 0" rpy="0 0 0"/></joint>
+<joint name="robot_mount_joint" type="fixed"><parent link="base_link"/><child link="robot_mount"/><origin xyz="0 -0.045 0.8" rpy="0 0 0"/></joint>
+</robot>

@@ -85,6 +85,11 @@ gun = bt.Robot.from_catalog("weld-gun-x1")  # カタログ ID (下表の右列) 
 | [robotiq-ax-series-base](./robotiq-ax-series-base) | パレタイザ基台 + 1500 mm 昇降軸 + コントローラ (prismatic 1 DOF) の参照モデル | Robotiq Palletizing Solution AX Series (AX10) | `robotiq/ax/ax10/r1` (公開前) |
 | [robotiq-powerpick10](./robotiq-powerpick10) | パレタイジング用真空グリッパ (既定構成: 200 mm オフセット + Ø77.5 カップ 4 個) の参照モデル | Robotiq PowerPick10 | `robotiq/powerpick/powerpick-10/r1` (公開前) |
 | [robotiq-powerpick10-vacuum-unit](./robotiq-powerpick10-vacuum-unit) | PowerPick10 の真空発生ユニット (壁掛け筐体) の参照モデル | Robotiq PowerPick10 Vacuum Generation Unit | `robotiq/powerpick/powerpick10-vacuum-unit/r1` (公開前) |
+| [nic-ak-r-fks05](./nic-ak-r-fks05) | 協働ロボット用スタンド型架台 (柱 1 本 + H 形の台枠、キャスタ + ノブ付きアジャスタ、柱は 100 mm 偏心) の参照モデル | NIC オートテック AK-R-FKS05 | `nic_autotec/ak-r/ak-r-fks05/r1` (公開前) |
+| [nic-ak-r-fkt10](./nic-ak-r-fkt10) | 協働ロボット用の箱形架台 (4 面パネル、溝付きの天面、アウトリガー) の参照モデル | NIC オートテック AK-R-FKT10 | `nic_autotec/ak-r/ak-r-fkt10/r1` (公開前) |
+| [sus-zfm-f401](./sus-zfm-f401) | CRX-10iA 専用台車 (ロボット取付プレートは端から 205 mm、アウトリガー 4 本、取っ手) の参照モデル | SUS ZFM-F401 | `sus/zfm/zfm-f401/r1` (公開前) |
+| [misumi-rusa8-5050](./misumi-rusa8-5050) | コントローラ用の台枠 (アジャスタ + キャスタ) の参照モデル、1 構成のみ | ミスミ RUSA8-5050-W500-D400-JC | `misumi/rus/rusa8-5050/r1` (公開前) |
+| [swivellink-rb-ped-24-cb200](./swivellink-rb-ped-24-cb200) | コボット用ペデスタルの包絡ベース参照モデル (公表寸法は高さのみ、図面未入手) | Swivellink RB-PED-24-CB200 | `swivellink/rb-ped/rb-ped-24-cb200/r1` (公開前) |
 | [mir250](./mir250) | 差動2輪 + 旋回キャスタ4輪の独自参照形状 | MiR250 | `mobile_industrial_robots/mir/mir250/r2` |
 | [hitachi-racrew](./hitachi-racrew) | 棚搬送 AGV(小型低床式、棚の下に潜って持ち上げる)の参照モデル: 白い車体・別リンクのターンテーブル・前後バンパ・四隅の灯具 | 日立 Racrew | `hitachi_industrial_products/racrew/racrew/r1`(公開前) |
 | [mir1350](./mir1350) | パレット級 AMR の参照モデル(車輪 6・スキャナ 2・別リンクの上部カバー) | MiR1350 | `mobile_industrial_robots/mir/mir1350/r1` |

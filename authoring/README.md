@@ -110,3 +110,10 @@ UR Series、RG6、LIFTKIT-UR 620はThree.jsでリンクごとに形状を著作�
 製品の寸法、材質、collision、出典は各製品ディレクトリにある。
 URのカタログ運動学は公式BSDマクロを使用し、ブラウザの理想角度ツリーとは区別する。
 これらの配布USDはcatalog-builderがURDFから生成する。
+
+## 架台・台車の部品
+
+`stand-shapes.mjs`は、ロボット架台・台車 (NIC AK-R、SUS ZFM、ミスミ RUSA8 など) の表示形状に使う小さな部品:
+溝の線を持つ押出材 (`profile`)、自在キャスタ (`caster`)、ノブ付き / パッドのみのアジャスタ
+(`knobAdjuster` / `padAdjuster`)、U 字の取っ手 (`uHandle`)。SI 単位。寸法はすべて製品側の
+`model.mjs` が渡し、ここには製品の値を置かない。取付穴は生成しない。

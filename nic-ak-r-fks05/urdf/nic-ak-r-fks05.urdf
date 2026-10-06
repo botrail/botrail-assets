@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<robot name="nic_ak_r_fks05">
+<link name="base_link"><visual ><geometry ><mesh filename="../meshes/base_link.obj"/></geometry></visual><collision ><origin xyz="0 0 0.162" rpy="0 0 0"/><geometry ><box size="0.18 0.52 0.06"/></geometry></collision><collision ><origin xyz="0 -0.1 0.486" rpy="0 0 0"/><geometry ><box size="0.12 0.12 0.588"/></geometry></collision><collision ><origin xyz="0 -0.305 0.096" rpy="0 0 0"/><geometry ><box size="0.6 0.09 0.192"/></geometry></collision><collision ><origin xyz="-0.278 -0.305 0.207" rpy="0 0 0"/><geometry ><box size="0.06 0.06 0.03"/></geometry></collision><collision ><origin xyz="0.278 -0.305 0.207" rpy="0 0 0"/><geometry ><box size="0.06 0.06 0.03"/></geometry></collision><collision ><origin xyz="0 0.305 0.096" rpy="0 0 0"/><geometry ><box size="0.6 0.09 0.192"/></geometry></collision><collision ><origin xyz="-0.278 0.305 0.207" rpy="0 0 0"/><geometry ><box size="0.06 0.06 0.03"/></geometry></collision><collision ><origin xyz="0.278 0.305 0.207" rpy="0 0 0"/><geometry ><box size="0.06 0.06 0.03"/></geometry></collision><collision ><origin xyz="-0.0865 -0.1 0.7" rpy="0 0 0"/><geometry ><box size="0.053 0.016 0.136"/></geometry></collision><collision ><origin xyz="0.0865 -0.1 0.7" rpy="0 0 0"/><geometry ><box size="0.053 0.016 0.136"/></geometry></collision></link>
+<link name="robot_base_plate"><visual ><geometry ><mesh filename="../meshes/robot_base_plate.obj"/></geometry></visual><collision ><origin xyz="0 0 0.01" rpy="0 0 0"/><geometry ><cylinder radius="0.1" length="0.02"/></geometry></collision></link>
+<link name="mount"></link>
+<link name="robot_mount"></link>
+<joint name="robot_base_plate_joint" type="fixed"><parent link="base_link"/><child link="robot_base_plate"/><origin xyz="0 -0.1 0.78" rpy="0 0 0"/></joint>
+<joint name="mount_joint" type="fixed"><parent link="base_link"/><child link="mount"/><origin xyz="0 0 0" rpy="0 0 0"/></joint>
+<joint name="robot_mount_joint" type="fixed"><parent link="robot_base_plate"/><child link="robot_mount"/><origin xyz="0 0 0.02" rpy="0 0 0"/></joint>
+</robot>
