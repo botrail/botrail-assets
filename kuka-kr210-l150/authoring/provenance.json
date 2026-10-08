@@ -1,0 +1,88 @@
+{
+  "target": "KUKA KR 210 L150-2, Series 2000, floor-mounted",
+  "scope": "CC0 independently authored meshes and code. Source PDFs/photos/CAD are not redistributed. Detailed cast envelopes are visual estimates, not measured manufacturing surfaces.",
+  "sources": [
+    {
+      "id": "kuka_brochure_2009",
+      "type": "Manufacturer product brochure, public mirror",
+      "url": "https://archiv.robolution.eu/letoltes.php?name=1085-kuka-kr-210-l180-2-robot-adatlap.pdf&type=media",
+      "original_url": "https://www.kuka.com/-/media/kuka-downloads/imported/6b77eecacfe542d3b736af377562ecaa/pf0022_kr_2102_en.pdf",
+      "document_id": "PF0022/E/1/0709",
+      "certainty": "Exact L150-2 listed in specification and geometry table. Cover photo and diagram show standard KR210-2 with G=1100 mm; L150-2 table changes G to 1500 mm.",
+      "legal_check": "Public manufacturer marketing brochure. No explicit no-reproduction/confidentiality clause observed. Do not reproduce copyrighted pictures or layout.",
+      "facts_mm": {
+        "a1_a2_horizontal": 350,
+        "a2_height": 750,
+        "a2_a3_length": 1250,
+        "a3_to_a4_a5_intersection_longitudinal": 1500,
+        "a3_to_a4_a5_axis_vertical_drop": 55,
+        "a4_a5_intersection_to_tool_face": 230,
+        "maximum_reach_reference_a4_a5": 3100
+      },
+      "footprint_note": "1006 x 1006 mm is called robot footprint, but must not be assumed bare casting extent; mounting-system context matters."
+    },
+    {
+      "id": "kuka_datasheet_2007",
+      "type": "Manufacturer two-page public product datasheet, public mirror",
+      "url": "https://www.construnario.com/ebooks/9365/hojas%20de%20datos/kr%20210-2,%20kr%20210%20l180-2,%20kr%20210%20l150-2/files/kr%20210-2,%20kr%20210%20l180-2,%20kr%20210%20l150-2.pdf",
+      "document_id": "RoMeDBKR210-2-02.04.01 / WM-Nr. 841612-84/S/2/09.07",
+      "certainty": "Exact KR210 L150-2 included; floor/ceiling variant. Flange drawing applies across listed KR210-2, L180-2, L150-2 types.",
+      "legal_check": "Both pages visually inspected and all text reviewed. Copyright notice and information/no-warranty/change disclaimer; no explicit no-reproduction or confidentiality clause observed. Public numerical facts only, no copied drawings.",
+      "flange_facts_mm": {
+        "outer_diameter": 200,
+        "centering_recess_diameter": 100,
+        "bolt_circle_diameter": 160,
+        "threaded_hole_count": 6,
+        "thread": "M10",
+        "angular_spacing_degrees": 60,
+        "thread_depth": 14,
+        "locating_hole_diameter": 10,
+        "locating_hole_depth": 10,
+        "locating_hole_offset_degrees_from_adjacent_threaded_hole": 30,
+        "face_to_a4_a5_intersection": 230
+      },
+      "qualification": "Old product publication, not calibration or proof of current hardware configuration. Do not import tolerance/compliance claims unless the implementation actually represents them."
+    },
+    {
+      "id": "exact_floor_robot_photos",
+      "type": "Seller's firsthand photographs with KUKA identification plate",
+      "url": "https://www.goedicke.com/new-arrivals/7-46705-en.html",
+      "image_urls": [
+        "https://www.goedicke.com/images/product_images/original_images/7-46705.jpg",
+        "https://www.goedicke.com/images/product_images/original_images/7-46705-b.jpg",
+        "https://www.goedicke.com/images/product_images/original_images/7-46705-type.jpg"
+      ],
+      "certainty": "Nameplate visually confirms KR210 L150-2 2000, manufacture 2007-07, weight 1285 KG, and MADA suffix FLOOR. Dimensions inferred from pictures remain estimates.",
+      "observed_shape": [
+        "Orange clipped-round flared foot and black conical A1 skirt",
+        "Orange rotating table and asymmetric open shoulder casting",
+        "Broad flat tapered link arm with rounded longitudinal edges",
+        "Black near-horizontal rear counterbalancer with triangular trunnion support",
+        "Three parallel black motor bodies behind elbow, plus side elbow motor housing",
+        "Long cylindrical bolted extension between forearm casting and wrist",
+        "Rounded oblong bolted wrist cover"
+      ],
+      "qualification": "Application dress pack, welding tool, extra brackets, labels, wear and exact cable routing are installation-specific. Photos are reference-only and excluded from CC0 output."
+    },
+    {
+      "id": "ros_industrial_kinematics",
+      "url": "https://github.com/ros-industrial/kuka_experimental/blob/54444a29c50fee342efd4f76c00265fa02c4155a/kuka_kr210_support/urdf/kr210l150_macro.xacro",
+      "use": "Existing numerical origins, axes and planning limits only; no code or mesh copied."
+    }
+  ],
+  "unknown_or_estimated": [
+    "All detailed casting cross-sections and blend radii",
+    "Counterbalancer anchor coordinates, barrel dimensions and rod stroke",
+    "Bare base casting exact extent",
+    "Exact motor body dimensions",
+    "Year-dependent material/paint and electrical package details"
+  ],
+  "kinematics_caution": "Keep existing explicitly chosen ROS-I origins/conventions unless separately authorized to change. Manufacturer electrical-zero A2/A3 limits differ from ROS-I planning convention; do not merge them silently.",
+  "research_date": "2026-10-08",
+  "implementation": {
+    "export": "URDF byte-identical to e1565dd; original OBJ/MTL replaced for a proposed new catalog revision, not a replacement of pinned r2",
+    "balancer": "Rigid brackets are exported. Complete barrel and piston are viewer-only, computed from two visually estimated anchors; no nonlinear mechanism is frozen into the URDF. No dynamic model, stroke rating, or collision proxy.",
+    "flange": "Public nominal diameters and depths. Thread bores are plain cylinders of nominal 10 mm diameter, no helical threads or fit/tolerance guarantee. Pattern clocking relative to ROS-I A6 zero remains a reference convention.",
+    "omitted": "Installation-specific dress pack, welding tool, brand labels, base mounting holes, dynamics, calibrated counterbalance forces."
+  }
+}
