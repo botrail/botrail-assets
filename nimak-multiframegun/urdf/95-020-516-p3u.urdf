@@ -136,116 +136,36 @@
     </collision>
   </link>
   <link name="body">
-    <visual name="lower_frame_left">
-      <geometry>
-        <mesh filename="../meshes/lower_frame_left.stl" />
-      </geometry>
-      <material name="lower_frame_left_material">
-        <color rgba="0.68 0.71 0.72 1" />
-      </material>
-    </visual>
     <collision>
       <origin xyz="-0.0134 -0.058 0.235" rpy="0 0 0" />
       <geometry>
         <box size="0.15 0.012 0.47" />
       </geometry>
     </collision>
-    <visual name="transformer_cheek_left">
-      <geometry>
-        <mesh filename="../meshes/transformer_cheek_left.stl" />
-      </geometry>
-      <material name="transformer_cheek_left_material">
-        <color rgba="0.68 0.71 0.72 1" />
-      </material>
-    </visual>
     <collision>
       <origin xyz="-0.12 -0.058 0.468" rpy="0 0 0" />
       <geometry>
         <box size="0.32 0.012 0.14" />
       </geometry>
     </collision>
-    <visual name="lower_frame_right">
-      <geometry>
-        <mesh filename="../meshes/lower_frame_right.stl" />
-      </geometry>
-      <material name="lower_frame_right_material">
-        <color rgba="0.68 0.71 0.72 1" />
-      </material>
-    </visual>
     <collision>
       <origin xyz="-0.0134 0.058 0.235" rpy="0 0 0" />
       <geometry>
         <box size="0.15 0.012 0.47" />
       </geometry>
     </collision>
-    <visual name="transformer_cheek_right">
-      <geometry>
-        <mesh filename="../meshes/transformer_cheek_right.stl" />
-      </geometry>
-      <material name="transformer_cheek_right_material">
-        <color rgba="0.68 0.71 0.72 1" />
-      </material>
-    </visual>
     <collision>
       <origin xyz="-0.12 0.058 0.468" rpy="0 0 0" />
       <geometry>
         <box size="0.32 0.012 0.14" />
       </geometry>
     </collision>
-    <visual name="transformer_core">
-      <geometry>
-        <mesh filename="../meshes/transformer_core.stl" />
-      </geometry>
-      <material name="transformer_core_material">
-        <color rgba="0.12 0.34 0.47 1" />
-      </material>
-    </visual>
     <collision>
       <origin xyz="-0.17 0 0.381" rpy="0 0 0" />
       <geometry>
         <box size="0.32 0.106 0.17" />
       </geometry>
     </collision>
-    <visual name="transformer_rib_350">
-      <geometry>
-        <mesh filename="../meshes/transformer_rib_350.stl" />
-      </geometry>
-      <material name="transformer_rib_350_material">
-        <color rgba="0.68 0.71 0.72 1" />
-      </material>
-    </visual>
-    <visual name="transformer_rib_385">
-      <geometry>
-        <mesh filename="../meshes/transformer_rib_385.stl" />
-      </geometry>
-      <material name="transformer_rib_385_material">
-        <color rgba="0.68 0.71 0.72 1" />
-      </material>
-    </visual>
-    <visual name="transformer_rib_420">
-      <geometry>
-        <mesh filename="../meshes/transformer_rib_420.stl" />
-      </geometry>
-      <material name="transformer_rib_420_material">
-        <color rgba="0.68 0.71 0.72 1" />
-      </material>
-    </visual>
-    <visual name="transformer_rib_455">
-      <geometry>
-        <mesh filename="../meshes/transformer_rib_455.stl" />
-      </geometry>
-      <material name="transformer_rib_455_material">
-        <color rgba="0.68 0.71 0.72 1" />
-      </material>
-    </visual>
-    <visual name="transformer_rib_490">
-      <geometry>
-        <mesh filename="../meshes/transformer_rib_490.stl" />
-      </geometry>
-      <material name="transformer_rib_490_material">
-        <color rgba="0.68 0.71 0.72 1" />
-      </material>
-    </visual>
     <visual name="gun_pivot">
       <geometry>
         <mesh filename="../meshes/gun_pivot.stl" />
@@ -260,70 +180,30 @@
         <cylinder radius="0.045" length="0.18" />
       </geometry>
     </collision>
-    <visual name="left_arm_clamp">
-      <geometry>
-        <mesh filename="../meshes/left_arm_clamp.stl" />
-      </geometry>
-      <material name="left_arm_clamp_material">
-        <color rgba="0.68 0.71 0.72 1" />
-      </material>
-    </visual>
     <collision>
       <origin xyz="-0.2259 0 0.59" rpy="0 0 0" />
       <geometry>
         <box size="0.18 0.1 0.1" />
       </geometry>
     </collision>
-    <visual name="left_arm_lower">
-      <geometry>
-        <mesh filename="../meshes/left_arm_lower.stl" />
-      </geometry>
-      <material name="left_arm_lower_material">
-        <color rgba="0.65 0.36 0.19 1" />
-      </material>
-    </visual>
     <collision>
       <origin xyz="-0.2259 0 0.64" rpy="0 0 0" />
       <geometry>
         <box size="0.09 0.04 0.2" />
       </geometry>
     </collision>
-    <visual name="left_arm_blade">
-      <geometry>
-        <mesh filename="../meshes/left_arm_blade.stl" />
-      </geometry>
-      <material name="left_arm_blade_material">
-        <color rgba="0.65 0.36 0.19 1" />
-      </material>
-    </visual>
     <collision>
       <origin xyz="-0.2009 0 1.005" rpy="0 0 0" />
       <geometry>
         <box size="0.055 0.04 0.53" />
       </geometry>
     </collision>
-    <visual name="left_arm_tip_bend">
-      <geometry>
-        <mesh filename="../meshes/left_arm_tip_bend.stl" />
-      </geometry>
-      <material name="left_arm_tip_bend_material">
-        <color rgba="0.65 0.36 0.19 1" />
-      </material>
-    </visual>
     <collision>
       <origin xyz="-0.18215 0 1.274" rpy="0 0.864370271139 0" />
       <geometry>
         <cylinder radius="0.02" length="0.0492975658628294" />
       </geometry>
     </collision>
-    <visual name="fixed_arm_support">
-      <geometry>
-        <mesh filename="../meshes/fixed_arm_support.stl" />
-      </geometry>
-      <material name="fixed_arm_support_material">
-        <color rgba="0.68 0.71 0.72 1" />
-      </material>
-    </visual>
     <collision>
       <origin xyz="-0.11965 0 0.59" rpy="0 0 0" />
       <geometry>
@@ -358,101 +238,413 @@
         <cylinder radius="0.008" length="0.019999999999999997" />
       </geometry>
     </collision>
+    <visual name="lower_frame_left">
+      <geometry>
+        <mesh filename="../meshes/lower_frame_left.stl" />
+      </geometry>
+      <material name="lower_frame_left_material">
+        <color rgba="0.66 0.69 0.71 1" />
+      </material>
+    </visual>
+    <visual name="detail_p3u_standoff_left_0">
+      <geometry>
+        <mesh filename="../meshes/detail_p3u_standoff_left_0.stl" />
+      </geometry>
+      <material name="detail_p3u_standoff_left_0_material">
+        <color rgba="0.51 0.55 0.58 1" />
+      </material>
+    </visual>
+    <visual name="detail_p3u_standoff_left_1">
+      <geometry>
+        <mesh filename="../meshes/detail_p3u_standoff_left_1.stl" />
+      </geometry>
+      <material name="detail_p3u_standoff_left_1_material">
+        <color rgba="0.51 0.55 0.58 1" />
+      </material>
+    </visual>
+    <visual name="transformer_cheek_left">
+      <geometry>
+        <mesh filename="../meshes/transformer_cheek_left.stl" />
+      </geometry>
+      <material name="transformer_cheek_left_material">
+        <color rgba="0.51 0.55 0.58 1" />
+      </material>
+    </visual>
+    <visual name="detail_pivot_spine_left">
+      <geometry>
+        <mesh filename="../meshes/detail_pivot_spine_left.stl" />
+      </geometry>
+      <material name="detail_pivot_spine_left_material">
+        <color rgba="0.66 0.69 0.71 1" />
+      </material>
+    </visual>
+    <visual name="detail_spine_left_hardware">
+      <geometry>
+        <mesh filename="../meshes/detail_spine_left_hardware.stl" />
+      </geometry>
+      <material name="detail_spine_left_hardware_material">
+        <color rgba="0.1 0.12 0.13 1" />
+      </material>
+    </visual>
+    <visual name="detail_spine_bridge_left">
+      <geometry>
+        <mesh filename="../meshes/detail_spine_bridge_left.stl" />
+      </geometry>
+      <material name="detail_spine_bridge_left_material">
+        <color rgba="0.51 0.55 0.58 1" />
+      </material>
+    </visual>
+    <visual name="detail_chassis_crossmember_0">
+      <geometry>
+        <mesh filename="../meshes/detail_chassis_crossmember_0.stl" />
+      </geometry>
+      <material name="detail_chassis_crossmember_0_material">
+        <color rgba="0.34 0.38 0.4 1" />
+      </material>
+    </visual>
+    <visual name="detail_chassis_crossmember_1">
+      <geometry>
+        <mesh filename="../meshes/detail_chassis_crossmember_1.stl" />
+      </geometry>
+      <material name="detail_chassis_crossmember_1_material">
+        <color rgba="0.34 0.38 0.4 1" />
+      </material>
+    </visual>
+    <visual name="detail_chassis_crossmember_2">
+      <geometry>
+        <mesh filename="../meshes/detail_chassis_crossmember_2.stl" />
+      </geometry>
+      <material name="detail_chassis_crossmember_2_material">
+        <color rgba="0.34 0.38 0.4 1" />
+      </material>
+    </visual>
+    <visual name="detail_cradle_left_hardware">
+      <geometry>
+        <mesh filename="../meshes/detail_cradle_left_hardware.stl" />
+      </geometry>
+      <material name="detail_cradle_left_hardware_material">
+        <color rgba="0.1 0.12 0.13 1" />
+      </material>
+    </visual>
+    <visual name="lower_frame_right">
+      <geometry>
+        <mesh filename="../meshes/lower_frame_right.stl" />
+      </geometry>
+      <material name="lower_frame_right_material">
+        <color rgba="0.66 0.69 0.71 1" />
+      </material>
+    </visual>
+    <visual name="detail_p3u_standoff_right_0">
+      <geometry>
+        <mesh filename="../meshes/detail_p3u_standoff_right_0.stl" />
+      </geometry>
+      <material name="detail_p3u_standoff_right_0_material">
+        <color rgba="0.51 0.55 0.58 1" />
+      </material>
+    </visual>
+    <visual name="detail_p3u_standoff_right_1">
+      <geometry>
+        <mesh filename="../meshes/detail_p3u_standoff_right_1.stl" />
+      </geometry>
+      <material name="detail_p3u_standoff_right_1_material">
+        <color rgba="0.51 0.55 0.58 1" />
+      </material>
+    </visual>
+    <visual name="transformer_cheek_right">
+      <geometry>
+        <mesh filename="../meshes/transformer_cheek_right.stl" />
+      </geometry>
+      <material name="transformer_cheek_right_material">
+        <color rgba="0.51 0.55 0.58 1" />
+      </material>
+    </visual>
+    <visual name="detail_pivot_spine_right">
+      <geometry>
+        <mesh filename="../meshes/detail_pivot_spine_right.stl" />
+      </geometry>
+      <material name="detail_pivot_spine_right_material">
+        <color rgba="0.66 0.69 0.71 1" />
+      </material>
+    </visual>
+    <visual name="detail_spine_right_hardware">
+      <geometry>
+        <mesh filename="../meshes/detail_spine_right_hardware.stl" />
+      </geometry>
+      <material name="detail_spine_right_hardware_material">
+        <color rgba="0.1 0.12 0.13 1" />
+      </material>
+    </visual>
+    <visual name="detail_spine_bridge_right">
+      <geometry>
+        <mesh filename="../meshes/detail_spine_bridge_right.stl" />
+      </geometry>
+      <material name="detail_spine_bridge_right_material">
+        <color rgba="0.51 0.55 0.58 1" />
+      </material>
+    </visual>
+    <visual name="detail_cradle_right_hardware">
+      <geometry>
+        <mesh filename="../meshes/detail_cradle_right_hardware.stl" />
+      </geometry>
+      <material name="detail_cradle_right_hardware_material">
+        <color rgba="0.1 0.12 0.13 1" />
+      </material>
+    </visual>
+    <visual name="transformer_core">
+      <geometry>
+        <mesh filename="../meshes/transformer_core.stl" />
+      </geometry>
+      <material name="transformer_core_material">
+        <color rgba="0.58 0.245 0.095 1" />
+      </material>
+    </visual>
+    <visual name="transformer_rib_350">
+      <geometry>
+        <mesh filename="../meshes/transformer_rib_350.stl" />
+      </geometry>
+      <material name="transformer_rib_350_material">
+        <color rgba="0.51 0.55 0.58 1" />
+      </material>
+    </visual>
+    <visual name="transformer_rib_385">
+      <geometry>
+        <mesh filename="../meshes/transformer_rib_385.stl" />
+      </geometry>
+      <material name="transformer_rib_385_material">
+        <color rgba="0.51 0.55 0.58 1" />
+      </material>
+    </visual>
+    <visual name="transformer_rib_420">
+      <geometry>
+        <mesh filename="../meshes/transformer_rib_420.stl" />
+      </geometry>
+      <material name="transformer_rib_420_material">
+        <color rgba="0.51 0.55 0.58 1" />
+      </material>
+    </visual>
+    <visual name="transformer_rib_455">
+      <geometry>
+        <mesh filename="../meshes/transformer_rib_455.stl" />
+      </geometry>
+      <material name="transformer_rib_455_material">
+        <color rgba="0.51 0.55 0.58 1" />
+      </material>
+    </visual>
+    <visual name="transformer_rib_490">
+      <geometry>
+        <mesh filename="../meshes/transformer_rib_490.stl" />
+      </geometry>
+      <material name="transformer_rib_490_material">
+        <color rgba="0.51 0.55 0.58 1" />
+      </material>
+    </visual>
+    <visual name="detail_transformer_insulator_front">
+      <geometry>
+        <mesh filename="../meshes/detail_transformer_insulator_front.stl" />
+      </geometry>
+      <material name="detail_transformer_insulator_front_material">
+        <color rgba="0.79 0.29 0.08 1" />
+      </material>
+    </visual>
+    <visual name="detail_transformer_front_bolts">
+      <geometry>
+        <mesh filename="../meshes/detail_transformer_front_bolts.stl" />
+      </geometry>
+      <material name="detail_transformer_front_bolts_material">
+        <color rgba="0.1 0.12 0.13 1" />
+      </material>
+    </visual>
+    <visual name="detail_transformer_insulator_back">
+      <geometry>
+        <mesh filename="../meshes/detail_transformer_insulator_back.stl" />
+      </geometry>
+      <material name="detail_transformer_insulator_back_material">
+        <color rgba="0.79 0.29 0.08 1" />
+      </material>
+    </visual>
+    <visual name="detail_transformer_back_bolts">
+      <geometry>
+        <mesh filename="../meshes/detail_transformer_back_bolts.stl" />
+      </geometry>
+      <material name="detail_transformer_back_bolts_material">
+        <color rgba="0.1 0.12 0.13 1" />
+      </material>
+    </visual>
+    <visual name="fixed_arm_support">
+      <geometry>
+        <mesh filename="../meshes/fixed_arm_support.stl" />
+      </geometry>
+      <material name="fixed_arm_support_material">
+        <color rgba="0.51 0.55 0.58 1" />
+      </material>
+    </visual>
+    <visual name="left_arm_blade">
+      <geometry>
+        <mesh filename="../meshes/left_arm_blade.stl" />
+      </geometry>
+      <material name="left_arm_blade_material">
+        <color rgba="0.66 0.69 0.71 1" />
+      </material>
+    </visual>
+    <visual name="left_arm_lower">
+      <geometry>
+        <mesh filename="../meshes/left_arm_lower.stl" />
+      </geometry>
+      <material name="left_arm_lower_material">
+        <color rgba="0.66 0.69 0.71 1" />
+      </material>
+    </visual>
+    <visual name="left_arm_clamp">
+      <geometry>
+        <mesh filename="../meshes/left_arm_clamp.stl" />
+      </geometry>
+      <material name="left_arm_clamp_material">
+        <color rgba="0.51 0.55 0.58 1" />
+      </material>
+    </visual>
+    <visual name="left_arm_tip_bend">
+      <geometry>
+        <mesh filename="../meshes/left_arm_tip_bend.stl" />
+      </geometry>
+      <material name="left_arm_tip_bend_material">
+        <color rgba="0.65 0.36 0.19 1" />
+      </material>
+    </visual>
+    <visual name="detail_left_clamp_front_screws">
+      <geometry>
+        <mesh filename="../meshes/detail_left_clamp_front_screws.stl" />
+      </geometry>
+      <material name="detail_left_clamp_front_screws_material">
+        <color rgba="0.1 0.12 0.13 1" />
+      </material>
+    </visual>
+    <visual name="detail_left_arm_front_screws">
+      <geometry>
+        <mesh filename="../meshes/detail_left_arm_front_screws.stl" />
+      </geometry>
+      <material name="detail_left_arm_front_screws_material">
+        <color rgba="0.1 0.12 0.13 1" />
+      </material>
+    </visual>
+    <visual name="detail_left_arm_front_rail">
+      <geometry>
+        <mesh filename="../meshes/detail_left_arm_front_rail.stl" />
+      </geometry>
+      <material name="detail_left_arm_front_rail_material">
+        <color rgba="0.51 0.55 0.58 1" />
+      </material>
+    </visual>
+    <visual name="detail_left_clamp_rear_screws">
+      <geometry>
+        <mesh filename="../meshes/detail_left_clamp_rear_screws.stl" />
+      </geometry>
+      <material name="detail_left_clamp_rear_screws_material">
+        <color rgba="0.1 0.12 0.13 1" />
+      </material>
+    </visual>
+    <visual name="detail_left_arm_rear_screws">
+      <geometry>
+        <mesh filename="../meshes/detail_left_arm_rear_screws.stl" />
+      </geometry>
+      <material name="detail_left_arm_rear_screws_material">
+        <color rgba="0.1 0.12 0.13 1" />
+      </material>
+    </visual>
+    <visual name="detail_left_arm_rear_rail">
+      <geometry>
+        <mesh filename="../meshes/detail_left_arm_rear_rail.stl" />
+      </geometry>
+      <material name="detail_left_arm_rear_rail_material">
+        <color rgba="0.51 0.55 0.58 1" />
+      </material>
+    </visual>
+    <visual name="detail_pivot_retainer_front">
+      <geometry>
+        <mesh filename="../meshes/detail_pivot_retainer_front.stl" />
+      </geometry>
+      <material name="detail_pivot_retainer_front_material">
+        <color rgba="0.51 0.55 0.58 1" />
+      </material>
+    </visual>
+    <visual name="detail_pivot_seal_front">
+      <geometry>
+        <mesh filename="../meshes/detail_pivot_seal_front.stl" />
+      </geometry>
+      <material name="detail_pivot_seal_front_material">
+        <color rgba="0.1 0.12 0.13 1" />
+      </material>
+    </visual>
+    <visual name="detail_pivot_front_screws">
+      <geometry>
+        <mesh filename="../meshes/detail_pivot_front_screws.stl" />
+      </geometry>
+      <material name="detail_pivot_front_screws_material">
+        <color rgba="0.1 0.12 0.13 1" />
+      </material>
+    </visual>
+    <visual name="detail_pivot_retainer_rear">
+      <geometry>
+        <mesh filename="../meshes/detail_pivot_retainer_rear.stl" />
+      </geometry>
+      <material name="detail_pivot_retainer_rear_material">
+        <color rgba="0.51 0.55 0.58 1" />
+      </material>
+    </visual>
+    <visual name="detail_pivot_seal_rear">
+      <geometry>
+        <mesh filename="../meshes/detail_pivot_seal_rear.stl" />
+      </geometry>
+      <material name="detail_pivot_seal_rear_material">
+        <color rgba="0.1 0.12 0.13 1" />
+      </material>
+    </visual>
+    <visual name="detail_pivot_rear_screws">
+      <geometry>
+        <mesh filename="../meshes/detail_pivot_rear_screws.stl" />
+      </geometry>
+      <material name="detail_pivot_rear_screws_material">
+        <color rgba="0.1 0.12 0.13 1" />
+      </material>
+    </visual>
   </link>
   <link name="cad_tip" />
   <link name="moving_jaw">
-    <visual name="right_arm_clamp">
-      <geometry>
-        <mesh filename="../meshes/right_arm_clamp.stl" />
-      </geometry>
-      <material name="right_arm_clamp_material">
-        <color rgba="0.68 0.71 0.72 1" />
-      </material>
-    </visual>
     <collision>
       <origin xyz="0.2125 0 0" rpy="0 0 0" />
       <geometry>
         <box size="0.18 0.1 0.1" />
       </geometry>
     </collision>
-    <visual name="right_arm_lower">
-      <geometry>
-        <mesh filename="../meshes/right_arm_lower.stl" />
-      </geometry>
-      <material name="right_arm_lower_material">
-        <color rgba="0.65 0.36 0.19 1" />
-      </material>
-    </visual>
     <collision>
       <origin xyz="0.2125 0 0.05" rpy="0 0 0" />
       <geometry>
         <box size="0.09 0.04 0.2" />
       </geometry>
     </collision>
-    <visual name="right_arm_blade">
-      <geometry>
-        <mesh filename="../meshes/right_arm_blade.stl" />
-      </geometry>
-      <material name="right_arm_blade_material">
-        <color rgba="0.65 0.36 0.19 1" />
-      </material>
-    </visual>
     <collision>
       <origin xyz="0.1875 0 0.415" rpy="0 0 0" />
       <geometry>
         <box size="0.055 0.04 0.53" />
       </geometry>
     </collision>
-    <visual name="right_arm_tip_bend">
-      <geometry>
-        <mesh filename="../meshes/right_arm_tip_bend.stl" />
-      </geometry>
-      <material name="right_arm_tip_bend_material">
-        <color rgba="0.65 0.36 0.19 1" />
-      </material>
-    </visual>
     <collision>
       <origin xyz="0.16875 0 0.684" rpy="0 -0.864370271139 0" />
       <geometry>
         <cylinder radius="0.02" length="0.0492975658628294" />
       </geometry>
     </collision>
-    <visual name="swing_arm_support">
-      <geometry>
-        <mesh filename="../meshes/swing_arm_support.stl" />
-      </geometry>
-      <material name="swing_arm_support_material">
-        <color rgba="0.68 0.71 0.72 1" />
-      </material>
-    </visual>
     <collision>
       <origin xyz="0.10625 0 0" rpy="0 0 0" />
       <geometry>
         <box size="0.2125 0.075 0.06" />
       </geometry>
     </collision>
-    <visual name="swing_lever_left">
-      <geometry>
-        <mesh filename="../meshes/swing_lever_left.stl" />
-      </geometry>
-      <material name="swing_lever_left_material">
-        <color rgba="0.68 0.71 0.72 1" />
-      </material>
-    </visual>
     <collision>
       <origin xyz="0.13375 -0.0455 -0.124" rpy="3.14159265359 0.823207488463 3.14159265359" />
       <geometry>
         <cylinder radius="0.018" length="0.36477424525314284" />
       </geometry>
     </collision>
-    <visual name="swing_lever_right">
-      <geometry>
-        <mesh filename="../meshes/swing_lever_right.stl" />
-      </geometry>
-      <material name="swing_lever_right_material">
-        <color rgba="0.68 0.71 0.72 1" />
-      </material>
-    </visual>
     <collision>
       <origin xyz="0.13375 0.0455 -0.124" rpy="3.14159265359 0.823207488463 3.14159265359" />
       <geometry>
@@ -501,6 +693,126 @@
         <cylinder radius="0.008" length="0.02" />
       </geometry>
     </collision>
+    <visual name="swing_lever_left">
+      <geometry>
+        <mesh filename="../meshes/swing_lever_left.stl" />
+      </geometry>
+      <material name="swing_lever_left_material">
+        <color rgba="0.66 0.69 0.71 1" />
+      </material>
+    </visual>
+    <visual name="detail_fork_left_hardware">
+      <geometry>
+        <mesh filename="../meshes/detail_fork_left_hardware.stl" />
+      </geometry>
+      <material name="detail_fork_left_hardware_material">
+        <color rgba="0.1 0.12 0.13 1" />
+      </material>
+    </visual>
+    <visual name="swing_lever_right">
+      <geometry>
+        <mesh filename="../meshes/swing_lever_right.stl" />
+      </geometry>
+      <material name="swing_lever_right_material">
+        <color rgba="0.66 0.69 0.71 1" />
+      </material>
+    </visual>
+    <visual name="detail_fork_right_hardware">
+      <geometry>
+        <mesh filename="../meshes/detail_fork_right_hardware.stl" />
+      </geometry>
+      <material name="detail_fork_right_hardware_material">
+        <color rgba="0.1 0.12 0.13 1" />
+      </material>
+    </visual>
+    <visual name="swing_arm_support">
+      <geometry>
+        <mesh filename="../meshes/swing_arm_support.stl" />
+      </geometry>
+      <material name="swing_arm_support_material">
+        <color rgba="0.51 0.55 0.58 1" />
+      </material>
+    </visual>
+    <visual name="right_arm_blade">
+      <geometry>
+        <mesh filename="../meshes/right_arm_blade.stl" />
+      </geometry>
+      <material name="right_arm_blade_material">
+        <color rgba="0.66 0.69 0.71 1" />
+      </material>
+    </visual>
+    <visual name="right_arm_lower">
+      <geometry>
+        <mesh filename="../meshes/right_arm_lower.stl" />
+      </geometry>
+      <material name="right_arm_lower_material">
+        <color rgba="0.66 0.69 0.71 1" />
+      </material>
+    </visual>
+    <visual name="right_arm_clamp">
+      <geometry>
+        <mesh filename="../meshes/right_arm_clamp.stl" />
+      </geometry>
+      <material name="right_arm_clamp_material">
+        <color rgba="0.51 0.55 0.58 1" />
+      </material>
+    </visual>
+    <visual name="right_arm_tip_bend">
+      <geometry>
+        <mesh filename="../meshes/right_arm_tip_bend.stl" />
+      </geometry>
+      <material name="right_arm_tip_bend_material">
+        <color rgba="0.65 0.36 0.19 1" />
+      </material>
+    </visual>
+    <visual name="detail_right_clamp_front_screws">
+      <geometry>
+        <mesh filename="../meshes/detail_right_clamp_front_screws.stl" />
+      </geometry>
+      <material name="detail_right_clamp_front_screws_material">
+        <color rgba="0.1 0.12 0.13 1" />
+      </material>
+    </visual>
+    <visual name="detail_right_arm_front_screws">
+      <geometry>
+        <mesh filename="../meshes/detail_right_arm_front_screws.stl" />
+      </geometry>
+      <material name="detail_right_arm_front_screws_material">
+        <color rgba="0.1 0.12 0.13 1" />
+      </material>
+    </visual>
+    <visual name="detail_right_arm_front_rail">
+      <geometry>
+        <mesh filename="../meshes/detail_right_arm_front_rail.stl" />
+      </geometry>
+      <material name="detail_right_arm_front_rail_material">
+        <color rgba="0.51 0.55 0.58 1" />
+      </material>
+    </visual>
+    <visual name="detail_right_clamp_rear_screws">
+      <geometry>
+        <mesh filename="../meshes/detail_right_clamp_rear_screws.stl" />
+      </geometry>
+      <material name="detail_right_clamp_rear_screws_material">
+        <color rgba="0.1 0.12 0.13 1" />
+      </material>
+    </visual>
+    <visual name="detail_right_arm_rear_screws">
+      <geometry>
+        <mesh filename="../meshes/detail_right_arm_rear_screws.stl" />
+      </geometry>
+      <material name="detail_right_arm_rear_screws_material">
+        <color rgba="0.1 0.12 0.13 1" />
+      </material>
+    </visual>
+    <visual name="detail_right_arm_rear_rail">
+      <geometry>
+        <mesh filename="../meshes/detail_right_arm_rear_rail.stl" />
+      </geometry>
+      <material name="detail_right_arm_rear_rail_material">
+        <color rgba="0.51 0.55 0.58 1" />
+      </material>
+    </visual>
   </link>
   <link name="moving_tip" />
   <joint name="mount_to_coupling" type="fixed">
@@ -549,7 +861,7 @@
         <mesh filename="../meshes/CB10_25_head_h1.stl" />
       </geometry>
       <material name="CB10_25_head_h1_material">
-        <color rgba="0.12 0.15 0.16 1" />
+        <color rgba="0.1 0.12 0.13 1" />
       </material>
     </visual>
   </link>
@@ -572,7 +884,7 @@
         <mesh filename="../meshes/CB10_25_head_h2.stl" />
       </geometry>
       <material name="CB10_25_head_h2_material">
-        <color rgba="0.12 0.15 0.16 1" />
+        <color rgba="0.1 0.12 0.13 1" />
       </material>
     </visual>
   </link>
@@ -595,7 +907,7 @@
         <mesh filename="../meshes/CB10_25_head_h3.stl" />
       </geometry>
       <material name="CB10_25_head_h3_material">
-        <color rgba="0.12 0.15 0.16 1" />
+        <color rgba="0.1 0.12 0.13 1" />
       </material>
     </visual>
   </link>
@@ -618,7 +930,7 @@
         <mesh filename="../meshes/CB10_25_head_h4.stl" />
       </geometry>
       <material name="CB10_25_head_h4_material">
-        <color rgba="0.12 0.15 0.16 1" />
+        <color rgba="0.1 0.12 0.13 1" />
       </material>
     </visual>
   </link>
@@ -641,7 +953,7 @@
         <mesh filename="../meshes/CB10_25_head_h5.stl" />
       </geometry>
       <material name="CB10_25_head_h5_material">
-        <color rgba="0.12 0.15 0.16 1" />
+        <color rgba="0.1 0.12 0.13 1" />
       </material>
     </visual>
   </link>
@@ -664,7 +976,7 @@
         <mesh filename="../meshes/CB10_25_head_h6.stl" />
       </geometry>
       <material name="CB10_25_head_h6_material">
-        <color rgba="0.12 0.15 0.16 1" />
+        <color rgba="0.1 0.12 0.13 1" />
       </material>
     </visual>
   </link>
@@ -687,7 +999,7 @@
         <mesh filename="../meshes/CB10_25_head_h7.stl" />
       </geometry>
       <material name="CB10_25_head_h7_material">
-        <color rgba="0.12 0.15 0.16 1" />
+        <color rgba="0.1 0.12 0.13 1" />
       </material>
     </visual>
   </link>
@@ -710,7 +1022,7 @@
         <mesh filename="../meshes/CB10_25_head_h8.stl" />
       </geometry>
       <material name="CB10_25_head_h8_material">
-        <color rgba="0.12 0.15 0.16 1" />
+        <color rgba="0.1 0.12 0.13 1" />
       </material>
     </visual>
   </link>
@@ -733,7 +1045,7 @@
         <mesh filename="../meshes/CB10_25_head_h9.stl" />
       </geometry>
       <material name="CB10_25_head_h9_material">
-        <color rgba="0.12 0.15 0.16 1" />
+        <color rgba="0.1 0.12 0.13 1" />
       </material>
     </visual>
   </link>
@@ -756,7 +1068,7 @@
         <mesh filename="../meshes/CB10_25_head_h10.stl" />
       </geometry>
       <material name="CB10_25_head_h10_material">
-        <color rgba="0.12 0.15 0.16 1" />
+        <color rgba="0.1 0.12 0.13 1" />
       </material>
     </visual>
   </link>

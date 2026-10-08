@@ -98,7 +98,8 @@ def build():
     m.cylinder('moving_jaw','right_holder',.0132,(.1366,0,1.332),(.0066,0,1.332),COPPER)
     m.cylinder('body','left_electrode',.008,(-.0334,0,1.332),(-.0134,0,1.332),COPPER)
     m.cylinder('moving_jaw','right_electrode',.008,(.0066,0,1.332),(-.0134,0,1.332),COPPER)
-    return m
+    from reference_geometry import add_reference_visuals
+    return add_reference_visuals(m)
 
 
 if __name__=='__main__':

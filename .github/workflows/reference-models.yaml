@@ -1,9 +1,9 @@
 name: Reference robot and gun
 on:
   push:
-    paths: ['authoring/reference*', 'authoring/tests/test_reference_models.py', 'kawasaki-bx250l/**', 'nimak-multiframegun/**', '.github/workflows/reference-models.yaml']
+    paths: ['authoring/reference*', 'authoring/visual_detail.py', 'authoring/tests/test_visual_detail.py', 'authoring/tests/test_reference_models.py', 'kawasaki-bx250l/**', 'nimak-multiframegun/**', '.github/workflows/reference-models.yaml']
   pull_request:
-    paths: ['authoring/reference*', 'authoring/tests/test_reference_models.py', 'kawasaki-bx250l/**', 'nimak-multiframegun/**', '.github/workflows/reference-models.yaml']
+    paths: ['authoring/reference*', 'authoring/visual_detail.py', 'authoring/tests/test_visual_detail.py', 'authoring/tests/test_reference_models.py', 'kawasaki-bx250l/**', 'nimak-multiframegun/**', '.github/workflows/reference-models.yaml']
 permissions:
   contents: read
 jobs:
@@ -20,3 +20,6 @@ jobs:
       - run: python kawasaki-bx250l/tools/generate_model.py --check
       - run: python nimak-multiframegun/tools/generate_model.py --check
       - run: python -m unittest discover -s authoring/tests -p 'test_reference_models.py'
+      - run: python authoring/visual_detail.py --check
+      - run: python -m unittest discover -s authoring/tests -p 'test_visual_detail.py'
+      - run: python -m unittest discover -s nimak-multiframegun/tools -p 'test_reference_geometry.py'
