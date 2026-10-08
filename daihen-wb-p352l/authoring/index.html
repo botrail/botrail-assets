@@ -1,12 +1,18 @@
-<!doctype html><html lang="en"><meta charset="utf-8"><title>daihen-wb-p352l reference model</title>
-<style>body{margin:0;font:14px system-ui;overflow:hidden}.panel{position:absolute;top:18px;left:18px;background:#fffE;border:1px solid #ddd;border-radius:10px;padding:16px;max-width:340px}h1{font-size:19px;margin:0 0 8px}p{color:#54616d}button,select{margin:4px;padding:6px}label{display:block}label[hidden]{display:none}</style>
-<div class="panel"><h1>daihen-wb-p352l</h1><p>Independently authored reference geometry.<br>Shell details and collision envelopes are approximate.</p><label hidden>Motion <input id="joint" type="range" min="0" max="0" step=".0005" value="0"></label><div><button id="iso">Perspective</button><button id="side">Side</button><button id="top">Top</button></div></div>
+<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>DAIHEN WB-P352L · independent reference</title>
+<style>body{margin:0;font:14px system-ui;overflow:hidden}.panel{position:absolute;top:16px;left:16px;background:#fffffff0;border:1px solid #d8dee4;border-radius:10px;padding:14px;max-width:290px}h1{font-size:18px;margin:0 0 7px}p{font-size:12px;color:#4c5a66;line-height:1.4;margin:6px 0}button{margin:3px 2px;padding:6px 9px;cursor:pointer}a{color:#275986}@media(max-width:680px){.panel{max-width:none;top:auto;bottom:12px;left:12px;right:12px;padding:10px}.panel p{display:none}h1{font-size:15px;margin-bottom:4px}}</style>
+<div class="panel"><h1>Welbee P350L II · WB-P352L</h1><p>Independent CC0 reference · 395 × 710 × 640 mm<br>Detailed local surfaces and caster identity are estimates. The inherited torch_outlet is a routing marker.</p><div><button id="iso">Perspective</button><button id="side">Front</button><button id="front">Right</button><button id="rear">Rear</button><button id="top">Top</button></div><p><a href="../README.md">Dimensions, sources &amp; limitations</a></p></div>
 <script type="importmap">{"imports":{"three":"/authoring/node_modules/three/build/three.module.js","three/addons/":"/authoring/node_modules/three/examples/jsm/","@botrail/authoring/":"/authoring/"}}</script>
 <script type="module">
 import {definition} from './model.mjs';
+import {THREE} from '@botrail/authoring/tool-shapes.mjs';
 import {referenceScene} from '@botrail/authoring/reference-model.mjs';
 import {mountAuthoring} from '@botrail/authoring/viewer.mjs';
-const type=undefined;
-const model=referenceScene(definition(type));model.pose({no_joint:0});
-mountAuthoring(model.root,{onJoint:q=>model.pose({no_joint:q})});window.reference=model;
+import {frameCamera} from '@botrail/authoring/display.mjs';
+const model=referenceScene(definition());
+const viewer=mountAuthoring(model.root,{iso:[-1.4,-2,1]});
+const bounds=new THREE.Box3().setFromObject(model.root);let active='iso';
+const show=name=>{active=name;if(name==='rear'){frameCamera(viewer.camera,bounds,[-1,1.5,.6]);viewer.render();}else viewer.view(name);};
+for(const button of document.querySelectorAll('button'))button.onclick=()=>show(button.id);
+addEventListener('resize',()=>show(active));
+window.reference=model;
 </script></html>
