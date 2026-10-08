@@ -1,13 +1,14 @@
 <!doctype html><html lang="en"><meta charset="utf-8"><title>KUKA KR 210 L150-2 reference model</title>
-<style>body{margin:0;font:14px system-ui;overflow:hidden}.panel{position:absolute;top:18px;left:18px;background:#fffE;border:1px solid #ddd;border-radius:10px;padding:16px;max-width:290px}h1{font-size:19px;margin:0 0 8px}p{color:#54616d}button{margin:4px;padding:6px}</style>
-<div class="panel"><h1>KUKA KR 210 L150-2</h1><p>6-axis reference model · 150 kg / 3100 mm</p><p>Independently authored reference geometry.<br>Shell details and collisions are approximate.</p><div><button id="iso">Perspective</button><button id="side">Side</button><button id="top">Top</button><button id="bottom">Bottom</button><button id="zero">Zero pose</button><button id="posed">Motion pose</button></div></div>
+<style>body{margin:0;font:14px system-ui;overflow:hidden}.panel{position:absolute;top:18px;left:18px;background:#fffE;border:1px solid #ddd;border-radius:10px;padding:16px;max-width:310px}h1{font-size:19px;margin:0 0 8px}p{color:#54616d}button{margin:4px;padding:6px}label{display:block;font-size:13px;margin-top:10px}input[type=range]{width:100%}.note{font-size:12px;line-height:1.5}</style>
+<div class="panel"><h1>KUKA KR 210 L150-2</h1><p>Floor-mounted Series 2000 · 150 kg / 3100 mm</p><p class="note">Original reference geometry from public dimensions and nameplate-verified photos. Casting sections and balancer anchors are visual estimates.</p><div><button id="iso">Perspective</button><button id="side">Side</button><button id="top">Top</button><button id="bottom">Bottom</button><button id="zero">Zero</button><button id="reach">Reach</button><button id="folded">Folded</button></div><label>A2: <output id="a2value">0°</output><input id="a2" type="range" min="-45" max="85" step="1" value="0"></label><label><input id="balancer" type="checkbox" checked> Viewer-only moving counterbalance</label><p class="note">The nonlinear counterbalance follows both anchors in this viewer. The six-axis URDF exports rigid brackets only; it has no frozen cylinder or added DOFs. Collisions remain coarse planning proxies.</p></div>
 <script type="importmap">{"imports":{"three":"./node_modules/three/build/three.module.js","three/addons/":"./node_modules/three/examples/jsm/","@botrail/authoring/":"./node_modules/@botrail/authoring/"}}</script>
 <script type="module">
-import {definition} from './model.mjs';
-import {referenceScene} from '@botrail/authoring/reference-model.mjs';
-import {mountAuthoring} from '@botrail/authoring/viewer.mjs';
-const model=referenceScene(definition());
-const viewer=mountAuthoring(model.root,{iso:[1.5,-2,1]});window.reference=model;
-document.querySelector('#zero').onclick=()=>{model.pose();viewer.render();};
-document.querySelector('#posed').onclick=()=>{model.pose({joint_a1:0.25,joint_a2:-0.30,joint_a3:0.40,joint_a4:0.35,joint_a5:-0.45,joint_a6:0.2});viewer.render();};
+import {createScene,poseValues} from './scene.mjs';
+import {mountKukaViewer} from './viewer.mjs';
+const model=createScene();const viewer=mountKukaViewer(model);window.reference=model;
+let values={};const input=document.querySelector('#a2'),label=document.querySelector('#a2value');
+function update(){model.pose(values);input.value=(values.joint_a2??0)*180/Math.PI;label.value=`${Math.round(Number(input.value))}°`;viewer.render();}
+for(const name of ['zero','reach','folded'])document.querySelector(`#${name}`).onclick=()=>{values=poseValues(name);update();};
+input.oninput=()=>{values={...values,joint_a2:Number(input.value)*Math.PI/180};update();};
+document.querySelector('#balancer').onchange=e=>{model.balancer.visible=e.target.checked;viewer.render();};
 </script></html>
