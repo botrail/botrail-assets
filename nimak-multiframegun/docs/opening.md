@@ -16,7 +16,7 @@ references, not calibrated welding TCPs. Mounting hardware is unchanged from r3.
 | Drive assembly | PRODUCT `98.116.006` / PRODUCT_DEFINITION `KUKA KRC4 20kN 160mm` | Source metadata, not a jaw opening limit |
 | Internal spindle | PRODUCT `98.115.030` / PRODUCT_DEFINITION `20kN Hub162mm` | Source metadata; not 162 mm of electrode opening |
 | Series drive | [NIMAK multiframeGUN](https://www.nimak.com/en/spotweldinggun/multiframegun/): 20 kN, 0–162 mm | Supports identification; does not specify this gun's stops |
-| Transformer | PRODUCT `H3.53N.022-1`, `Transformator NMFT 130 kVA` | Fixed primitive envelope at measured Z327..520 mm |
+| Transformer | PRODUCT `H3.53N.022-1`, `Transformator NMFT 130 kVA` | Authored core within measured Z327..520 mm; support/terminals approximate |
 
 STEP source: `95.020.516.stp`, SHA256
 `1ed279a1b42623fa618aedf65ea5bf3ef77123daf4f3ea724b82b716f8b9e73d`.
@@ -67,6 +67,9 @@ The fork and electrode motion are represented directly. Internal cylinder,
 piston, gearbox and motor geometry are omitted: their orientation and extension
 have a nonlinear relation to the jaw, so r3's illustrative static cylinder is
 removed. This model cannot check clearance against these omitted parts or
-flexible conductors/hoses. The simplified lever, transformer and arm shapes are
-independently authored primitives. Collision follows the moving arm and keeps
+flexible conductors/hoses. The lever, transformer and arm shapes are independently authored visual
+approximations, including pierced profiles and recessed tapered extrusions.
+See [visual sources and limitations](source-reference.md). An optional separate
+inspection render can show an unmeasured actuator envelope aligned between B
+and C(q); it is not part of the moving URDF. Collision follows the moving arm and keeps
 the electrode throat open; it is not a full CAD interference test.

@@ -6,7 +6,7 @@
         <mesh filename="../meshes/foot.stl" />
       </geometry>
       <material name="foot_material">
-        <color rgba="0.16 0.19 0.19 1" />
+        <color rgba="0.79 0.82 0.8 1" />
       </material>
     </visual>
     <collision>
@@ -24,25 +24,83 @@
       </material>
     </visual>
     <collision>
-      <origin xyz="0 0 0.15" rpy="0 0 0" />
+      <origin xyz="0 0 0.152" rpy="0 0 0" />
       <geometry>
-        <cylinder radius="0.245" length="0.24000000000000002" />
+        <cylinder radius="0.295" length="0.244" />
       </geometry>
     </collision>
+    <visual name="base_cast_rib_0">
+      <geometry>
+        <mesh filename="../meshes/base_cast_rib_0.stl" />
+      </geometry>
+      <material name="base_cast_rib_0_material">
+        <color rgba="0.79 0.82 0.8 1" />
+      </material>
+    </visual>
+    <visual name="base_cast_rib_1">
+      <geometry>
+        <mesh filename="../meshes/base_cast_rib_1.stl" />
+      </geometry>
+      <material name="base_cast_rib_1_material">
+        <color rgba="0.79 0.82 0.8 1" />
+      </material>
+    </visual>
+    <visual name="base_cast_rib_2">
+      <geometry>
+        <mesh filename="../meshes/base_cast_rib_2.stl" />
+      </geometry>
+      <material name="base_cast_rib_2_material">
+        <color rgba="0.79 0.82 0.8 1" />
+      </material>
+    </visual>
+    <visual name="base_cast_rib_3">
+      <geometry>
+        <mesh filename="../meshes/base_cast_rib_3.stl" />
+      </geometry>
+      <material name="base_cast_rib_3_material">
+        <color rgba="0.79 0.82 0.8 1" />
+      </material>
+    </visual>
     <visual name="connector_box">
       <geometry>
         <mesh filename="../meshes/connector_box.stl" />
       </geometry>
       <material name="connector_box_material">
-        <color rgba="0.16 0.19 0.19 1" />
+        <color rgba="0.79 0.82 0.8 1" />
       </material>
     </visual>
-    <collision>
-      <origin xyz="0 -0.4 0.13" rpy="0 0 0" />
+    <visual name="connector_panel">
       <geometry>
-        <box size="0.38 0.15 0.19" />
+        <mesh filename="../meshes/connector_panel.stl" />
       </geometry>
-    </collision>
+      <material name="connector_panel_material">
+        <color rgba="0.028 0.035 0.039 1" />
+      </material>
+    </visual>
+    <visual name="power_connector_m0_074">
+      <geometry>
+        <mesh filename="../meshes/power_connector_m0_074.stl" />
+      </geometry>
+      <material name="power_connector_m0_074_material">
+        <color rgba="0.028 0.035 0.039 1" />
+      </material>
+    </visual>
+    <visual name="power_connector_0">
+      <geometry>
+        <mesh filename="../meshes/power_connector_0.stl" />
+      </geometry>
+      <material name="power_connector_0_material">
+        <color rgba="0.028 0.035 0.039 1" />
+      </material>
+    </visual>
+    <visual name="power_connector_0_074">
+      <geometry>
+        <mesh filename="../meshes/power_connector_0_074.stl" />
+      </geometry>
+      <material name="power_connector_0_074_material">
+        <color rgba="0.028 0.035 0.039 1" />
+      </material>
+    </visual>
   </link>
   <link name="link1">
     <visual name="turntable">
@@ -54,9 +112,9 @@
       </material>
     </visual>
     <collision>
-      <origin xyz="0 0 -0.335" rpy="0 0 0" />
+      <origin xyz="0 0 -0.36" rpy="0 0 0" />
       <geometry>
-        <cylinder radius="0.3" length="0.13" />
+        <cylinder radius="0.3" length="0.07" />
       </geometry>
     </collision>
     <visual name="shoulder_web">
@@ -68,9 +126,9 @@
       </material>
     </visual>
     <collision>
-      <origin xyz="0 0.16 -0.17" rpy="0 0 0" />
+      <origin xyz="0 0.1 -0.14" rpy="0 0 0" />
       <geometry>
-        <box size="0.33 0.38 0.27" />
+        <box size="0.55 0.55 0.4" />
       </geometry>
     </collision>
     <visual name="shoulder_housing">
@@ -81,26 +139,54 @@
         <color rgba="0.79 0.82 0.8 1" />
       </material>
     </visual>
-    <collision>
-      <origin xyz="-0.15 0.21 0" rpy="-0 1.57079632679 0" />
+    <visual name="shoulder_motor_body">
       <geometry>
-        <cylinder radius="0.193" length="0.16" />
+        <mesh filename="../meshes/shoulder_motor_body.stl" />
       </geometry>
-    </collision>
-    <visual name="shoulder_motor">
-      <geometry>
-        <mesh filename="../meshes/shoulder_motor.stl" />
-      </geometry>
-      <material name="shoulder_motor_material">
-        <color rgba="0.16 0.19 0.19 1" />
+      <material name="shoulder_motor_body_material">
+        <color rgba="0.028 0.035 0.039 1" />
       </material>
     </visual>
-    <collision>
-      <origin xyz="-0.275 0.21 0" rpy="-0 1.57079632679 0" />
+    <visual name="shoulder_motor_endcap">
       <geometry>
-        <cylinder radius="0.145" length="0.09" />
+        <mesh filename="../meshes/shoulder_motor_endcap.stl" />
       </geometry>
-    </collision>
+      <material name="shoulder_motor_endcap_material">
+        <color rgba="0.028 0.035 0.039 1" />
+      </material>
+    </visual>
+    <visual name="shoulder_motor_connector">
+      <geometry>
+        <mesh filename="../meshes/shoulder_motor_connector.stl" />
+      </geometry>
+      <material name="shoulder_motor_connector_material">
+        <color rgba="0.028 0.035 0.039 1" />
+      </material>
+    </visual>
+    <visual name="base_axis_motor_body">
+      <geometry>
+        <mesh filename="../meshes/base_axis_motor_body.stl" />
+      </geometry>
+      <material name="base_axis_motor_body_material">
+        <color rgba="0.028 0.035 0.039 1" />
+      </material>
+    </visual>
+    <visual name="base_axis_motor_endcap">
+      <geometry>
+        <mesh filename="../meshes/base_axis_motor_endcap.stl" />
+      </geometry>
+      <material name="base_axis_motor_endcap_material">
+        <color rgba="0.028 0.035 0.039 1" />
+      </material>
+    </visual>
+    <visual name="base_axis_motor_connector">
+      <geometry>
+        <mesh filename="../meshes/base_axis_motor_connector.stl" />
+      </geometry>
+      <material name="base_axis_motor_connector_material">
+        <color rgba="0.028 0.035 0.039 1" />
+      </material>
+    </visual>
     <visual name="parallel_lower_bracket">
       <geometry>
         <mesh filename="../meshes/parallel_lower_bracket.stl" />
@@ -109,28 +195,8 @@
         <color rgba="0.79 0.82 0.8 1" />
       </material>
     </visual>
-    <collision>
-      <origin xyz="0.287 0.0130385 0.0347295" rpy="0.777744101587 1.32460028491 -0.777744101587" />
-      <geometry>
-        <cylinder radius="0.045" length="0.3999998532624731" />
-      </geometry>
-    </collision>
   </link>
   <link name="link2">
-    <visual name="upper_arm_root">
-      <geometry>
-        <mesh filename="../meshes/upper_arm_root.stl" />
-      </geometry>
-      <material name="upper_arm_root_material">
-        <color rgba="0.79 0.82 0.8 1" />
-      </material>
-    </visual>
-    <collision>
-      <origin xyz="0.0625 0 0" rpy="-0 1.57079632679 0" />
-      <geometry>
-        <cylinder radius="0.1625" length="0.255" />
-      </geometry>
-    </collision>
     <visual name="upper_arm">
       <geometry>
         <mesh filename="../meshes/upper_arm.stl" />
@@ -140,17 +206,53 @@
       </material>
     </visual>
     <collision>
-      <origin xyz="0.08 0 0.565" rpy="0 0 0" />
+      <origin xyz="0.045 0 0.17" rpy="0 0 0" />
       <geometry>
-        <box size="0.24 0.255 0.95" />
+        <box size="0.3 0.36 0.34" />
       </geometry>
     </collision>
-    <visual name="upper_arm_cover">
+    <collision>
+      <origin xyz="0.045 -0.05 0.49" rpy="0 0 0" />
       <geometry>
-        <mesh filename="../meshes/upper_arm_cover.stl" />
+        <box size="0.22 0.25 0.38" />
       </geometry>
-      <material name="upper_arm_cover_material">
-        <color rgba="0.13 0.42 0.22 1" />
+    </collision>
+    <collision>
+      <origin xyz="0.045 -0.04 0.84" rpy="0 0 0" />
+      <geometry>
+        <box size="0.2 0.22 0.39" />
+      </geometry>
+    </collision>
+    <visual name="upper_arm_root">
+      <geometry>
+        <mesh filename="../meshes/upper_arm_root.stl" />
+      </geometry>
+      <material name="upper_arm_root_material">
+        <color rgba="0.79 0.82 0.8 1" />
+      </material>
+    </visual>
+    <visual name="arm_axis_motor_body">
+      <geometry>
+        <mesh filename="../meshes/arm_axis_motor_body.stl" />
+      </geometry>
+      <material name="arm_axis_motor_body_material">
+        <color rgba="0.028 0.035 0.039 1" />
+      </material>
+    </visual>
+    <visual name="arm_axis_motor_endcap">
+      <geometry>
+        <mesh filename="../meshes/arm_axis_motor_endcap.stl" />
+      </geometry>
+      <material name="arm_axis_motor_endcap_material">
+        <color rgba="0.028 0.035 0.039 1" />
+      </material>
+    </visual>
+    <visual name="arm_axis_motor_connector">
+      <geometry>
+        <mesh filename="../meshes/arm_axis_motor_connector.stl" />
+      </geometry>
+      <material name="arm_axis_motor_connector_material">
+        <color rgba="0.028 0.035 0.039 1" />
       </material>
     </visual>
     <visual name="upper_arm_elbow">
@@ -161,12 +263,6 @@
         <color rgba="0.79 0.82 0.8 1" />
       </material>
     </visual>
-    <collision>
-      <origin xyz="0.08 0 1.1" rpy="-0 1.57079632679 0" />
-      <geometry>
-        <cylinder radius="0.092" length="0.28" />
-      </geometry>
-    </collision>
   </link>
   <link name="parallel_arm1">
     <visual name="parallel_rod">
@@ -178,9 +274,9 @@
       </material>
     </visual>
     <collision>
-      <origin xyz="0 0 0.55" rpy="0 0 0" />
+      <origin xyz="0 -0.031077 0.550541" rpy="0 0 0" />
       <geometry>
-        <cylinder radius="0.042" length="1.1" />
+        <box size="0.09 0.17 1.23" />
       </geometry>
     </collision>
   </link>
@@ -194,9 +290,9 @@
       </material>
     </visual>
     <collision>
-      <origin xyz="0.25 0.0925 0.145" rpy="0 0 0" />
+      <origin xyz="0.287 0.06 0.18" rpy="0 0 0" />
       <geometry>
-        <box size="0.16 0.27 0.3" />
+        <box size="0.09 0.4 0.43" />
       </geometry>
     </collision>
     <visual name="carrier_bearing">
@@ -204,29 +300,9 @@
         <mesh filename="../meshes/carrier_bearing.stl" />
       </geometry>
       <material name="carrier_bearing_material">
-        <color rgba="0.16 0.19 0.19 1" />
-      </material>
-    </visual>
-    <collision>
-      <origin xyz="0.295 0.185 0.27" rpy="-0 1.57079632679 0" />
-      <geometry>
-        <cylinder radius="0.12" length="0.15" />
-      </geometry>
-    </collision>
-    <visual name="parallel_carrier_rear">
-      <geometry>
-        <mesh filename="../meshes/parallel_carrier_rear.stl" />
-      </geometry>
-      <material name="parallel_carrier_rear_material">
         <color rgba="0.79 0.82 0.8 1" />
       </material>
     </visual>
-    <collision>
-      <origin xyz="0.287 -0.195 0.069459" rpy="0 0 0" />
-      <geometry>
-        <box size="0.09 0.43 0.075" />
-      </geometry>
-    </collision>
   </link>
   <link name="link3">
     <visual name="elbow_housing">
@@ -237,10 +313,42 @@
         <color rgba="0.79 0.82 0.8 1" />
       </material>
     </visual>
-    <collision>
-      <origin xyz="0 0 0" rpy="-0 1.57079632679 0" />
+    <visual name="elbow_axis_endcap">
       <geometry>
-        <cylinder radius="0.178" length="0.36" />
+        <mesh filename="../meshes/elbow_axis_endcap.stl" />
+      </geometry>
+      <material name="elbow_axis_endcap_material">
+        <color rgba="0.028 0.035 0.039 1" />
+      </material>
+    </visual>
+    <visual name="elbow_motor_body">
+      <geometry>
+        <mesh filename="../meshes/elbow_motor_body.stl" />
+      </geometry>
+      <material name="elbow_motor_body_material">
+        <color rgba="0.028 0.035 0.039 1" />
+      </material>
+    </visual>
+    <visual name="elbow_motor_endcap">
+      <geometry>
+        <mesh filename="../meshes/elbow_motor_endcap.stl" />
+      </geometry>
+      <material name="elbow_motor_endcap_material">
+        <color rgba="0.028 0.035 0.039 1" />
+      </material>
+    </visual>
+    <visual name="elbow_motor_connector">
+      <geometry>
+        <mesh filename="../meshes/elbow_motor_connector.stl" />
+      </geometry>
+      <material name="elbow_motor_connector_material">
+        <color rgba="0.028 0.035 0.039 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 1.57079632679 0" />
+      <geometry>
+        <cylinder radius="0.192" length="0.42" />
       </geometry>
     </collision>
     <visual name="wrist_swivel_base">
@@ -248,39 +356,17 @@
         <mesh filename="../meshes/wrist_swivel_base.stl" />
       </geometry>
       <material name="wrist_swivel_base_material">
-        <color rgba="0.79 0.82 0.8 1" />
+        <color rgba="0.028 0.035 0.039 1" />
       </material>
     </visual>
     <collision>
-      <origin xyz="0 0.176 0" rpy="-1.57079632679 1.57079632679 0" />
+      <origin xyz="0 0.201 0" rpy="1.57079632679 0 0" />
       <geometry>
-        <cylinder radius="0.1735" length="0.302" />
+        <cylinder radius="0.17" length="0.292" />
       </geometry>
     </collision>
   </link>
   <link name="link4">
-    <visual name="forearm">
-      <geometry>
-        <mesh filename="../meshes/forearm.stl" />
-      </geometry>
-      <material name="forearm_material">
-        <color rgba="0.79 0.82 0.8 1" />
-      </material>
-    </visual>
-    <collision>
-      <origin xyz="0 0.464 0" rpy="-1.57079632679 1.57079632679 0" />
-      <geometry>
-        <cylinder radius="0.125" length="0.9279999999999999" />
-      </geometry>
-    </collision>
-    <visual name="forearm_cover">
-      <geometry>
-        <mesh filename="../meshes/forearm_cover.stl" />
-      </geometry>
-      <material name="forearm_cover_material">
-        <color rgba="0.13 0.42 0.22 1" />
-      </material>
-    </visual>
     <visual name="wrist_fork_left">
       <geometry>
         <mesh filename="../meshes/wrist_fork_left.stl" />
@@ -290,9 +376,21 @@
       </material>
     </visual>
     <collision>
-      <origin xyz="-0.13 1.023 0" rpy="0 0 0" />
+      <origin xyz="-0.14 0.558 0.188" rpy="0 0 0" />
       <geometry>
-        <box size="0.085 0.22 0.23" />
+        <box size="0.06 1.03 0.095" />
+      </geometry>
+    </collision>
+    <collision>
+      <origin xyz="-0.14 0.558 -0.163" rpy="0 0 0" />
+      <geometry>
+        <box size="0.06 1.03 0.072" />
+      </geometry>
+    </collision>
+    <collision>
+      <origin xyz="-0.14 0.048 0" rpy="0 0 0" />
+      <geometry>
+        <box size="0.06 0.1 0.35" />
       </geometry>
     </collision>
     <visual name="wrist_fork_right">
@@ -304,11 +402,99 @@
       </material>
     </visual>
     <collision>
-      <origin xyz="0.13 1.023 0" rpy="0 0 0" />
+      <origin xyz="0.14 0.558 0.188" rpy="0 0 0" />
       <geometry>
-        <box size="0.085 0.22 0.23" />
+        <box size="0.06 1.03 0.095" />
       </geometry>
     </collision>
+    <collision>
+      <origin xyz="0.14 0.558 -0.163" rpy="0 0 0" />
+      <geometry>
+        <box size="0.06 1.03 0.072" />
+      </geometry>
+    </collision>
+    <collision>
+      <origin xyz="0.14 0.048 0" rpy="0 0 0" />
+      <geometry>
+        <box size="0.06 0.1 0.35" />
+      </geometry>
+    </collision>
+    <visual name="forearm">
+      <geometry>
+        <mesh filename="../meshes/forearm.stl" />
+      </geometry>
+      <material name="forearm_material">
+        <color rgba="0.79 0.82 0.8 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 0.048 0" rpy="0 0 0" />
+      <geometry>
+        <box size="0.34 0.08 0.38" />
+      </geometry>
+    </collision>
+    <visual name="wrist_drive_motor_body">
+      <geometry>
+        <mesh filename="../meshes/wrist_drive_motor_body.stl" />
+      </geometry>
+      <material name="wrist_drive_motor_body_material">
+        <color rgba="0.028 0.035 0.039 1" />
+      </material>
+    </visual>
+    <visual name="wrist_drive_motor_endcap">
+      <geometry>
+        <mesh filename="../meshes/wrist_drive_motor_endcap.stl" />
+      </geometry>
+      <material name="wrist_drive_motor_endcap_material">
+        <color rgba="0.028 0.035 0.039 1" />
+      </material>
+    </visual>
+    <visual name="wrist_drive_motor_connector">
+      <geometry>
+        <mesh filename="../meshes/wrist_drive_motor_connector.stl" />
+      </geometry>
+      <material name="wrist_drive_motor_connector_material">
+        <color rgba="0.028 0.035 0.039 1" />
+      </material>
+    </visual>
+    <visual name="wrist_motor_mount">
+      <geometry>
+        <mesh filename="../meshes/wrist_motor_mount.stl" />
+      </geometry>
+      <material name="wrist_motor_mount_material">
+        <color rgba="0.028 0.035 0.039 1" />
+      </material>
+    </visual>
+    <visual name="wrist_drive_shaft">
+      <geometry>
+        <mesh filename="../meshes/wrist_drive_shaft.stl" />
+      </geometry>
+      <material name="wrist_drive_shaft_material">
+        <color rgba="0.43 0.46 0.47 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 0.648 0" rpy="1.57079632679 0 0" />
+      <geometry>
+        <cylinder radius="0.037" length="0.66" />
+      </geometry>
+    </collision>
+    <visual name="forearm_cover">
+      <geometry>
+        <mesh filename="../meshes/forearm_cover.stl" />
+      </geometry>
+      <material name="forearm_cover_material">
+        <color rgba="0.028 0.035 0.039 1" />
+      </material>
+    </visual>
+    <visual name="forearm_cover_far">
+      <geometry>
+        <mesh filename="../meshes/forearm_cover_far.stl" />
+      </geometry>
+      <material name="forearm_cover_far_material">
+        <color rgba="0.028 0.035 0.039 1" />
+      </material>
+    </visual>
   </link>
   <link name="link5">
     <visual name="wrist_bend">
@@ -316,13 +502,13 @@
         <mesh filename="../meshes/wrist_bend.stl" />
       </geometry>
       <material name="wrist_bend_material">
-        <color rgba="0.44 0.48 0.49 1" />
+        <color rgba="0.79 0.82 0.8 1" />
       </material>
     </visual>
     <collision>
-      <origin xyz="0 0 0" rpy="-0 1.57079632679 0" />
+      <origin xyz="0 0 0" rpy="0 1.57079632679 0" />
       <geometry>
-        <cylinder radius="0.12" length="0.176" />
+        <cylinder radius="0.116" length="0.212" />
       </geometry>
     </collision>
     <visual name="wrist_body">
@@ -334,9 +520,9 @@
       </material>
     </visual>
     <collision>
-      <origin xyz="0 0.11 0" rpy="-1.57079632679 1.57079632679 0" />
+      <origin xyz="0 0.1 0" rpy="1.57079632679 0 0" />
       <geometry>
-        <cylinder radius="0.098" length="0.20999999999999996" />
+        <cylinder radius="0.126" length="0.2" />
       </geometry>
     </collision>
   </link>
@@ -346,13 +532,13 @@
         <mesh filename="../meshes/wrist_output_housing.stl" />
       </geometry>
       <material name="wrist_output_housing_material">
-        <color rgba="0.44 0.48 0.49 1" />
+        <color rgba="0.79 0.82 0.8 1" />
       </material>
     </visual>
     <collision>
-      <origin xyz="0 -0.0855 0" rpy="-1.57079632679 1.57079632679 0" />
+      <origin xyz="0 -0.093 0" rpy="1.57079632679 0 0" />
       <geometry>
-        <cylinder radius="0.09" length="0.09499999999999975" />
+        <cylinder radius="0.11" length="0.11" />
       </geometry>
     </collision>
     <visual name="gun_bracket_160">
@@ -366,7 +552,7 @@
     <collision>
       <origin xyz="0 -0.028 0" rpy="1.57079632679 0 0" />
       <geometry>
-        <cylinder radius="0.105" length="0.056" />
+        <cylinder radius="0.1" length="0.056" />
       </geometry>
     </collision>
   </link>
