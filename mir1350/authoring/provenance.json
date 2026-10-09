@@ -1,0 +1,14 @@
+{
+  "reference": "Mobile Industrial Robots MiR1350, current black base AMR shown by the manufacturer",
+  "inspected": "2026-10-09",
+  "sources": [
+    {"url":"https://mobile-industrial-robots.com/products/robots/mir1350/specifications", "use":"1350 x 910 x 322 mm; 1304 x 864 mm load surface; 25–27 mm clearance; RAL9005; 244 kg; 1350 kg; 1.2 m/s; two microScan3; two 3D cameras; four status strips and eight corner signal lights"},
+    {"url":"https://a.storyblok.com/f/230581/2000x1248/c78fdbb2b7/mir1350-transparent.png", "linked_from":"https://mobile-industrial-robots.com/products/robots/mir1350/specifications", "use":"Inspected actual pixels outside the repository: black curved lower corner pods, recessed horizontal reveal, smoked diagonal scan windows, central front camera bay, grey top with eight pads and two access lids; cosmetic dimensions independently estimated"},
+    {"url":"https://a.storyblok.com/f/230581/x/a4074a1920/mir1350base-hero.mp4", "linked_from":"https://mobile-industrial-robots.com/products/robots/mir1350", "use":"Inspected animation frames outside the repository; corroborates blue status strips and black/grey finish"}
+  ],
+  "excluded_sources":"No restricted manual, vendor CAD, third-party mesh, copied drawing, logo, image texture or manufacturer artwork is included or used as authoring geometry. Product images and animation are observations only, not redistributed.",
+  "compatibility":"Full inherited URDF is byte-identical to main 5a715e3. The 192 mm deck frame and collision split, six wheel joint locations/axes/limits and unverified wheel radii are retained, not newly certified.",
+  "approximation":"Corner radii, skins, optical housings, emergency stops, top pads/lids, screw-head marks, materials and wheel finishes are visual estimates. Current public page does not confirm mounting holes, deck interface, wheel positions or wheel diameters. No functional mounting holes are generated. Rear service panel is intentionally generic because the selected product views do not expose it.",
+  "version_scope":"Public page does not specify a hardware revision; model is tied to the product appearance at the inspection date, not certified to a particular hardware revision.",
+  "distribution":"Independent source and generated geometry CC0-1.0; a new catalog rev is required before publication. Existing r1 source pins are not modified."
+}

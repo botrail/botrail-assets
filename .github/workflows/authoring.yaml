@@ -9,6 +9,7 @@ on:
       - 'daihen-wb-p352l/**'
       - 'fanuc-m410ic-185/**'
       - 'mir250/**'
+      - 'mir1350/**'
       - 'onrobot-rg6/**'
       - 'onrobot-dual-quick-changer-109878/**'
       - 'onrobot-screwdriver-103961/**'
@@ -34,6 +35,7 @@ on:
       - 'daihen-wb-p352l/**'
       - 'fanuc-m410ic-185/**'
       - 'mir250/**'
+      - 'mir1350/**'
       - 'onrobot-rg6/**'
       - 'onrobot-dual-quick-changer-109878/**'
       - 'onrobot-screwdriver-103961/**'
@@ -68,7 +70,7 @@ jobs:
         shell: bash
         run: |
           npm --prefix authoring ci --ignore-scripts --no-audit --no-fund
-          for asset in mid-360 vacuum-gripper-ecbpi weld-gun-x16005 universal-robots-ur-series onrobot-rg6 ewellix-liftkit-ur620 workshop-shapes kuka-kr210-l150 mir250 fanuc-m410ic-185; do
+          for asset in mid-360 vacuum-gripper-ecbpi weld-gun-x16005 universal-robots-ur-series onrobot-rg6 ewellix-liftkit-ur620 workshop-shapes kuka-kr210-l150 mir250 mir1350 fanuc-m410ic-185; do
             (cd "$asset/authoring" && npm ci --ignore-scripts --no-audit --no-fund)
           done
       - name: Shared helpers
@@ -109,6 +111,11 @@ jobs:
           node --test daihen-wb-p352l/authoring/model.test.mjs
           node daihen-wb-p352l/authoring/export.mjs --check
           python3 daihen-wb-p352l/authoring/verify_obj.py
+
+      - name: MiR1350 geometry and compatibility
+        run: |
+          npm --prefix mir1350/authoring test
+          npm --prefix mir1350/authoring run check
 
       - name: FANUC M-410iC/185 geometry, linkage and compatibility
         run: |
