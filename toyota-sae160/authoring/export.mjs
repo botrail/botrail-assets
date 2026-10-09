@@ -1,5 +1,6 @@
 import {fileURLToPath} from 'node:url';
-import {meshFiles,urdf,writeFiles} from '@botrail/authoring/reference-export.mjs';
+import {urdf,writeFiles} from '@botrail/authoring/reference-export.mjs';
+import {meshFiles} from './compact-obj.mjs';
 import {definition} from './model.mjs';
 const root=fileURLToPath(new URL('../',import.meta.url));
 // The TX Hi-Lo mast is the reference; the DX Tele mast of the same sheet

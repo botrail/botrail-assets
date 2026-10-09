@@ -93,7 +93,7 @@ gun = bt.Robot.from_catalog("weld-gun-x1")  # カタログ ID (下表の右列) 
 | [mir250](./mir250) | 差動2輪 + 旋回キャスタ4輪の独自参照形状 | MiR250 | `mobile_industrial_robots/mir/mir250/r2` |
 | [hitachi-racrew](./hitachi-racrew) | 棚搬送 AGV(小型低床式、棚の下に潜って持ち上げる)の参照モデル: 白い車体・別リンクのターンテーブル・前後バンパ・四隅の灯具 | 日立 Racrew | `hitachi_industrial_products/racrew/racrew/r1`(公開前) |
 | [mir1350](./mir1350) | 黒い車体・荷台パッド・対角スキャナ・別リンク上部カバーの参照 AMR | MiR1350 | `mobile_industrial_robots/mir/mir1350/r1` |
-| [toyota-sae160](./toyota-sae160) | 自動運転スタッカ(無人フォークリフト)の参照モデル: 操舵駆動輪 + キャスタ 2 + サポートアーム輪 2、3 段マスト(フリーリフト + 段の mimic)、フォーク、ナビスキャナ。DX Tele マストは `dx/` | Toyota Autopilot SAE160(BT Staxio、TX Hi-Lo / DX Tele) | `toyota_material_handling/autopilot/sae160/r1` / `sae160-dx/r1`(公開前) |
+| [toyota-sae160](./toyota-sae160) | 実機写真を参照した独自外観: 分割した電池室・駆動カバー、開口グリップ、横長 HMI、5 接点、C 断面マスト、荷重輪窓付きテーパフォーク。TX/DX の URDF・フリーリフト・mimic・collision を維持。DX は `dx/` | Toyota Autopilot SAE160(BT Staxio、TX Hi-Lo / DX Tele) | `toyota_material_handling/autopilot/sae160/r1` / `sae160-dx/r1`(公開前) |
 | [aubo-amr300](./aubo-amr300) | 差動 2 輪 AMR の参照モデル(駆動輪 2 + キャスタ 4・スキャナ 2・上面のアーム取付フレーム) | AUBO-AMR300(海纳系列) | `aubo/amr/amr300/r1` |
 | [mir-eu-pallet-lift-1350](./mir-eu-pallet-lift-1350) | EUR パレット用 1 軸リフト(揚程 60 mm) | MiR EU Pallet Lift 1350 | `mobile_industrial_robots/mir/eu-pallet-lift-1350/r1` |
 | [unitree-g1-fixed-plates](./unitree-g1-fixed-plates) | 頭部カメラ・LiDAR固定プレートの写真参照形状（寸法・取付適合未確認） | Unitree G1 Camera / Radar fixed plate、販売店番号1297 / 1296 | `unitree/g1/camera-fixed-plate/r1` / `radar-fixed-plate/r1` |
