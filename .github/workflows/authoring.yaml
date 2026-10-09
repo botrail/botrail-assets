@@ -6,6 +6,7 @@ on:
       - 'authoring/**'
       - 'universal-robots-ur-series/**'
       - 'kuka-kr210-l150/**'
+      - 'daihen-wb-p352l/**'
       - 'mir250/**'
       - 'onrobot-rg6/**'
       - 'onrobot-dual-quick-changer-109878/**'
@@ -29,6 +30,7 @@ on:
       - 'authoring/**'
       - 'universal-robots-ur-series/**'
       - 'kuka-kr210-l150/**'
+      - 'daihen-wb-p352l/**'
       - 'mir250/**'
       - 'onrobot-rg6/**'
       - 'onrobot-dual-quick-changer-109878/**'
@@ -99,3 +101,9 @@ jobs:
             npm --prefix "$asset/authoring" test
             npm --prefix "$asset/authoring" run check
           done
+
+      - name: DAIHEN WB-P352L reference geometry and compatibility
+        run: |
+          node --test daihen-wb-p352l/authoring/model.test.mjs
+          node daihen-wb-p352l/authoring/export.mjs --check
+          python3 daihen-wb-p352l/authoring/verify_obj.py
