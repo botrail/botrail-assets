@@ -1,12 +1,13 @@
 /** CC0 authored shells for the FANUC M-410iC/185 (pedestal type base).
  * Numeric datasheet dimensions only; no imported CAD, meshes or drawings. */
 import * as THREE from 'three';
-import {addMesh, namedMaterial, roundedBox, cylinderZ, cylinderBetween, tubeGeometry}
+import {addMesh, namedMaterial, roundedBox, cylinderZ, cylinderBetween, tubeGeometry, ellipseHole, roundedRectangle}
   from '@botrail/authoring/geometry.mjs';
+import {casting,profile} from './casting.mjs';
 
 const deg = Math.PI / 180;
 
-// FANUC M-410iC/185 data sheet and catalogue RM-410iC(E)-05, operating-space
+// FANUC America M-410iC/185 public data sheet, operating-space
 // drawing (pedestal type base): J1-J2 offset 390, J2 height 1110, J2-J3 1220,
 // J3-wrist 1300, wrist-faceplate 255 forward and 159 down. Reach 3143 mm.
 export const DIM = Object.freeze({
@@ -30,7 +31,6 @@ const yellow = namedMaterial('fanuc_yellow', '#f2d000', 0.08, 0.42);
 const graphite = namedMaterial('base_graphite', '#3b3e41', 0.25, 0.72);
 const motor = namedMaterial('motor_black', '#1c1e20', 0.3, 0.55);
 const red = namedMaterial('motor_cover_red', '#d4271b', 0.08, 0.45);
-const recess = namedMaterial('casting_recess', '#2b2d2f', 0.1, 0.8);
 const steel = namedMaterial('faceplate_steel', '#9ea4a9', 0.8, 0.34);
 const sleeve = namedMaterial('cable_sleeve', '#7d705f', 0.0, 0.85);
 
@@ -88,49 +88,82 @@ function prism(g, name, points, t, material = yellow, y = 0) {
   return addMesh(g, name, geometry, material);
 }
 
+/** Front-face profile in Y/Z, extruded toward +X; all dimensions authored. */
+function frontProfile(g,name,shape,depth,x,material=yellow,bevel=.008){
+  const geo=new THREE.ExtrudeGeometry(shape,{depth:depth-2*bevel,bevelEnabled:bevel>0,
+    bevelThickness:bevel,bevelSize:bevel,bevelSegments:3,curveSegments:16});
+  const p=geo.attributes.position;
+  for(let i=0;i<p.count;i++){const u=p.getX(i),v=p.getY(i),d=p.getZ(i);p.setXYZ(i,x+bevel+d,u,v);}
+  geo.computeVertexNormals();return addMesh(g,name,geo,material);
+}
+function outline(points){const v=points.map(p=>new THREE.Vector2(...p));if(THREE.ShapeUtils.isClockWise(v))v.reverse();return new THREE.Shape(v);}
 function baseVisual() {
-  const g = G();
-  // Pedestal type base, 1094 x 945 footprint: plinth, casting, J1 bearing.
-  shell(g, 'plinth', [1.094, 0.945, 0.07], [-0.07, 0, 0.035], graphite, 0.02);
-  shell(g, 'pedestal_casting', [0.92, 0.74, 0.47], [-0.06, 0, 0.30], graphite, 0.06);
-  shell(g, 'pedestal_rear', [0.26, 0.56, 0.36], [-0.56, 0, 0.25], graphite, 0.04);
-  addMesh(g, 'j1_bearing', cylinderZ(0.37, 0.05, {radial: 64}), motor, [0, 0, 0.59]);
-  shell(g, 'j1_motor', [0.20, 0.24, 0.22], [-0.62, 0.16, 0.30], motor, 0.03);
-  disc(g, 'j1_motor_cover', [-0.73, 0.16, 0.30], 0.07, 0.03, 'x', red);
-  for (const x of [-0.56, 0.42]) for (const y of [-0.40, 0.40])
-    disc(g, `anchor_${x < 0 ? 'r' : 'f'}${y < 0 ? 'r' : 'l'}`, [x, y, 0.08], 0.035, 0.03, 'z', steel);
+  const g=G();
+  // Open pedestal frame and separate service cabinet, rather than a solid box.
+  // Retained 1094 x 945 overall footprint is an inherited visual estimate.
+  for(const side of [-1,1])shell(g,`pedestal_foot_${side}`,[1.094,.14,.055],[-.07,side*.4025,.0275],graphite,.014);
+  const portal=()=>{
+    const s=outline([[-.43,.055],[-.37,.15],[-.30,.505],[.30,.505],[.37,.15],[.43,.055]]);
+    ellipseHole(s,0,.16,.135,.065);ellipseHole(s,0,.365,.125,.074);return s;
+  };
+  frontProfile(g,'pedestal_front_portal',portal(),.085,.355,graphite,.012);
+  frontProfile(g,'pedestal_rear_portal',portal(),.085,-.585,graphite,.012);
+  shell(g,'pedestal_top_casting',[.94,.82,.075],[-.07,0,.5375],graphite,.027);
+  // The cabinet sits between structural portal legs. Service-side and opposite
+  // side differ; these panels and openings are photo-guided approximations.
+  shell(g,'pedestal_cabinet',[.73,.18,.425],[-.07,-.19,.27],graphite,.015);
+  shell(g,'service_door',[.69,.018,.38],[-.07,-.294,.27],motor,.008);
+  shell(g,'service_vent_panel',[.34,.025,.17],[-.20,-.308,.34],steel,.008);
+  for(let i=0;i<7;i++)shell(g,`service_louver_${i}`,[.28,.008,.006],[-.20,-.324,.28+i*.02],motor,.001);
+  shell(g,'service_connector_cover',[.17,.040,.10],[.15,-.31,.14],motor,.008);
+  addMesh(g,'j1_bearing_lower',cylinderZ(.335,.04,{radial:64}),motor,[0,0,.588]);
+  addMesh(g,'j1_bearing_rim',cylinderZ(.355,.012,{radial:64}),steel,[0,0,.609]);
   return g;
 }
 
 function turretVisual() {
-  const g = G(), zj2 = DIM.j2z - DIM.j1z;
-  shell(g, 'turret', [0.80, 0.62, 0.36], [0.00, 0, 0.18], yellow, 0.05);
-  shell(g, 'turret_rear', [0.34, 0.50, 0.30], [-0.36, 0, 0.20], yellow, 0.05);
-  for (const s of [-1, 1]) {
-    const side = s > 0 ? 'l' : 'r';
-    shell(g, `j2_cheek_${side}`, [0.50, 0.10, 0.36], [0.30, s * 0.235, 0.30], yellow, 0.03);
-    disc(g, `j2_reducer_${side}`, [DIM.j2x, s * 0.235, zj2], 0.24, 0.10, 'y');
-    // J2 motor on the left, J3 motor on the right: black cans, red covers.
-    disc(g, `motor_${side}`, [0.22, s * 0.40, 0.30], 0.12, 0.20, 'y', motor);
-    disc(g, `motor_cover_${side}`, [0.22, s * 0.525, 0.30], 0.10, 0.05, 'y', red);
+  const g=G(),zj2=DIM.j2z-DIM.j1z;
+  addMesh(g,'turret_turntable',cylinderZ(.36,.05,{radial:64}),yellow,[0,0,.025]);
+  casting(g,'turret_casting',[[.04,-.04,0,.35,.29,3],[.08,-.03,0,.38,.29,3],
+    [.20,.00,0,.37,.26,3],[.33,.11,0,.27,.23,3]],yellow);
+  for(const side of [-1,1]){
+    const name=side>0?'l':'r';
+    const cheek=outline([[-.14,.08],[.53,.08],[.62,.23],[.61,.49],[.50,.68],[.27,.68],[.10,.43],[-.14,.22]]);
+    profile(g,`j2_cast_cheek_${name}`,cheek,.085,side*.245,yellow,.012);
+    disc(g,`j2_reducer_${name}`,[DIM.j2x,side*.294,zj2],.235,.06,'y');
+    disc(g,`j2_rim_${name}`,[DIM.j2x,side*.328,zj2],.217,.014,'y');
+    disc(g,`j2_drive_face_${name}`,[DIM.j2x,side*.34,zj2],.172,.013,'y',yellow);
+    shell(g,`motor_${name}`,[.215,.18,.205],[DIM.j2x,side*.435,zj2],motor,.016);
+    disc(g,`motor_cover_${name}`,[DIM.j2x,side*.539,zj2],.096,.027,'y',red);
+    // Visual fasteners only: circle is estimated and is not a mounting interface.
+    for(let i=0;i<16;i++){const t=i*Math.PI/8;
+      disc(g,`reducer_fastener_${name}_${i}`,[DIM.j2x+.192*Math.cos(t),side*.343,zj2+.192*Math.sin(t)],.010,.01,'y',motor);
+    }
   }
-  disc(g, 'j3_reducer_cap', [DIM.j2x, -0.30, zj2], 0.11, 0.04, 'y', motor);
+  shell(g,'rear_service_casting',[.18,.40,.25],[-.24,0,.17],yellow,.024);
   return g;
 }
 
+export const POCKETS=Object.freeze({z:[.39,.65,.91],radiusY:.045,radiusZ:.079,wallThickness:.075});
 function lowerArmVisual() {
-  const g = G();
-  disc(g, 'j2_hub', [0, 0, 0], 0.20, 0.36, 'y');
-  beam(g, 'lower_arm', [0, 0, 0.08], [0, 0, 1.14], [0.34, 0.30], [0.30, 0.24]);
-  disc(g, 'elbow_boss', [0, 0, DIM.lower], 0.15, 0.34, 'y');
-  // The cast lightening pockets on both faces: stadium outlines, 110 x 170.
-  for (const s of [-1, 1]) for (const [k, z] of [0.42, 0.68, 0.94].entries()) {
-    const w = 0.34 - 0.04 * (z - 0.08) / 1.06;
-    const pocket = new THREE.Shape();
-    pocket.absarc(0, z + 0.03, 0.055, 0, Math.PI, false);
-    pocket.absarc(0, z - 0.03, 0.055, Math.PI, 2 * Math.PI, false);
-    prism(g, `pocket_${s > 0 ? 'l' : 'r'}${k}`, pocket, 0.006, recess, s * (w / 2 + 0.002));
-  }
+  const g=G();
+  disc(g,'j2_hub',[0,0,0],.208,.37,'y');
+  // Rounded, bent casting with a front perforated wall and a separate recessed
+  // backing mass. The three holes have real walls and floors, never black decals.
+  casting(g,'lower_arm_back',[[.10,-.025,0,.11,.171,3],[.20,-.02,0,.108,.165,3],
+    [.28,-.023,0,.103,.139,3],[.96,-.047,0,.099,.126,3],
+    [1.06,-.066,0,.128,.154,3],[1.15,-.046,0,.14,.154,3]],yellow);
+  const face=outline([[-.17,.13],[-.158,.23],[-.132,.31],[-.125,.94],[-.153,1.025],
+    [-.153,1.13],[.153,1.13],[.153,1.025],[.125,.94],[.132,.31],[.158,.23],[.17,.13]]);
+  for(const z of POCKETS.z)ellipseHole(face,0,z,POCKETS.radiusY,POCKETS.radiusZ);
+  const wall=frontProfile(g,'lower_arm_front_pocket_wall',face,POCKETS.wallThickness,.055,yellow,.009);
+  // Small profile lean is an authored surface contour, separate from joint axes.
+  const pos=wall.geometry.attributes.position;
+  for(let i=0;i<pos.count;i++)pos.setX(i,pos.getX(i)-.035*Math.max(0,Math.min(1,(pos.getZ(i)-.25)/.72)));
+  wall.geometry.computeVertexNormals();
+  // The backing casting terminates each pocket about 44–48 mm behind its rim.
+  disc(g,'elbow_boss',[0,0,DIM.lower],.157,.35,'y');
+  for(const side of [-1,1])disc(g,`elbow_bearing_seal_${side}`,[0,side*.185,DIM.lower],.117,.025,'y',motor);
   return g;
 }
 
@@ -144,24 +177,43 @@ function elbowPlateVisual() {
 }
 
 function upperArmVisual() {
-  const g = G(), [cx, , cz] = CRANK;
-  disc(g, 'elbow_hub', [0, 0, 0], 0.17, 0.46, 'y');
-  beam(g, 'upper_arm', [0.08, 0, 0], [DIM.upper - 0.06, 0, 0], [0.30, 0.27], [0.20, 0.17]);
-  beam(g, 'rear_lever', [0.02, 0, 0.02], [cx, 0, cz], [0.30, 0.24], [0.24, 0.18]);
-  disc(g, 'rear_pin', [cx, (ROD_Y - 0.10) / 2, cz], 0.06, Math.abs(ROD_Y) + 0.12, 'y', steel);
-  disc(g, 'wrist_boss', [DIM.upper, 0, 0], 0.10, 0.26, 'y');
+  const g=G(),[cx,,cz]=CRANK;
+  disc(g,'elbow_hub',[0,0,0],.17,.45,'y');
+  for(const side of [-1,1])disc(g,`elbow_outer_cap_${side}`,[0,side*.238,0],.124,.023,'y',motor);
+  // Cast upper arm: radiused shoulder transitions, modest sweep and a narrower
+  // distal section. Section dimensions are original visual estimates.
+  casting(g,'upper_arm_casting',[[.04,0,.026,.157,.154,3],[.12,0,.044,.155,.164,3],
+    [.27,0,.055,.144,.144,3],[.44,0,.012,.126,.111,3],[.83,0,-.008,.106,.090,3],
+    [1.11,0,-.018,.09,.078,3],[1.245,0,-.002,.101,.073,3]],yellow,'x');
+  const lever=outline([[.14,-.085],[-.11,-.11],[-.28,.065],[cx-.055,cz-.03],
+    [cx-.035,cz+.075],[-.22,.30],[.03,.185]]);
+  profile(g,'rear_lever_casting',lever,.29,0,yellow,.016);
+  disc(g,'rear_pin',[cx,(ROD_Y-.1)/2,cz],.06,Math.abs(ROD_Y)+.12,'y',steel);
+  disc(g,'rear_pin_cap',[cx,ROD_Y-.067,cz],.052,.02,'y',motor);
+  disc(g,'wrist_boss',[DIM.upper,0,0],.103,.265,'y');
+  for(const side of [-1,1])disc(g,`wrist_bearing_cap_${side}`,[DIM.upper,side*.148,0],.084,.025,'y',motor);
+  shell(g,'upper_service_cover',[.22,.018,.13],[-.04,-.153,.066],yellow,.008);
   return g;
 }
 
 function wristVisual() {
-  const g = G(), [ux, , uz] = LEVEL_UPPER, x4 = DIM.wristX;
-  prism(g, 'wrist_bracket', [[-0.08, -0.06], [ux - 0.04, uz + 0.05], [ux + 0.08, uz], [x4 + 0.12, -0.05], [x4 - 0.12, -0.07]],
-    0.20, yellow, 0);
-  disc(g, 'level_pin_front', [ux, 0, uz], 0.045, 0.26, 'y', steel);
-  addMesh(g, 'j4_housing', cylinderZ(0.15, 0.08, {radial: 64}), yellow, [x4, 0, -0.085]);
-  addMesh(g, 'j4_reducer', cylinderZ(0.13, 0.045, {radial: 64}), motor, [x4, 0, DIM.wristZ + 0.047]);
-  shell(g, 'j4_motor', [0.16, 0.16, 0.14], [x4 - 0.20, 0, 0.02], motor, 0.03);
-  disc(g, 'j4_motor_cover', [x4 - 0.20, 0, 0.105], 0.06, 0.03, 'z', red);
+  const g=G(),[ux,,uz]=LEVEL_UPPER,x4=DIM.wristX;
+  const shape=()=>{const s=outline([[-.065,-.048],[x4+.135,-.053],[ux+.065,uz-.012],
+    [ux+.047,uz+.052],[ux-.034,uz+.06],[x4-.045,.085],[-.045,.044]]);
+    const h=new THREE.Path();h.moveTo(x4+.017,.063);h.lineTo(ux-.027,uz-.025);h.lineTo(ux-.097,uz-.025);h.lineTo(x4-.005,.12);h.closePath();s.holes.push(h);return s;};
+  for(const side of [-1,1])profile(g,`wrist_fork_cheek_${side}`,shape(),.038,side*.115,yellow,.009);
+  disc(g,'level_pin_front',[ux,0,uz],.045,.305,'y',steel);
+  for(const side of [-1,1])disc(g,`level_pin_front_cap_${side}`,[ux,side*.162,uz],.039,.018,'y',yellow);
+  shell(g,'wrist_cast_bridge',[.27,.275,.085],[x4,0,-.037],yellow,.025);
+  addMesh(g,'j4_housing',cylinderZ(.153,.075,{radial:64}),yellow,[x4,0,-.081]);
+  addMesh(g,'j4_reducer',cylinderZ(.131,.055,{radial:64}),motor,[x4,0,DIM.wristZ+.040]);
+  shell(g,'j4_motor',[.144,.15,.205],[x4-.034,0,.120],motor,.013);
+  disc(g,'j4_motor_cover',[x4-.034,0,.232],.066,.026,'z',red);
+  // One-sided connector plate and short protected lead, estimated from the
+  // official wrist detail; no connector pinout or mounting dimensions claimed.
+  shell(g,'wrist_connector_panel',[.12,.022,.16],[x4+.068,.094,.137],yellow,.006);
+  for(const [i,z] of [.10,.162].entries())disc(g,`wrist_connector_${i}`,[x4+.068,.115,z],.018,.022,'y',motor);
+  addMesh(g,'wrist_motor_lead',cappedTube([[x4-.03,.045,.23],[x4+.05,.07,.235],[x4+.08,.13,.185]],.009),motor);
   return g;
 }
 
@@ -179,12 +231,24 @@ function crankVisual() {
   return g;
 }
 
+function cappedTube(points,radius){
+  const g=tubeGeometry(points,radius,{tubular:24,radial:16}),p=g.attributes.position;
+  const values=Array.from(p.array),indices=Array.from(g.index.array);
+  for(const [start,reverse] of [[0,false],[24*17,true]]){
+    const center=values.length/3,point=[0,0,0];
+    for(let k=0;k<16;k++)for(let c=0;c<3;c++)point[c]+=values[(start+k)*3+c]/16;
+    values.push(...point);
+    for(let k=0;k<16;k++){const a=start+k,b=start+(k+1)%16;
+      indices.push(...(reverse?[center,b,a]:[center,a,b]));}
+  }
+  g.setAttribute('position',new THREE.Float32BufferAttribute(values,3));g.setIndex(indices);g.deleteAttribute('normal');g.deleteAttribute('uv');g.computeVertexNormals();return g;
+}
 function rodVisual() {
   const g = G();
-  beam(g, 'j3_rod', [0, 0, 0], [0, 0, DIM.lower], [0.08, 0.13], [0.08, 0.11]);
+  profile(g,'j3_cast_rod',outline([[-.055,.02],[-.10,.25],[-.115,.55],[-.075,1.12],[-.045,1.22],[.046,1.22],[.024,.57],[.028,.24],[.055,.02]]),.08,0,yellow,.011);
   for (const [k, z] of [0, DIM.lower].entries()) disc(g, `j3_rod_eye${k}`, [0, 0, z], 0.075, 0.09, 'y');
-  addMesh(g, 'cable_sleeve', tubeGeometry([[-0.10, 0.02, 0.10], [-0.13, 0.03, 0.62], [-0.10, 0.02, 1.12]], 0.045,
-    {tubular: 24, radial: 16}), sleeve);
+  addMesh(g, 'cable_sleeve', cappedTube([[-0.10, 0.02, 0.10], [-0.13, 0.03, 0.62], [-0.10, 0.02, 1.12]], 0.045), sleeve);
+  for(const [i,p] of [[-.10,.02,.10],[-.10,.02,1.12]].entries())addMesh(g,`sleeve_end_${i}`,new THREE.SphereGeometry(.045,16,12),sleeve,p);
   return g;
 }
 

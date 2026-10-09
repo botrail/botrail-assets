@@ -1,0 +1,634 @@
+{
+  "name": "fanuc_m410ic_185_reference",
+  "joints": [
+    {
+      "name": "J1",
+      "type": "revolute",
+      "parent": "base_link",
+      "child": "J1_link",
+      "xyz": [
+        0,
+        0,
+        0.615
+      ],
+      "axis": [
+        0,
+        0,
+        1
+      ],
+      "limit": {
+        "lower": -3.141592653589793,
+        "upper": 3.141592653589793,
+        "velocity": 2.443460952792061
+      }
+    },
+    {
+      "name": "J2",
+      "type": "revolute",
+      "parent": "J1_link",
+      "child": "J2_link",
+      "xyz": [
+        0.39,
+        0,
+        0.4950000000000001
+      ],
+      "axis": [
+        0,
+        1,
+        0
+      ],
+      "limit": {
+        "lower": -0.767944870877505,
+        "upper": 1.7453292519943295,
+        "velocity": 2.443460952792061
+      }
+    },
+    {
+      "name": "J2_level",
+      "type": "continuous",
+      "parent": "J2_link",
+      "child": "elbow_link",
+      "xyz": [
+        0,
+        0,
+        1.22
+      ],
+      "axis": [
+        0,
+        1,
+        0
+      ],
+      "limit": {
+        "velocity": 10
+      },
+      "mimic": {
+        "joint": "J2",
+        "multiplier": -1,
+        "offset": 0
+      }
+    },
+    {
+      "name": "J3",
+      "type": "revolute",
+      "parent": "elbow_link",
+      "child": "J3_link",
+      "xyz": [
+        0,
+        0,
+        0
+      ],
+      "axis": [
+        0,
+        -1,
+        0
+      ],
+      "limit": {
+        "lower": -2.199114857512855,
+        "upper": 0.17453292519943295,
+        "velocity": 2.443460952792061
+      }
+    },
+    {
+      "name": "J3_level",
+      "type": "continuous",
+      "parent": "J3_link",
+      "child": "wrist_link",
+      "xyz": [
+        1.3,
+        0,
+        0
+      ],
+      "axis": [
+        0,
+        -1,
+        0
+      ],
+      "limit": {
+        "velocity": 10
+      },
+      "mimic": {
+        "joint": "J3",
+        "multiplier": -1,
+        "offset": 0
+      }
+    },
+    {
+      "name": "J4",
+      "type": "revolute",
+      "parent": "wrist_link",
+      "child": "J4_link",
+      "xyz": [
+        0.255,
+        0,
+        -0.159
+      ],
+      "axis": [
+        0,
+        0,
+        -1
+      ],
+      "limit": {
+        "lower": -6.283185307179586,
+        "upper": 6.283185307179586,
+        "velocity": 5.323254218582705
+      }
+    },
+    {
+      "name": "J4_flange",
+      "type": "fixed",
+      "parent": "J4_link",
+      "child": "flange",
+      "xyz": [
+        0,
+        0,
+        0
+      ],
+      "rpy": [
+        3.141592653589793,
+        0,
+        0
+      ]
+    },
+    {
+      "name": "flange_tool0",
+      "type": "fixed",
+      "parent": "flange",
+      "child": "tool0",
+      "xyz": [
+        0,
+        0,
+        0
+      ],
+      "rpy": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "name": "J3_crank",
+      "type": "continuous",
+      "parent": "J1_link",
+      "child": "crank_link",
+      "xyz": [
+        0.39,
+        -0.34,
+        0.4950000000000001
+      ],
+      "axis": [
+        0,
+        -1,
+        0
+      ],
+      "limit": {
+        "velocity": 10
+      },
+      "mimic": {
+        "joint": "J3",
+        "multiplier": 1,
+        "offset": 0
+      }
+    },
+    {
+      "name": "J3_rod_unturn",
+      "type": "continuous",
+      "parent": "crank_link",
+      "child": "rod_pivot_link",
+      "xyz": [
+        -0.51,
+        -0.06,
+        0.27
+      ],
+      "axis": [
+        0,
+        -1,
+        0
+      ],
+      "limit": {
+        "velocity": 10
+      },
+      "mimic": {
+        "joint": "J3",
+        "multiplier": -1,
+        "offset": 0
+      }
+    },
+    {
+      "name": "J3_rod",
+      "type": "continuous",
+      "parent": "rod_pivot_link",
+      "child": "rod_link",
+      "xyz": [
+        0,
+        0,
+        0
+      ],
+      "axis": [
+        0,
+        1,
+        0
+      ],
+      "limit": {
+        "velocity": 10
+      },
+      "mimic": {
+        "joint": "J2",
+        "multiplier": 1,
+        "offset": 0
+      }
+    },
+    {
+      "name": "level_lower",
+      "type": "continuous",
+      "parent": "J1_link",
+      "child": "level_lower_link",
+      "xyz": [
+        0.13,
+        0.21,
+        0.5950000000000001
+      ],
+      "axis": [
+        0,
+        1,
+        0
+      ],
+      "limit": {
+        "velocity": 10
+      },
+      "mimic": {
+        "joint": "J2",
+        "multiplier": 1,
+        "offset": 0
+      }
+    },
+    {
+      "name": "level_upper",
+      "type": "continuous",
+      "parent": "elbow_link",
+      "child": "level_upper_link",
+      "xyz": [
+        0.485,
+        0,
+        0.279
+      ],
+      "axis": [
+        0,
+        -1,
+        0
+      ],
+      "limit": {
+        "velocity": 10
+      },
+      "mimic": {
+        "joint": "J3",
+        "multiplier": 1,
+        "offset": 0
+      }
+    }
+  ],
+  "links": [
+    {
+      "name": "base_link",
+      "collisions": [
+        {
+          "kind": "box",
+          "size": [
+            1.02,
+            0.9,
+            0.57
+          ],
+          "xyz": [
+            -0.07,
+            0,
+            0.285
+          ],
+          "rpy": [
+            0,
+            0,
+            0
+          ]
+        }
+      ]
+    },
+    {
+      "name": "J1_link",
+      "collisions": [
+        {
+          "kind": "box",
+          "size": [
+            0.8,
+            0.62,
+            0.4
+          ],
+          "xyz": [
+            0,
+            0,
+            0.2
+          ],
+          "rpy": [
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "kind": "box",
+          "size": [
+            0.34,
+            0.5,
+            0.3
+          ],
+          "xyz": [
+            -0.36,
+            0,
+            0.2
+          ],
+          "rpy": [
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "kind": "cylinder",
+          "radius": 0.25,
+          "length": 0.62,
+          "xyz": [
+            0.39,
+            0,
+            0.4950000000000001
+          ],
+          "rpy": [
+            1.5707963267948966,
+            0,
+            0
+          ]
+        },
+        {
+          "kind": "box",
+          "size": [
+            0.24,
+            1.1,
+            0.24
+          ],
+          "xyz": [
+            0.22,
+            0,
+            0.3
+          ],
+          "rpy": [
+            0,
+            0,
+            0
+          ]
+        }
+      ]
+    },
+    {
+      "name": "J2_link",
+      "collisions": [
+        {
+          "kind": "box",
+          "size": [
+            0.3,
+            0.36,
+            1.4
+          ],
+          "xyz": [
+            0,
+            0,
+            0.62
+          ],
+          "rpy": [
+            0,
+            0,
+            0
+          ]
+        }
+      ]
+    },
+    {
+      "name": "elbow_link",
+      "collisions": [
+        {
+          "kind": "box",
+          "size": [
+            0.1,
+            0.06,
+            0.1
+          ],
+          "xyz": [
+            0,
+            0,
+            0
+          ],
+          "rpy": [
+            0,
+            0,
+            0
+          ]
+        }
+      ]
+    },
+    {
+      "name": "J3_link",
+      "collisions": [
+        {
+          "kind": "box",
+          "size": [
+            1.36,
+            0.3,
+            0.27
+          ],
+          "xyz": [
+            0.62,
+            0,
+            0
+          ],
+          "rpy": [
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "kind": "box",
+          "size": [
+            0.42,
+            0.3,
+            0.3
+          ],
+          "xyz": [
+            -0.24,
+            0,
+            0.13
+          ],
+          "rpy": [
+            0,
+            0,
+            0
+          ]
+        }
+      ]
+    },
+    {
+      "name": "wrist_link",
+      "collisions": [
+        {
+          "kind": "box",
+          "size": [
+            0.5,
+            0.22,
+            0.44
+          ],
+          "xyz": [
+            0.14,
+            0,
+            0.07
+          ],
+          "rpy": [
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "kind": "cylinder",
+          "radius": 0.15,
+          "length": 0.13,
+          "xyz": [
+            0.255,
+            0,
+            -0.09
+          ],
+          "rpy": [
+            0,
+            0,
+            0
+          ]
+        }
+      ]
+    },
+    {
+      "name": "J4_link",
+      "collisions": [
+        {
+          "kind": "cylinder",
+          "radius": 0.125,
+          "length": 0.024,
+          "xyz": [
+            0,
+            0,
+            0.012
+          ],
+          "rpy": [
+            0,
+            0,
+            0
+          ]
+        }
+      ]
+    },
+    {
+      "name": "crank_link",
+      "collisions": [
+        {
+          "kind": "box",
+          "size": [
+            0.5770615218501404,
+            0.07,
+            0.16
+          ],
+          "xyz": [
+            -0.255,
+            0,
+            0.135
+          ],
+          "rpy": [
+            0,
+            -2.654693421778524,
+            0
+          ]
+        }
+      ]
+    },
+    {
+      "name": "rod_pivot_link"
+    },
+    {
+      "name": "rod_link",
+      "collisions": [
+        {
+          "kind": "box",
+          "size": [
+            0.13,
+            0.08,
+            1.22
+          ],
+          "xyz": [
+            0,
+            0,
+            0.61
+          ],
+          "rpy": [
+            0,
+            0,
+            0
+          ]
+        }
+      ]
+    },
+    {
+      "name": "level_lower_link",
+      "collisions": [
+        {
+          "kind": "box",
+          "size": [
+            0.06,
+            0.05,
+            1.22
+          ],
+          "xyz": [
+            0,
+            0,
+            0.61
+          ],
+          "rpy": [
+            0,
+            0,
+            0
+          ]
+        }
+      ]
+    },
+    {
+      "name": "level_upper_link",
+      "collisions": [
+        {
+          "kind": "box",
+          "size": [
+            1,
+            0.05,
+            0.06
+          ],
+          "xyz": [
+            0.65,
+            0,
+            0
+          ],
+          "rpy": [
+            0,
+            0,
+            0
+          ]
+        }
+      ]
+    },
+    {
+      "name": "flange"
+    },
+    {
+      "name": "tool0"
+    }
+  ]
+}
