@@ -7,6 +7,7 @@ on:
       - 'universal-robots-ur-series/**'
       - 'kuka-kr210-l150/**'
       - 'daihen-wb-p352l/**'
+      - 'fanuc-m410ic-185/**'
       - 'mir250/**'
       - 'onrobot-rg6/**'
       - 'onrobot-dual-quick-changer-109878/**'
@@ -31,6 +32,7 @@ on:
       - 'universal-robots-ur-series/**'
       - 'kuka-kr210-l150/**'
       - 'daihen-wb-p352l/**'
+      - 'fanuc-m410ic-185/**'
       - 'mir250/**'
       - 'onrobot-rg6/**'
       - 'onrobot-dual-quick-changer-109878/**'
@@ -66,7 +68,7 @@ jobs:
         shell: bash
         run: |
           npm --prefix authoring ci --ignore-scripts --no-audit --no-fund
-          for asset in mid-360 vacuum-gripper-ecbpi weld-gun-x16005 universal-robots-ur-series onrobot-rg6 ewellix-liftkit-ur620 workshop-shapes kuka-kr210-l150 mir250; do
+          for asset in mid-360 vacuum-gripper-ecbpi weld-gun-x16005 universal-robots-ur-series onrobot-rg6 ewellix-liftkit-ur620 workshop-shapes kuka-kr210-l150 mir250 fanuc-m410ic-185; do
             (cd "$asset/authoring" && npm ci --ignore-scripts --no-audit --no-fund)
           done
       - name: Shared helpers
@@ -107,3 +109,9 @@ jobs:
           node --test daihen-wb-p352l/authoring/model.test.mjs
           node daihen-wb-p352l/authoring/export.mjs --check
           python3 daihen-wb-p352l/authoring/verify_obj.py
+
+      - name: FANUC M-410iC/185 geometry, linkage and compatibility
+        run: |
+          npm --prefix fanuc-m410ic-185/authoring test
+          npm --prefix fanuc-m410ic-185/authoring run check
+          python3 fanuc-m410ic-185/authoring/verify_obj.py

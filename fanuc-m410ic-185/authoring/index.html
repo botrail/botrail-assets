@@ -3,14 +3,8 @@
 <div class="panel"><h1>FANUC M-410iC/185</h1><p>4-axis palletizing reference model · 185 kg / 3143 mm · pedestal type base</p><p>Independently authored reference geometry.<br>Shells, parallel links and collisions are approximate.</p><div><button id="iso">Perspective</button><button id="side">Side</button><button id="front">Front</button><button id="top">Top</button><button id="zero">Zero pose</button><button id="reach">Reach</button><button id="low">Low</button><button id="folded">Folded</button></div></div>
 <script type="importmap">{"imports":{"three":"./node_modules/three/build/three.module.js","three/addons/":"./node_modules/three/examples/jsm/","@botrail/authoring/":"./node_modules/@botrail/authoring/"}}</script>
 <script type="module">
-import {definition} from './model.mjs';
-import {referenceScene} from '@botrail/authoring/reference-model.mjs';
-import {mountAuthoring} from '@botrail/authoring/viewer.mjs';
-const d=Math.PI/180, model=referenceScene(definition());
-const viewer=mountAuthoring(model.root,{iso:[1.6,-2.2,1.1]});window.reference=model;
-const pose=q=>{model.pose(q);viewer.render();};
-document.querySelector('#zero').onclick=()=>pose({});
-document.querySelector('#reach').onclick=()=>pose({J1:30*d,J2:79*d,J3:0,J4:40*d});
-document.querySelector('#low').onclick=()=>pose({J1:-20*d,J2:100*d,J3:-90*d});
-document.querySelector('#folded').onclick=()=>pose({J2:-44*d,J3:-26*d});
+import {createScene,poseValues} from './scene.mjs';
+import {mountFanucViewer} from './viewer.mjs';
+const model=createScene(),viewer=mountFanucViewer(model);window.reference=model;
+for(const name of ['zero','reach','low','folded'])document.querySelector('#'+name).onclick=()=>{model.pose(poseValues(name));viewer.render();};
 </script></html>

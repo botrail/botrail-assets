@@ -1,0 +1,31 @@
+{
+  "reference_model": "FANUC M-410iC/185, pedestal type base",
+  "license": "CC0-1.0",
+  "method": "Independent procedural visual geometry. No vendor CAD, diagram tracing, photographs, textures or copied vendor art are distributed.",
+  "sources": [
+    {"url":"https://www.fanucamerica.com/docs/default-source/fanuc-robot-datasheets-new/datasheet-m-410ic-185.pdf","kind":"Public one-page data sheet","used_for":"Published numeric specifications and linkage dimensions; actual pixels inspected. Its product photograph shows the compact base, so the pedestal structure uses the separate official pedestal photograph."},
+    {"url":"https://www.fanucamerica.com/products/robot/m-410ic-185","kind":"Official product page","used_for":"Exact 185 kg variant, public product photograph and wrist feature; table reports the compact/no-pedestal 1330 kg mass."},
+    {"url":"https://www.fanucamerica.com/uploads/products/m-410ic-185/m-410ic-185.png","kind":"Official pedestal product photograph, 3269 x 4238 pixels","used_for":"Visual observation only: front lower-arm recesses, bent cast sections, pedestal portals/service cabinet, reducer/motor layout. Not traced or redistributed."},
+    {"url":"https://www.fanucamerica.com/uploads/images/fea-ro-pr-m410185-r-3.jpg","kind":"Official wrist feature photograph","used_for":"Visual observation only: forked bracket openings, top motor, wrist reducer. Not redistributed."}
+  ],
+  "verified_numeric_facts": {
+    "payload_kg":185,"reach_mm":3143,"controlled_axes":4,
+    "mass_pedestal_kg":1600,"mass_without_pedestal_kg":1330,
+    "j1_to_j2_horizontal_mm":390,"j2_height_mm":1110,
+    "lower_arm_mm":1220,"upper_arm_mm":1300,
+    "wrist_to_faceplate_forward_mm":255,"wrist_to_faceplate_down_mm":159,
+    "joint_motion_spans_deg":[360,144,136,720],"joint_speeds_deg_s":[140,140,140,305]
+  },
+  "authored_not_manufacturer_verified": {
+    "lower_arm_recesses":"Three front-face blind recesses; centers z=390,650,910 mm and radii 45 x 79 mm. A 75 mm nominal wall and separate backing casting give about 44–48 mm visible cavity depth. All sizes and blind termination are visual estimates.",
+    "casting_profiles":"All arm section widths, sweeps, bevels, pin/cap/fastener sizes, pedestal opening contours, side-positioned service enclosure and service panels are estimates.",
+    "pedestal_footprint_mm":[1094,945],
+    "pedestal_footprint_note":"Inherited overall envelope retained. Previously cited global catalog is excluded because of its reproduction clause. An official Europe datasheet search excerpt corroborates the numbers but the full document could not be inspected in this refinement; these dimensions are not newly manufacturer-verified here.",
+    "joint_range_split":"J2 -44..100 and J3 -126..10 degrees are inherited fits to published operating-envelope endpoints; only spans are manufacturer-published. Real coupled interference restrictions are not represented.",
+    "crank_and_levelling_offsets":"Inherited authored parallel-link offsets, unchanged.",
+    "flange":"Existing approximate plain faceplate retained. No verified bolt/hole pattern, hollow-bore dimension, ISO mounting claim, calibration or dynamics. No new mounting holes invented."
+  },
+  "excluded_sources":"The global RM-410iC(E)-05 catalog has an explicit reproduction prohibition; it was not used as a new authoring/dimension source. No manuals or vendor meshes were used.",
+  "compatibility":"All 14 links, 13 joints, commanded axes, mimic rules, frames, limits, velocities, primitive collisions and URDF bytes are unchanged from main 5a715e3.",
+  "revision":"Unpublished visual refinement. Catalog r1 remains historical; publication requires a new catalog revision. Draft pull-request review only; no merge, registry update or deployment."
+}
