@@ -13,9 +13,11 @@
  * mast (laden) and 24.5 at the wheelbase centre, lift 0.17 / 0.34 m/s,
  * travel 8.0 km/h drive wheel first and 1.1 km/h fork first, autocharging
  * plate centre 359 over the floor and 1104 / 1121 behind the fork wheel
- * centre, tiller head 1150–1385. No vendor CAD, mesh or drawing is read; the
- * sheet's side and top views were used only to see which part carries which
- * figure. Everything not in that list is an authored estimate (README).
+ * centre, tiller driving-position range 1150–1385. No vendor CAD, mesh or drawing is read; the
+ * sheet's side and top views only identify dimension anchors. Official exact-
+ * model product photos were independently inspected for the exterior. Scanner
+ * height assignment to masts, h14 pose, C sections and all cosmetic sizes are
+ * authored/configuration estimates; see provenance.json and README.
  *
  * Frame: the origin is the support arm wheel axle's midpoint on the floor —
  * the point the truck pivots about with its drive wheel steered across; the
@@ -23,7 +25,9 @@
  * the forks, +Z up. Forks first is forward for botrail's `Vehicle`.
  */
 import * as THREE from 'three';
-import {addMesh,namedMaterial,roundedBox,cylinderZ,cylinderBetween} from '@botrail/authoring/geometry.mjs';
+import {addMesh,namedMaterial,roundedBox,roundedRectangle,cylinderZ,cylinderBetween} from '@botrail/authoring/geometry.mjs';
+
+import {channelGeometry,forkGeometry,loopGeometry,loft,prism,armGeometry,forkWallGeometry} from './visual-geometry.mjs';
 
 export const dimensions=Object.freeze({
   width:0.930, forks:[0.070,0.180,1.250], forkSpread:0.570, armGap:0.262, forkLowered:0.0875,
@@ -38,8 +42,8 @@ export const dimensions=Object.freeze({
   innerChannel:[0.07,0.07], carriage:[0.040,0.620,0.300], steerRange:Math.PI/2,
 });
 
-/** The two masts of the sheet: what differs between them. `backrest` — what
- * stands over the fork top — is read off h4 − h23 of each. */
+/** The two masts of the sheet. h4-h23 constrains an above-fork envelope,
+ * not an OEM lattice backrest. Scanner height/mast assignment is inherited. */
 export const variants=Object.freeze({
   tx:{name:'TX Hi-Lo', loadDistance:0.640, lengthToForkFace:1.078, overallLength:2.327, turningRadius:1.767,
       mastLowered:2.162, freeLift:1.592, lift:4.613, liftHeight:4.700, mastExtended:5.316,
@@ -65,6 +69,12 @@ const light=namedMaterial('signal_light','#2d7fe0',0.1,0.3);
 const plate=namedMaterial('charging_plate','#a8862f',0.8,0.35);
 const screen=namedMaterial('display_screen','#0e1114',0.2,0.2);
 
+const amber=namedMaterial('signal_amber','#db8b21',0.05,0.30);
+const red=namedMaterial('stop_red','#c8241b',0.05,0.5);
+const zinc=namedMaterial('roller_zinc','#9a9b96',0.65,0.36);
+const seam=namedMaterial('panel_recess','#151819',0.06,0.68);
+const rb=(g,n,size,r,mat,at)=>addMesh(g,n,roundedBox(size,Math.min(r,Math.min(...size)*.48),2),mat,at);
+function disk(g,n,r,h,mat,at,axis='z'){const geo=cylinderZ(r,h,{radial:32});if(axis==='x')geo.rotateY(Math.PI/2);if(axis==='y')geo.rotateX(Math.PI/2);return addMesh(g,n,geo,mat,at);}
 const box=(size,xyz)=>({kind:'box',size,xyz});
 const fixed=(name,parent,child,xyz=[0,0,0])=>({name,type:'fixed',parent,child,xyz});
 const G=()=>new THREE.Group();
@@ -87,32 +97,74 @@ export function definition(mast='tx') {
   // --- base_link: drive unit and battery compartment, support arms, tiller ---
   const body=G();
   const xc0=xr, xc1=xf-d.chassisSetback, lc=xc1-xc0, xc=(xc0+xc1)/2;
-  const skirt=0.10, shellH=d.compartmentHeight-d.clearance-skirt;
-  addMesh(body,'skirt',roundedBox([lc,d.width,skirt],0.012,2),graphite,[xc,0,d.clearance+skirt/2]);
-  addMesh(body,'compartment',roundedBox([lc-0.02,d.width-0.02,shellH],0.05,3),orange,[xc,0,d.clearance+skirt+shellH/2]);
-  addMesh(body,'lid',roundedBox([lc-0.12,d.width-0.12,0.02],0.006,2),graphite,[xc,0,d.compartmentHeight+0.005]);
-  // Personal protection scanner in the drive direction: low in the rear face.
-  addMesh(body,'rear_scanner',roundedBox([0.10,0.14,0.12],0.008,2),sensor,[xr+0.05,0,0.22]);
-  addMesh(body,'rear_scanner_window',roundedBox([0.012,0.12,0.04],0.004,1),window_,[xr-0.002,0,0.24]);
-  // Side protection scanners at the compartment's front corners.
-  for(const sy of [-1,1]) {
-    addMesh(body,`side_scanner_${sy>0?'left':'right'}`,roundedBox([0.12,0.10,0.12],0.008,2),sensor,[xc1-0.06,sy*(d.width/2-0.05),0.20]);
-    addMesh(body,`side_scanner_${sy>0?'left':'right'}_window`,roundedBox([0.10,0.012,0.04],0.004,1),window_,[xc1-0.06,sy*(d.width/2+0.004),0.22]);
+  // The public SAE160 tall-scanner configuration: a narrow battery bay ahead
+  // of the sculpted rear drive cover. Every skin dimension here is estimated.
+  rb(body,'chassis_core',[lc-.035,.690,.120],.025,graphite,[xc,0,.0945]);
+  rb(body,'battery_bay',[.285,.685,.82],.010,graphite,[xc1-.152,0,.54]);
+  rb(body,'battery_lid',[.32,.727,.035],.012,orange,[xc1-.16,0,.969]);
+  for(const sy of [-1,1]){
+    rb(body,`battery_edge_${sy}`,[.024,.036,.87],.004,black,[xc1-.025,sy*.358,.548]);
+    rb(body,`battery_side_panel_${sy}`,[.25,.008,.69],.002,seam,[xc1-.160,sy*.349,.52]);
+    rb(body,`battery_panel_inset_${sy}`,[.229,.010,.667],.003,graphite,[xc1-.160,sy*.352,.52]);
   }
-  // Autocharging plate on the right flank: the sheet gives its height and its
-  // distance behind the fork wheel; which flank is an assumption.
-  addMesh(body,'charging_plate',roundedBox([0.20,0.02,0.12],0.004,1),plate,[-v.chargePlateX,-(d.width/2+0.008),d.chargePlateHeight]);
-  // Support arms: from under the mast out past their wheels, b4 apart inside,
-  // flush with the forks outside; the forks nest over them when lowered.
+  const rearC=xr+.255;
+  addMesh(body,'drive_cover',loft([
+    [.195,rearC+.026,0,.400,.630,.080],[.27,rearC+.015,0,.440,.695,.100],
+    [.82,rearC+.015,0,.425,.750,.125],[.963,rearC+.043,0,.382,.727,.130],
+    [1.032,rearC+.066,0,.322,.662,.110],
+  ]),orange);
+  // Separate front-to-rear skin seams and dark side guards describe the shell.
+  for(const sy of [-1,1]){
+    const guard=prism([[-.15,.17],[.00,.16],[.014,.98],[-.026,1.02],[-.12,1.045]],.030);
+    guard.rotateX(Math.PI/2);addMesh(body,`drive_side_guard_${sy}`,guard,graphite,[xr+.444,sy*.389+(.030*(sy>0?1:0)),0]);
+    for(let k=0;k<6;k++)rb(body,`side_vent_${sy}_${k}`,[.082,.003,.004],.001,seam,[xr+.390,sy*.405,.398+k*.012]);
+    rb(body,`cover_split_seam_${sy}`,[.009,.008,.56],.002,seam,[xr+.069,sy*.279,.545]);
+  }
+  addMesh(body,'sculpted_operator_console',loft([
+    [.965,rearC+.025,0,.411,.660,.110],[1.025,rearC+.054,0,.376,.632,.108],
+    [1.070,rearC+.079,0,.312,.598,.090],[1.094,rearC+.083,0,.260,.510,.075],
+  ]),graphite);
+  rb(body,'console_recess',[.107,.275,.018],.007,seam,[rearC+.076,0,1.096]);
+  rb(body,'console_storage_tray',[.075,.236,.014],.006,black,[rearC+.07,0,1.099]);
+  // Two low rear scanner pods, visible around the tapered drive unit.
+  for(const sy of [-1,1]){
+    rb(body,`rear_scanner_bumper_${sy}`,[.26,.240,.035],.025,graphite,[xr+.13,sy*.345,.053]);
+    rb(body,`rear_scanner_foot_${sy}`,[.196,.163,.039],.025,black,[xr+.11,sy*.348,.093]);
+    disk(body,`rear_scanner_${sy}_window`,.072,.036,window_,[xr+.10,sy*.349,.131]);
+    rb(body,`rear_scanner_hood_${sy}`,[.191,.176,.061],.032,graphite,[xr+.10,sy*.349,.181]);
+    rb(body,`rear_scanner_status_${sy}`,[.003,.024,.011],.001,light,[xr+.003,sy*.349,.177]);
+  }
+  rb(body,'rear_lower_crossmember',[.110,.504,.065],.010,graphite,[xr+.060,0,.128]);
+  // The inherited right-side charging frame is retained. Individual contacts
+  // are independent estimates, not an electrical connector specification.
+  rb(body,'charging_panel_mount',[.265,.022,.378],.008,black,[-v.chargePlateX,-.371,d.chargePlateHeight]);
+  rb(body,'charging_panel',[.244,.018,.355],.007,graphite,[-v.chargePlateX,-.388,d.chargePlateHeight]);
+  for(let k=0;k<5;k++){
+    const width=k===0||k===4?.181:.081;
+    rb(body,`charging_contact_${k}`,[width,.006,.031],.008,plate,[-v.chargePlateX,-.401,d.chargePlateHeight+.12-k*.060]);
+  }
+  // Support arms retain their original contact boxes. The visual tips are
+  // rounded and a little narrower, leaving the fork load-wheel apertures open.
   const armX0=xf-0.05, armLen=d.armReach-armX0, armZ=d.clearanceMast+d.armSection[1]/2;
   for(const sy of [-1,1]) addMesh(body,`support_arm_${sy>0?'left':'right'}`,
-    roundedBox([armLen,d.armSection[0],d.armSection[1]],0.008,2),black,[armX0+armLen/2,sy*armY,armZ]);
-  // The tiller, folded upright beside the mast for automatic running; its
-  // head tops out at the sheet's h14 maximum.
-  const tillerX=xc1-0.16, tillerY=0.18;
-  cylinderBetween(body,'tiller_arm',[tillerX,tillerY,d.compartmentHeight],[tillerX,tillerY,d.tillerHead-0.12],0.025,graphite);
-  addMesh(body,'tiller_head',roundedBox([0.34,0.20,0.14],0.03,3),graphite,[tillerX,tillerY,d.tillerHead-0.07]);
-  addMesh(body,'tiller_stop',roundedBox([0.06,0.06,0.03],0.008,1),namedMaterial('stop_red','#c8241b',0.05,0.5),[tillerX+0.10,tillerY,d.tillerHead+0.015]);
+    armGeometry(armLen,.128,.053,-(armX0+armLen/2),0),black,[armX0+armLen/2,sy*forkY,d.clearanceMast]);
+  // Fixed low yokes join the chassis, mast foot and hollow-fork support arms.
+  for(const sy of [-1,1])rb(body,`support_root_yoke_${sy}`,[armX0-xc1+.075,.128,.032],.005,black,[(xc1-.040+armX0+.035)/2,sy*forkY,.051]);
+  // Configured tiller pose remains below the inherited h14 endpoint; h14 is
+  // a driving-position range, not a manufacturer-specified upright pose.
+  const tillerX=xc1-0.16, tillerY=0.18; // unchanged collision proxy only
+  const tx=rearC+.02;
+  disk(body,'tiller_base',.082,.044,graphite,[tx,0,1.116]);
+  cylinderBetween(body,'tiller_stem',[tx,0,1.125],[tx+.035,0,1.291],.041,graphite,{radial:32});
+  disk(body,'tiller_pivot',.052,.082,black,[tx+.035,0,1.257],'y');
+  rb(body,'tiller_head_spine',[.103,.094,.132],.025,graphite,[tx+.034,0,1.319]);
+  for(const sy of [-1,1]){
+    const grip=loopGeometry(.169,.110,.020,.033);grip.rotateX(Math.PI/2);grip.rotateZ(Math.PI/2);
+    addMesh(body,`tiller_open_grip_${sy}`,grip,graphite,[tx+.017,sy*.096,1.325]);
+    rb(body,`tiller_thumb_control_${sy}`,[.025,.051,.025],.008,black,[tx-.013,sy*.069,1.365]);
+  }
+  rb(body,'tiller_reverse_button',[.032,.080,.030],.007,red,[tx-.039,0,1.369]);
+  rb(body,'console_emergency_stop',[.031,.036,.015],.005,red,[tx+.102,-.208,1.087]);
   links.push({name:'base_link',visual:body,collisions:[
     box([lc,d.width,d.compartmentHeight-d.clearance],[xc,0,(d.compartmentHeight+d.clearance)/2]),
     ...[-1,1].map(sy=>box([armLen,d.armSection[0],d.armSection[1]],[armX0+armLen/2,sy*armY,armZ])),
@@ -123,15 +175,37 @@ export function definition(mast='tx') {
   // --- mast_outer (fixed): two channels, cross members, the navigation scanner on its post ---
   const outer=G(), H0=v.mastLowered-0.06;
   for(const sy of [-1,1]) addMesh(outer,`outer_channel_${sy>0?'left':'right'}`,
-    roundedBox([d.mastChannel[0],d.mastChannel[1],H0],0.008,2),black,[mastX,sy*d.mastY[0],0.06+H0/2]);
-  addMesh(outer,'outer_foot',roundedBox([d.mastChannel[0],2*d.mastY[0]+d.mastChannel[1],0.08],0.008,2),black,[mastX,0,0.10]);
-  addMesh(outer,'outer_head',roundedBox([d.mastChannel[0],2*d.mastY[0]+d.mastChannel[1],0.08],0.008,2),black,[mastX,0,v.mastLowered-0.04]);
+    channelGeometry(d.mastChannel[0],d.mastChannel[1],H0,.008,sy),black,[mastX,sy*d.mastY[0],0.06]);
+  addMesh(outer,'outer_foot',roundedBox([.014,2*d.mastY[0]+d.mastChannel[1],0.08],0.006,2),black,[mastX-.055,0,0.10]);
+  addMesh(outer,'outer_head',roundedBox([.014,2*d.mastY[0]+d.mastChannel[1],0.08],0.006,2),black,[mastX-.055,0,v.mastLowered-0.04]);
+  for(const sy of [-1,1]){
+    rb(outer,`mast_top_shroud_web_${sy}`,[.137,.016,.235],.006,graphite,[mastX,sy*.328,v.mastLowered-.118]);
+    for(const sx of [-1,1])rb(outer,`mast_top_shroud_flange_${sy}_${sx}`,[.010,.135,.235],.004,graphite,[mastX+sx*.061,sy*.270,v.mastLowered-.118]);
+  }
   cylinderBetween(outer,'scanner_post',[mastX,0,v.mastLowered],[mastX,0,v.scannerEye-0.06],0.03,graphite);
   const head=cylinderZ(0.055,0.08,{radial:48});
   addMesh(outer,'nav_scanner',head,sensor,[mastX,0,v.scannerEye-0.021]);
   addMesh(outer,'nav_scanner_window',cylinderZ(0.056,0.012,{radial:48}),window_,[mastX,0,v.scannerEye]);
   addMesh(outer,'beacon',roundedBox([0.05,0.05,0.03],0.008,1),light,[mastX-0.09,0,v.mastLowered+0.015]);
-  addMesh(outer,'display',roundedBox([0.10,0.03,0.12],0.006,1),screen,[mastX,-(d.mastY[0]+d.mastChannel[1]/2+0.02),1.45]);
+  // Wide fixed HMI crossbar and angled stays seen on exact SAE160 photos.
+  const hmiX=mastX-.205,hmiZ=1.463;
+  for(const sy of [-1,1]){
+    cylinderBetween(outer,`hmi_stay_${sy}`,[mastX-.025,sy*.267,1.01],[hmiX,sy*.267,hmiZ-.065],.018,black);
+    disk(outer,`mast_foot_pin_${sy}`,.041,.017,hub,[mastX,sy*.328,1.025],'y');
+  }
+  rb(outer,'hmi_crossbar',[.136,.672,.146],.016,black,[hmiX,0,hmiZ]);
+  rb(outer,'hmi_display_bezel',[.009,.162,.074],.006,hub,[hmiX-.070,0,hmiZ]);
+  rb(outer,'hmi_display',[.011,.132,.045],.003,screen,[hmiX-.076,0,hmiZ+.006]);
+  for(const sy of [-1,1]){
+    disk(outer,`hmi_amber_${sy}`,.022,.009,amber,[hmiX-.074,sy*.268,hmiZ],'x');
+    disk(outer,`hmi_stop_${sy}_base`,.028,.004,plate,[hmiX,sy*.340,hmiZ],'y');
+    disk(outer,`hmi_stop_${sy}`, .020,.014,red,[hmiX,sy*.348,hmiZ],'y');
+  }
+  // A translucent guard is omitted: OBJ/MTL in this pipeline is opaque only.
+  // Keep the tall navigation post; optional rear-reaching RS camera bracket
+  // belongs to another photographed configuration and is intentionally absent.
+  disk(outer,'scanner_post_foot',.063,.017,black,[mastX,0,v.mastLowered+.007]);
+  disk(outer,'scanner_post_collar',.044,.020,hub,[mastX,0,v.scannerEye-.13]);
   links.push({name:'mast_outer',visual:outer,collisions:[
     ...[-1,1].map(sy=>box([d.mastChannel[0],d.mastChannel[1],H0],[mastX,sy*d.mastY[0],0.06+H0/2])),
     box([d.mastChannel[0],2*d.mastY[0]+d.mastChannel[1],0.08],[mastX,0,0.10]),
@@ -142,11 +216,16 @@ export function definition(mast='tx') {
 
   // --- the telescoping stages: TX has a middle stage and an inner mast that
   // rises the full mast lift (the middle stage half of it); DX has one inner
-  // mast rising half of the carriage travel. Both stages hang from the outer
+  // mast rising half of the carriage travel. Lower rail crossmembers retain an unobstructed upper mast sweep.
+  // Their stations/ears are estimates, not a claim about the OEM weldment.
+  // Both stages hang from the outer
   // mast, so `mast_lift` reads as fork travel on either.
   const channels=(g,tag,[cx,cy],y,z0,h,material=black)=>{
-    for(const sy of [-1,1]) addMesh(g,`${tag}_channel_${sy>0?'left':'right'}`,roundedBox([cx,cy,h],0.006,2),material,[mastX,sy*y,z0+h/2]);
-    addMesh(g,`${tag}_head`,roundedBox([cx,2*y+cy,0.06],0.006,2),material,[mastX,0,z0+h-0.03]);
+    for(const sy of [-1,1]) addMesh(g,`${tag}_channel_${sy>0?'left':'right'}`,channelGeometry(cx,cy,h,.004,sy),material,[mastX,sy*y,z0]);
+    const headX=tag==='stage'?.092:.072,earY=tag==='stage'?.199:.130;
+    const bridgeZ=z0+(tag==='stage'?.025:.035);
+    addMesh(g,`${tag}_crossmember`,roundedBox([.010,2*y+cy,.030],.004,2),material,[mastX+headX,0,bridgeZ]);
+    for(const sy of [-1,1])rb(g,`${tag}_crossmember_ear_${sy}`,[Math.abs(headX)+.010-cx/2,.018,.020],.003,material,[mastX+(headX+cx/2)/2,sy*earY,bridgeZ]);
     return [...[-1,1].map(sy=>box([cx,cy,h],[mastX,sy*y,z0+h/2])),box([cx,2*y+cy,0.06],[mastX,0,z0+h-0.03])];
   };
   const prismaticZ=(name,parent,child,upper,velocity,mimic)=>({name,type:'prismatic',parent,child,xyz:[0,0,0],axis:[0,0,1],
@@ -164,15 +243,28 @@ export function definition(mast='tx') {
 
   // --- carriage: its origin is the `forks` frame — the fork top surface at
   // the heel, centred between the forks, +X along them — 87.5 mm over the
-  // floor when lowered. Plate, load backrest, two L-forks.
+  // floor when lowered. Opening plate, carriage shanks and two windowed forks.
   const car=G(), [cx,cy,cz]=d.carriage;
-  addMesh(car,'carriage_plate',roundedBox([cx,cy,cz],0.008,2),steel,[-0.08,0,cz/2-s]);
-  for(const sy of [-1,1]) addMesh(car,`backrest_upright_${sy>0?'left':'right'}`,roundedBox([0.035,0.045,backrest-(cz-s)],0.006,2),steel,[-0.08,sy*(cy/2-0.03),(cz-s+backrest)/2]);
-  for(let k=0;k<3;k++) addMesh(car,`backrest_bar_${k}`,roundedBox([0.035,cy,0.030],0.006,2),steel,[-0.08,0,cz-s+(k+1)*(backrest-(cz-s))/3-0.02]);
-  for(const sy of [-1,1]) {
+  // Real opening in the lower carriage plate, no invented lattice backrest.
+  const cs=new THREE.Shape();cs.moveTo(-cy/2,.012);cs.lineTo(cy/2,.012);cs.lineTo(cy/2,cz-s);cs.lineTo(-cy/2,cz-s);cs.closePath();
+  const ch=new THREE.Path();ch.moveTo(-.032,.055);ch.lineTo(-.032,.145);ch.lineTo(.032,.145);ch.lineTo(.032,.055);ch.closePath();cs.holes.push(ch);
+  const cg=new THREE.ExtrudeGeometry(cs,{depth:cx,bevelEnabled:false});cg.rotateY(Math.PI/2);cg.rotateX(Math.PI/2);
+  addMesh(car,'carriage_window_plate',cg,steel,[-.050,0,0]);
+  // h4-h23 is retained as the shank/carriage envelope, not a documented backrest.
+  rb(car,'carriage_upper_tie',[.050,.490,.040],.005,steel,[-.025,0,backrest-.025]);
+  rb(car,'carriage_lower_tie',[.050,.270,.045],.005,steel,[-.025,0,.175]);
+  for(const sy of [-1,1]){
     const side=sy>0?'left':'right';
-    addMesh(car,`fork_${side}`,roundedBox([l,e,s],0.006,2),steel,[l/2,sy*forkY,-s/2]);
-    addMesh(car,`fork_shank_${side}`,roundedBox([0.06,e,cz],0.006,2),steel,[-0.03,sy*forkY,cz/2-s]);
+    const fork=G();fork.name=`fork_${side}`;fork.position.y=sy*forkY;car.add(fork);
+    addMesh(fork,`fork_${side}_deck`,forkGeometry(l,e,s,v.loadDistance),steel);
+    addMesh(fork,`fork_${side}_sidewalls`,forkWallGeometry(l,e,s),steel);
+    rb(car,`fork_shank_${side}`,[.055,.100,backrest+.003],.005,steel,[-.0175,sy*forkY,(backrest-.003)/2]);
+    rb(car,`carriage_stile_${side}`,[.050,.055,backrest+.010],.004,steel,[-.025,sy*.105,(backrest-.010)/2]);
+    for(const [k,z] of [.15,.30].entries()){
+      disk(car,`carriage_roller_${side}_${k}`,.030,.020,zinc,[-d.mastSetback,sy*d.mastY[2],z],'y');
+      disk(car,`carriage_axle_${side}_${k}`,.008,.066,hub,[-d.mastSetback,sy*.130,z],'y');
+      rb(car,`carriage_roller_mount_${side}_${k}`,[.150,.012,.040],.003,steel,[-.090,sy*.105,z]);
+    }
   }
   links.push({name:'carriage',visual:car,collisions:[
     box([cx,cy,cz],[-0.08,0,cz/2-s]),
@@ -188,6 +280,7 @@ export function definition(mast='tx') {
     const g=G();
     addMesh(g,`${name}_tyre`,cylinderZ(radius,width,{radial:36}),tyre).rotateX(Math.PI/2);   // axle along Y
     addMesh(g,`${name}_hub`,cylinderZ(radius*0.5,width+0.004,{radial:24}),hub).rotateX(Math.PI/2);
+    for(const sy of [-1,1])disk(g,`${name}_axle_${sy}`,radius*.21,.007,black,[0,sy*(width/2+.005),0],'y');
     links.push({name,visual:g});
     joints.push({name,type:'continuous',parent,child:name,xyz,axis:[0,1,0],limit:{effort:200,velocity:Number((8.0/3.6/radius).toPrecision(6))}});
   };
@@ -200,7 +293,7 @@ export function definition(mast='tx') {
     limit:{lower:-d.steerRange,upper:d.steerRange,velocity:1.5,effort:500}});
   wheel('drive_wheel','steer_link',d.driveWheel[0],d.driveWheel[1],[0,0,d.driveWheel[0]],vulkollan);
   for(const sy of [-1,1]) wheel(`castor_${sy>0?'left':'right'}`,'base_link',d.castor[0],d.castor[1],[xd,sy*d.trackFront/2,d.castor[0]],polyurethane);
-  for(const sy of [-1,1]) wheel(`support_wheel_${sy>0?'left':'right'}`,'base_link',d.supportWheel[0],d.supportWheel[1],[0,sy*forkY,d.supportWheel[0]]);
+  for(const sy of [-1,1]) wheel(`support_wheel_${sy>0?'left':'right'}`,'base_link',d.supportWheel[0],d.supportWheel[1],[0,sy*forkY,d.supportWheel[0]],vulkollan);
 
   // --- frames ---
   links.push({name:'forks'},{name:'fork_tips'},{name:'nav_scanner'},{name:'charge_plate'});
