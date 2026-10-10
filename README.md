@@ -52,7 +52,7 @@ gun = bt.Robot.from_catalog("weld-gun-x1")  # カタログ ID (下表の右列) 
 | [fanuc-sr-3ia](./fanuc-sr-3ia) | 4軸スカラロボット、J3 直動のボールねじスプラインとケーブルホースの参照モデル | FANUC SR-3iA (床置き) | `fanuc/sr3ia/sr-3ia/r1` |
 | [nimak-multiframegun](./nimak-multiframegun) | 片側開閉の取付参照モデル＋指定ボルト10本 | NIMAK 95.020.516 / P3U、BX-NIMAK-HW-A構成 | `nimak/multiframegun/95-020-516-p3u/r4` (詳細外観 r5 準備中・未公開) |
 | [universal-robots-ur-series](./universal-robots-ur-series) | 6軸協働ロボットの独自形状 | UR8 Long / UR15 / UR18 / UR20 / UR30 | `ur8-long` / `ur15` / `ur18` / `ur20` / `ur30` (r2) |
-| [onrobot-rg6](./onrobot-rg6) | 平行リンクグリッパの参照モデル | OnRobot RG6 v2 | `onrobot/rg/rg6/r2` |
+| [onrobot-rg6](./onrobot-rg6) | 写真参照の曲線筐体・リンク・標準 EPDM。旧 URDF / collision / TCP を保持、差異を注記 | OnRobot RG6 v2 | `onrobot/rg/rg6/r2` |
 | [ewellix-liftkit-ur620](./ewellix-liftkit-ur620) | 伸縮柱の参照モデル | Ewellix LIFTKIT-UR-800-xx00-620 | `ewellix/liftkit/liftkit-ur/r2` |
 | [smc-mhz2-20d](./smc-mhz2-20d) | 小物組立用の独自参照モデル | SMC MHZ2-20D | `smc/mhz2/mhz2-20d/r1` |
 | [schunk-mpg-plus-25](./schunk-mpg-plus-25) | 小物組立用の独自参照モデル | SCHUNK MPG-plus 25 | `schunk/mpg-plus/mpg-plus-25/r1` |
@@ -67,7 +67,7 @@ gun = bt.Robot.from_catalog("weld-gun-x1")  # カタログ ID (下表の右列) 
 | [onrobot-screwdriver-103961](./onrobot-screwdriver-103961) | 側面支持・55 mm送り軸 | OnRobot Screwdriver 103961、109301装着構成 | `onrobot/screwdriver/103961/r1` / `103961-a50/r1` (公開前) |
 | [onrobot-bit-extender-109301](./onrobot-bit-extender-109301) | 50 mm追加リーチの参照形状 | OnRobot Bit Extender A 109301 | `onrobot/bit-extender/109301/r1` (公開前) |
 | [onrobot-vgc10](./onrobot-vgc10) | 30 mmカップ4個、独立2流路の参照モデル | OnRobot VGC10 102844 | `onrobot/vgc/vgc10/r1` |
-| [onrobot-rg2](./onrobot-rg2) | 平行リンクグリッパの参照モデル (RG6 と同じ生成器、110 mm ストローク) | OnRobot RG2 (102012) | `onrobot/rg/rg2/r1` (公開前) |
+| [onrobot-rg2](./onrobot-rg2) | RG2 固有の筐体・リンク・標準 EPDM、110 mm ストローク。旧 URDF と新 visual の差異を注記 | OnRobot RG2 (102012) | `onrobot/rg/rg2/r1` (公開前) |
 | [onrobot-hex-e-qc](./onrobot-hex-e-qc) | 6 軸力覚センサ (アダプタプレート + ロボット側 QC 内蔵) の参照モデル | OnRobot HEX-E QC | `onrobot/hex/hex-e-qc/r1` (公開前) |
 | [robotiq-epick](./robotiq-epick) | 電動真空グリッパ (1 カップ構成) の参照モデル | Robotiq EPick | `robotiq/epick/epick/r1` (公開前) |
 | [robotiq-wrist-camera](./robotiq-wrist-camera) | 手首カメラ (ツールプレート無し) の参照モデル、光学フレーム付き | Robotiq Wrist Camera RWC-CAM-001 | `robotiq/wrist-camera/wrist-camera/r1` (公開前) |

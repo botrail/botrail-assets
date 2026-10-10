@@ -13,6 +13,7 @@ on:
       - 'mir1350/**'
       - 'toyota-sae160/**'
       - 'onrobot-rg6/**'
+      - 'onrobot-rg2/**'
       - 'onrobot-dual-quick-changer-109878/**'
       - 'onrobot-screwdriver-103961/**'
       - 'onrobot-bit-extender-109301/**'
@@ -41,6 +42,7 @@ on:
       - 'mir1350/**'
       - 'toyota-sae160/**'
       - 'onrobot-rg6/**'
+      - 'onrobot-rg2/**'
       - 'onrobot-dual-quick-changer-109878/**'
       - 'onrobot-screwdriver-103961/**'
       - 'onrobot-bit-extender-109301/**'
@@ -138,3 +140,11 @@ jobs:
           npm --prefix daihen-cm-7403/authoring test
           npm --prefix daihen-cm-7403/authoring run check
           python3 daihen-cm-7403/authoring/verify_obj.py
+
+      - name: OnRobot RG2 and RG6 visual topology and legacy contracts
+        run: |
+          node --test onrobot-rg2/authoring/model.test.mjs
+          node --test authoring/test/onrobot-contract.test.mjs
+          node onrobot-rg2/authoring/export.mjs --check
+          python3 onrobot-rg2/authoring/verify_obj.py
+          python3 onrobot-rg6/authoring/verify_obj.py

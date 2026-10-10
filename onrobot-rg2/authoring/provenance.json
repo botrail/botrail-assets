@@ -1,0 +1,56 @@
+{
+  "reference_product": "OnRobot RG2 with standard EPDM fingertips",
+  "reviewed": "2026-10-10",
+  "base_commit": "61759a3219bf36677374d733f2cfbd19aa2ac72a",
+  "datasheet": "https://onrobot.com/storage/datasheets/rg2/datasheet_rg2_v1.8_en.pdf",
+  "photos": [
+    "https://onrobot.com/img/paths/storage/products/rg2_2.png/60662dde895742ff0be55782bf793c57/rg2_2.png",
+    "https://onrobot.com/img/paths/storage/products/rg2_newqc.png/da95e30fd6712ecb6acf6c95f28b3d1e/rg2_newqc.png",
+    "https://onrobot.com/img/paths/storage/products/rg2_2.png/49f536ae8f6ccb8002de285a4c60118f/rg2_2.png",
+    "https://onrobot.com/img/paths/storage/products/rg2_newqc.png/f0bc288fb3df3816d739a591567127ee/rg2_newqc.png",
+    "https://onrobot.com/storage/videos/_thumbnails/parting-line-removal-with-hex-force-torque-sensor-and-rg2-gripper.jpg",
+    "https://onrobot.com/img/containers/images/rg2-%282%29.png/c2271a35c3a20f811165953d1544bcbc/rg2-%282%29.png",
+    "https://onrobot.com/img/containers/images/rg2-%284%29.png/b5e002ad74f695b97379327ddebd9c1f/rg2-%284%29.png",
+    "https://onrobot.com/img/containers/images/rg2-%285%29.png/c156ce03b48a49da9f6592441258640a/rg2-%285%29.png",
+    "https://onrobot.com/img/containers/images/rg2-%286%29.png/3c86f6ec6c7280396f8c8acf0c3d2571/rg2-%286%29.png"
+  ],
+  "rights_review": "Official publicly accessible datasheet and product photography inspected. No explicit reproduction restriction found in complete extracted datasheet text. Facts used as dimensions; no OEM image, drawing, CAD, mesh, logo, or texture redistributed. Photos used for visual inspection only. No restricted manual used.",
+  "published_dimensions_mm": {
+    "body_neck_width": 54,
+    "body_head_width": 65,
+    "body_depth": 36,
+    "bracket_width": 75,
+    "standard_epdm_external": [
+      20.2,
+      29.8,
+      11.4
+    ],
+    "stroke": 110
+  },
+  "legacy_contract": "URDF bytes unchanged including all frames, joints, mimic, limits and collision shapes. Legacy stated closedLength is not current visual height or independently verified mount-to-tip dimension.",
+  "estimates": [
+    "All shape curves, fillets, cover thicknesses and subdivisions",
+    "Bracket/QC geometry and screw locations; not a functional mating interface",
+    "Arm profile thicknesses, depth layering, bearings and safety-switch covers",
+    "Fingertip seating/overhang and carrier geometry",
+    "Closed visible mount-to-tip height; not an OEM dimension",
+    "Safety-switch guard distal relief independently added to clear supporting shafts under preserved legacy kinematics; not a verified OEM cover shape"
+  ],
+  "excluded": [
+    "OEM media and textures",
+    "Vendor/community CAD or meshes",
+    "Brand logos",
+    "Functional safety switch, exact mating interface, cable and dynamics"
+  ],
+  "known_mismatches": [
+    "Legacy collision proxies and TCP do not align to new fitted boots",
+    "Legacy shoulder-to-bare-tip dimension was previously treated as mount-to-pad endpoint",
+    "Legacy body/arm collision proxy overlap remains unchanged"
+  ],
+  "product_page": "https://onrobot.com/en/products/rg2-finger-gripper",
+  "legacy_numerical_sources": [
+    "https://github.com/Osaka-University-Harada-Laboratory/onrobot/blob/46fae3557dd3aff678adf6b3320ec1338493d84a/onrobot_rg_description/urdf/onrobot_rg2_model_macro.xacro",
+    "https://github.com/inria-paris-robotics-lab/onrobot_ros/blob/9c6ce32d84bd903d59120c2a95d4a115d6e33cde/onrobot_description/config/rg2_v1.yaml"
+  ],
+  "datasheet_sha256": "f9a5fb15fba873b4c4ca645fb5627dcce1f8f8b87102d77bbf873f7a6688dfac"
+}
