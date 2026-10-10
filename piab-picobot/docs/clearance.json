@@ -1,0 +1,27 @@
+{
+  "fixed_only": true,
+  "motion_sweep": "not applicable; manual adjustment intentionally fixed",
+  "collision_coverage": [
+    {
+      "link": "mount",
+      "vertices": 91412,
+      "outside_collision_vertices": 36750,
+      "max_outside_mm": 17.16512365637421,
+      "maximum_part": "air_pushfit_collar"
+    },
+    {
+      "link": "cup_a",
+      "vertices": 5291,
+      "outside_collision_vertices": 65,
+      "max_outside_mm": 1.0000001117587107,
+      "maximum_part": "cup_upper_bellows"
+    },
+    {
+      "link": "cup_b",
+      "vertices": 5291,
+      "outside_collision_vertices": 65,
+      "max_outside_mm": 1.0000001117587107,
+      "maximum_part": "cup_upper_bellows"
+    }
+  ]
+}

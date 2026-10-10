@@ -1,0 +1,72 @@
+{
+  "reference": "Original 7 kg air-driven Piab piCOBOT for Universal Robots with Adjustable Gripper 0212848, Interface16x17",
+  "not_reference": [
+    "piCOBOT L",
+    "piCOBOT Electric",
+    "ActiNav",
+    "0244112 Interface30x40"
+  ],
+  "baseline_main_sha": "c945d9e6257a66539b4d0495c30f89d1040b95bf",
+  "baseline_tree_sha": "b0bf6a6ee575585417e50194322d39ed22ee7117",
+  "urdf_sha256": "05ff9b82b8670e1655a9b732eb5e2dcb630fc62d27d5957a685887406ebce613",
+  "public_facts": {
+    "ejector_envelope_mm": [
+      93,
+      74
+    ],
+    "gripper_max_envelope_mm": [
+      174,
+      72.2,
+      37.55
+    ],
+    "cup_spacing_range_mm": [
+      97,
+      142
+    ],
+    "cup_tilt_degrees": 15,
+    "pictured_cup": "0205105 B35XP PU30/60 G1/4 male",
+    "pictured_cup_lip_od_mm": 37
+  },
+  "preserved_legacy_assumptions": {
+    "cup_diameter_mm": 40,
+    "cup_height_mm": 22,
+    "cup_spacing_mm": 120,
+    "cup_holder_frame_z_mm": 112,
+    "tcp_z_mm": 134,
+    "adapter_plate_thickness_mm": 5,
+    "adapter_hole_diameter_mm": 6.6
+  },
+  "visual_estimates": [
+    "barrel diameter and detailed contour",
+    "HMI/COAX positions and sizes",
+    "cap steps",
+    "socket and elbow contours",
+    "arm profiles and holder geometry",
+    "hose routing",
+    "cup profile rescaled to legacy envelope"
+  ],
+  "sources": [
+    {
+      "url": "https://www.universal-robots.com/marketplace/products/01tP40000071NYNIA2/",
+      "use": "original UR overall envelopes and 7kg payload"
+    },
+    {
+      "url": "https://www.piab.com/robot-and-cobot-gripping-solutions/cobots-and-robot-grippers/picobot-vacuum-gripper-unit/picobot-for-universal-robots",
+      "use": "studio render plus real box/tablet lifting photographs, visually inspected"
+    },
+    {
+      "url": "https://www.piab.com/robot-and-cobot-gripping-solutions/cobots-and-robot-grippers/picobot-vacuum-gripper-unit/0212848",
+      "use": "bare gripper photograph and eligible standalone dimensions"
+    },
+    {
+      "url": "https://www.piab.com/suction-cups-and-soft-grippers/round-suction-cups/bellows-suction-cups/0205105",
+      "use": "pictured cup identification and mismatch with legacy envelope"
+    }
+  ],
+  "third_party_assets_embedded": false,
+  "restricted_manual_dimension_sources_used": false,
+  "external_leads_included": false,
+  "manual_adjustment_simulated": false,
+  "collision_changed": false,
+  "publication_performed": false
+}
