@@ -51,3 +51,18 @@ npm --prefix authoring test
 ```
 
 The portable subset includes the target and its shared runtime, not unrelated asset test fixtures; run the target commands there. Run the shared test command in the complete repository.
+
+## Collision revision (2026-10-11)
+
+The collisions are now axis-aligned boxes around the drawn parts, generated from the visual groups in
+`authoring/model.mjs` (base 16, carriage 6; the cantilever deck and its triangular cheeks in four slabs
+along the reach). Joints, frames, limits and drive settings are byte-identical to r1, and the meshes are
+unchanged; only the `<collision>` elements of the URDF differ.
+
+- Every visual vertex lies inside its link's boxes to 1 µm (new test); the open base frame stays open
+  (sample points inside the frame opening are in no box); the robot plate box top is the `robot_mount` plane
+- r1's proxies left the visual up to 80 mm outside on the base (status lights, sensors, guide rails,
+  cabinet details) and 55 mm on the carriage (triangular cheeks)
+- Passed: 9 target Node tests, export `--check`, OBJ topology audit, the full-stroke motion audit
+  (report regenerated; only the URDF hash and the limitation text change)
+- URDF SHA-256 `a1a117ad6565…`, pinned in `model.test.mjs` and `verify_motion.py`

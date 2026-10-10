@@ -6,7 +6,7 @@ not a claim of a mesh intersection. No hidden mechanism or load capacity tested.
 from pathlib import Path
 import hashlib,json,xml.etree.ElementTree as ET
 ASSET=Path(__file__).resolve().parent.parent
-LEGACY='d01d8d818a02a9e458da0c1ed015921b4c124c56da7d66ace82c906ec1fe85ac'
+CONTRACT='a1a117ad656548fb70fdd8d24a2a73ddfe6da8085c8946bd1e35d91a32f9cd0c'  # 2026-10-11: r1 joints and frames, box collisions around the drawn parts
 def parse_obj(path):
     vertices=[];groups={};name=None
     for line in path.read_text().splitlines():
@@ -19,7 +19,7 @@ def parse_obj(path):
                   [max(vertices[j][k] for j in ids) for k in range(3)]] for name,ids in groups.items()}
 def separation(a,b):return max(max(a[0][k]-b[1][k],b[0][k]-a[1][k]) for k in range(3))
 def translated(bounds,xyz):return [[p[k]+xyz[k] for k in range(3)] for p in bounds]
-p=ASSET/'urdf/robotiq-ax-series-base.urdf';digest=hashlib.sha256(p.read_bytes()).hexdigest();assert digest==LEGACY
+p=ASSET/'urdf/robotiq-ax-series-base.urdf';digest=hashlib.sha256(p.read_bytes()).hexdigest();assert digest==CONTRACT
 xml=ET.parse(p).getroot();joint=xml.find("joint[@name='lift_joint']")
 assert joint.get('type')=='prismatic' and joint.find('axis').get('xyz')=='0 0 1'
 origin=list(map(float,joint.find('origin').get('xyz').split()));limit=joint.find('limit')
@@ -54,5 +54,5 @@ report={'urdf_sha256':digest,'meshes_sha256':{p.name:hashlib.sha256(p.read_bytes
  'full_stroke_swept_aabb_violations':violations,'minimum_separating_axis_gap_m':min_gap,'minimum_gap_pair':pair,
  'fk_samples':1501,'representative_frames':frames,'guide_capture':supports,
  'limitations':['Axis-separated swept visual bounds certify nonintersection only for this authored rigid +Z translation.',
- 'Legacy collision solids, anchor fit, bearing tolerances, load capacity and flexible cables are not validated.']}
+ 'Collision boxes enclose the drawn parts (model.test.mjs); anchor fit, bearing tolerances, load capacity and flexible cables are not validated.']}
 print(json.dumps(report,indent=2))
