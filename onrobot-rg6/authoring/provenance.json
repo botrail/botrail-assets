@@ -1,0 +1,53 @@
+{
+  "reference_product": "OnRobot RG6 with standard EPDM fingertips",
+  "reviewed": "2026-10-10",
+  "base_commit": "61759a3219bf36677374d733f2cfbd19aa2ac72a",
+  "datasheet": "https://onrobot.com/storage/datasheets/rg6/datasheet_rg6_v2.0_en.pdf",
+  "photos": [
+    "https://onrobot.com/img/paths/storage/products/rg6_2-%281%29.png/2172f3ab042f03f00d4c90d6317c0885/rg6_2-%281%29.png",
+    "https://onrobot.com/img/paths/storage/products/rg6-2.png/d946634638f09062ca2693a8ff46523b/rg6-2.png",
+    "https://onrobot.com/img/paths/storage/products/rg6_2-%281%29.png/d8560c356041d617e781992a8343d1ea/rg6_2-%281%29.png",
+    "https://onrobot.com/img/paths/storage/products/rg6-2.png/ccf7f041ff5e267cc629de9b4003c986/rg6-2.png",
+    "https://onrobot.com/img/containers/images/rg6-%282%29.png/cb25ddac76dc345ee5d4bc40e7cc0a25/rg6-%282%29.png",
+    "https://onrobot.com/img/containers/images/rg6-%283%29.png/e7e014e21b000c80e2c4ee1423e939e1/rg6-%283%29.png",
+    "https://onrobot.com/img/containers/images/rg6-%284%29.png/0e79720d1f6888ed8f43497e4113086a/rg6-%284%29.png"
+  ],
+  "rights_review": "Official publicly accessible datasheet and product photography inspected. No explicit reproduction restriction found in complete extracted datasheet text. Facts used as dimensions; no OEM image, drawing, CAD, mesh, logo, or texture redistributed. Photos used for visual inspection only. No restricted manual used.",
+  "published_dimensions_mm": {
+    "body_neck_width": 60,
+    "body_head_width": 84,
+    "body_depth": 42,
+    "bracket_width": 82,
+    "standard_epdm_external": [
+      25,
+      37,
+      13.15
+    ],
+    "stroke": 160
+  },
+  "legacy_contract": "URDF bytes unchanged including all frames, joints, mimic, limits and collision shapes. Legacy stated closedLength is not current visual height or independently verified mount-to-tip dimension.",
+  "estimates": [
+    "All shape curves, fillets, cover thicknesses and subdivisions",
+    "Bracket/QC geometry and screw locations; not a functional mating interface",
+    "Arm profile thicknesses, depth layering, bearings and safety-switch covers",
+    "Fingertip seating/overhang and carrier geometry",
+    "Closed visible mount-to-tip height; not an OEM dimension",
+    "Safety-switch guard distal relief independently added to clear supporting shafts under preserved legacy kinematics; not a verified OEM cover shape"
+  ],
+  "excluded": [
+    "OEM media and textures",
+    "Vendor/community CAD or meshes",
+    "Brand logos",
+    "Functional safety switch, exact mating interface, cable and dynamics"
+  ],
+  "known_mismatches": [
+    "Legacy collision proxies and TCP do not align to new fitted boots",
+    "Legacy shoulder-to-bare-tip dimension was previously treated as mount-to-pad endpoint",
+    "Legacy body/arm collision proxy overlap remains unchanged"
+  ],
+  "product_page": "https://onrobot.com/en/products/rg6-finger-gripper",
+  "legacy_numerical_sources": [
+    "https://github.com/inria-paris-robotics-lab/onrobot_ros/blob/9c6ce32d84bd903d59120c2a95d4a115d6e33cde/onrobot_description/config/rg6_v2.yaml"
+  ],
+  "datasheet_sha256": "4449915dc12fd26501aa37baa404e3369defcab1833e8e0a0cbe857accbb8080"
+}

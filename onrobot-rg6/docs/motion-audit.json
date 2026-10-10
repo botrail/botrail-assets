@@ -1,0 +1,2267 @@
+{
+  "asset": "onrobot-rg6",
+  "robot_name": "onrobot_rg6_reference",
+  "urdf_sha256": "7e1a0d322ceef6d61ad1ebd98069728e553c1c600ae9557932fa11f8b417d65e",
+  "mesh_sha256": {
+    "rg6_v2_gripper_body.obj": "6e46b05a6f6d883a515805b343be81cc846d53902c1d059e287bd8dbde951ca0",
+    "rg6_v2_gripper_bracket.obj": "6caf7d21580576a770842da04d26f82c1bd5ccee4579670e6d871ea401304fd8",
+    "rg6_v2_gripper_finger_1_finger_tip.obj": "07e60932ed2b8940de17c3b9f91fab2effefb88ba447c0a22b5718a31cf009ae",
+    "rg6_v2_gripper_finger_1_flex_finger.obj": "27c144402557dcaa32ca70eefffb50c88a6399b367c7b56c3b5249542298f1c2",
+    "rg6_v2_gripper_finger_1_moment_arm.obj": "ea3363d579b5e770f1199904346c7b455f55bf48444b25a3f510ee1aee3ecbde",
+    "rg6_v2_gripper_finger_1_truss_arm.obj": "a1ee63aad9f0537f8cd7f8c7d5418e873e8f44cca13c28e64de3cf35c1ff330b",
+    "rg6_v2_gripper_finger_2_finger_tip.obj": "bc72e3578795aacdcf734ad6960baeb5cdf1a00dfda85a304d7cdf31b3a481c3",
+    "rg6_v2_gripper_finger_2_flex_finger.obj": "d499c8c705e68d1e5e6dae764d2ce3ac4fc9dbcffeee1674d6b548d975aa5372",
+    "rg6_v2_gripper_finger_2_moment_arm.obj": "498a0df5f9a564a8ba4ef22fc035cea306baa20a963f8944c0fa5e3e932bb5fc",
+    "rg6_v2_gripper_finger_2_truss_arm.obj": "662fbf6b6ab5108e293a1be75f9eff4ca6dff7075df48ddb3006c695cd0c48ef"
+  },
+  "method": "Welded OBJ object solids, manifold3d Boolean union/intersection/difference in millimetres; sampled FK from committed URDF. Contacts below 1e-4 mm3 excluded. No continuous collision guarantee.",
+  "topology": {
+    "rg6_v2_gripper_bracket": {
+      "qc_blue_base": {
+        "vertices": 130,
+        "triangles": 256,
+        "removed_degenerate_triangles": 0,
+        "boundary_edges": 0,
+        "nonmanifold_edges": 0,
+        "watertight": true,
+        "winding_consistent": true,
+        "signed_volume_mm3": 24113.785636313667
+      },
+      "qc_open_lug_-1_-1": {
+        "vertices": 152,
+        "triangles": 300,
+        "removed_degenerate_triangles": 0,
+        "boundary_edges": 0,
+        "nonmanifold_edges": 0,
+        "watertight": true,
+        "winding_consistent": true,
+        "signed_volume_mm3": 1140.450024022675
+      },
+      "qc_open_lug_-1_1": {
+        "vertices": 152,
+        "triangles": 300,
+        "removed_degenerate_triangles": 0,
+        "boundary_edges": 0,
+        "nonmanifold_edges": 0,
+        "watertight": true,
+        "winding_consistent": true,
+        "signed_volume_mm3": 1140.450024022675
+      },
+      "qc_open_lug_1_-1": {
+        "vertices": 152,
+        "triangles": 300,
+        "removed_degenerate_triangles": 0,
+        "boundary_edges": 0,
+        "nonmanifold_edges": 0,
+        "watertight": true,
+        "winding_consistent": true,
+        "signed_volume_mm3": 1140.450024022675
+      },
+      "qc_open_lug_1_1": {
+        "vertices": 152,
+        "triangles": 300,
+        "removed_degenerate_triangles": 0,
+        "boundary_edges": 0,
+        "nonmanifold_edges": 0,
+        "watertight": true,
+        "winding_consistent": true,
+        "signed_volume_mm3": 1140.450024022675
+      },
+      "bracket_base": {
+        "vertices": 130,
+        "triangles": 256,
+        "removed_degenerate_triangles": 0,
+        "boundary_edges": 0,
+        "nonmanifold_edges": 0,
+        "watertight": true,
+        "winding_consistent": true,
+        "signed_volume_mm3": 36907.7670574617
+      },
+      "bracket_saddle": {
+        "vertices": 152,
+        "triangles": 300,
+        "removed_degenerate_triangles": 0,
+        "boundary_edges": 0,
+        "nonmanifold_edges": 0,
+        "watertight": true,
+        "winding_consistent": true,
+        "signed_volume_mm3": 30223.69235673698
+      },
+      "tilt_cheek_-1": {
+        "vertices": 196,
+        "triangles": 388,
+        "removed_degenerate_triangles": 0,
+        "boundary_edges": 0,
+        "nonmanifold_edges": 0,
+        "watertight": true,
+        "winding_consistent": true,
+        "signed_volume_mm3": 5940.5980703896885
+      },
+      "tilt_cap_-1": {
+        "vertices": 130,
+        "triangles": 256,
+        "removed_degenerate_triangles": 0,
+        "boundary_edges": 0,
+        "nonmanifold_edges": 0,
+        "watertight": true,
+        "winding_consistent": true,
+        "signed_volume_mm3": 6273.096886675029
+      },
+      "tilt_cheek_1": {
+        "vertices": 196,
+        "triangles": 388,
+        "removed_degenerate_triangles": 0,
+        "boundary_edges": 0,
+        "nonmanifold_edges": 0,
+        "watertight": true,
+        "winding_consistent": true,
+        "signed_volume_mm3": 5940.5980703896885
+      },
+      "tilt_cap_1": {
+        "vertices": 130,
+        "triangles": 256,
+        "removed_degenerate_triangles": 0,
+        "boundary_edges": 0,
+        "nonmanifold_edges": 0,
+        "watertight": true,
+        "winding_consistent": true,
+        "signed_volume_mm3": 6273.096886675024
+      },
+      "tilt_recess_-1_-0.014": {
+        "vertices": 50,
+        "triangles": 96,
+        "removed_degenerate_triangles": 0,
+        "boundary_edges": 0,
+        "nonmanifold_edges": 0,
+        "watertight": true,
+        "winding_consistent": true,
+        "signed_volume_mm3": 3.018865442649009
+      },
+      "tilt_recess_-1_0.014": {
+        "vertices": 50,
+        "triangles": 96,
+        "removed_degenerate_triangles": 0,
+        "boundary_edges": 0,
+        "nonmanifold_edges": 0,
+        "watertight": true,
+        "winding_consistent": true,
+        "signed_volume_mm3": 3.018865442649011
+      },
+      "tilt_recess_1_-0.014": {
+        "vertices": 50,
+        "triangles": 96,
+        "removed_degenerate_triangles": 0,
+        "boundary_edges": 0,
+        "nonmanifold_edges": 0,
+        "watertight": true,
+        "winding_consistent": true,
+        "signed_volume_mm3": 3.018865442649011
+      },
+      "tilt_recess_1_0.014": {
+        "vertices": 50,
+        "triangles": 96,
+        "removed_degenerate_triangles": 0,
+        "boundary_edges": 0,
+        "nonmanifold_edges": 0,
+        "watertight": true,
+        "winding_consistent": true,
+        "signed_volume_mm3": 3.018865442649009
+      },
+      "bracket_neck": {
+        "vertices": 152,
+        "triangles": 300,
+        "removed_degenerate_triangles": 0,
+        "boundary_edges": 0,
+        "nonmanifold_edges": 0,
+        "watertight": true,
+        "winding_consistent": true,
+        "signed_volume_mm3": 65591.76730851627
+      }
+    },
+    "rg6_v2_gripper_body": {
+      "sculpted_cover_-1": {
+        "vertices": 294,
+        "triangles": 584,
+        "removed_degenerate_triangles": 0,
+        "boundary_edges": 0,
+        "nonmanifold_edges": 0,
+        "watertight": true,
+        "winding_consistent": true,
+        "signed_volume_mm3": 19784.801157402733
+      },
+      "sculpted_cover_1": {
+        "vertices": 294,
+        "triangles": 584,
+        "removed_degenerate_triangles": 0,
+        "boundary_edges": 0,
+        "nonmanifold_edges": 0,
+        "watertight": true,
+        "winding_consistent": true,
+        "signed_volume_mm3": 19784.801157402733
+      },
+      "stem_core": {
+        "vertices": 152,
+        "triangles": 300,
+        "removed_degenerate_triangles": 0,
+        "boundary_edges": 0,
+        "nonmanifold_edges": 0,
+        "watertight": true,
+        "winding_consistent": true,
+        "signed_volume_mm3": 139602.50544616077
+      },
+      "head_drive_core": {
+        "vertices": 152,
+        "triangles": 300,
+        "removed_degenerate_triangles": 0,
+        "boundary_edges": 0,
+        "nonmanifold_edges": 0,
+        "watertight": true,
+        "winding_consistent": true,
+        "signed_volume_mm3": 22727.59487372191
+      },
+      "head_recess_-1_-0.01": {
+        "vertices": 50,
+        "triangles": 96,
+        "removed_degenerate_triangles": 0,
+        "boundary_edges": 0,
+        "nonmanifold_edges": 0,
+        "watertight": true,
+        "winding_consistent": true,
+        "signed_volume_mm3": 1.455857202365305
+      },
+      "head_recess_-1_0.01": {
+        "vertices": 50,
+        "triangles": 96,
+        "removed_degenerate_triangles": 0,
+        "boundary_edges": 0,
+        "nonmanifold_edges": 0,
+        "watertight": true,
+        "winding_consistent": true,
+        "signed_volume_mm3": 1.455857202365305
+      },
+      "head_recess_1_-0.01": {
+        "vertices": 50,
+        "triangles": 96,
+        "removed_degenerate_triangles": 0,
+        "boundary_edges": 0,
+        "nonmanifold_edges": 0,
+        "watertight": true,
+        "winding_consistent": true,
+        "signed_volume_mm3": 1.455857202365305
+      },
+      "head_recess_1_0.01": {
+        "vertices": 50,
+        "triangles": 96,
+        "removed_degenerate_triangles": 0,
+        "boundary_edges": 0,
+        "nonmanifold_edges": 0,
+        "watertight": true,
+        "winding_consistent": true,
+        "signed_volume_mm3": 1.455857202365305
+      },
+      "truss_pivot_socket_-1_-1": {
+        "vertices": 82,
+        "triangles": 160,
+        "removed_degenerate_triangles": 0,
+        "boundary_edges": 0,
+        "nonmanifold_edges": 0,
+        "watertight": true,
+        "winding_consistent": true,
+        "signed_volume_mm3": 440.5194602577788
+      },
+      "truss_pivot_socket_-1_1": {
+        "vertices": 82,
+        "triangles": 160,
+        "removed_degenerate_triangles": 0,
+        "boundary_edges": 0,
+        "nonmanifold_edges": 0,
+        "watertight": true,
+        "winding_consistent": true,
+        "signed_volume_mm3": 440.5194602577788
+      },
+      "truss_pivot_socket_1_-1": {
+        "vertices": 82,
+        "triangles": 160,
+        "removed_degenerate_triangles": 0,
+        "boundary_edges": 0,
+        "nonmanifold_edges": 0,
+        "watertight": true,
+        "winding_consistent": true,
+        "signed_volume_mm3": 440.5194602577788
+      },
+      "truss_pivot_socket_1_1": {
+        "vertices": 82,
+        "triangles": 160,
+        "removed_degenerate_triangles": 0,
+        "boundary_edges": 0,
+        "nonmanifold_edges": 0,
+        "watertight": true,
+        "winding_consistent": true,
+        "signed_volume_mm3": 440.5194602577788
+      }
+    },
+    "rg6_v2_gripper_finger_1_moment_arm": {
+      "sculpted_link_-1": {
+        "vertices": 196,
+        "triangles": 388,
+        "removed_degenerate_triangles": 0,
+        "boundary_edges": 0,
+        "nonmanifold_edges": 0,
+        "watertight": true,
+        "winding_consistent": true,
+        "signed_volume_mm3": 3899.979105671239
+      },
+      "sculpted_link_1": {
+        "vertices": 196,
+        "triangles": 388,
+        "removed_degenerate_triangles": 0,
+        "boundary_edges": 0,
+        "nonmanifold_edges": 0,
+        "watertight": true,
+        "winding_consistent": true,
+        "signed_volume_mm3": 3899.979105671239
+      },
+      "pivot_axle_0_-1": {
+        "vertices": 82,
+        "triangles": 160,
+        "removed_degenerate_triangles": 0,
+        "boundary_edges": 0,
+        "nonmanifold_edges": 0,
+        "watertight": true,
+        "winding_consistent": true,
+        "signed_volume_mm3": 216.2550043038666
+      },
+      "pivot_axle_0_1": {
+        "vertices": 82,
+        "triangles": 160,
+        "removed_degenerate_triangles": 0,
+        "boundary_edges": 0,
+        "nonmanifold_edges": 0,
+        "watertight": true,
+        "winding_consistent": true,
+        "signed_volume_mm3": 216.2550043038666
+      },
+      "pivot_boss_0_-1": {
+        "vertices": 82,
+        "triangles": 160,
+        "removed_degenerate_triangles": 0,
+        "boundary_edges": 0,
+        "nonmanifold_edges": 0,
+        "watertight": true,
+        "winding_consistent": true,
+        "signed_volume_mm3": 149.99447454552578
+      },
+      "pivot_recess_0_-1": {
+        "vertices": 50,
+        "triangles": 96,
+        "removed_degenerate_triangles": 0,
+        "boundary_edges": 0,
+        "nonmanifold_edges": 0,
+        "watertight": true,
+        "winding_consistent": true,
+        "signed_volume_mm3": 3.320344130783481
+      },
+      "pivot_boss_0_1": {
+        "vertices": 82,
+        "triangles": 160,
+        "removed_degenerate_triangles": 0,
+        "boundary_edges": 0,
+        "nonmanifold_edges": 0,
+        "watertight": true,
+        "winding_consistent": true,
+        "signed_volume_mm3": 149.99447454552578
+      },
+      "pivot_recess_0_1": {
+        "vertices": 50,
+        "triangles": 96,
+        "removed_degenerate_triangles": 0,
+        "boundary_edges": 0,
+        "nonmanifold_edges": 0,
+        "watertight": true,
+        "winding_consistent": true,
+        "signed_volume_mm3": 3.320344130783481
+      },
+      "pivot_axle_1_-1": {
+        "vertices": 82,
+        "triangles": 160,
+        "removed_degenerate_triangles": 0,
+        "boundary_edges": 0,
+        "nonmanifold_edges": 0,
+        "watertight": true,
+        "winding_consistent": true,
+        "signed_volume_mm3": 216.2550043038665
+      },
+      "pivot_axle_1_1": {
+        "vertices": 82,
+        "triangles": 160,
+        "removed_degenerate_triangles": 0,
+        "boundary_edges": 0,
+        "nonmanifold_edges": 0,
+        "watertight": true,
+        "winding_consistent": true,
+        "signed_volume_mm3": 216.25500430386649
+      },
+      "pivot_boss_1_-1": {
+        "vertices": 82,
+        "triangles": 160,
+        "removed_degenerate_triangles": 0,
+        "boundary_edges": 0,
+        "nonmanifold_edges": 0,
+        "watertight": true,
+        "winding_consistent": true,
+        "signed_volume_mm3": 149.99447454552578
+      },
+      "pivot_recess_1_-1": {
+        "vertices": 50,
+        "triangles": 96,
+        "removed_degenerate_triangles": 0,
+        "boundary_edges": 0,
+        "nonmanifold_edges": 0,
+        "watertight": true,
+        "winding_consistent": true,
+        "signed_volume_mm3": 3.32034413078348
+      },
+      "pivot_boss_1_1": {
+        "vertices": 82,
+        "triangles": 160,
+        "removed_degenerate_triangles": 0,
+        "boundary_edges": 0,
+        "nonmanifold_edges": 0,
+        "watertight": true,
+        "winding_consistent": true,
+        "signed_volume_mm3": 149.99447454552578
+      },
+      "pivot_recess_1_1": {
+        "vertices": 50,
+        "triangles": 96,
+        "removed_degenerate_triangles": 0,
+        "boundary_edges": 0,
+        "nonmanifold_edges": 0,
+        "watertight": true,
+        "winding_consistent": true,
+        "signed_volume_mm3": 3.320344130783479
+      }
+    },
+    "rg6_v2_gripper_finger_1_truss_arm": {
+      "sculpted_link_-1": {
+        "vertices": 196,
+        "triangles": 388,
+        "removed_degenerate_triangles": 0,
+        "boundary_edges": 0,
+        "nonmanifold_edges": 0,
+        "watertight": true,
+        "winding_consistent": true,
+        "signed_volume_mm3": 3899.979105671239
+      },
+      "sculpted_link_1": {
+        "vertices": 196,
+        "triangles": 388,
+        "removed_degenerate_triangles": 0,
+        "boundary_edges": 0,
+        "nonmanifold_edges": 0,
+        "watertight": true,
+        "winding_consistent": true,
+        "signed_volume_mm3": 3899.979105671239
+      },
+      "pivot_axle_0_-1": {
+        "vertices": 82,
+        "triangles": 160,
+        "removed_degenerate_triangles": 0,
+        "boundary_edges": 0,
+        "nonmanifold_edges": 0,
+        "watertight": true,
+        "winding_consistent": true,
+        "signed_volume_mm3": 216.2550043038666
+      },
+      "pivot_axle_0_1": {
+        "vertices": 82,
+        "triangles": 160,
+        "removed_degenerate_triangles": 0,
+        "boundary_edges": 0,
+        "nonmanifold_edges": 0,
+        "watertight": true,
+        "winding_consistent": true,
+        "signed_volume_mm3": 216.2550043038666
+      },
+      "pivot_boss_0_-1": {
+        "vertices": 82,
+        "triangles": 160,
+        "removed_degenerate_triangles": 0,
+        "boundary_edges": 0,
+        "nonmanifold_edges": 0,
+        "watertight": true,
+        "winding_consistent": true,
+        "signed_volume_mm3": 149.99447454552578
+      },
+      "pivot_recess_0_-1": {
+        "vertices": 50,
+        "triangles": 96,
+        "removed_degenerate_triangles": 0,
+        "boundary_edges": 0,
+        "nonmanifold_edges": 0,
+        "watertight": true,
+        "winding_consistent": true,
+        "signed_volume_mm3": 3.320344130783481
+      },
+      "pivot_boss_0_1": {
+        "vertices": 82,
+        "triangles": 160,
+        "removed_degenerate_triangles": 0,
+        "boundary_edges": 0,
+        "nonmanifold_edges": 0,
+        "watertight": true,
+        "winding_consistent": true,
+        "signed_volume_mm3": 149.99447454552578
+      },
+      "pivot_recess_0_1": {
+        "vertices": 50,
+        "triangles": 96,
+        "removed_degenerate_triangles": 0,
+        "boundary_edges": 0,
+        "nonmanifold_edges": 0,
+        "watertight": true,
+        "winding_consistent": true,
+        "signed_volume_mm3": 3.320344130783481
+      },
+      "pivot_axle_1_-1": {
+        "vertices": 82,
+        "triangles": 160,
+        "removed_degenerate_triangles": 0,
+        "boundary_edges": 0,
+        "nonmanifold_edges": 0,
+        "watertight": true,
+        "winding_consistent": true,
+        "signed_volume_mm3": 216.2550043038665
+      },
+      "pivot_axle_1_1": {
+        "vertices": 82,
+        "triangles": 160,
+        "removed_degenerate_triangles": 0,
+        "boundary_edges": 0,
+        "nonmanifold_edges": 0,
+        "watertight": true,
+        "winding_consistent": true,
+        "signed_volume_mm3": 216.25500430386649
+      },
+      "pivot_boss_1_-1": {
+        "vertices": 82,
+        "triangles": 160,
+        "removed_degenerate_triangles": 0,
+        "boundary_edges": 0,
+        "nonmanifold_edges": 0,
+        "watertight": true,
+        "winding_consistent": true,
+        "signed_volume_mm3": 149.99447454552578
+      },
+      "pivot_recess_1_-1": {
+        "vertices": 50,
+        "triangles": 96,
+        "removed_degenerate_triangles": 0,
+        "boundary_edges": 0,
+        "nonmanifold_edges": 0,
+        "watertight": true,
+        "winding_consistent": true,
+        "signed_volume_mm3": 3.32034413078348
+      },
+      "pivot_boss_1_1": {
+        "vertices": 82,
+        "triangles": 160,
+        "removed_degenerate_triangles": 0,
+        "boundary_edges": 0,
+        "nonmanifold_edges": 0,
+        "watertight": true,
+        "winding_consistent": true,
+        "signed_volume_mm3": 149.99447454552578
+      },
+      "pivot_recess_1_1": {
+        "vertices": 50,
+        "triangles": 96,
+        "removed_degenerate_triangles": 0,
+        "boundary_edges": 0,
+        "nonmanifold_edges": 0,
+        "watertight": true,
+        "winding_consistent": true,
+        "signed_volume_mm3": 3.320344130783479
+      },
+      "safety_switch_cover_-1": {
+        "vertices": 250,
+        "triangles": 496,
+        "removed_degenerate_triangles": 0,
+        "boundary_edges": 0,
+        "nonmanifold_edges": 0,
+        "watertight": true,
+        "winding_consistent": true,
+        "signed_volume_mm3": 1861.7689228137988
+      },
+      "safety_switch_cover_1": {
+        "vertices": 250,
+        "triangles": 496,
+        "removed_degenerate_triangles": 0,
+        "boundary_edges": 0,
+        "nonmanifold_edges": 0,
+        "watertight": true,
+        "winding_consistent": true,
+        "signed_volume_mm3": 1861.7689228137988
+      }
+    },
+    "rg6_v2_gripper_finger_1_finger_tip": {
+      "finger_carrier": {
+        "vertices": 152,
+        "triangles": 300,
+        "removed_degenerate_triangles": 0,
+        "boundary_edges": 0,
+        "nonmanifold_edges": 0,
+        "watertight": true,
+        "winding_consistent": true,
+        "signed_volume_mm3": 2336.9811133753487
+      },
+      "carrier_web_-1": {
+        "vertices": 12,
+        "triangles": 20,
+        "removed_degenerate_triangles": 0,
+        "boundary_edges": 0,
+        "nonmanifold_edges": 0,
+        "watertight": true,
+        "winding_consistent": true,
+        "signed_volume_mm3": 1914.5901277966639
+      },
+      "carrier_web_1": {
+        "vertices": 12,
+        "triangles": 20,
+        "removed_degenerate_triangles": 0,
+        "boundary_edges": 0,
+        "nonmanifold_edges": 0,
+        "watertight": true,
+        "winding_consistent": true,
+        "signed_volume_mm3": 1914.5901277966639
+      },
+      "carrier_bridge": {
+        "vertices": 82,
+        "triangles": 160,
+        "removed_degenerate_triangles": 0,
+        "boundary_edges": 0,
+        "nonmanifold_edges": 0,
+        "watertight": true,
+        "winding_consistent": true,
+        "signed_volume_mm3": 1877.2136459816736
+      },
+      "carrier_lower_axle": {
+        "vertices": 82,
+        "triangles": 160,
+        "removed_degenerate_triangles": 0,
+        "boundary_edges": 0,
+        "nonmanifold_edges": 0,
+        "watertight": true,
+        "winding_consistent": true,
+        "signed_volume_mm3": 1257.1073841381753
+      }
+    },
+    "rg6_v2_gripper_finger_1_flex_finger": {
+      "rubber_pad_contact": {
+        "vertices": 102,
+        "triangles": 200,
+        "removed_degenerate_triangles": 0,
+        "boundary_edges": 0,
+        "nonmanifold_edges": 0,
+        "watertight": true,
+        "winding_consistent": true,
+        "signed_volume_mm3": 4288.808956637658
+      },
+      "rubber_pad_sleeve": {
+        "vertices": 204,
+        "triangles": 404,
+        "removed_degenerate_triangles": 0,
+        "boundary_edges": 0,
+        "nonmanifold_edges": 0,
+        "watertight": true,
+        "winding_consistent": true,
+        "signed_volume_mm3": 1387.1715665207112
+      }
+    },
+    "rg6_v2_gripper_finger_2_moment_arm": {
+      "sculpted_link_-1": {
+        "vertices": 196,
+        "triangles": 388,
+        "removed_degenerate_triangles": 0,
+        "boundary_edges": 0,
+        "nonmanifold_edges": 0,
+        "watertight": true,
+        "winding_consistent": true,
+        "signed_volume_mm3": 3899.979105671239
+      },
+      "sculpted_link_1": {
+        "vertices": 196,
+        "triangles": 388,
+        "removed_degenerate_triangles": 0,
+        "boundary_edges": 0,
+        "nonmanifold_edges": 0,
+        "watertight": true,
+        "winding_consistent": true,
+        "signed_volume_mm3": 3899.979105671239
+      },
+      "pivot_axle_0_-1": {
+        "vertices": 82,
+        "triangles": 160,
+        "removed_degenerate_triangles": 0,
+        "boundary_edges": 0,
+        "nonmanifold_edges": 0,
+        "watertight": true,
+        "winding_consistent": true,
+        "signed_volume_mm3": 216.2550043038666
+      },
+      "pivot_axle_0_1": {
+        "vertices": 82,
+        "triangles": 160,
+        "removed_degenerate_triangles": 0,
+        "boundary_edges": 0,
+        "nonmanifold_edges": 0,
+        "watertight": true,
+        "winding_consistent": true,
+        "signed_volume_mm3": 216.2550043038666
+      },
+      "pivot_boss_0_-1": {
+        "vertices": 82,
+        "triangles": 160,
+        "removed_degenerate_triangles": 0,
+        "boundary_edges": 0,
+        "nonmanifold_edges": 0,
+        "watertight": true,
+        "winding_consistent": true,
+        "signed_volume_mm3": 149.99447454552578
+      },
+      "pivot_recess_0_-1": {
+        "vertices": 50,
+        "triangles": 96,
+        "removed_degenerate_triangles": 0,
+        "boundary_edges": 0,
+        "nonmanifold_edges": 0,
+        "watertight": true,
+        "winding_consistent": true,
+        "signed_volume_mm3": 3.320344130783481
+      },
+      "pivot_boss_0_1": {
+        "vertices": 82,
+        "triangles": 160,
+        "removed_degenerate_triangles": 0,
+        "boundary_edges": 0,
+        "nonmanifold_edges": 0,
+        "watertight": true,
+        "winding_consistent": true,
+        "signed_volume_mm3": 149.99447454552578
+      },
+      "pivot_recess_0_1": {
+        "vertices": 50,
+        "triangles": 96,
+        "removed_degenerate_triangles": 0,
+        "boundary_edges": 0,
+        "nonmanifold_edges": 0,
+        "watertight": true,
+        "winding_consistent": true,
+        "signed_volume_mm3": 3.320344130783481
+      },
+      "pivot_axle_1_-1": {
+        "vertices": 82,
+        "triangles": 160,
+        "removed_degenerate_triangles": 0,
+        "boundary_edges": 0,
+        "nonmanifold_edges": 0,
+        "watertight": true,
+        "winding_consistent": true,
+        "signed_volume_mm3": 216.2550043038665
+      },
+      "pivot_axle_1_1": {
+        "vertices": 82,
+        "triangles": 160,
+        "removed_degenerate_triangles": 0,
+        "boundary_edges": 0,
+        "nonmanifold_edges": 0,
+        "watertight": true,
+        "winding_consistent": true,
+        "signed_volume_mm3": 216.25500430386649
+      },
+      "pivot_boss_1_-1": {
+        "vertices": 82,
+        "triangles": 160,
+        "removed_degenerate_triangles": 0,
+        "boundary_edges": 0,
+        "nonmanifold_edges": 0,
+        "watertight": true,
+        "winding_consistent": true,
+        "signed_volume_mm3": 149.99447454552578
+      },
+      "pivot_recess_1_-1": {
+        "vertices": 50,
+        "triangles": 96,
+        "removed_degenerate_triangles": 0,
+        "boundary_edges": 0,
+        "nonmanifold_edges": 0,
+        "watertight": true,
+        "winding_consistent": true,
+        "signed_volume_mm3": 3.32034413078348
+      },
+      "pivot_boss_1_1": {
+        "vertices": 82,
+        "triangles": 160,
+        "removed_degenerate_triangles": 0,
+        "boundary_edges": 0,
+        "nonmanifold_edges": 0,
+        "watertight": true,
+        "winding_consistent": true,
+        "signed_volume_mm3": 149.99447454552578
+      },
+      "pivot_recess_1_1": {
+        "vertices": 50,
+        "triangles": 96,
+        "removed_degenerate_triangles": 0,
+        "boundary_edges": 0,
+        "nonmanifold_edges": 0,
+        "watertight": true,
+        "winding_consistent": true,
+        "signed_volume_mm3": 3.320344130783479
+      }
+    },
+    "rg6_v2_gripper_finger_2_truss_arm": {
+      "sculpted_link_-1": {
+        "vertices": 196,
+        "triangles": 388,
+        "removed_degenerate_triangles": 0,
+        "boundary_edges": 0,
+        "nonmanifold_edges": 0,
+        "watertight": true,
+        "winding_consistent": true,
+        "signed_volume_mm3": 3899.979105671239
+      },
+      "sculpted_link_1": {
+        "vertices": 196,
+        "triangles": 388,
+        "removed_degenerate_triangles": 0,
+        "boundary_edges": 0,
+        "nonmanifold_edges": 0,
+        "watertight": true,
+        "winding_consistent": true,
+        "signed_volume_mm3": 3899.979105671239
+      },
+      "pivot_axle_0_-1": {
+        "vertices": 82,
+        "triangles": 160,
+        "removed_degenerate_triangles": 0,
+        "boundary_edges": 0,
+        "nonmanifold_edges": 0,
+        "watertight": true,
+        "winding_consistent": true,
+        "signed_volume_mm3": 216.2550043038666
+      },
+      "pivot_axle_0_1": {
+        "vertices": 82,
+        "triangles": 160,
+        "removed_degenerate_triangles": 0,
+        "boundary_edges": 0,
+        "nonmanifold_edges": 0,
+        "watertight": true,
+        "winding_consistent": true,
+        "signed_volume_mm3": 216.2550043038666
+      },
+      "pivot_boss_0_-1": {
+        "vertices": 82,
+        "triangles": 160,
+        "removed_degenerate_triangles": 0,
+        "boundary_edges": 0,
+        "nonmanifold_edges": 0,
+        "watertight": true,
+        "winding_consistent": true,
+        "signed_volume_mm3": 149.99447454552578
+      },
+      "pivot_recess_0_-1": {
+        "vertices": 50,
+        "triangles": 96,
+        "removed_degenerate_triangles": 0,
+        "boundary_edges": 0,
+        "nonmanifold_edges": 0,
+        "watertight": true,
+        "winding_consistent": true,
+        "signed_volume_mm3": 3.320344130783481
+      },
+      "pivot_boss_0_1": {
+        "vertices": 82,
+        "triangles": 160,
+        "removed_degenerate_triangles": 0,
+        "boundary_edges": 0,
+        "nonmanifold_edges": 0,
+        "watertight": true,
+        "winding_consistent": true,
+        "signed_volume_mm3": 149.99447454552578
+      },
+      "pivot_recess_0_1": {
+        "vertices": 50,
+        "triangles": 96,
+        "removed_degenerate_triangles": 0,
+        "boundary_edges": 0,
+        "nonmanifold_edges": 0,
+        "watertight": true,
+        "winding_consistent": true,
+        "signed_volume_mm3": 3.320344130783481
+      },
+      "pivot_axle_1_-1": {
+        "vertices": 82,
+        "triangles": 160,
+        "removed_degenerate_triangles": 0,
+        "boundary_edges": 0,
+        "nonmanifold_edges": 0,
+        "watertight": true,
+        "winding_consistent": true,
+        "signed_volume_mm3": 216.2550043038665
+      },
+      "pivot_axle_1_1": {
+        "vertices": 82,
+        "triangles": 160,
+        "removed_degenerate_triangles": 0,
+        "boundary_edges": 0,
+        "nonmanifold_edges": 0,
+        "watertight": true,
+        "winding_consistent": true,
+        "signed_volume_mm3": 216.25500430386649
+      },
+      "pivot_boss_1_-1": {
+        "vertices": 82,
+        "triangles": 160,
+        "removed_degenerate_triangles": 0,
+        "boundary_edges": 0,
+        "nonmanifold_edges": 0,
+        "watertight": true,
+        "winding_consistent": true,
+        "signed_volume_mm3": 149.99447454552578
+      },
+      "pivot_recess_1_-1": {
+        "vertices": 50,
+        "triangles": 96,
+        "removed_degenerate_triangles": 0,
+        "boundary_edges": 0,
+        "nonmanifold_edges": 0,
+        "watertight": true,
+        "winding_consistent": true,
+        "signed_volume_mm3": 3.32034413078348
+      },
+      "pivot_boss_1_1": {
+        "vertices": 82,
+        "triangles": 160,
+        "removed_degenerate_triangles": 0,
+        "boundary_edges": 0,
+        "nonmanifold_edges": 0,
+        "watertight": true,
+        "winding_consistent": true,
+        "signed_volume_mm3": 149.99447454552578
+      },
+      "pivot_recess_1_1": {
+        "vertices": 50,
+        "triangles": 96,
+        "removed_degenerate_triangles": 0,
+        "boundary_edges": 0,
+        "nonmanifold_edges": 0,
+        "watertight": true,
+        "winding_consistent": true,
+        "signed_volume_mm3": 3.320344130783479
+      },
+      "safety_switch_cover_-1": {
+        "vertices": 250,
+        "triangles": 496,
+        "removed_degenerate_triangles": 0,
+        "boundary_edges": 0,
+        "nonmanifold_edges": 0,
+        "watertight": true,
+        "winding_consistent": true,
+        "signed_volume_mm3": 1861.7689228137988
+      },
+      "safety_switch_cover_1": {
+        "vertices": 250,
+        "triangles": 496,
+        "removed_degenerate_triangles": 0,
+        "boundary_edges": 0,
+        "nonmanifold_edges": 0,
+        "watertight": true,
+        "winding_consistent": true,
+        "signed_volume_mm3": 1861.7689228137988
+      }
+    },
+    "rg6_v2_gripper_finger_2_finger_tip": {
+      "finger_carrier": {
+        "vertices": 152,
+        "triangles": 300,
+        "removed_degenerate_triangles": 0,
+        "boundary_edges": 0,
+        "nonmanifold_edges": 0,
+        "watertight": true,
+        "winding_consistent": true,
+        "signed_volume_mm3": 2336.9811133753487
+      },
+      "carrier_web_-1": {
+        "vertices": 12,
+        "triangles": 20,
+        "removed_degenerate_triangles": 0,
+        "boundary_edges": 0,
+        "nonmanifold_edges": 0,
+        "watertight": true,
+        "winding_consistent": true,
+        "signed_volume_mm3": 1914.5901277966639
+      },
+      "carrier_web_1": {
+        "vertices": 12,
+        "triangles": 20,
+        "removed_degenerate_triangles": 0,
+        "boundary_edges": 0,
+        "nonmanifold_edges": 0,
+        "watertight": true,
+        "winding_consistent": true,
+        "signed_volume_mm3": 1914.5901277966639
+      },
+      "carrier_bridge": {
+        "vertices": 82,
+        "triangles": 160,
+        "removed_degenerate_triangles": 0,
+        "boundary_edges": 0,
+        "nonmanifold_edges": 0,
+        "watertight": true,
+        "winding_consistent": true,
+        "signed_volume_mm3": 1877.2136459816736
+      },
+      "carrier_lower_axle": {
+        "vertices": 82,
+        "triangles": 160,
+        "removed_degenerate_triangles": 0,
+        "boundary_edges": 0,
+        "nonmanifold_edges": 0,
+        "watertight": true,
+        "winding_consistent": true,
+        "signed_volume_mm3": 1257.1073841381753
+      }
+    },
+    "rg6_v2_gripper_finger_2_flex_finger": {
+      "rubber_pad_contact": {
+        "vertices": 102,
+        "triangles": 200,
+        "removed_degenerate_triangles": 0,
+        "boundary_edges": 0,
+        "nonmanifold_edges": 0,
+        "watertight": true,
+        "winding_consistent": true,
+        "signed_volume_mm3": 4288.808956637658
+      },
+      "rubber_pad_sleeve": {
+        "vertices": 204,
+        "triangles": 404,
+        "removed_degenerate_triangles": 0,
+        "boundary_edges": 0,
+        "nonmanifold_edges": 0,
+        "watertight": true,
+        "winding_consistent": true,
+        "signed_volume_mm3": 1387.1715665207112
+      }
+    }
+  },
+  "visual_collision_coverage": [
+    {
+      "link": "rg6_v2_gripper_bracket",
+      "visual_volume_mm3": 164360.1546096252,
+      "collision_volume_mm3": 285212.39999999997,
+      "visual_outside_collision_mm3": 9196.125071027038,
+      "collision_outside_visual_mm3": 130048.3704614018
+    },
+    {
+      "link": "rg6_v2_gripper_body",
+      "visual_volume_mm3": 203207.06088245957,
+      "collision_volume_mm3": 365400.0,
+      "visual_outside_collision_mm3": 73.17285324136279,
+      "collision_outside_visual_mm3": 162266.1119707818
+    },
+    {
+      "link": "rg6_v2_gripper_finger_1_moment_arm",
+      "visual_volume_mm3": 8113.228411487241,
+      "collision_volume_mm3": 9900.292732626998,
+      "visual_outside_collision_mm3": 2162.7676251591824,
+      "collision_outside_visual_mm3": 3949.831946298939
+    },
+    {
+      "link": "rg6_v2_gripper_finger_1_truss_arm",
+      "visual_volume_mm3": 9796.904000143135,
+      "collision_volume_mm3": 9900.292732626998,
+      "visual_outside_collision_mm3": 9796.904000143135,
+      "collision_outside_visual_mm3": 9900.292732626998
+    },
+    {
+      "link": "rg6_v2_gripper_finger_1_finger_tip",
+      "visual_volume_mm3": 8620.396619118468,
+      "collision_volume_mm3": 11340.0,
+      "visual_outside_collision_mm3": 5095.600742637715,
+      "collision_outside_visual_mm3": 7815.204123519246
+    },
+    {
+      "link": "rg6_v2_gripper_finger_1_flex_finger",
+      "visual_volume_mm3": 5675.980364642539,
+      "collision_volume_mm3": 7560.000000000001,
+      "visual_outside_collision_mm3": 4567.18029698995,
+      "collision_outside_visual_mm3": 6451.199932347413
+    },
+    {
+      "link": "rg6_v2_gripper_finger_2_moment_arm",
+      "visual_volume_mm3": 8113.228411487241,
+      "collision_volume_mm3": 9900.292732626998,
+      "visual_outside_collision_mm3": 2162.7676251591824,
+      "collision_outside_visual_mm3": 3949.831946298939
+    },
+    {
+      "link": "rg6_v2_gripper_finger_2_truss_arm",
+      "visual_volume_mm3": 9796.904000143135,
+      "collision_volume_mm3": 9900.292732626998,
+      "visual_outside_collision_mm3": 9796.904000143135,
+      "collision_outside_visual_mm3": 9900.292732626998
+    },
+    {
+      "link": "rg6_v2_gripper_finger_2_finger_tip",
+      "visual_volume_mm3": 8620.396619118468,
+      "collision_volume_mm3": 11340.0,
+      "visual_outside_collision_mm3": 5095.600742637715,
+      "collision_outside_visual_mm3": 7815.204123519246
+    },
+    {
+      "link": "rg6_v2_gripper_finger_2_flex_finger",
+      "visual_volume_mm3": 5675.980364642539,
+      "collision_volume_mm3": 7560.000000000001,
+      "visual_outside_collision_mm3": 4567.18029698995,
+      "collision_outside_visual_mm3": 6451.199932347413
+    }
+  ],
+  "motion": {
+    "samples": 101,
+    "q_range_rad": [
+      0.0,
+      1.3
+    ],
+    "pad_gap_open_mm": 160.00056042602526,
+    "pad_gap_closed_mm": 4.545179272952282e-07,
+    "pad_travel_mm": 160.00055997150733,
+    "pad_minimum_gap_mm": 4.545179272952282e-07,
+    "pad_gap_monotonic_decreasing": true,
+    "pad_max_normal_off_axis": 2.0682313387189724e-13,
+    "parallelogram_max_pivot_error_mm": 5.859285502108464e-14,
+    "tcp_mm": [
+      0.0,
+      0.0,
+      268.1
+    ],
+    "tcp_max_change_mm": 0.0,
+    "open_bounds_mm": [
+      [
+        -107.38402225229207,
+        -41.00000113248825,
+        -1.8998981120982306e-07
+      ],
+      [
+        107.38402225229372,
+        41.00000113248825,
+        236.44183051684314
+      ]
+    ],
+    "closed_bounds_mm": [
+      [
+        -41.999999433755875,
+        -41.00000113248825,
+        -1.8998981120982306e-07
+      ],
+      [
+        41.999999433755875,
+        41.00000113248825,
+        291.00000125050906
+      ]
+    ],
+    "connection_gaps": [
+      {
+        "links": [
+          "rg6_v2_gripper_body",
+          "rg6_v2_gripper_finger_1_moment_arm"
+        ],
+        "minimum_mm": 0.0,
+        "maximum_mm": 0.0,
+        "maximum_q_rad": 0.0,
+        "search_cap_mm": 25.0
+      },
+      {
+        "links": [
+          "rg6_v2_gripper_body",
+          "rg6_v2_gripper_finger_1_truss_arm"
+        ],
+        "minimum_mm": 0.0,
+        "maximum_mm": 0.0,
+        "maximum_q_rad": 0.0,
+        "search_cap_mm": 25.0
+      },
+      {
+        "links": [
+          "rg6_v2_gripper_finger_1_moment_arm",
+          "rg6_v2_gripper_finger_1_finger_tip"
+        ],
+        "minimum_mm": 0.0,
+        "maximum_mm": 0.0,
+        "maximum_q_rad": 0.0,
+        "search_cap_mm": 25.0
+      },
+      {
+        "links": [
+          "rg6_v2_gripper_finger_1_truss_arm",
+          "rg6_v2_gripper_finger_1_finger_tip"
+        ],
+        "minimum_mm": 0.0,
+        "maximum_mm": 0.0,
+        "maximum_q_rad": 0.0,
+        "search_cap_mm": 25.0
+      },
+      {
+        "links": [
+          "rg6_v2_gripper_finger_1_finger_tip",
+          "rg6_v2_gripper_finger_1_flex_finger"
+        ],
+        "minimum_mm": 0.0,
+        "maximum_mm": 0.0,
+        "maximum_q_rad": 0.0,
+        "search_cap_mm": 25.0
+      },
+      {
+        "links": [
+          "rg6_v2_gripper_body",
+          "rg6_v2_gripper_finger_2_moment_arm"
+        ],
+        "minimum_mm": 0.0,
+        "maximum_mm": 0.0,
+        "maximum_q_rad": 0.0,
+        "search_cap_mm": 25.0
+      },
+      {
+        "links": [
+          "rg6_v2_gripper_body",
+          "rg6_v2_gripper_finger_2_truss_arm"
+        ],
+        "minimum_mm": 0.0,
+        "maximum_mm": 0.0,
+        "maximum_q_rad": 0.0,
+        "search_cap_mm": 25.0
+      },
+      {
+        "links": [
+          "rg6_v2_gripper_finger_2_moment_arm",
+          "rg6_v2_gripper_finger_2_finger_tip"
+        ],
+        "minimum_mm": 0.0,
+        "maximum_mm": 0.0,
+        "maximum_q_rad": 0.0,
+        "search_cap_mm": 25.0
+      },
+      {
+        "links": [
+          "rg6_v2_gripper_finger_2_truss_arm",
+          "rg6_v2_gripper_finger_2_finger_tip"
+        ],
+        "minimum_mm": 0.0,
+        "maximum_mm": 0.0,
+        "maximum_q_rad": 0.0,
+        "search_cap_mm": 25.0
+      },
+      {
+        "links": [
+          "rg6_v2_gripper_finger_2_finger_tip",
+          "rg6_v2_gripper_finger_2_flex_finger"
+        ],
+        "minimum_mm": 0.0,
+        "maximum_mm": 0.0,
+        "maximum_q_rad": 0.0,
+        "search_cap_mm": 25.0
+      }
+    ],
+    "pair_intersections": [
+      {
+        "representation": "collision",
+        "links": [
+          "rg6_v2_gripper_body",
+          "rg6_v2_gripper_bracket"
+        ],
+        "category": "body_attachment_or_sweep",
+        "sample_count": 101,
+        "max_overlap_mm3": 7560.0,
+        "first_q_rad": 0.0,
+        "last_q_rad": 1.3,
+        "max_q_rad": 0.0
+      },
+      {
+        "representation": "collision",
+        "links": [
+          "rg6_v2_gripper_finger_1_finger_tip",
+          "rg6_v2_gripper_finger_1_flex_finger"
+        ],
+        "category": "same_finger_joint_or_interference",
+        "sample_count": 101,
+        "max_overlap_mm3": 4374.000000000012,
+        "first_q_rad": 0.0,
+        "last_q_rad": 1.3,
+        "max_q_rad": 0.026000000000000002
+      },
+      {
+        "representation": "collision",
+        "links": [
+          "rg6_v2_gripper_finger_2_finger_tip",
+          "rg6_v2_gripper_finger_2_flex_finger"
+        ],
+        "category": "same_finger_joint_or_interference",
+        "sample_count": 101,
+        "max_overlap_mm3": 4374.000000000008,
+        "first_q_rad": 0.0,
+        "last_q_rad": 1.3,
+        "max_q_rad": 0.15600000000000003
+      },
+      {
+        "representation": "collision",
+        "links": [
+          "rg6_v2_gripper_body",
+          "rg6_v2_gripper_finger_2_moment_arm"
+        ],
+        "category": "body_attachment_or_sweep",
+        "sample_count": 101,
+        "max_overlap_mm3": 4355.17464987088,
+        "first_q_rad": 0.0,
+        "last_q_rad": 1.3,
+        "max_q_rad": 0.8320000000000001
+      },
+      {
+        "representation": "collision",
+        "links": [
+          "rg6_v2_gripper_body",
+          "rg6_v2_gripper_finger_1_moment_arm"
+        ],
+        "category": "body_attachment_or_sweep",
+        "sample_count": 101,
+        "max_overlap_mm3": 4355.174649870879,
+        "first_q_rad": 0.0,
+        "last_q_rad": 1.3,
+        "max_q_rad": 0.8320000000000001
+      },
+      {
+        "representation": "collision",
+        "links": [
+          "rg6_v2_gripper_body",
+          "rg6_v2_gripper_finger_2_truss_arm"
+        ],
+        "category": "body_attachment_or_sweep",
+        "sample_count": 101,
+        "max_overlap_mm3": 3379.376730656605,
+        "first_q_rad": 0.0,
+        "last_q_rad": 1.3,
+        "max_q_rad": 0.0
+      },
+      {
+        "representation": "collision",
+        "links": [
+          "rg6_v2_gripper_body",
+          "rg6_v2_gripper_finger_1_truss_arm"
+        ],
+        "category": "body_attachment_or_sweep",
+        "sample_count": 101,
+        "max_overlap_mm3": 3379.3767306566037,
+        "first_q_rad": 0.0,
+        "last_q_rad": 1.3,
+        "max_q_rad": 0.0
+      },
+      {
+        "representation": "visual",
+        "links": [
+          "rg6_v2_gripper_finger_1_finger_tip",
+          "rg6_v2_gripper_finger_1_truss_arm"
+        ],
+        "category": "same_finger_joint_or_interference",
+        "sample_count": 101,
+        "max_overlap_mm3": 312.8689895605968,
+        "first_q_rad": 0.0,
+        "last_q_rad": 1.3,
+        "max_q_rad": 0.676,
+        "component_intersections_over_sweep": [
+          {
+            "objects": [
+              "carrier_bridge",
+              "sculpted_link_1"
+            ],
+            "maximum_overlap_mm3": 156.4344947802984,
+            "sample_count": 101,
+            "maximum_q_rad": 0.676
+          },
+          {
+            "objects": [
+              "carrier_bridge",
+              "sculpted_link_-1"
+            ],
+            "maximum_overlap_mm3": 156.43449478029837,
+            "sample_count": 101,
+            "maximum_q_rad": 0.676
+          },
+          {
+            "objects": [
+              "carrier_bridge",
+              "pivot_axle_1_1"
+            ],
+            "maximum_overlap_mm3": 108.12750967098496,
+            "sample_count": 101,
+            "maximum_q_rad": 0.5720000000000001
+          },
+          {
+            "objects": [
+              "carrier_bridge",
+              "pivot_axle_1_-1"
+            ],
+            "maximum_overlap_mm3": 108.12750967098495,
+            "sample_count": 101,
+            "maximum_q_rad": 0.169
+          }
+        ],
+        "component_intersections_at_max_pose": [
+          {
+            "objects": [
+              "carrier_bridge",
+              "sculpted_link_1"
+            ],
+            "overlap_mm3": 156.4344947802984
+          },
+          {
+            "objects": [
+              "carrier_bridge",
+              "sculpted_link_-1"
+            ],
+            "overlap_mm3": 156.43449478029837
+          },
+          {
+            "objects": [
+              "carrier_bridge",
+              "pivot_axle_1_-1"
+            ],
+            "overlap_mm3": 108.12750967098471
+          },
+          {
+            "objects": [
+              "carrier_bridge",
+              "pivot_axle_1_1"
+            ],
+            "overlap_mm3": 108.12750967098468
+          }
+        ]
+      },
+      {
+        "representation": "visual",
+        "links": [
+          "rg6_v2_gripper_finger_2_finger_tip",
+          "rg6_v2_gripper_finger_2_truss_arm"
+        ],
+        "category": "same_finger_joint_or_interference",
+        "sample_count": 101,
+        "max_overlap_mm3": 312.8689895605966,
+        "first_q_rad": 0.0,
+        "last_q_rad": 1.3,
+        "max_q_rad": 0.44200000000000006,
+        "component_intersections_over_sweep": [
+          {
+            "objects": [
+              "carrier_bridge",
+              "sculpted_link_1"
+            ],
+            "maximum_overlap_mm3": 156.4344947802985,
+            "sample_count": 101,
+            "maximum_q_rad": 0.507
+          },
+          {
+            "objects": [
+              "carrier_bridge",
+              "sculpted_link_-1"
+            ],
+            "maximum_overlap_mm3": 156.43449478029834,
+            "sample_count": 101,
+            "maximum_q_rad": 0.013000000000000001
+          },
+          {
+            "objects": [
+              "carrier_bridge",
+              "pivot_axle_1_1"
+            ],
+            "maximum_overlap_mm3": 108.12750967098509,
+            "sample_count": 101,
+            "maximum_q_rad": 0.7540000000000001
+          },
+          {
+            "objects": [
+              "carrier_bridge",
+              "pivot_axle_1_-1"
+            ],
+            "maximum_overlap_mm3": 108.12750967098492,
+            "sample_count": 101,
+            "maximum_q_rad": 0.42900000000000005
+          }
+        ],
+        "component_intersections_at_max_pose": [
+          {
+            "objects": [
+              "carrier_bridge",
+              "sculpted_link_1"
+            ],
+            "overlap_mm3": 156.43449478029837
+          },
+          {
+            "objects": [
+              "carrier_bridge",
+              "sculpted_link_-1"
+            ],
+            "overlap_mm3": 156.4344947802982
+          },
+          {
+            "objects": [
+              "carrier_bridge",
+              "pivot_axle_1_-1"
+            ],
+            "overlap_mm3": 108.12750967098472
+          },
+          {
+            "objects": [
+              "carrier_bridge",
+              "pivot_axle_1_1"
+            ],
+            "overlap_mm3": 108.12750967098471
+          }
+        ]
+      },
+      {
+        "representation": "visual",
+        "links": [
+          "rg6_v2_gripper_body",
+          "rg6_v2_gripper_finger_2_truss_arm"
+        ],
+        "category": "body_attachment_or_sweep",
+        "sample_count": 101,
+        "max_overlap_mm3": 306.9948682127053,
+        "first_q_rad": 0.0,
+        "last_q_rad": 1.3,
+        "max_q_rad": 0.28600000000000003,
+        "component_intersections_over_sweep": [
+          {
+            "objects": [
+              "truss_pivot_socket_-1_1",
+              "sculpted_link_-1"
+            ],
+            "maximum_overlap_mm3": 100.11808013079646,
+            "sample_count": 101,
+            "maximum_q_rad": 0.28600000000000003
+          },
+          {
+            "objects": [
+              "truss_pivot_socket_-1_-1",
+              "sculpted_link_1"
+            ],
+            "maximum_overlap_mm3": 100.11808013057896,
+            "sample_count": 101,
+            "maximum_q_rad": 0.052000000000000005
+          },
+          {
+            "objects": [
+              "truss_pivot_socket_-1_-1",
+              "pivot_boss_0_1"
+            ],
+            "maximum_overlap_mm3": 100.11806444734798,
+            "sample_count": 101,
+            "maximum_q_rad": 0.48100000000000004
+          },
+          {
+            "objects": [
+              "truss_pivot_socket_-1_1",
+              "pivot_boss_0_-1"
+            ],
+            "maximum_overlap_mm3": 100.11806444734796,
+            "sample_count": 101,
+            "maximum_q_rad": 0.0
+          },
+          {
+            "objects": [
+              "truss_pivot_socket_-1_1",
+              "pivot_axle_0_-1"
+            ],
+            "maximum_overlap_mm3": 75.08854422830056,
+            "sample_count": 101,
+            "maximum_q_rad": 0.07800000000000001
+          },
+          {
+            "objects": [
+              "truss_pivot_socket_-1_-1",
+              "pivot_axle_0_1"
+            ],
+            "maximum_overlap_mm3": 75.08854422808307,
+            "sample_count": 101,
+            "maximum_q_rad": 0.22100000000000003
+          },
+          {
+            "objects": [
+              "truss_pivot_socket_-1_1",
+              "pivot_recess_0_-1"
+            ],
+            "maximum_overlap_mm3": 3.320344130783496,
+            "sample_count": 101,
+            "maximum_q_rad": 0.468
+          },
+          {
+            "objects": [
+              "truss_pivot_socket_-1_-1",
+              "pivot_recess_0_1"
+            ],
+            "maximum_overlap_mm3": 3.320344130783492,
+            "sample_count": 101,
+            "maximum_q_rad": 0.5720000000000001
+          }
+        ],
+        "component_intersections_at_max_pose": [
+          {
+            "objects": [
+              "truss_pivot_socket_-1_1",
+              "sculpted_link_-1"
+            ],
+            "overlap_mm3": 100.11808013079646
+          },
+          {
+            "objects": [
+              "truss_pivot_socket_-1_-1",
+              "sculpted_link_1"
+            ],
+            "overlap_mm3": 100.11808013057886
+          },
+          {
+            "objects": [
+              "truss_pivot_socket_-1_-1",
+              "pivot_boss_0_1"
+            ],
+            "overlap_mm3": 100.11806444734796
+          },
+          {
+            "objects": [
+              "truss_pivot_socket_-1_1",
+              "pivot_boss_0_-1"
+            ],
+            "overlap_mm3": 100.11806444734796
+          },
+          {
+            "objects": [
+              "truss_pivot_socket_-1_1",
+              "pivot_axle_0_-1"
+            ],
+            "overlap_mm3": 75.08854422830055
+          },
+          {
+            "objects": [
+              "truss_pivot_socket_-1_-1",
+              "pivot_axle_0_1"
+            ],
+            "overlap_mm3": 75.08854422808305
+          },
+          {
+            "objects": [
+              "truss_pivot_socket_-1_-1",
+              "pivot_recess_0_1"
+            ],
+            "overlap_mm3": 3.3203441307834867
+          },
+          {
+            "objects": [
+              "truss_pivot_socket_-1_1",
+              "pivot_recess_0_-1"
+            ],
+            "overlap_mm3": 3.320344130783484
+          }
+        ]
+      },
+      {
+        "representation": "visual",
+        "links": [
+          "rg6_v2_gripper_body",
+          "rg6_v2_gripper_finger_1_truss_arm"
+        ],
+        "category": "body_attachment_or_sweep",
+        "sample_count": 101,
+        "max_overlap_mm3": 306.99486821270517,
+        "first_q_rad": 0.0,
+        "last_q_rad": 1.3,
+        "max_q_rad": 0.468,
+        "component_intersections_over_sweep": [
+          {
+            "objects": [
+              "truss_pivot_socket_1_-1",
+              "sculpted_link_-1"
+            ],
+            "maximum_overlap_mm3": 100.11808013068763,
+            "sample_count": 101,
+            "maximum_q_rad": 0.0
+          },
+          {
+            "objects": [
+              "truss_pivot_socket_1_1",
+              "sculpted_link_1"
+            ],
+            "maximum_overlap_mm3": 100.11808013068762,
+            "sample_count": 101,
+            "maximum_q_rad": 0.0
+          },
+          {
+            "objects": [
+              "truss_pivot_socket_1_-1",
+              "pivot_boss_0_-1"
+            ],
+            "maximum_overlap_mm3": 100.11806444734796,
+            "sample_count": 101,
+            "maximum_q_rad": 0.0
+          },
+          {
+            "objects": [
+              "truss_pivot_socket_1_1",
+              "pivot_boss_0_1"
+            ],
+            "maximum_overlap_mm3": 100.11806444734796,
+            "sample_count": 101,
+            "maximum_q_rad": 0.0
+          },
+          {
+            "objects": [
+              "truss_pivot_socket_1_-1",
+              "pivot_axle_0_-1"
+            ],
+            "maximum_overlap_mm3": 75.08854422819174,
+            "sample_count": 101,
+            "maximum_q_rad": 0.0
+          },
+          {
+            "objects": [
+              "truss_pivot_socket_1_1",
+              "pivot_axle_0_1"
+            ],
+            "maximum_overlap_mm3": 75.08854422819172,
+            "sample_count": 101,
+            "maximum_q_rad": 0.0
+          },
+          {
+            "objects": [
+              "truss_pivot_socket_1_-1",
+              "pivot_recess_0_-1"
+            ],
+            "maximum_overlap_mm3": 3.320344130783492,
+            "sample_count": 101,
+            "maximum_q_rad": 0.468
+          },
+          {
+            "objects": [
+              "truss_pivot_socket_1_1",
+              "pivot_recess_0_1"
+            ],
+            "maximum_overlap_mm3": 3.3203441307834916,
+            "sample_count": 101,
+            "maximum_q_rad": 1.1440000000000001
+          }
+        ],
+        "component_intersections_at_max_pose": [
+          {
+            "objects": [
+              "truss_pivot_socket_1_-1",
+              "sculpted_link_-1"
+            ],
+            "overlap_mm3": 100.11808013068762
+          },
+          {
+            "objects": [
+              "truss_pivot_socket_1_1",
+              "sculpted_link_1"
+            ],
+            "overlap_mm3": 100.1180801306876
+          },
+          {
+            "objects": [
+              "truss_pivot_socket_1_-1",
+              "pivot_boss_0_-1"
+            ],
+            "overlap_mm3": 100.11806444734796
+          },
+          {
+            "objects": [
+              "truss_pivot_socket_1_1",
+              "pivot_boss_0_1"
+            ],
+            "overlap_mm3": 100.11806444734796
+          },
+          {
+            "objects": [
+              "truss_pivot_socket_1_-1",
+              "pivot_axle_0_-1"
+            ],
+            "overlap_mm3": 75.08854422819174
+          },
+          {
+            "objects": [
+              "truss_pivot_socket_1_1",
+              "pivot_axle_0_1"
+            ],
+            "overlap_mm3": 75.08854422819172
+          },
+          {
+            "objects": [
+              "truss_pivot_socket_1_-1",
+              "pivot_recess_0_-1"
+            ],
+            "overlap_mm3": 3.320344130783492
+          },
+          {
+            "objects": [
+              "truss_pivot_socket_1_1",
+              "pivot_recess_0_1"
+            ],
+            "overlap_mm3": 3.320344130783491
+          }
+        ]
+      },
+      {
+        "representation": "visual",
+        "links": [
+          "rg6_v2_gripper_finger_1_finger_tip",
+          "rg6_v2_gripper_finger_1_moment_arm"
+        ],
+        "category": "same_finger_joint_or_interference",
+        "sample_count": 101,
+        "max_overlap_mm3": 153.3058029300197,
+        "first_q_rad": 0.0,
+        "last_q_rad": 1.3,
+        "max_q_rad": 1.131,
+        "component_intersections_over_sweep": [
+          {
+            "objects": [
+              "carrier_lower_axle",
+              "sculpted_link_-1"
+            ],
+            "maximum_overlap_mm3": 76.65290146500983,
+            "sample_count": 101,
+            "maximum_q_rad": 1.131
+          },
+          {
+            "objects": [
+              "carrier_lower_axle",
+              "sculpted_link_1"
+            ],
+            "maximum_overlap_mm3": 76.65290146500983,
+            "sample_count": 101,
+            "maximum_q_rad": 1.131
+          },
+          {
+            "objects": [
+              "carrier_lower_axle",
+              "pivot_axle_1_-1"
+            ],
+            "maximum_overlap_mm3": 57.4896702591726,
+            "sample_count": 101,
+            "maximum_q_rad": 0.8840000000000001
+          },
+          {
+            "objects": [
+              "carrier_lower_axle",
+              "pivot_axle_1_1"
+            ],
+            "maximum_overlap_mm3": 57.4896702591726,
+            "sample_count": 101,
+            "maximum_q_rad": 0.8840000000000001
+          }
+        ],
+        "component_intersections_at_max_pose": [
+          {
+            "objects": [
+              "carrier_lower_axle",
+              "sculpted_link_-1"
+            ],
+            "overlap_mm3": 76.65290146500983
+          },
+          {
+            "objects": [
+              "carrier_lower_axle",
+              "sculpted_link_1"
+            ],
+            "overlap_mm3": 76.65290146500983
+          },
+          {
+            "objects": [
+              "carrier_lower_axle",
+              "pivot_axle_1_-1"
+            ],
+            "overlap_mm3": 57.489670259172584
+          },
+          {
+            "objects": [
+              "carrier_lower_axle",
+              "pivot_axle_1_1"
+            ],
+            "overlap_mm3": 57.489670259172584
+          }
+        ]
+      },
+      {
+        "representation": "visual",
+        "links": [
+          "rg6_v2_gripper_finger_2_finger_tip",
+          "rg6_v2_gripper_finger_2_moment_arm"
+        ],
+        "category": "same_finger_joint_or_interference",
+        "sample_count": 101,
+        "max_overlap_mm3": 153.3058029300196,
+        "first_q_rad": 0.0,
+        "last_q_rad": 1.3,
+        "max_q_rad": 0.03900000000000001,
+        "component_intersections_over_sweep": [
+          {
+            "objects": [
+              "carrier_lower_axle",
+              "sculpted_link_1"
+            ],
+            "maximum_overlap_mm3": 76.65290146500989,
+            "sample_count": 101,
+            "maximum_q_rad": 1.1440000000000001
+          },
+          {
+            "objects": [
+              "carrier_lower_axle",
+              "sculpted_link_-1"
+            ],
+            "maximum_overlap_mm3": 76.65290146500983,
+            "sample_count": 101,
+            "maximum_q_rad": 1.1700000000000002
+          },
+          {
+            "objects": [
+              "carrier_lower_axle",
+              "pivot_axle_1_1"
+            ],
+            "maximum_overlap_mm3": 57.489670259172684,
+            "sample_count": 101,
+            "maximum_q_rad": 1.118
+          },
+          {
+            "objects": [
+              "carrier_lower_axle",
+              "pivot_axle_1_-1"
+            ],
+            "maximum_overlap_mm3": 57.48967025917264,
+            "sample_count": 101,
+            "maximum_q_rad": 0.8840000000000001
+          }
+        ],
+        "component_intersections_at_max_pose": [
+          {
+            "objects": [
+              "carrier_lower_axle",
+              "sculpted_link_1"
+            ],
+            "overlap_mm3": 76.6529014650098
+          },
+          {
+            "objects": [
+              "carrier_lower_axle",
+              "sculpted_link_-1"
+            ],
+            "overlap_mm3": 76.65290146500976
+          },
+          {
+            "objects": [
+              "carrier_lower_axle",
+              "pivot_axle_1_1"
+            ],
+            "overlap_mm3": 57.48967025917254
+          },
+          {
+            "objects": [
+              "carrier_lower_axle",
+              "pivot_axle_1_-1"
+            ],
+            "overlap_mm3": 57.489670259172485
+          }
+        ]
+      },
+      {
+        "representation": "visual",
+        "links": [
+          "rg6_v2_gripper_body",
+          "rg6_v2_gripper_finger_1_moment_arm"
+        ],
+        "category": "body_attachment_or_sweep",
+        "sample_count": 101,
+        "max_overlap_mm3": 141.63567881030798,
+        "first_q_rad": 0.0,
+        "last_q_rad": 1.3,
+        "max_q_rad": 1.1440000000000001,
+        "component_intersections_over_sweep": [
+          {
+            "objects": [
+              "sculpted_cover_-1",
+              "pivot_boss_0_-1"
+            ],
+            "maximum_overlap_mm3": 67.49749602097044,
+            "sample_count": 101,
+            "maximum_q_rad": 0.767
+          },
+          {
+            "objects": [
+              "sculpted_cover_1",
+              "pivot_boss_0_1"
+            ],
+            "maximum_overlap_mm3": 67.49749602097043,
+            "sample_count": 101,
+            "maximum_q_rad": 0.546
+          },
+          {
+            "objects": [
+              "sculpted_cover_-1",
+              "pivot_recess_0_-1"
+            ],
+            "maximum_overlap_mm3": 3.320344130783493,
+            "sample_count": 101,
+            "maximum_q_rad": 0.468
+          },
+          {
+            "objects": [
+              "sculpted_cover_1",
+              "pivot_recess_0_1"
+            ],
+            "maximum_overlap_mm3": 3.320344130783493,
+            "sample_count": 101,
+            "maximum_q_rad": 1.0270000000000001
+          }
+        ],
+        "component_intersections_at_max_pose": [
+          {
+            "objects": [
+              "sculpted_cover_-1",
+              "pivot_boss_0_-1"
+            ],
+            "overlap_mm3": 67.4974960209704
+          },
+          {
+            "objects": [
+              "sculpted_cover_1",
+              "pivot_boss_0_1"
+            ],
+            "overlap_mm3": 67.4974960209704
+          },
+          {
+            "objects": [
+              "sculpted_cover_-1",
+              "pivot_recess_0_-1"
+            ],
+            "overlap_mm3": 3.3203441307834916
+          },
+          {
+            "objects": [
+              "sculpted_cover_1",
+              "pivot_recess_0_1"
+            ],
+            "overlap_mm3": 3.32034413078349
+          }
+        ]
+      },
+      {
+        "representation": "visual",
+        "links": [
+          "rg6_v2_gripper_body",
+          "rg6_v2_gripper_finger_2_moment_arm"
+        ],
+        "category": "body_attachment_or_sweep",
+        "sample_count": 101,
+        "max_overlap_mm3": 141.63567881030798,
+        "first_q_rad": 0.0,
+        "last_q_rad": 1.3,
+        "max_q_rad": 0.26,
+        "component_intersections_over_sweep": [
+          {
+            "objects": [
+              "sculpted_cover_1",
+              "pivot_boss_0_-1"
+            ],
+            "maximum_overlap_mm3": 67.49749602133974,
+            "sample_count": 101,
+            "maximum_q_rad": 0.806
+          },
+          {
+            "objects": [
+              "sculpted_cover_-1",
+              "pivot_boss_0_1"
+            ],
+            "maximum_overlap_mm3": 67.49749602060115,
+            "sample_count": 101,
+            "maximum_q_rad": 0.65
+          },
+          {
+            "objects": [
+              "sculpted_cover_-1",
+              "pivot_recess_0_1"
+            ],
+            "maximum_overlap_mm3": 3.320344130783495,
+            "sample_count": 101,
+            "maximum_q_rad": 1.274
+          },
+          {
+            "objects": [
+              "sculpted_cover_1",
+              "pivot_recess_0_-1"
+            ],
+            "maximum_overlap_mm3": 3.320344130783495,
+            "sample_count": 101,
+            "maximum_q_rad": 0.468
+          }
+        ],
+        "component_intersections_at_max_pose": [
+          {
+            "objects": [
+              "sculpted_cover_1",
+              "pivot_boss_0_-1"
+            ],
+            "overlap_mm3": 67.49749602133971
+          },
+          {
+            "objects": [
+              "sculpted_cover_-1",
+              "pivot_boss_0_1"
+            ],
+            "overlap_mm3": 67.49749602060112
+          },
+          {
+            "objects": [
+              "sculpted_cover_-1",
+              "pivot_recess_0_1"
+            ],
+            "overlap_mm3": 3.320344130783483
+          },
+          {
+            "objects": [
+              "sculpted_cover_1",
+              "pivot_recess_0_-1"
+            ],
+            "overlap_mm3": 3.320344130783483
+          }
+        ]
+      },
+      {
+        "representation": "visual",
+        "links": [
+          "rg6_v2_gripper_finger_1_finger_tip",
+          "rg6_v2_gripper_finger_1_flex_finger"
+        ],
+        "category": "same_finger_joint_or_interference",
+        "sample_count": 101,
+        "max_overlap_mm3": 38.576625428340854,
+        "first_q_rad": 0.0,
+        "last_q_rad": 1.3,
+        "max_q_rad": 0.5980000000000001,
+        "component_intersections_over_sweep": [
+          {
+            "objects": [
+              "carrier_web_-1",
+              "rubber_pad_contact"
+            ],
+            "maximum_overlap_mm3": 19.288312714170488,
+            "sample_count": 101,
+            "maximum_q_rad": 0.195
+          },
+          {
+            "objects": [
+              "carrier_web_1",
+              "rubber_pad_contact"
+            ],
+            "maximum_overlap_mm3": 19.288312714170488,
+            "sample_count": 101,
+            "maximum_q_rad": 0.195
+          }
+        ],
+        "component_intersections_at_max_pose": [
+          {
+            "objects": [
+              "carrier_web_1",
+              "rubber_pad_contact"
+            ],
+            "overlap_mm3": 19.288312714170424
+          },
+          {
+            "objects": [
+              "carrier_web_-1",
+              "rubber_pad_contact"
+            ],
+            "overlap_mm3": 19.288312714170416
+          }
+        ]
+      },
+      {
+        "representation": "visual",
+        "links": [
+          "rg6_v2_gripper_finger_2_finger_tip",
+          "rg6_v2_gripper_finger_2_flex_finger"
+        ],
+        "category": "same_finger_joint_or_interference",
+        "sample_count": 101,
+        "max_overlap_mm3": 38.57662542834082,
+        "first_q_rad": 0.0,
+        "last_q_rad": 1.3,
+        "max_q_rad": 0.7540000000000001,
+        "component_intersections_over_sweep": [
+          {
+            "objects": [
+              "carrier_web_-1",
+              "rubber_pad_contact"
+            ],
+            "maximum_overlap_mm3": 19.28831271417055,
+            "sample_count": 101,
+            "maximum_q_rad": 1.066
+          },
+          {
+            "objects": [
+              "carrier_web_1",
+              "rubber_pad_contact"
+            ],
+            "maximum_overlap_mm3": 19.288312714170416,
+            "sample_count": 101,
+            "maximum_q_rad": 0.7540000000000001
+          }
+        ],
+        "component_intersections_at_max_pose": [
+          {
+            "objects": [
+              "carrier_web_1",
+              "rubber_pad_contact"
+            ],
+            "overlap_mm3": 19.288312714170416
+          },
+          {
+            "objects": [
+              "carrier_web_-1",
+              "rubber_pad_contact"
+            ],
+            "overlap_mm3": 19.288312714170374
+          }
+        ]
+      },
+      {
+        "representation": "visual",
+        "links": [
+          "rg6_v2_gripper_body",
+          "rg6_v2_gripper_bracket"
+        ],
+        "category": "body_attachment_or_sweep",
+        "sample_count": 101,
+        "max_overlap_mm3": 0.0009192922090609539,
+        "first_q_rad": 0.0,
+        "last_q_rad": 1.3,
+        "max_q_rad": 0.0,
+        "component_intersections_over_sweep": [],
+        "component_intersections_at_max_pose": []
+      }
+    ]
+  },
+  "refined_validation": {
+    "passed": true,
+    "failures": [],
+    "support_gap_limit_mm": 0.05,
+    "unexpected_overlap_limit_mm3": 0.01,
+    "scope": "Sampled visual solids; explicitly whitelisted unbored pivot/shaft and rubber-seat interfaces remain reported. Legacy collision-proxy overlaps are not treated as newly introduced defects."
+  }
+}
