@@ -1,0 +1,46 @@
+{
+  "black_powder_coat": {
+    "metalness": 0.22,
+    "roughness": 0.56
+  },
+  "mast_guard_black": {
+    "metalness": 0.14,
+    "roughness": 0.47
+  },
+  "guide_aluminium": {
+    "metalness": 0.72,
+    "roughness": 0.31
+  },
+  "controller_gray": {
+    "metalness": 0.24,
+    "roughness": 0.48
+  },
+  "black_polymer": {
+    "metalness": 0.03,
+    "roughness": 0.7
+  },
+  "status_diffuser": {
+    "metalness": 0.04,
+    "roughness": 0.28
+  },
+  "pendant_blue_gray": {
+    "metalness": 0.06,
+    "roughness": 0.48
+  },
+  "inactive_screen": {
+    "metalness": 0.1,
+    "roughness": 0.25
+  },
+  "emergency_stop_red": {
+    "metalness": 0.05,
+    "roughness": 0.45
+  },
+  "switch_yellow": {
+    "metalness": 0.05,
+    "roughness": 0.5
+  },
+  "sensor_lens": {
+    "metalness": 0.12,
+    "roughness": 0.24
+  }
+}

@@ -82,7 +82,7 @@ gun = bt.Robot.from_catalog("weld-gun-x1")  # カタログ ID (下表の右列) 
 | [daihen-bt350rd-tmcu01](./daihen-bt350rd-tmcu01) | 協働ロボット用アーク溶接トーチ (トーチマウント込み、TCP = ワイヤ先端) の参照モデル | ダイヘン BLUE TORCH III BT350RD-30D + TMCU-01 (Welbee Co-R) | `daihen/bt350/bt350rd-30d-tmcu01/r1` (公開前) |
 | [daihen-wb-p352l](./daihen-wb-p352l) | 溶接電源 (キャスタ付き筐体) の参照モデル | ダイヘン Welbee Inverter P350L II (WB-P352L) | `daihen/welbee/wb-p352l/r2` (公開前、旧外観は r1) |
 | [daihen-cm-7403](./daihen-cm-7403) | 公式写真参照の独自形状: 傾斜カバー、側面フレーム、巻線付きスプール。トーチ出口フレームは見える接続口、collision は外形内で visual を包む | ダイヘン CM-7403 | `daihen/cm/cm-7403/r2` (公開前、旧外観は r1) |
-| [robotiq-ax-series-base](./robotiq-ax-series-base) | パレタイザ基台 + 1500 mm 昇降軸 + コントローラ (prismatic 1 DOF) の参照モデル | Robotiq Palletizing Solution AX Series (AX10) | `robotiq/ax/ax10/r1` (公開前) |
+| [robotiq-ax-series-base](./robotiq-ax-series-base) | 開いた基台・マスト・三角形キャリッジの旧 AX 外観。旧 URDF/collision を保持、細部は推定 | Robotiq AX Series / UR10e、2022 外観参照 | `robotiq/ax/ax10/r1`（外観 r2 候補・未公開） |
 | [robotiq-powerpick10](./robotiq-powerpick10) | パレタイジング用真空グリッパ (既定構成: 200 mm オフセット + Ø77.5 カップ 4 個) の参照モデル | Robotiq PowerPick10 | `robotiq/powerpick/powerpick-10/r1` (公開前) |
 | [robotiq-powerpick10-vacuum-unit](./robotiq-powerpick10-vacuum-unit) | PowerPick10 の真空発生ユニット (壁掛け筐体) の参照モデル | Robotiq PowerPick10 Vacuum Generation Unit | `robotiq/powerpick/powerpick10-vacuum-unit/r1` (公開前) |
 | [nic-ak-r-fks05](./nic-ak-r-fks05) | 協働ロボット用スタンド型架台 (柱 1 本 + H 形の台枠、キャスタ + ノブ付きアジャスタ、柱は 100 mm 偏心) の参照モデル | NIC オートテック AK-R-FKS05 | `nic_autotec/ak-r/ak-r-fks05/r1` (公開前) |

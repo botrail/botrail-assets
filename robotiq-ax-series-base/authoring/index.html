@@ -1,6 +1,6 @@
 <!doctype html><html lang="en"><meta charset="utf-8"><title>robotiq-ax-series-base reference model</title>
 <style>body{margin:0;font:14px system-ui;overflow:hidden}.panel{position:absolute;top:18px;left:18px;background:#fffE;border:1px solid #ddd;border-radius:10px;padding:16px;max-width:340px}h1{font-size:19px;margin:0 0 8px}p{color:#54616d}button,select{margin:4px;padding:6px}label{display:block}label[hidden]{display:none}</style>
-<div class="panel"><h1>robotiq-ax-series-base</h1><p>Independently authored reference geometry.<br>Shell details and collision envelopes are approximate.</p><label>Motion <input id="joint" type="range" min="0" max="1.5" step=".0005" value="0"></label><div><button id="iso">Perspective</button><button id="side">Side</button><button id="top">Top</button></div></div>
+<div class="panel"><h1>robotiq-ax-series-base</h1><p>Legacy AX / UR10e visual study (2022 appearance).<br>2334 mm legacy envelope; new details estimated.<br>Legacy collision proxies do not match open-frame visuals.<br>UR robot controller and flexible cables excluded.</p><label>Motion <input id="joint" type="range" min="0" max="1.5" step=".0005" value="0"></label><div><button id="iso">Perspective</button><button id="side">Side</button><button id="top">Top</button></div></div>
 <script type="importmap">{"imports":{"three":"/authoring/node_modules/three/build/three.module.js","three/addons/":"/authoring/node_modules/three/examples/jsm/","@botrail/authoring/":"/authoring/"}}</script>
 <script type="module">
 import {definition} from './model.mjs';
@@ -8,5 +8,5 @@ import {referenceScene} from '@botrail/authoring/reference-model.mjs';
 import {mountAuthoring} from '@botrail/authoring/viewer.mjs';
 const type=undefined;
 const model=referenceScene(definition(type));model.pose({lift_joint:0});
-mountAuthoring(model.root,{onJoint:q=>model.pose({lift_joint:q})});window.reference=model;
+mountAuthoring(model.root,{iso:[3.2,4.5,2.6],onJoint:q=>model.pose({lift_joint:q})});window.reference=model;
 </script></html>
