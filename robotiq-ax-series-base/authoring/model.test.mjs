@@ -8,12 +8,34 @@ import {urdf,meshFiles as rawMeshes} from '../../authoring/reference-export.mjs'
 import {meshFiles} from './compact-obj.mjs';
 import {definition,D,E} from './model.mjs';
 const digest=x=>crypto.createHash('sha256').update(x).digest('hex');
-const LEGACY='d01d8d818a02a9e458da0c1ed015921b4c124c56da7d66ace82c906ec1fe85ac';
+// URDF bytes of the 2026-10-11 contract: r1's joints, frames and drive settings with box collisions
+// around the drawn parts (r1's broad proxies were d01d8d818a02a9e458da0c1ed015921b4c124c56da7d66ace82c906ec1fe85ac).
+const CONTRACT='a1a117ad656548fb70fdd8d24a2a73ddfe6da8085c8946bd1e35d91a32f9cd0c';
+const R1_JOINTS=['<joint name="lift_joint" type="prismatic"><parent link="base_link"/><child link="carriage"/><origin xyz="0 -0.26 0.4" rpy="0 0 0"/><axis xyz="0 0 1"/><limit lower="0" upper="1.5" velocity="0.3" effort="3000"/></joint>',
+ '<joint name="robot_mount_joint" type="fixed"><parent link="carriage"/><child link="robot_mount"/><origin xyz="0 0.42 0.15" rpy="0 0 0"/></joint>'];
 function objects(g){g.updateMatrixWorld(true);const result=[];g.traverse(o=>{if(o.isMesh)result.push([o.name,new THREE.Box3().setFromObject(o)])});return result;}
 function minSeparation(a,b){return Math.max(...['x','y','z'].map(k=>Math.max(b.min[k]-a.max[k],a.min[k]-b.max[k])));}
-test('all legacy URDF bytes, frames, collision proxies and drive settings are unchanged',()=>{
- assert.equal(digest(urdf(definition())),LEGACY);
- assert.equal(digest(fs.readFileSync(new URL('../urdf/robotiq-ax-series-base.urdf',import.meta.url))),LEGACY);
+test('URDF bytes match the contract; joints, frames and drive settings are those of r1',()=>{
+ const text=urdf(definition());
+ assert.equal(digest(text),CONTRACT);
+ assert.equal(digest(fs.readFileSync(new URL('../urdf/robotiq-ax-series-base.urdf',import.meta.url))),CONTRACT);
+ for(const joint of R1_JOINTS)assert.ok(text.includes(joint),joint);
+});
+test('box collisions enclose every drawn part to 1 um and leave the base frame open',()=>{
+ const d=definition(),p=new THREE.Vector3();
+ for(const link of d.links){
+  if(!link.visual)continue;
+  assert.ok(link.collisions.every(c=>c.kind==='box'&&!c.rpy),'axis-aligned boxes only');
+  const outside=(c,q)=>Math.hypot(...[0,1,2].map(k=>Math.max(Math.abs(q[k]-c.xyz[k])-c.size[k]/2,0)));
+  link.visual.updateMatrixWorld(true);let worst=0;
+  link.visual.traverse(o=>{if(!o.isMesh)return;const a=o.geometry.attributes.position;
+   for(let i=0;i<a.count;i++){const q=p.fromBufferAttribute(a,i).applyMatrix4(o.matrixWorld).toArray();worst=Math.max(worst,Math.min(...link.collisions.map(c=>outside(c,q))));}});
+  assert.ok(worst<=1e-6,`${link.name}: drawn part ${(worst*1000).toFixed(3)} mm outside its collision boxes`);
+ }
+ const inside=(c,q)=>q.every((v,k)=>Math.abs(v-c.xyz[k])<=c.size[k]/2);
+ for(const q of [[0,.2,.03],[0,-.15,.03],[.2,.45,.03],[-.2,-.55,.03]])
+  assert.ok(!d.links[0].collisions.some(c=>inside(c,q)),`base opening at ${q} is filled`);
+ const plate=d.links[1].collisions.at(-1);assert.ok(Math.abs(plate.xyz[2]+plate.size[2]/2-(.130+D.plate[2]))<1e-12,'plate box top is the robot_mount plane');
 });
 test('legacy footprint and height, and 1,501 sampled lift poses keep mounting plane and frame',()=>{
  const d=definition(),s=referenceScene(d);s.pose({lift_joint:0});const b=new THREE.Box3().setFromObject(s.root);

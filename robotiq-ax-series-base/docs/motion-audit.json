@@ -1,5 +1,5 @@
 {
-  "urdf_sha256": "d01d8d818a02a9e458da0c1ed015921b4c124c56da7d66ace82c906ec1fe85ac",
+  "urdf_sha256": "a1a117ad656548fb70fdd8d24a2a73ddfe6da8085c8946bd1e35d91a32f9cd0c",
   "meshes_sha256": {
     "base_link.obj": "209e18974248ce6578cb7db9049fb6d0397096badcb48f9ec73240b3fe52c022",
     "carriage.obj": "bf5390263b39b46e6a21af328aae6b5e621429b535f2ae8d7420ec3a00734dc5"
@@ -92,6 +92,6 @@
   ],
   "limitations": [
     "Axis-separated swept visual bounds certify nonintersection only for this authored rigid +Z translation.",
-    "Legacy collision solids, anchor fit, bearing tolerances, load capacity and flexible cables are not validated."
+    "Collision boxes enclose the drawn parts (model.test.mjs); anchor fit, bearing tolerances, load capacity and flexible cables are not validated."
   ]
 }

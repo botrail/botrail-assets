@@ -3,6 +3,7 @@
  * texture, logo, manual drawing or restricted-manual dimension is copied here.
  * D is inherited compatibility data, NOT a newly verified OEM specification.
  * All new component sizes/positions are independent visual estimates; see README.
+ * Since 2026-10-11 the collisions are boxes around the drawn parts; joints and frames are unchanged.
  */
 import {THREE,group,namedMaterial,addMesh,collisionBox as cb,fixed} from '../../authoring/tool-shapes.mjs';
 import {cylinderBetween,roundedRectangle,ellipseHole} from '../../authoring/geometry.mjs';
@@ -117,11 +118,73 @@ function carriage(){
  for(const s of [-1,1])for(const z of [-.105,.105])frontBolt(g,`carriage_face_bolt_${s}_${z}`,s*.117,.047,z);
  return g;
 }
+// --- Collision: boxes around the drawn parts (link frame), rounded outwards to 0.1 mm. The 0.1 um
+// tolerance absorbs float32 vertices, so exact faces stay exact (the robot plate top stays on robot_mount).
+const up=v=>Math.ceil(v*1e4-1e-3)/1e4, down=v=>Math.floor(v*1e4+1e-3)/1e4;
+const wanted=names=>n=>names.some(m=>m.endsWith('*')?n.startsWith(m.slice(0,-1)):n===m);
+function partPoints(g,names){
+ g.updateMatrixWorld(true);const out=[],p=new THREE.Vector3(),hit=wanted(names);
+ for(const o of g.children)if(hit(o.name))o.traverse(m=>{
+  if(!m.isMesh)return;const a=m.geometry.attributes.position;
+  for(let i=0;i<a.count;i++)out.push(p.fromBufferAttribute(a,i).applyMatrix4(m.matrixWorld).toArray());
+ });
+ if(!out.length)throw new Error(`no drawn parts named ${names}`);
+ return out;
+}
+function boxOver(points){
+ const lo=[0,1,2].map(k=>down(Math.min(...points.map(p=>p[k])))),hi=[0,1,2].map(k=>up(Math.max(...points.map(p=>p[k]))));
+ return cb(hi.map((h,k)=>+(h-lo[k]).toFixed(4)),hi.map((h,k)=>+((h+lo[k])/2).toFixed(5)));
+}
+const around=(g,names)=>boxOver(partPoints(g,names));
+/** The named parts cut into `count` slabs along an axis: per slab, the vertices inside plus every
+ * triangle edge's crossing of its two planes (exact extremes of the faceted surface in that slab). */
+function slabs(g,names,axis,count){
+ g.updateMatrixWorld(true);const k='xyz'.indexOf(axis),tris=[],hit=wanted(names);
+ for(const o of g.children)if(hit(o.name))o.traverse(m=>{
+  if(!m.isMesh)return;const a=m.geometry.attributes.position,idx=m.geometry.index;
+  const v=i=>new THREE.Vector3().fromBufferAttribute(a,i).applyMatrix4(m.matrixWorld).toArray();
+  const n=idx?idx.count:a.count;
+  for(let i=0;i<n;i+=3)tris.push([0,1,2].map(j=>v(idx?idx.getX(i+j):i+j)));
+ });
+ const all=tris.flat(),lo=Math.min(...all.map(p=>p[k])),hi=Math.max(...all.map(p=>p[k])),step=(hi-lo)/count;
+ return Array.from({length:count},(_,i)=>{
+  const a=lo+i*step,b=i===count-1?hi:a+step,pts=[];
+  for(const tri of tris)for(let e=0;e<3;e++){
+   const p=tri[e],q=tri[(e+1)%3];
+   if(p[k]>=a&&p[k]<=b)pts.push(p);
+   for(const plane of [a,b])if((p[k]-plane)*(q[k]-plane)<0){const s=(plane-p[k])/(q[k]-p[k]);pts.push(p.map((c,j)=>c+s*(q[j]-c)));}
+  }
+  return boxOver(pts);
+ });
+}
+function baseCollisions(g){
+ const side=(s,t)=>`anchor_tab_${s}_${t}`;
+ return [
+  // Open base frame: two side rails and three crossmembers; the anchor tabs ride on the end members.
+  around(g,['base_longitudinal_left','rail_end_cap_-1_*']),around(g,['base_longitudinal_right','rail_end_cap_1_*']),
+  around(g,['base_crossmember_front',side(-1,1),side(1,1)]),around(g,['base_crossmember_rear',side(-1,-1),side(1,-1)]),
+  around(g,['base_crossmember_mast']),around(g,['mast_baseplate','mast_base_bolt_*']),around(g,['mast_foot_gusset_*']),
+  ...[-1,1].flatMap(s=>[-1,1].map(t=>around(g,[`pallet_sensor_bracket_${s}_${t}`,`pallet_sensor_housing_${s}_${t}`,`pallet_sensor_window_${s}_${t}`]))),
+  // Mast with its face screws and caps, the guide rails in front of it, the lights on top.
+  around(g,['mast_core','mast_side_*','mast_front_edge_*','mast_face_screw_*','mast_lower_cap','mast_top_cap']),
+  around(g,['guide_backing_*','guide_rail_*']),around(g,['status_light_*']),
+  // Axis cabinet with door, hinges, vents, mounting bridges and glands; the isolator on its own.
+  around(g,['axis_cabinet_*','cabinet_*','vent_*']),around(g,['isolator_*']),
+ ];
+}
+function carriageCollisions(g){
+ return [
+  around(g,['guide_shoe_*','carriage_backplate','cantilever_rear_tie','carriage_face_bolt_*']),
+  // The deck and its two triangular cheeks in four slabs along the reach, following the cheeks' slope.
+  ...slabs(g,['cantilever_top_deck','cantilever_triangular_cheek_*'],'y',4),
+  around(g,['robot_mount_plate']),
+ ];
+}
 export function definition(){
  const g=group();base(g);mast(g);cabinet(g);
- const colH=D.height-D.base[2]-.080;
- const links=[{name:'base_link',visual:g,collisions:[cb([D.base[0],D.base[1],D.base[2]],[0,0,D.base[2]/2]),cb([D.column[0],D.column[1],colH],[0,D.columnY,D.base[2]+colH/2]),cb([.420,.200,.400],[0,D.columnY-D.column[1]/2-.100,1.000])]},
- {name:'carriage',visual:carriage(),collisions:[cb([.260,.080,.300],[0,.050,0]),cb([.200,D.plateReach-.090,.060],[0,.090+(D.plateReach-.090)/2,.100]),cb([D.plate[0],D.plate[1],D.plate[2]],[0,D.plateReach,.130+D.plate[2]/2])]},
+ const c=carriage();
+ const links=[{name:'base_link',visual:g,collisions:baseCollisions(g)},
+ {name:'carriage',visual:c,collisions:carriageCollisions(c)},
  {name:'robot_mount'}];
  const joints=[{name:'lift_joint',type:'prismatic',parent:'base_link',child:'carriage',xyz:[0,D.columnY+D.column[1]/2+.010,D.plateZ0-.150],axis:[0,0,1],limit:{lower:0,upper:D.stroke,velocity:.3,effort:3000}},fixed('robot_mount_joint','carriage','robot_mount',[0,D.plateReach,.130+D.plate[2]])];
  return {name:'robotiq_ax_series_base',links,joints};
