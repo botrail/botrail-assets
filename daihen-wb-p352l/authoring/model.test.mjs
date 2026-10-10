@@ -12,19 +12,27 @@ const near=(a,b,t=1e-7)=>assert.ok(Math.abs(a-b)<t,`${a} != ${b}`);
 const bounds=o=>new THREE.Box3().setFromObject(o);
 const ray=(g,origin,direction)=>new THREE.Raycaster(new THREE.Vector3(...origin),new THREE.Vector3(...direction)).intersectObject(g,true);
 
-test('complete inherited URDF contract remains byte-identical to main 23ea277',()=>{
+test('URDF matches the 2026-10-10 contract and the committed file',()=>{
  const xml=urdf(definition());
- assert.equal(createHash('sha256').update(xml).digest('hex'),'0f6ed08b2eddccdb7f6d4857f860ea1e2deac6444c7f5811131a5bfc6062a533');
+ assert.equal(createHash('sha256').update(xml).digest('hex'),'9d480de5054daa3e0a7699ee345a2e6d58ff57d004e565b3272faacea486f079');
  assert.equal(fs.readFileSync(new URL('../urdf/daihen-wb-p352l.urdf',import.meta.url),'utf8'),xml);
 });
 
-test('base and mounting frames retain floor coordinates; legacy outlet remains explicitly compatible',()=>{
+test('base and mounting frames retain floor coordinates; torch outlet sits on the torch-side terminal',()=>{
  const s=referenceScene(definition());
  assert.deepEqual(s.links.get('mount').getWorldPosition(new THREE.Vector3()).toArray(),[0,0,0]);
- assert.deepEqual(s.links.get('torch_outlet').getWorldPosition(new THREE.Vector3()).toArray(),[-.06,-.355,.3]);
+ const lip=bounds(root().getObjectByName('output_1_brass_lip')),at=s.links.get('torch_outlet').getWorldPosition(new THREE.Vector3());
+ near(at.x,(lip.min.x+lip.max.x)/2);near(at.y,lip.min.y);near(at.z,(lip.min.z+lip.max.z)/2);
  const d=definition();assert.equal(d.links.length,3);assert.equal(d.joints.length,2);
  assert.ok(d.joints.every(j=>j.type==='fixed'));assert.ok(d.links.every(l=>!l.inertial));
  assert.ok(d.links[0].collisions.every(c=>c.kind==='box'));
+});
+
+test('collision boxes enclose the whole visual, lifting eyes included',()=>{
+ const g=root(),boxes=definition().links[0].collisions.map(c=>new THREE.Box3().setFromCenterAndSize(new THREE.Vector3(...c.xyz),new THREE.Vector3(...c.size)));
+ const p=new THREE.Vector3();let worst=0;
+ g.traverse(o=>{if(!o.isMesh)return;const a=o.geometry.attributes.position;for(let i=0;i<a.count;i++){p.fromBufferAttribute(a,i).applyMatrix4(o.matrixWorld);worst=Math.max(worst,Math.min(...boxes.map(b=>b.distanceToPoint(p))));}});
+ assert.ok(worst<1e-6,`visual stands ${worst*1000} mm outside the collision boxes`);
 });
 
 test('published external envelope is 395 x 710 x 640 mm excluding lifting eyes',()=>{

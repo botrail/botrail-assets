@@ -1,7 +1,8 @@
 /** CM-7403 independent photo-based visual, 2026-10-09.
  * Official product page: 254 x 611 x 393 mm. Every subcomponent dimension is
- * an estimate. Legacy mount / torch frames and collision are intentionally
- * preserved; they are not newly validated interface measurements.
+ * an estimate. The legacy mount frame is preserved; since 2026-10-10 the torch
+ * outlet frame sits on the visible connector and the collision boxes follow
+ * the visual within the published envelope. Neither is a measured interface.
  */
 import {THREE,group,silver,dark,rubber,box,namedMaterial,addMesh,collisionBox as cb,fixed} from '../../authoring/tool-shapes.mjs';
 import {cylinderBetween} from '../../authoring/geometry.mjs';
@@ -16,9 +17,6 @@ const copper=namedMaterial('copper_wire','#b77c55',.65,.35);
 const brass=namedMaterial('brass_connector','#af9146',.68,.35);
 export function definition(){
  const g=group(),links=[],joints=[];
- const yFront=D.pattern[1]/2+.080,yHousing=yFront-D.housingD/2,yHolder=yFront-D.housingD-D.holder[1]/2;
- const legacyAx=[Math.cos(D.spoolTilt),0,Math.sin(D.spoolTilt)];
- const legacyAlong=(x0,s)=>[x0+legacyAx[0]*s,D.spoolHub[0],D.spoolHub[1]+legacyAx[2]*s];
  const cyl=(n,a,b,r,m=dark,radial=48)=>cylinderBetween(g,n,a,b,r,m,{radial});
  const yz=(name,pts,x,width,mat,holes=[])=>{const o=addMesh(g,name,profile(pts,width,holes),mat);o.quaternion.setFromRotationMatrix(new THREE.Matrix4().makeBasis(new THREE.Vector3(0,1,0),new THREE.Vector3(0,0,1),new THREE.Vector3(1,0,0)));o.position.x=x;return o;};
  // Long low tray, with a genuinely open rear and visible longitudinal flanges.
@@ -41,8 +39,9 @@ export function definition(){
  const upper=box(g,'sloping_control_panel',[.193,slope.length()-.025,.004],[0,.2155+normal.y*.002,.278+normal.z*.002],panel);upper.rotation.x=Math.atan2(slope.z,slope.y);
  // Small visible fasteners, deliberately no copied logo or specification label.
  for(const x of [-.087,.087])for(const z of [.047,.177])cyl('front_fastener_'+x+'_'+z,[x,.311,z],[x,.314,z],.0026,silver,16);
- // Photo-estimated lower-front connector. The legacy frame is preserved below
- // separately and is NOT an accurate physical connector datum.
+ // Photo-estimated lower-front connector; `torch_outlet_frame` sits on its face.
+ // A visual estimate, not a measured physical connector datum.
+ const torchAt=[.052,V.front,.115];
  const torch=addMesh(g,'torch_brass_ring',ring(.019,.012,.009),brass);torch.rotation.x=-Math.PI/2;torch.position.set(.052,.3075,.115);
  cyl('torch_recess',[.052,.309,.115],[.052,.311,.115],.0115,rubber);
  cyl('torch_center',[.052,.311,.115],[.052,.3175,.115],.0035,brass);
@@ -92,12 +91,14 @@ export function definition(){
  cyl('handle_top_tube',[-.076,.002,.382],[.076,.002,.382],.008,teal);
  cyl('handle_grip',[-.064,.002,.382],[.054,.002,.382],.011,rubber);
  for(const y of [-.268,.272])for(const x of [-.098,.098])cyl('base_fastener_'+x+'_'+y,[x,y,.010],[x,y,.013],.0035,silver,16);
- const spoolMid=legacyAlong(D.holder[0]/2,.025+D.spoolW/2);
+ // Collision: boxes around the visual, inside the published 254 x 611 x 393 mm envelope.
+ // Housing below the console, the console under its sloping face, the reel bay and the handle.
+ const span=(x,y,z)=>cb([x[1]-x[0],y[1]-y[0],z[1]-z[0]],[(x[0]+x[1])/2,(y[0]+y[1])/2,(z[0]+z[1])/2]);
+ const X=[-D.w/2,D.w/2],yBay=-.044,ySlope=.216;
  links.push({name:'base_link',visual:g,collisions:[
-   cb([D.w,D.housingD,D.housingH],[0,yHousing,D.housingH/2]),cb([D.w,.200,D.h-D.housingH],[0,yFront-.100,D.housingH+(D.h-D.housingH)/2]),
-   cb(D.holder,[0,yHolder,D.holder[2]/2]),
-   {kind:'cylinder',radius:D.spoolR,length:D.spoolW+.030,xyz:spoolMid,rpy:[0,Math.PI/2-D.spoolTilt,0]}]});
+   span(X,[yBay,V.front],[0,.212]),span(X,[yBay,ySlope],[.212,V.coverTop]),span(X,[ySlope,.303],[.212,.278]),
+   span(X,[V.rear,V.spoolCenter[1]+V.spoolRadius],[0,.387]),span([-.087,.087],[-.010,.056],[V.coverTop,V.handleTop])]});
  links.push({name:'mount'});joints.push(fixed('mount_joint','base_link','mount',[0,0,0]));
- links.push({name:'torch_outlet_frame'});joints.push(fixed('torch_outlet_joint','base_link','torch_outlet_frame',[0,yFront+.012,.200],[-Math.PI/2,0,0]));
+ links.push({name:'torch_outlet_frame'});joints.push(fixed('torch_outlet_joint','base_link','torch_outlet_frame',torchAt,[-Math.PI/2,0,0]));
  return{name:'daihen_cm_7403',links,joints};
 }

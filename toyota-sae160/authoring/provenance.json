@@ -50,15 +50,16 @@
   },
   "compatibility": {
     "base_commit": "64904beb5cd983019aab3a7d6feed4562d75f5c4",
-    "urdf_byte_identical": true,
-    "preserved": "All links, frames, joints, axes, limits, velocities, mimic multiplier 0.5, TX free lift, wheel stations, collision/contact boxes, absent inertias.",
-    "tx_urdf_sha256": "b12d8fcb944b6e868146ec693115a57dce0b5da117e183b6f7adba08d4866a74",
-    "dx_urdf_sha256": "a6a6b92d199e7c1a73d9a4e9f10e166b915e46cca93f79eec07a5bbf67ec4190"
+    "urdf_byte_identical": false,
+    "preserved": "All links, frames, joints, axes, limits, velocities, mimic multiplier 0.5, TX free lift, wheel stations, absent inertias.",
+    "collision_revision": "2026-10-10: boxes added for the centred tiller/head and console top, the HMI crossbar and its two stays (pitched boxes), beacon, foot pins and top shrouds; the carriage plate, ties, stiles and shanks are one box from the plate back to the fork face. Mast-internal guide rollers, the stages' lower crossmembers and the front 7.5 mm of each shroud stay outside so no pair overlaps in only part of the lift.",
+    "tx_urdf_sha256": "838c42a2eed7813c246fd7b6e2325a88a12c8a105ac3f3c6dbe3468d99b498dc",
+    "dx_urdf_sha256": "bae48d9ba4d1eb2b5efc210dadd243b31695ff1c7c85dd6ac1418bb9453c7264"
   },
   "published_vs_estimated": {
     "published": "See README fact table: overall dimensions; wheel sizes/tracks/wheelbase; fork length/width/nominal heel thickness; h13; h1/h2/h3/h4/h23; charging center; h14 range. Values are nominal.",
     "independent_visual_estimates": "Lofted drive cover, dark battery bay, side guards, console, centered tiller/loop handles, transverse HMI, five contact strips, two rear corner scanner pods, C-channel wall thicknesses, guide rollers, shanks, lower carriage opening, fork/load-wheel slots and toe ramp, wheel finishes, colors and shading. None are measured OEM geometry.",
-    "inherited_approximations": "Battery/body height 1.10 m; collision silhouette; tiller collision box formerly offset near mast; castor X=drive axle despite source suggesting an aft station; mast channel locations; charging side; 0.5 lift-stage ratio and idealized independent joints. URDF unchanged for API/contact compatibility. Collision proxy is not an exact cover of the new tiller/HMI exterior.",
+    "inherited_approximations": "Battery/body height 1.10 m; collision silhouette; castor X=drive axle despite source suggesting an aft station; mast channel locations; charging side; 0.5 lift-stage ratio and idealized independent joints. Joints and frames unchanged for API compatibility; collision revised on 2026-10-10 (compatibility.collision_revision).",
     "h4": "h4-h23 constrains the inherited above-fork carriage/shank envelope; it does not document a lattice load backrest. The prior invented lattice has been removed visually.",
     "h14": "1150–1385 mm is the driving-position tiller range. The chosen visual pose is an estimate, not a guaranteed stowed/upstanding configuration.",
     "nominal_rounding": "TX fork length 1250 + l2 1078 = 2328 mm versus printed l1 2327 mm; endpoint values are not changed to hide rounding. Computed full fork surfaces are 4700.5/2350.5 mm versus printed 4700/2350 mm.",
@@ -70,5 +71,5 @@
   "exclusions": "No restricted manual, vendor CAD, third-party mesh, logo, copied diagram, photo texture, or manufacturer artwork is included. No SAE200/SWE160/SAI geometry is substituted. Transparent mast guard omitted because this OBJ/MTL pipeline exports opaque materials.",
   "performance_warning": "1600 kg nameplate does not apply at every lift height. Official auto-mode TX chart at 650 mm load centre gives 690 kg at 4700 mm. Recipe/performance metadata is unchanged in this visual-only task; this model is not a safety/load certificate.",
   "verification": "20 Node tests: byte-identical TX/DX URDF, 72 combined lift/steer/spin poses, 303 scanner/crossmember sweep samples, hollow fork/arm clearances, carriage structural joins, openings and visible wheels, positive closed meshes, deterministic lossless OBJ/MTL. Independent standard-library OBJ topology audit and 27 shared authoring tests pass. Matched Blender static renders supplied; browser UI not run in this environment.",
-  "distribution": "Independent authored source/generated meshes CC0-1.0. A new catalog revision is required before publishing. Existing r1 source pins are not replaced."
+  "distribution": "Independent authored source/generated meshes CC0-1.0. Catalog revisions sae160/r2 and sae160-dx/r2 (unpublished); existing r1 source pins are not replaced."
 }

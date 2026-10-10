@@ -1,8 +1,9 @@
 import {plate,outline,capsule,dogbone,armPlate,boot,roundedPanel,reliefPanel} from './visual-geometry.mjs';
 /** OnRobot RG2 independently authored photo-based visual.
  * Public datasheet v1.8: body and standard EPDM dimensions documented in provenance.json.
- * Legacy dimensions and complete URDF contract below are preserved, including
- * the old shoulder/bare-tip versus mount/padded-tip datum mismatch.
+ * Legacy joint graph, origins, limits and mimic rules are preserved. Since
+ * 2026-10-10 the TCP is the closed-pose centre of the visible boots and every
+ * collision box encloses its link's visual (box-only contact envelopes).
  * All subcomponent curves, seating and assembly geometry are estimates.
  */
 import {THREE,addMesh,namedMaterial} from '../../authoring/tool-shapes.mjs';
@@ -15,8 +16,10 @@ export const dimensions={
   offset:-.772,                       // zero-pose (open) arm angle
   upper:1.30524,                      // solved: 110.00 mm pad travel
   bodyDepth:.036,closedLength:.213,stroke:.110,
-  pad:[.007,.0202,.0298],             // rubber fingertip: thickness x width x length
+  pad:[.007,.0202,.0298],             // legacy fingertip datum: thickness x width x length
 };
+// Standard EPDM boot (datasheet width x length x depth); `tip` = its seated tip past the legacy pad end (estimate).
+export const sleeve={width:.0202,length:.0298,depth:.0114,face:.00445,tip:.019};
 const silver=namedMaterial('anodized_silver','#bfc5c8',.58,.34);
 const pale=namedMaterial('housing_pale_grey','#d7dbde',.1,.5);
 const dark=namedMaterial('housing_graphite','#444d54',.2,.48);
@@ -42,7 +45,8 @@ export function definition() {
   }
   for(const sign of [-1,1])for(const y of [-0.012,0.012])cylinderBetween(bracket,`tilt_recess_${sign}_${y}`,[sign*0.0335,y,0.033],[sign*0.0338,y,0.033],.0018,dark,{radial:24});
   box(bracket,'bracket_neck',[0.054,0.03,0.015],[0,0,0.0315],silver);
-  link(`${prefix}_bracket`,bracket,[col([.075,.036,.039],[0,0,.0195])]);
+  // Neck block, the QC / bracket discs (Ø75) and the tilt cheeks/caps.
+  link(`${prefix}_bracket`,bracket,[col([.075,.036,.039],[0,0,.0195]),col([.075,.075,.019],[0,0,.0095]),col([.069,.034,.038],[0,0,.031])]);
   joints.push(fixed(`${prefix}_bracket_joint`,'mount',`${prefix}_bracket`));
   const body=G();
   const shellProfile=dogbone(0.054,0.065,0.115,0.052);
@@ -54,7 +58,7 @@ export function definition() {
   for(const side of [-1,1])for(const sign of [-1,1])cylinderBetween(body,`truss_pivot_socket_${side}_${sign}`,[side*-0.007678,sign*0.009,0.103297],[side*-0.007678,sign*0.0178,0.103297],0.003,silver,{radial:40});
   link(`${prefix}_body`,body,[col([.054,.036,.070],[0,0,.035]),col([.065,.036,.050],[0,0,.090])]);
   joints.push(fixed(`${prefix}_body_joint`,`${prefix}_bracket`,`${prefix}_body`,[0,0,d.bracket]));
-  const graspZ=d.closedLength-d.bracket-d.pad[2]/2;   // closed-pose pad centre
+  const graspZ=d.closedLength-d.bracket+sleeve.tip-sleeve.length/2;   // closed-pose centre of the visible boots
   links.push({name:`${prefix}_grasp_frame`},{name:'tcp'});
   joints.push(fixed(`${prefix}_grasp_frame_joint`,`${prefix}_body`,`${prefix}_grasp_frame`,[0,0,graspZ]),fixed('tcp_joint',`${prefix}_grasp_frame`,'tcp'));
   const theta=d.offset+d.upper;
@@ -85,7 +89,16 @@ export function definition() {
         }
       }
       const rpy=[0,Math.atan2(v.x,v.z),0];
-      link(`${name}_${part}`,visual,[-.015,.015].map(y=>col([.009,.004,v.length()+.008],[midpoint.x,y,midpoint.z],rpy)));
+      // Per plate layer: a box between the pivots, a cylinder over each pivot's bosses and, on the
+      // truss arm, a box over the offset switch cover. Nothing reaches the boot above the distal pivot.
+      const along=v.clone().normalize(), across=new THREE.Vector3(v.z,0,-v.x).normalize();
+      const at=(s,c,y)=>[along.x*s+across.x*c,y,along.z*s+across.z*c], shapes=[];
+      for(const sign of [-1,1]){
+        shapes.push(col([.0084,.003,v.length()],at(v.length()/2,0,sign*layer),rpy));
+        for(const s of [0,v.length()])shapes.push({kind:'cylinder',radius:.0042,length:.0042,xyz:at(s,0,sign*(layer+.0006)),rpy:[Math.PI/2,0,0]});
+        if(!outer)shapes.push(col([.016,.002,.61*v.length()],at(.495*v.length(),-.003,sign*(layer+.001)),rpy));
+      }
+      link(`${name}_${part}`,visual,shapes);
       const master=part==='moment_arm'&&side===1;
       joints.push({name:part==='moment_arm'?`${prefix}${side===1?'':'_mirror'}_joint`:`${name}_${part}_joint`,
         type:'revolute',parent:`${name}_origin`,child:`${name}_${part}`,axis:[0,1,0],
@@ -94,19 +107,21 @@ export function definition() {
         ...(master?{}:{mimic:{joint:`${prefix}_joint`,multiplier:1,offset:0}})});
     }
     // Fingertip carrier: 14 mm wide adapter behind the pad, pivoting at the truss arm end.
-    const tip=G(), carrier=[innerX-d.pad[0]-.004,0,endZ-d.pad[2]+.013];
+    const tip=G();
     box(tip,'fingertip_adapter',[.004,.0116,.027],[innerX-.007,0,endZ+.019-.018]);
     for(const sign of [-1,1])plate(tip,`carrier_web_${sign}`,outline([[-.015,-.020],[-.006,-.024],[innerX-.003,endZ-.005],[innerX-.006,endZ],[innerX-.012,endZ-.001],[-.017,-.014]]),.0025,sign*.005,silver);
     cylinderBetween(tip,'carrier_pin',[0,-.011,0],[0,.011,0],.0045,silver,{radial:24});
     cylinderBetween(tip,'carrier_lower_axle',[-0.0095,-0.0139,-0.0165],[-0.0095,0.0139,-0.0165],0.003,silver,{radial:40});
-    link(`${name}_finger_tip`,tip,[col([.008,.014,.026],carrier)]);
+    // Adapter, webs and pin; stops short of the moment-arm plates at the lower axle.
+    link(`${name}_finger_tip`,tip,[col([.0215,.022,endZ+.0145+.024],[-.00625,0,(endZ+.0145-.024)/2])]);
     joints.push({name:`${name}_finger_tip_joint`,type:'revolute',parent:`${name}_truss_arm`,child:`${name}_finger_tip`,
       xyz:d.tip,rpy:[0,-d.offset,0],axis:[0,-1,0],limit:{lower:0,upper:d.upper,effort:10,velocity:.5},
       mimic:{joint:`${prefix}_joint`,multiplier:1,offset:0}});
     // Standard EPDM external envelope; old contact box is preserved separately.
     const flex=G(), padCenter=[innerX-d.pad[0]/2,0,endZ-d.pad[2]/2];
-    boot(flex,'rubber_pad',d.pad[0]/2,.0202,.0298,.0114,.00445,d.pad[2]/2+.019,rubber);
-    link(`${name}_flex_finger`,flex,[col(d.pad,[0,0,0])]);
+    const bootTop=d.pad[2]/2+sleeve.tip;
+    boot(flex,'rubber_pad',d.pad[0]/2,sleeve.width,sleeve.length,sleeve.depth,sleeve.face,bootTop,rubber);
+    link(`${name}_flex_finger`,flex,[col([sleeve.depth,sleeve.width,sleeve.length],[d.pad[0]/2-sleeve.depth/2,0,bootTop-sleeve.length/2])]);
     joints.push(fixed(`${name}_flex_finger_joint`,`${name}_finger_tip`,`${name}_flex_finger`,padCenter));
   }
   return {name:'onrobot_rg2_reference',links,joints};

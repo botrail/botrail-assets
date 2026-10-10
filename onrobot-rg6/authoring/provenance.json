@@ -25,7 +25,7 @@
     ],
     "stroke": 160
   },
-  "legacy_contract": "URDF bytes unchanged including all frames, joints, mimic, limits and collision shapes. Legacy stated closedLength is not current visual height or independently verified mount-to-tip dimension.",
+  "legacy_contract": "Joint graph, origins, limits, mimic rules, mount frame and mesh paths are unchanged from the earlier model. 2026-10-10: the TCP moved to the closed-pose centre of the visible boots (272.5 mm from mount) and box/pivot-cylinder collisions now enclose each link's visual. The legacy closedLength is a shoulder-to-bare-tip datum, not the visual height.",
   "estimates": [
     "All shape curves, fillets, cover thicknesses and subdivisions",
     "Bracket/QC geometry and screw locations; not a functional mating interface",
@@ -41,9 +41,10 @@
     "Functional safety switch, exact mating interface, cable and dynamics"
   ],
   "known_mismatches": [
-    "Legacy collision proxies and TCP do not align to new fitted boots",
+    "The fixed TCP equals the boot centre only in the closed pose; the pads swing towards the mount as the gripper opens",
+    "Carrier lower-axle ends stand up to 3.9 mm outside the carrier box, inside the moment-arm plates",
     "Legacy shoulder-to-bare-tip dimension was previously treated as mount-to-pad endpoint",
-    "Legacy body/arm collision proxy overlap remains unchanged"
+    "Body/arm and carrier/truss collisions overlap at the designed pivots in every pose"
   ],
   "product_page": "https://onrobot.com/en/products/rg6-finger-gripper",
   "legacy_numerical_sources": [

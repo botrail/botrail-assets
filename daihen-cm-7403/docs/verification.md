@@ -28,3 +28,19 @@ Topology tests operate per component; overlap at intended assembly joints is all
 Browser UI interaction is untested; this cloud environment's browser launch was previously blocked by socket restrictions.
 No actual browser pass, physical fit, dynamics, cable routing, load rating, or production/safety validation is claimed.
 No manufacturer media is redistributed. See `authoring/provenance.json` and the asset README for sources and uncertainty.
+
+## Outlet frame and collision revision (2026-10-10)
+
+A follow-up change moved `torch_outlet_frame` onto the visible lower-front connector face
+`[0.052, 0.3175, 0.115]` (+Z forward; was `[0, 0.3295, 0.200]`) and replaced the inherited collision,
+whose outboard spool cylinder lay outside the new shell and whose boxes left the new visual up to 96 mm
+outside, with five boxes: the lower housing, the console under its sloping face, the front of the slope,
+the reel bay and the handle. The visual meshes and `mount` are unchanged.
+
+- Every visual vertex lies inside the collision boxes, and every box lies inside the published
+  254 x 611 x 393 mm envelope (new tests)
+- The frame sits on the `torch_center` face, +Z forward (new test)
+- URDF SHA-256 `da38c2cb3fad…`; 12 model tests, `--check` and the topology audit pass
+- The connector position remains a photo estimate, not a measured datum; the boxes are an envelope
+  that includes the space above the slope and around the round reel
+

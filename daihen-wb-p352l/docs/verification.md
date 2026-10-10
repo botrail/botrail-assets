@@ -67,3 +67,16 @@ node daihen-wb-p352l/authoring/export.mjs --check
 python3 daihen-wb-p352l/authoring/verify_obj.py
 npm --prefix authoring test
 ```
+
+## Outlet frame and collision revision (2026-10-10)
+
+A follow-up change moved `torch_outlet` from the legacy routing marker `[-0.060, -0.355, 0.300]` onto
+the torch-side (image-right) output terminal: the centre of its brass lip face `[0.136, -0.326, 0.195]`,
+base_link orientation. Two boxes around the lifting-eye rings, which stood 6.5 mm above the cabinet box,
+complete the collision. The visual meshes, `mount` and the cabinet/caster boxes are unchanged.
+
+- Every visual vertex lies inside the collision boxes; `torch_outlet` sits on the `output_1_brass_lip`
+  face (new and revised tests)
+- URDF SHA-256 `9d480de5054d…`; 17 model tests, `--check` and the OBJ audit pass
+- The terminal position remains a photo estimate, not a measured socket centre
+

@@ -11,9 +11,22 @@ g.updateMatrixWorld(true);
 const object=n=>{const o=g.getObjectByName(n);assert.ok(o,n);return o;};
 const bounds=o=>new THREE.Box3().setFromObject(o,true);
 const close=(a,b,e=1e-7)=>assert.ok(Math.abs(a-b)<e,`${a} != ${b}`);
-test('legacy URDF frames and collision contracts are byte-identical',()=>{
- const text=urdf(def);assert.equal(createHash('sha256').update(text).digest('hex'),'d5443b5b06ecac12051525bd7b3fa32d6015186d151775ed2bde7aca6e1f29e4');
+test('URDF matches the 2026-10-10 contract and the committed file',()=>{
+ const text=urdf(def);assert.equal(createHash('sha256').update(text).digest('hex'),'da38c2cb3fade78ddf118374c7c436dfb5aeb7a7280d772e263110d1a34123d2');
  assert.equal(text,fs.readFileSync(new URL('../urdf/daihen-cm-7403.urdf',import.meta.url),'utf8'));
+});
+test('collision boxes enclose the whole visual inside the published envelope',()=>{
+ const boxes=def.links[0].collisions.map(c=>{assert.equal(c.kind,'box');return new THREE.Box3().setFromCenterAndSize(new THREE.Vector3(...c.xyz),new THREE.Vector3(...c.size));});
+ const published=new THREE.Box3(new THREE.Vector3(-.127,V.rear,0),new THREE.Vector3(.127,V.front,.393)).expandByScalar(1e-9);
+ for(const b of boxes)assert.ok(published.containsBox(b),'collision stays inside 254 x 611 x 393 mm');
+ const p=new THREE.Vector3();let worst=0;
+ g.traverse(o=>{if(!o.isMesh)return;const a=o.geometry.attributes.position;for(let i=0;i<a.count;i++){p.fromBufferAttribute(a,i).applyMatrix4(o.matrixWorld);worst=Math.max(worst,Math.min(...boxes.map(b=>b.distanceToPoint(p))));}});
+ assert.ok(worst<1e-6,`visual stands ${worst*1000} mm outside the collision boxes`);
+});
+test('torch outlet frame sits on the visible connector face, +Z forward',()=>{
+ const j=def.joints.find(j=>j.child==='torch_outlet_frame');
+ const face=bounds(object('torch_center'));close(j.xyz[0],(face.min.x+face.max.x)/2);close(j.xyz[1],face.max.y);close(j.xyz[2],(face.min.z+face.max.z)/2);
+ const z=new THREE.Vector3(0,0,1).applyEuler(new THREE.Euler(...j.rpy,'ZYX'));close(z.y,1,1e-12);
 });
 test('published complete visual envelope is 254 x 611 x 393 mm',()=>{
  const b=bounds(g),s=b.getSize(new THREE.Vector3());close(s.x,.254);close(s.y,.611);close(s.z,.393);close(b.min.z,0);

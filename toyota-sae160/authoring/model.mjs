@@ -75,7 +75,19 @@ const zinc=namedMaterial('roller_zinc','#9a9b96',0.65,0.36);
 const seam=namedMaterial('panel_recess','#151819',0.06,0.68);
 const rb=(g,n,size,r,mat,at)=>addMesh(g,n,roundedBox(size,Math.min(r,Math.min(...size)*.48),2),mat,at);
 function disk(g,n,r,h,mat,at,axis='z'){const geo=cylinderZ(r,h,{radial:32});if(axis==='x')geo.rotateY(Math.PI/2);if(axis==='y')geo.rotateX(Math.PI/2);return addMesh(g,n,geo,mat,at);}
-const box=(size,xyz)=>({kind:'box',size,xyz});
+const box=(size,xyz,rpy)=>({kind:'box',size,xyz,...(rpy?{rpy}:{})});
+/** Axis-aligned collision box around the meshes of `g` whose names pass `keep`, rounded outward to 0.1 mm. */
+function around(g,keep){
+  const b=new THREE.Box3();g.updateMatrixWorld(true);
+  for(const o of g.children)if(keep(o.name))b.expandByObject(o);
+  const lo=b.min.toArray().map(v=>Math.floor(v*1e4)/1e4), hi=b.max.toArray().map(v=>Math.ceil(v*1e4)/1e4);
+  return box(hi.map((h,i)=>Number((h-lo[i]).toFixed(4))),hi.map((h,i)=>Number(((h+lo[i])/2).toFixed(5))));
+}
+/** Oriented collision box around a round bar of radius r from a to b; the bar keeps one y (pitch only). */
+function bar(a,b,r){
+  const d=b.map((v,i)=>v-a[i]);
+  return box([2*r,2*r,Math.hypot(...d)],a.map((v,i)=>(v+b[i])/2),[0,Math.atan2(d[0],d[2]),0]);
+}
 const fixed=(name,parent,child,xyz=[0,0,0])=>({name,type:'fixed',parent,child,xyz});
 const G=()=>new THREE.Group();
 
@@ -152,7 +164,6 @@ export function definition(mast='tx') {
   for(const sy of [-1,1])rb(body,`support_root_yoke_${sy}`,[armX0-xc1+.075,.128,.032],.005,black,[(xc1-.040+armX0+.035)/2,sy*forkY,.051]);
   // Configured tiller pose remains below the inherited h14 endpoint; h14 is
   // a driving-position range, not a manufacturer-specified upright pose.
-  const tillerX=xc1-0.16, tillerY=0.18; // unchanged collision proxy only
   const tx=rearC+.02;
   disk(body,'tiller_base',.082,.044,graphite,[tx,0,1.116]);
   cylinderBetween(body,'tiller_stem',[tx,0,1.125],[tx+.035,0,1.291],.041,graphite,{radial:32});
@@ -165,10 +176,12 @@ export function definition(mast='tx') {
   }
   rb(body,'tiller_reverse_button',[.032,.080,.030],.007,red,[tx-.039,0,1.369]);
   rb(body,'console_emergency_stop',[.031,.036,.015],.005,red,[tx+.102,-.208,1.087]);
+  // Collision: the drive-unit box, the support arms' contact boxes and a box around the centred
+  // tiller and its head, which stand above the drive unit.
   links.push({name:'base_link',visual:body,collisions:[
     box([lc,d.width,d.compartmentHeight-d.clearance],[xc,0,(d.compartmentHeight+d.clearance)/2]),
     ...[-1,1].map(sy=>box([armLen,d.armSection[0],d.armSection[1]],[armX0+armLen/2,sy*armY,armZ])),
-    box([0.34,0.20,0.17],[tillerX,tillerY,d.tillerHead-0.055]),
+    around(body,n=>n.startsWith('tiller_')),around(body,n=>n.startsWith('console_')),
   ]});
   joints.push(fixed('base_link_joint','base_footprint','base_link'));
 
@@ -211,6 +224,13 @@ export function definition(mast='tx') {
     box([d.mastChannel[0],2*d.mastY[0]+d.mastChannel[1],0.08],[mastX,0,0.10]),
     box([d.mastChannel[0],2*d.mastY[0]+d.mastChannel[1],0.08],[mastX,0,v.mastLowered-0.04]),
     box([0.11,0.11,v.scannerTop-v.mastLowered],[mastX,0,(v.mastLowered+v.scannerTop)/2]),
+    // The HMI crossbar with its lights and stops, and the two stays that carry it.
+    around(outer,n=>n.startsWith('hmi_')&&!n.startsWith('hmi_stay_')),
+    ...[-1,1].map(sy=>bar([mastX-.025,sy*.267,1.01],[hmiX,sy*.267,hmiZ-.065],.018)),
+    // Beacon, foot pins and the top shrouds; the shrouds stop 1 mm short of the carriage block.
+    around(outer,n=>n==='beacon'),
+    ...[-1,1].map(sy=>around(outer,n=>n===`mast_foot_pin_${sy}`)),
+    ...[-1,1].map(sy=>box([.1275,.135,.235],[mastX-.00475,sy*.270,v.mastLowered-.118])),
   ]});
   joints.push(fixed('mast_outer_joint','base_link','mast_outer'));
 
@@ -266,10 +286,11 @@ export function definition(mast='tx') {
       rb(car,`carriage_roller_mount_${side}_${k}`,[.150,.012,.040],.003,steel,[-.090,sy*.105,z]);
     }
   }
+  // Collision: plate, ties, stiles and fork shanks as one block from the plate's back to the fork
+  // face, up to the shank tops (h4 - h23), and the two tines. The guide rollers run inside the mast.
   links.push({name:'carriage',visual:car,collisions:[
-    box([cx,cy,cz],[-0.08,0,cz/2-s]),
-    box([0.035,cy,backrest-(cz-s)],[-0.08,0,(cz-s+backrest)/2]),
-    ...[-1,1].flatMap(sy=>[box([l,e,s],[l/2,sy*forkY,-s/2]),box([0.06,e,cz],[-0.03,sy*forkY,cz/2-s])]),
+    box([0.10,cy,backrest+s],[-0.05,0,(backrest-s)/2]),
+    ...[-1,1].map(sy=>box([l,e,s],[l/2,sy*forkY,-s/2])),
   ]});
   const seat=[xf,0,d.forkLowered];
   if(mast==='tx') joints.push({...prismaticZ('free_lift','mast_inner','carriage',v.freeLift,d.liftSpeed),xyz:seat});

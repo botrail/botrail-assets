@@ -1,6 +1,6 @@
 {
   "target": "DAIHEN Welbee Inverter P350L II, WB-P352L",
-  "revision_candidate": "daihen/welbee/wb-p352l/r2 (unpublished)",
+  "revision_candidate": "daihen/welbee/wb-p352l/r2 (catalog revision, unpublished)",
   "research_date": "2026-10-08",
   "scope": "Independent CC0 geometry, code, and original review renders. No manufacturer CAD, image, texture, dimension drawing, or PDF is redistributed. Fixed standalone dry power source only; no CM-7403, torch, cable, or cooling unit.",
   "sources": [
@@ -76,9 +76,9 @@
   },
   "compatibility": {
     "baseline_commit": "23ea277",
-    "urdf_sha256": "0f6ed08b2eddccdb7f6d4857f860ea1e2deac6444c7f5811131a5bfc6062a533",
-    "unchanged": "All links, fixed joints, frame origins, and two primitive collision envelopes are byte-identical. No fabricated inertial tensor.",
-    "torch_outlet": "Legacy routing marker [-0.060,-0.355,0.300] m, not a measured physical socket center. Detailed visual posts are in the lower-right bay instead.",
+    "urdf_sha256": "9d480de5054daa3e0a7699ee345a2e6d58ff57d004e565b3272faacea486f079",
+    "unchanged": "All links, fixed joints, base_link and mount and the two primitive cabinet/caster collision envelopes are unchanged from baseline 23ea277. 2026-10-10: two lifting-eye boxes added so the collision encloses the whole visual; torch_outlet moved (below). No fabricated inertial tensor.",
+    "torch_outlet": "2026-10-10: on the torch-side (image-right) output terminal lip face [0.136,-0.326,0.195] m, base_link orientation; a photo-estimated position, not a measured physical socket center. The legacy routing marker was [-0.060,-0.355,0.300] m.",
     "simulation_limits": "Static layout/reference geometry only. No wheel dynamics, welding, thermal, electrical or safety simulation. Components individually closed; overlapping assembly is not a fused manifold shell."
   },
   "excluded_sources": [

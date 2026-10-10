@@ -302,9 +302,11 @@ def audit(asset, samples):
 
 
 
+# Complete URDF bytes of the 2026-10-10 contract (TCP at the closed-pose boot
+# centre, box collision envelopes around each link's visual).
 FROZEN_CONTRACTS = {
-    'onrobot_rg2_reference': ('95d0f45ed89717e5b41c498bd1961c2b520116dcd12ad622da9bb8dae1794626', 110.),
-    'onrobot_rg6_reference': ('7e1a0d322ceef6d61ad1ebd98069728e553c1c600ae9557932fa11f8b417d65e', 160.),
+    'onrobot_rg2_reference': ('9e0c06cfab0567bdea63d91f75e44890f2b851e0f7a33b20679009deda6f15f9', 110.),
+    'onrobot_rg6_reference': ('9ff2b058bb0dff76da03f151dc58be44925aca26b269c2b1cf52545bc24264ab', 160.),
 }
 
 
@@ -346,7 +348,7 @@ def validate_refined(report):
     failures=[]
     expected_hash,stroke=FROZEN_CONTRACTS[report['robot_name']]
     if report['urdf_sha256'] != expected_hash:
-        failures.append('Complete URDF bytes differ from frozen legacy contract')
+        failures.append('Complete URDF bytes differ from the published contract')
     motion=report['motion']
     if abs(motion['pad_travel_mm']-stroke)>0.001:
         failures.append('Pad travel differs from nominal by more than 0.001 mm')
@@ -377,7 +379,7 @@ def validate_refined(report):
                     f"{component['maximum_overlap_mm3']:.6f} mm3 at q={component['maximum_q_rad']}")
     return {'passed':not failures,'failures':failures,
             'support_gap_limit_mm':0.05,'unexpected_overlap_limit_mm3':0.01,
-            'scope':'Sampled visual solids; explicitly whitelisted unbored pivot/shaft and rubber-seat interfaces remain reported. Legacy collision-proxy overlaps are not treated as newly introduced defects.'}
+            'scope':'Sampled visual solids; explicitly whitelisted unbored pivot/shaft and rubber-seat interfaces remain reported. Collision-box overlaps (designed pivot and seat contacts) are reported, not gated.'}
 
 def main():
     parser=argparse.ArgumentParser(description=__doc__)

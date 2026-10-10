@@ -5,8 +5,8 @@
 メーカー CAD・第三者メッシュ・図面・画像テクスチャ・ロゴは取り込まず、形状は独自著作した。
 公式ページにはハードウェア版が明記されていないため、特定 HW 版への適合は保証しない。
 
-既存カタログ ID は `mobile_industrial_robots/mir/mir1350/r1`（`vehicle.amr`）。
-この外観改訂は**新 rev 用の未公開ソース**。既存 r1 のピン留め SHA は変更しない。
+今回の外観改訂のカタログ ID は `mobile_industrial_robots/mir/mir1350/r2`（`vehicle.amr`、公開前）。
+既存 r1 のピン留め SHA は変更しない。
 
 ## 出典と採用値
 
