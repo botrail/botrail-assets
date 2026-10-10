@@ -1,0 +1,97 @@
+{
+  "urdf_sha256": "d01d8d818a02a9e458da0c1ed015921b4c124c56da7d66ace82c906ec1fe85ac",
+  "meshes_sha256": {
+    "base_link.obj": "209e18974248ce6578cb7db9049fb6d0397096badcb48f9ec73240b3fe52c022",
+    "carriage.obj": "bf5390263b39b46e6a21af328aae6b5e621429b535f2ae8d7420ec3a00734dc5"
+  },
+  "fixed_components": 98,
+  "moving_components": 22,
+  "swept_pairs": 2156,
+  "full_stroke_swept_aabb_violations": [],
+  "minimum_separating_axis_gap_m": 0.000999999688938255,
+  "minimum_gap_pair": [
+    "guide_shoe_side_-1_-0.095_-1",
+    "guide_rail_-1"
+  ],
+  "fk_samples": 1501,
+  "representative_frames": [
+    {
+      "q_m": 0.0,
+      "robot_mount_m": [
+        0.0,
+        0.15999999999999998,
+        0.55
+      ]
+    },
+    {
+      "q_m": 0.75,
+      "robot_mount_m": [
+        0.0,
+        0.15999999999999998,
+        1.2999999999999998
+      ]
+    },
+    {
+      "q_m": 1.5,
+      "robot_mount_m": [
+        0.0,
+        0.15999999999999998,
+        2.05
+      ]
+    }
+  ],
+  "guide_capture": [
+    {
+      "shoe": "guide_shoe_side_-1_-0.095_-1",
+      "rail_margin_low_m": 0.08000001415610314,
+      "rail_margin_high_m": 0.3200000141561028,
+      "lateral_gap_m": 0.000999999688938255
+    },
+    {
+      "shoe": "guide_shoe_side_-1_-0.095_1",
+      "rail_margin_low_m": 0.08000001415610314,
+      "rail_margin_high_m": 0.3200000141561028,
+      "lateral_gap_m": 0.000999999688938255
+    },
+    {
+      "shoe": "guide_shoe_side_-1_0.095_-1",
+      "rail_margin_low_m": 0.2700000141561031,
+      "rail_margin_high_m": 0.13000001415610285,
+      "lateral_gap_m": 0.000999999688938255
+    },
+    {
+      "shoe": "guide_shoe_side_-1_0.095_1",
+      "rail_margin_low_m": 0.2700000141561031,
+      "rail_margin_high_m": 0.13000001415610285,
+      "lateral_gap_m": 0.000999999688938255
+    },
+    {
+      "shoe": "guide_shoe_side_1_-0.095_-1",
+      "rail_margin_low_m": 0.08000001415610314,
+      "rail_margin_high_m": 0.3200000141561028,
+      "lateral_gap_m": 0.000999999688938255
+    },
+    {
+      "shoe": "guide_shoe_side_1_-0.095_1",
+      "rail_margin_low_m": 0.08000001415610314,
+      "rail_margin_high_m": 0.3200000141561028,
+      "lateral_gap_m": 0.000999999688938255
+    },
+    {
+      "shoe": "guide_shoe_side_1_0.095_-1",
+      "rail_margin_low_m": 0.2700000141561031,
+      "rail_margin_high_m": 0.13000001415610285,
+      "lateral_gap_m": 0.000999999688938255
+    },
+    {
+      "shoe": "guide_shoe_side_1_0.095_1",
+      "rail_margin_low_m": 0.2700000141561031,
+      "rail_margin_high_m": 0.13000001415610285,
+      "lateral_gap_m": 0.000999999688938255
+    }
+  ],
+  "limitations": [
+    "Axis-separated swept visual bounds certify nonintersection only for this authored rigid +Z translation.",
+    "Legacy collision solids, anchor fit, bearing tolerances, load capacity and flexible cables are not validated."
+  ]
+}

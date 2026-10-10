@@ -1,0 +1,67 @@
+{
+  "reference_product": "Robotiq legacy AX Series / UR10e, appearance from 2022-01 product sheet",
+  "scope": "Base, mast, carriage and Robotiq axis controller only; UR controller, robot, gripper and flexible cables excluded",
+  "baseline_commit": "e3c972d30406160595c8fd3fd40579cfedc31205",
+  "generation_policy": "Retain inherited 2334 mm compatibility envelope; do not substitute 2024 2369 mm AX10 dimensions. Exact hardware-generation consistency is not established.",
+  "visual_sources": [
+    {
+      "url": "https://distributors.robotiq.com/hubfs/Robotiq%20Kits%20for%20Partners/UR%20Robotiq%20Kit%20for%20Partners/Application%20Solutions/Robotiq%20Palletizing%20Solution/Product%20Sheet/Robotiq_Palletizing_AX_PE_2022-01_4pages_EN.pdf",
+      "pages": [
+        2,
+        3
+      ],
+      "uses": [
+        "open base",
+        "black mast/silver edges",
+        "triangular cantilever",
+        "black axis cabinet",
+        "twin light covers"
+      ],
+      "dimension_source": false
+    },
+    {
+      "url": "https://palletizing.robotiq.com/palletizing-solution",
+      "uses": [
+        "corroborating structural motifs"
+      ],
+      "generation": "undated; not used to identify exact build"
+    },
+    {
+      "url": "https://blog.robotiq.com/knowledge/identifying-pallet-sensors-5-1736280792480",
+      "uses": [
+        "four sensors: two A, two B"
+      ],
+      "dimension_source": false
+    }
+  ],
+  "inherited_values_not_revalidated": {
+    "footprint_mm": [
+      809,
+      1370
+    ],
+    "height_mm": 2334,
+    "stroke_mm": 1500,
+    "mast_cross_section_mm": [
+      220,
+      160
+    ],
+    "plate_mm": [
+      300,
+      300,
+      20
+    ],
+    "plate_z_min_mm": 550,
+    "carriage_reach_mm": 420,
+    "cabinet_mm": [
+      420,
+      200,
+      400
+    ],
+    "mass_kg": 155
+  },
+  "new_detail_dimensions": "Independent visual estimates, not measured specifications",
+  "excluded_sources": "Restricted 2023/2024 manuals were inspected solely for citation/generation discrepancy audit; not used for new dimension authoring or reproduced.",
+  "oem_media_in_repo": false,
+  "license": "CC0-1.0",
+  "verification_date": "2026-10-10"
+}
