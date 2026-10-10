@@ -1,0 +1,46 @@
+{
+  "picobot_satin_cap": {
+    "metalness": 0.76,
+    "roughness": 0.28
+  },
+  "picobot_moulded_black": {
+    "metalness": 0.06,
+    "roughness": 0.47
+  },
+  "graphite_housing": {
+    "metalness": 0.08,
+    "roughness": 0.6
+  },
+  "picobot_screen_glass": {
+    "metalness": 0.12,
+    "roughness": 0.22
+  },
+  "picobot_display_cyan": {
+    "metalness": 0.05,
+    "roughness": 0.36
+  },
+  "picobot_coax_green": {
+    "metalness": 0.02,
+    "roughness": 0.43
+  },
+  "elastomer": {
+    "metalness": 0,
+    "roughness": 0.9
+  },
+  "picobot_indicator_lens": {
+    "metalness": 0.22,
+    "roughness": 0.25
+  },
+  "anodized_aluminium": {
+    "metalness": 0.6,
+    "roughness": 0.38
+  },
+  "picobot_cup_green": {
+    "metalness": 0,
+    "roughness": 0.38
+  },
+  "picobot_cup_yellow": {
+    "metalness": 0,
+    "roughness": 0.58
+  }
+}

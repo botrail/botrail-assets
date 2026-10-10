@@ -1,0 +1,184 @@
+{
+  "name": "piab_picobot_ur",
+  "links": [
+    {
+      "name": "mount",
+      "collisions": [
+        {
+          "kind": "cylinder",
+          "radius": 0.0465,
+          "length": 0.005,
+          "xyz": [
+            0,
+            0,
+            0.0025
+          ]
+        },
+        {
+          "kind": "cylinder",
+          "radius": 0.035,
+          "length": 0.069,
+          "xyz": [
+            0,
+            0,
+            0.0395
+          ]
+        },
+        {
+          "kind": "box",
+          "size": [
+            0.174,
+            0.072,
+            0.038
+          ],
+          "xyz": [
+            0,
+            0,
+            0.09300000000000001
+          ]
+        }
+      ]
+    },
+    {
+      "name": "cup_a",
+      "collisions": [
+        {
+          "kind": "cylinder",
+          "radius": 0.006,
+          "length": 0.006,
+          "xyz": [
+            0,
+            0,
+            0.003
+          ]
+        },
+        {
+          "kind": "cylinder",
+          "radius": 0.02,
+          "length": 0.016,
+          "xyz": [
+            0,
+            0,
+            0.014
+          ]
+        }
+      ]
+    },
+    {
+      "name": "cup_a_contact"
+    },
+    {
+      "name": "cup_b",
+      "collisions": [
+        {
+          "kind": "cylinder",
+          "radius": 0.006,
+          "length": 0.006,
+          "xyz": [
+            0,
+            0,
+            0.003
+          ]
+        },
+        {
+          "kind": "cylinder",
+          "radius": 0.02,
+          "length": 0.016,
+          "xyz": [
+            0,
+            0,
+            0.014
+          ]
+        }
+      ]
+    },
+    {
+      "name": "cup_b_contact"
+    },
+    {
+      "name": "tcp"
+    }
+  ],
+  "joints": [
+    {
+      "name": "cup_a_joint",
+      "type": "fixed",
+      "parent": "mount",
+      "child": "cup_a",
+      "xyz": [
+        -0.06,
+        0,
+        0.11200000000000002
+      ],
+      "rpy": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "name": "cup_a_contact_joint",
+      "type": "fixed",
+      "parent": "cup_a",
+      "child": "cup_a_contact",
+      "xyz": [
+        0,
+        0,
+        0.022
+      ],
+      "rpy": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "name": "cup_b_joint",
+      "type": "fixed",
+      "parent": "mount",
+      "child": "cup_b",
+      "xyz": [
+        0.06,
+        0,
+        0.11200000000000002
+      ],
+      "rpy": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "name": "cup_b_contact_joint",
+      "type": "fixed",
+      "parent": "cup_b",
+      "child": "cup_b_contact",
+      "xyz": [
+        0,
+        0,
+        0.022
+      ],
+      "rpy": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "name": "tcp_joint",
+      "type": "fixed",
+      "parent": "mount",
+      "child": "tcp",
+      "xyz": [
+        0,
+        0,
+        0.134
+      ],
+      "rpy": [
+        0,
+        0,
+        0
+      ]
+    }
+  ]
+}

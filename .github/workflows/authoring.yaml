@@ -15,6 +15,7 @@ on:
       - 'onrobot-rg6/**'
       - 'onrobot-rg2/**'
       - 'robotiq-ax-series-base/**'
+      - 'piab-picobot/**'
       - 'onrobot-dual-quick-changer-109878/**'
       - 'onrobot-screwdriver-103961/**'
       - 'onrobot-bit-extender-109301/**'
@@ -45,6 +46,7 @@ on:
       - 'onrobot-rg6/**'
       - 'onrobot-rg2/**'
       - 'robotiq-ax-series-base/**'
+      - 'piab-picobot/**'
       - 'onrobot-dual-quick-changer-109878/**'
       - 'onrobot-screwdriver-103961/**'
       - 'onrobot-bit-extender-109301/**'
@@ -157,3 +159,10 @@ jobs:
           node robotiq-ax-series-base/authoring/export.mjs --check
           python3 robotiq-ax-series-base/authoring/verify_obj.py
           python3 robotiq-ax-series-base/authoring/verify_motion.py
+
+      - name: Piab piCOBOT UR legacy frames and visual topology
+        run: |
+          node --test piab-picobot/authoring/model.test.mjs
+          node piab-picobot/authoring/export.mjs --check
+          python3 piab-picobot/authoring/verify_obj.py
+          node piab-picobot/authoring/verify_clearance.mjs

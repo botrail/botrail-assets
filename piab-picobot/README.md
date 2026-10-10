@@ -1,36 +1,53 @@
-# Piab piCOBOT (for Universal Robots) — 独自形状の参照モデル
+# Piab piCOBOT UR — original 7 kg air-driven visual study
 
-参照実機: **Piab piCOBOT for Universal Robots** (COAX エジェクタユニット + Adjustable Gripper、ISO 9409-1-50-M6 アダプタプレート付き、UR+ 認証)。
-カタログ `piab/picobot/picobot/r1`。CC0-1.0。メーカー CAD・画像・第三者メッシュを使わず、公表数値から著作した。
+参照実機は **Piab piCOBOT for Universal Robots（初代空圧式 7 kg）＋ Adjustable Gripper 0212848 / Interface 16×17**。piCOBOT L / Electric / ActiNav ではない。公表された組立外形と実機写真を使った独自著作。現行キットの完全注文コードは未特定。
 
-出典:
+**既存互換の外観改良版**: main `c945d9e6257a66539b4d0495c30f89d1040b95bf` の URDF、固定リンク、TCP、collision をバイト単位で保持する。そのため旧モデルの Ø40×22 mm カップ・120 mm 間隔を残す。公式写真の B35XP 0205105 は Ø37 mm であり、このモデルはその実寸再現・OEM適合証明ではない。catalog `piab/picobot/picobot/r1` の公開元 SHA は更新していない。配布には新 rev が必要。
 
-- [piCOBOT データシート (2023-01-03、PCO.G.M02.T.MC2.S120PB.X.6.CCA.B.A03K1)](https://24279054.fs1.hubspotusercontent-na1.net/hubfs/24279054/Resources/Piab/Piab%20piCOBOT%20Datasheet.pdf):
-  エジェクタ Ø70 × 69 mm (A = 71.9)、22.8 oz、グリッパ 8.6 oz、カップ間隔 97–142 mm、カップ角度 ±15°、M8 8 ピン、最大 7 kg。
-  この品番の取付プレートは ISO 9409-1-31.5-4-M5 で、UR 版の ISO 50 プレートは次の掲載で読み替えた。
-- [UR Marketplace 掲載](https://www.universal-robots.com/marketplace/products/01tP40000071NYNIA2/): piCOBOT Ø93 × 74 mm、Adjustable Gripper 174 × 72 × 38 mm、同梱品 (エジェクタ、グリッパ、カップ 8 個、プッシュピン、M8 ケーブル、URCap)。
-- [Piab 製品ページ](https://www.piab.com/en-us/robot-and-cobot-gripping-solutions/cobots-and-robot-grippers/picobot-vacuum-gripper-unit/picobot-for-universal-robots2): UR アームへ直付け (ISO-9409-1-50-M6)。
+## 出典と値
 
-| 項目 | 出典値 | 本モデル |
-| --- | --- | --- |
-| アダプタプレート + エジェクタ | Ø93 × 74 mm (UR 掲載) | Ø93 × 5 の板 + Ø70 × 69 の円筒 |
-| Adjustable Gripper | 174 × 72 × 38 mm | 同値の包絡 (ビーム + 弁ブロック + カップホルダ 2) |
-| カップ間隔 | 97–142 mm (無段階) | 120 mm 固定 |
-| カップ | キットの 8 個 (サイズ混在) | Ø40 の 1.5 段ベローズ 2 個を代表として配置 (高さ 22 mm) |
-| 質量 | 22.8 + 8.6 oz = 約 0.89 kg (カップ除く) | specs の参照値 0.89 kg |
-| 可搬 | 7 kg (246.9 oz) | specs の値。吸着・漏れ・カップ変形は模擬しない |
+- [UR 公式 Marketplace](https://www.universal-robots.com/marketplace/products/01tP40000071NYNIA2/): 初代 UR 用エジェクタ Ø93×74 mm、Adjustable Gripper 174×72×38 mm、最大 7 kg、8 個のカップを含むキット
+- [Piab piCOBOT UR](https://www.piab.com/robot-and-cobot-gripping-solutions/cobots-and-robot-grippers/picobot-vacuum-gripper-unit/picobot-for-universal-robots): 実機写真・製品レンダー
+- [Piab Adjustable Gripper 0212848](https://www.piab.com/robot-and-cobot-gripping-solutions/cobots-and-robot-grippers/picobot-vacuum-gripper-unit/0212848): 製品ページ・公開英語データシート・単体外観
+- [Piab B35XP PU30/60 G1/4 male 0205105](https://www.piab.com/suction-cups-and-soft-grippers/round-suction-cups/bellows-suction-cups/0205105): 写真に一致するカップ構成。すべてのキットの同梱品を意味しない
 
-## フレーム
+| 項目 | 公表値 | このモデルと制限 |
+|---|---|---|
+| UR エジェクタ外形 | Ø93×74 mm | 幅93 / 高さ74を基準、コネクタ突起は別。詳細輪郭は写真から推定 |
+| グリッパ最大外形 | 174×72×38 mm、現行図174×72.2×37.55 | 既存collision174×72×38を保持。120mm間隔の運転姿勢を描く |
+| 調整 | カップ間隔97–142 mm、傾き±15° | 120 mm / 0°固定。架空の駆動関節なし |
+| 写真のB35XP | lip Ø37、rubber18.6、ねじ込み前全高33.6 mm | 旧Ø40×22を保持。色とベローズの輪郭のみ参照 |
+| グリッパ接続 | 16×17 mm、4×Ø4.2、カップG1/4 | 新しい精密取付穴・ねじ適合は追加しない |
+| UR 接続 | ISO9409-1-50-M6 | 旧Ø50PCD・Ø6.6穴4個、板厚5を維持。詳細穴寸法／板厚は未認証 |
+| 質量 | 現行グリッパminimum210g、旧kit値と異なる | 慣性は未設定、旧約0.89kgを精密値として継承しない |
 
-- root の `mount` = ISO 9409-1-50-4-M6 のロボットフランジ接合面 (+Z がツール内部へ)。
-- `cup_a` / `cup_b` (固定) = カップホルダ下面、`cup_a_contact` / `cup_b_contact` = カップのリップ面 (mount から 134 mm)。
-- `tcp` = 2 カップの中点、同じ高さ。真空の ON/OFF は制御状態で、架空の関節は作らない。
+## 改善と推定
 
-## 再生成・表示
+銀色の段付き上蓋、黒い樽型筐体、前面HMIの張り出し、LED窓、左側緑ボタン、右側丸ボタン、青い表示ストローク、緑COAXカートリッジと6個のねじ、右側空気エルボ、後方M8ソケットを追加。OLED文字・ロゴは複製せず独自の抽象表示。細部寸法・裏面配置は推定。
+
+中央カバー、独立したスライドアーム、二ねじクランプ、円板付き傾斜ホルダ、**前後反対側**の短い真空管、緑ベローズと黄色リップ、実際に開いたカップ空洞を作った。写真の青ノブ付き調整ピンは着脱式アクセサリのため運転状態には付けない。外部エアホース・電源ケーブル・ロボットは対象外。
+
+## フレームと衝突の注意
+
+root `mount` はロボット取付面、+Zはツール方向。`cup_a` / `cup_b` = Z112mm、接触面と`tcp` = Z134mm。カップ中心はX±60mm。全5関節は固定。
+
+collisionは旧版と同一で、詳細外観を完全には包まない。計測上、空気コネクタは旧collisionから最大約17.17mm、カップ上部は約1mm外側。外観の移動ではなく、元の単純collisionを保持した結果である。狭い空間の干渉評価や安全設計には使わない。可撓管に専用collisionなし。吸着・漏れ・変形・手動幅調整は模擬しない。
+
+## 再生成・確認
 
 ```sh
 npm --prefix authoring ci
 node piab-picobot/authoring/export.mjs
 node piab-picobot/authoring/export.mjs --check
+node --test piab-picobot/authoring/model.test.mjs
+python3 piab-picobot/authoring/verify_obj.py
+node piab-picobot/authoring/verify_clearance.mjs
+npm --prefix authoring test
 python3 -m http.server 8765 --bind 127.0.0.1
 ```
+
+`http://127.0.0.1:8765/piab-picobot/authoring/` を開く。OBJは同一属性の損失なし再利用で圧縮し、法線・UV・材質・全三角形を保持する。共有authoringは変更しない。
+
+## 権利
+
+独自モデルはCC0-1.0。OEM CAD・メッシュ・写真・図面・ロゴ・画面素材は同梱しない。著作の寸法ソースに複製制限付きマニュアルは使っていない。写真と公開データシートは事実／外観参照のみで、再配布権があるとは扱わない。
