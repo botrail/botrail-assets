@@ -1,0 +1,1 @@
+{"name":"daihen-cm7403-authoring","private":true,"type":"module","scripts":{"export":"node export.mjs","check":"node export.mjs --check","test":"node --test model.test.mjs"}}

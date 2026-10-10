@@ -1,0 +1,13 @@
+{
+  "asset": "DAIHEN CM-7403",
+  "checked_at": "2026-10-09",
+  "sources": [
+    {"url":"https://www.daihen.co.jp/products/welder/wirefeeder/wirefeeder.html","role":"Current official product page; CM-7403 photograph and overall dimensions","verified_values":{"width_mm":254,"depth_mm":611,"height_mm":393}},
+    {"url":"https://www.daihen.co.jp/products/welder/img/A-B-M-17.jpg","role":"Exact CM-7403 exterior photo, visually inspected; subpart sizes are estimates","redistributed":false},
+    {"url":"https://www.daihen.co.jp/products/welder/pdf/co2_mag/m500g.pdf","role":"2017 official catalog, complementary appearance only; reports different 207 x 588 x 372 mm envelope; not mixed into present dimensional model","redistributed":false}
+  ],
+  "rights": "Independent procedural geometry. No OEM photograph, drawing, CAD, logo, texture or restricted manual is included. Only current product-page overall dimensions are newly sourced factual dimensions.",
+  "legacy_compatibility": "URDF SHA256 d5443b5b06ecac12051525bd7b3fa32d6015186d151775ed2bde7aca6e1f29e4 is unchanged from main 9c3c564. Mount pattern, outlet datum, collision and spool tilt are inherited unvalidated compatibility assumptions, not new measurements or evidence of fit.",
+  "estimates": ["All subcomponent positions and dimensions, enclosure angles, spool diameter/width and 15-degree tilt, wire winding, hub and supports, handle, feed hardware, switches, fasteners, connector", "Opposite side is not established by the current product photograph; simple solid light cover is an approximation", "The blue side may contain transparent glazing. Glazing is omitted in this opaque OBJ/MTL pipeline; feed mechanism and side access cavity are a visible approximation", "Loaded spool is generic independent geometry; no accessory model or maximum capacity is asserted"],
+  "not_verified": ["Mechanical fit, actual connector datum, collision fidelity, operation, performance, mass/inertia", "Browser UI interaction", "Official video playback"]
+}
