@@ -46,13 +46,13 @@ gun = bt.Robot.from_catalog("weld-gun-x1")  # カタログ ID (下表の右列) 
 | [biw-sedan](./biw-sedan) | ワークピース: BIW (コンパクトセダン) | — (独自著作) | `biw-sedan` |
 | [spindle-emsf3060](./spindle-emsf3060) | 切削スピンドル (フランジ付きモータ) | ナカニシ EMSF-3060K | `spindle-emsf3060` |
 | [ati-rcv250-crx-kit](./ati-rcv250-crx-kit) | スピンドル＋取付プレート2点 | ATI 9150-COB-CRX10-RCV250-01 / RCV-250 | `rcv-250-crx10-kit` / `rcv-250` / `3700-50-9210` / `9005-50-6091` |
-| [kuka-kr210-l150](./kuka-kr210-l150) | 6軸アームの独自参照形状 | KUKA KR 210 L150-2 | `kuka/kr210/kr210-l150/r2` |
+| [kuka-kr210-l150](./kuka-kr210-l150) | 6軸アームの独自参照形状 | KUKA KR 210 L150-2 | `kuka/kr210/kr210-l150/r3` (公開前、旧外観は r2) |
 | [kawasaki-bx250l](./kawasaki-bx250l) | 6軸アーム＋平行リンクの参照モデル | Kawasaki BX250L-B001 / GUN BRACKET 160 | `kawasaki/bx/bx250l-b001/r2` (詳細外観 r3 準備中・未公開) |
-| [fanuc-m410ic-185](./fanuc-m410ic-185) | 4軸パレタイザ、鋳物腕・前面の立体凹部・開口ペデスタル・平行リンクを持つ参照モデル | FANUC M-410iC/185 (ペデスタル形) | `fanuc/m410ic/m410ic-185/r1` |
+| [fanuc-m410ic-185](./fanuc-m410ic-185) | 4軸パレタイザ、鋳物腕・前面の立体凹部・開口ペデスタル・平行リンクを持つ参照モデル | FANUC M-410iC/185 (ペデスタル形) | `fanuc/m410ic/m410ic-185/r2` (公開前、旧外観は r1) |
 | [fanuc-sr-3ia](./fanuc-sr-3ia) | 4軸スカラロボット、J3 直動のボールねじスプラインとケーブルホースの参照モデル | FANUC SR-3iA (床置き) | `fanuc/sr3ia/sr-3ia/r1` |
 | [nimak-multiframegun](./nimak-multiframegun) | 片側開閉の取付参照モデル＋指定ボルト10本 | NIMAK 95.020.516 / P3U、BX-NIMAK-HW-A構成 | `nimak/multiframegun/95-020-516-p3u/r4` (詳細外観 r5 準備中・未公開) |
 | [universal-robots-ur-series](./universal-robots-ur-series) | 6軸協働ロボットの独自形状 | UR8 Long / UR15 / UR18 / UR20 / UR30 | `ur8-long` / `ur15` / `ur18` / `ur20` / `ur30` (r2) |
-| [onrobot-rg6](./onrobot-rg6) | 写真参照の曲線筐体・リンク・標準 EPDM。旧 URDF / collision / TCP を保持、差異を注記 | OnRobot RG6 v2 | `onrobot/rg/rg6/r2` |
+| [onrobot-rg6](./onrobot-rg6) | 写真参照の曲線筐体・リンク・標準 EPDM。TCP は閉時のブーツ中心、collision は各リンクの visual を包む | OnRobot RG6 v2 | `onrobot/rg/rg6/r4` (UR 接続構成、公開前。旧外観は r2 / r3) |
 | [ewellix-liftkit-ur620](./ewellix-liftkit-ur620) | 伸縮柱の参照モデル | Ewellix LIFTKIT-UR-800-xx00-620 | `ewellix/liftkit/liftkit-ur/r2` |
 | [smc-mhz2-20d](./smc-mhz2-20d) | 小物組立用の独自参照モデル | SMC MHZ2-20D | `smc/mhz2/mhz2-20d/r1` |
 | [schunk-mpg-plus-25](./schunk-mpg-plus-25) | 小物組立用の独自参照モデル | SCHUNK MPG-plus 25 | `schunk/mpg-plus/mpg-plus-25/r1` |
@@ -67,7 +67,7 @@ gun = bt.Robot.from_catalog("weld-gun-x1")  # カタログ ID (下表の右列) 
 | [onrobot-screwdriver-103961](./onrobot-screwdriver-103961) | 側面支持・55 mm送り軸 | OnRobot Screwdriver 103961、109301装着構成 | `onrobot/screwdriver/103961/r1` / `103961-a50/r1` (公開前) |
 | [onrobot-bit-extender-109301](./onrobot-bit-extender-109301) | 50 mm追加リーチの参照形状 | OnRobot Bit Extender A 109301 | `onrobot/bit-extender/109301/r1` (公開前) |
 | [onrobot-vgc10](./onrobot-vgc10) | 30 mmカップ4個、独立2流路の参照モデル | OnRobot VGC10 102844 | `onrobot/vgc/vgc10/r1` |
-| [onrobot-rg2](./onrobot-rg2) | RG2 固有の筐体・リンク・標準 EPDM、110 mm ストローク。旧 URDF と新 visual の差異を注記 | OnRobot RG2 (102012) | `onrobot/rg/rg2/r1` (公開前) |
+| [onrobot-rg2](./onrobot-rg2) | RG2 固有の筐体・リンク・標準 EPDM、110 mm ストローク。TCP は閉時のブーツ中心、collision は各リンクの visual を包む | OnRobot RG2 (102012) | `onrobot/rg/rg2/r2` (公開前、旧外観は r1) |
 | [onrobot-hex-e-qc](./onrobot-hex-e-qc) | 6 軸力覚センサ (アダプタプレート + ロボット側 QC 内蔵) の参照モデル | OnRobot HEX-E QC | `onrobot/hex/hex-e-qc/r1` (公開前) |
 | [robotiq-epick](./robotiq-epick) | 電動真空グリッパ (1 カップ構成) の参照モデル | Robotiq EPick | `robotiq/epick/epick/r1` (公開前) |
 | [robotiq-wrist-camera](./robotiq-wrist-camera) | 手首カメラ (ツールプレート無し) の参照モデル、光学フレーム付き | Robotiq Wrist Camera RWC-CAM-001 | `robotiq/wrist-camera/wrist-camera/r1` (公開前) |
@@ -80,8 +80,8 @@ gun = bt.Robot.from_catalog("weld-gun-x1")  # カタログ ID (下表の右列) 
 | [kosmek-swr0070](./kosmek-swr0070) | 空圧ロボットハンドチェンジャー (マスタ + ツールアダプタ) | コスメック SWR0070-M / SWR0070-T | `kosmek/swr/swr0070-master/r1` / `-tool/r1` (公開前) |
 | [kosmek-swrz0070](./kosmek-swrz0070) | SWR0070 用 ISO 9409-1-50-4-M6 変換プレート (ロボット側 / ツール側) | コスメック SWRZ0070-MF4 / SWRZ0070-TF4 | `kosmek/swrz/swrz0070-mf4/r1` / `-tf4/r1` (公開前) |
 | [daihen-bt350rd-tmcu01](./daihen-bt350rd-tmcu01) | 協働ロボット用アーク溶接トーチ (トーチマウント込み、TCP = ワイヤ先端) の参照モデル | ダイヘン BLUE TORCH III BT350RD-30D + TMCU-01 (Welbee Co-R) | `daihen/bt350/bt350rd-30d-tmcu01/r1` (公開前) |
-| [daihen-wb-p352l](./daihen-wb-p352l) | 溶接電源 (キャスタ付き筐体) の参照モデル | ダイヘン Welbee Inverter P350L II (WB-P352L) | `daihen/welbee/wb-p352l/r2` (詳細化候補・未公開) |
-| [daihen-cm-7403](./daihen-cm-7403) | 公式写真参照の独自形状: 傾斜カバー、側面フレーム、巻線付きスプール。旧 URDF を保持（出口座標・collision の差異は注記） | ダイヘン CM-7403 | `daihen/cm/cm-7403/r1` (公開前) |
+| [daihen-wb-p352l](./daihen-wb-p352l) | 溶接電源 (キャスタ付き筐体) の参照モデル | ダイヘン Welbee Inverter P350L II (WB-P352L) | `daihen/welbee/wb-p352l/r2` (公開前、旧外観は r1) |
+| [daihen-cm-7403](./daihen-cm-7403) | 公式写真参照の独自形状: 傾斜カバー、側面フレーム、巻線付きスプール。トーチ出口フレームは見える接続口、collision は外形内で visual を包む | ダイヘン CM-7403 | `daihen/cm/cm-7403/r2` (公開前、旧外観は r1) |
 | [robotiq-ax-series-base](./robotiq-ax-series-base) | 開いた基台・マスト・三角形キャリッジの旧 AX 外観。旧 URDF/collision を保持、細部は推定 | Robotiq AX Series / UR10e、2022 外観参照 | `robotiq/ax/ax10/r1`（外観 r2 候補・未公開） |
 | [robotiq-powerpick10](./robotiq-powerpick10) | パレタイジング用真空グリッパ (既定構成: 200 mm オフセット + Ø77.5 カップ 4 個) の参照モデル | Robotiq PowerPick10 | `robotiq/powerpick/powerpick-10/r1` (公開前) |
 | [robotiq-powerpick10-vacuum-unit](./robotiq-powerpick10-vacuum-unit) | PowerPick10 の真空発生ユニット (壁掛け筐体) の参照モデル | Robotiq PowerPick10 Vacuum Generation Unit | `robotiq/powerpick/powerpick10-vacuum-unit/r1` (公開前) |
@@ -92,8 +92,8 @@ gun = bt.Robot.from_catalog("weld-gun-x1")  # カタログ ID (下表の右列) 
 | [swivellink-rb-ped-24-cb200](./swivellink-rb-ped-24-cb200) | コボット用ペデスタルの包絡ベース参照モデル (公表寸法は高さのみ、図面未入手) | Swivellink RB-PED-24-CB200 | `swivellink/rb-ped/rb-ped-24-cb200/r1` (公開前) |
 | [mir250](./mir250) | 差動2輪 + 旋回キャスタ4輪の独自参照形状 | MiR250 | `mobile_industrial_robots/mir/mir250/r2` |
 | [hitachi-racrew](./hitachi-racrew) | 棚搬送 AGV(小型低床式、棚の下に潜って持ち上げる)の参照モデル: 白い車体・別リンクのターンテーブル・前後バンパ・四隅の灯具 | 日立 Racrew | `hitachi_industrial_products/racrew/racrew/r1`(公開前) |
-| [mir1350](./mir1350) | 黒い車体・荷台パッド・対角スキャナ・別リンク上部カバーの参照 AMR | MiR1350 | `mobile_industrial_robots/mir/mir1350/r1` |
-| [toyota-sae160](./toyota-sae160) | 実機写真を参照した独自外観: 分割した電池室・駆動カバー、開口グリップ、横長 HMI、5 接点、C 断面マスト、荷重輪窓付きテーパフォーク。TX/DX の URDF・フリーリフト・mimic・collision を維持。DX は `dx/` | Toyota Autopilot SAE160(BT Staxio、TX Hi-Lo / DX Tele) | `toyota_material_handling/autopilot/sae160/r1` / `sae160-dx/r1`(公開前) |
+| [mir1350](./mir1350) | 黒い車体・荷台パッド・対角スキャナ・別リンク上部カバーの参照 AMR | MiR1350 | `mobile_industrial_robots/mir/mir1350/r2` (公開前、旧外観は r1) |
+| [toyota-sae160](./toyota-sae160) | 実機写真を参照した独自外観: 分割した電池室・駆動カバー、開口グリップ、横長 HMI、5 接点、C 断面マスト、荷重輪窓付きテーパフォーク。TX/DX の関節・フリーリフト・mimic を維持し、collision は新しい visual に合わせて改訂。DX は `dx/` | Toyota Autopilot SAE160(BT Staxio、TX Hi-Lo / DX Tele) | `toyota_material_handling/autopilot/sae160/r2` / `sae160-dx/r2`(公開前、旧外観は r1) |
 | [aubo-amr300](./aubo-amr300) | 差動 2 輪 AMR の参照モデル(駆動輪 2 + キャスタ 4・スキャナ 2・上面のアーム取付フレーム) | AUBO-AMR300(海纳系列) | `aubo/amr/amr300/r1` |
 | [mir-eu-pallet-lift-1350](./mir-eu-pallet-lift-1350) | EUR パレット用 1 軸リフト(揚程 60 mm) | MiR EU Pallet Lift 1350 | `mobile_industrial_robots/mir/eu-pallet-lift-1350/r1` |
 | [unitree-g1-fixed-plates](./unitree-g1-fixed-plates) | 頭部カメラ・LiDAR固定プレートの写真参照形状（寸法・取付適合未確認） | Unitree G1 Camera / Radar fixed plate、販売店番号1297 / 1296 | `unitree/g1/camera-fixed-plate/r1` / `radar-fixed-plate/r1` |

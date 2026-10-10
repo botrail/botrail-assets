@@ -23,10 +23,9 @@ The 101-pose sweep is not an exhaustive continuous-motion collision proof. The a
 
 ## Retained limitations
 
-The inherited collision proxy is immutable in this refinement. It covers only about 31.5% of each new fitted boot's solid volume.
-The new visual boot's centre is displaced upwards by 19 mm relative to that proxy;
-its contact X plane still follows the same 110 mm stroke.
-The fixed TCP and collision geometry are not a collision-accurate or metrologically validated model of the refined assembly.
+In this refinement the inherited collision proxy was kept: it covered only about 31.5% of each new fitted boot's solid volume,
+whose centre sits 19 mm further out; its contact X plane follows the same 110 mm stroke.
+That proxy and the old TCP are superseded by the revision below.
 The published length drawing uses a bracket-shoulder datum and bare metal fingertips, so do not compare it directly to mount-to-fitted-boot coordinates.
 
 The sampled visual overlap whitelist is limited to matching pivot shafts/solid eyes, support sockets, bracket/body contact and seated carrier/rubber.
@@ -44,3 +43,21 @@ The environment used Node 24.19.0; CI specifies Node 22. Remote CI has not run b
 
 Browser UI interaction was not tested; this environment has previously blocked browser launch sockets.
 A Blender render and Node scene test are not browser interaction tests. No physical fit, certified safety, dynamics, contact-force or switch-function validation is claimed.
+
+## TCP and collision revision (2026-10-10)
+
+A follow-up change replaced the inherited TCP and collision proxies. Joints, limits, mimic rules,
+mount and mesh paths are unchanged, and the visual meshes are byte-identical.
+
+- TCP: the closed-pose centre of the two visible boots, 217.1 mm from mount (was 198.1 mm).
+  A fixed TCP; the pads swing towards the mount as the gripper opens
+- Collision: per-link boxes, one cylinder over each pivot's bosses and, on the truss arm, a box over the
+  switch cover. The boot box shares the visible contact plane. Every visual vertex lies inside its link's
+  collision except the carrier's lower-axle ends (at most 2.9 mm, inside the moment-arm plates) and the
+  body cover reliefs (at most 0.6 mm)
+- 101-pose audit, visual volume outside collision (mm³): bracket 29,052 → 0, moment arm 624 → 0, truss arm 4,277 → 0, boot 2,347 → 0, carrier 3,774 → 163
+- Collision overlaps in the sweep are the designed pivots and fixed seats, present in every pose;
+  no pair overlaps in only part of the stroke. The inherited moment-arm/truss-arm boxes shared one layer and overlapped near closure; that intermittent pair is gone.
+- URDF SHA-256 `9e0c06cfab05…`, pinned in `authoring/test/onrobot-contract.test.mjs` and the audit
+- Passed: 12 RG2/RG6 model and contract tests (enclosure and TCP-at-boot-centre added), 5 audit unit tests,
+  both `--check-refined` audits (report regenerated in `motion-audit.json`), OBJ export check and topology audit

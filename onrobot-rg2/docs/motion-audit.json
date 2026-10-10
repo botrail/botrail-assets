@@ -1,7 +1,7 @@
 {
   "asset": "onrobot-rg2",
   "robot_name": "onrobot_rg2_reference",
-  "urdf_sha256": "95d0f45ed89717e5b41c498bd1961c2b520116dcd12ad622da9bb8dae1794626",
+  "urdf_sha256": "9e0c06cfab0567bdea63d91f75e44890f2b851e0f7a33b20679009deda6f15f9",
   "mesh_sha256": {
     "rg2_v2_gripper_body.obj": "04a0f07f6c879160484fc936fc55cf5b78e66ac0d9199c0c0fac726d42dc0854",
     "rg2_v2_gripper_bracket.obj": "a0f315ba8c0931cc52ae8b70fc3f389ade99683f508df0b97020282085f115dc",
@@ -1061,9 +1061,9 @@
     {
       "link": "rg2_v2_gripper_bracket",
       "visual_volume_mm3": 111141.00730571184,
-      "collision_volume_mm3": 105300.0,
-      "visual_outside_collision_mm3": 29051.462517121516,
-      "collision_outside_visual_mm3": 23210.455211409684
+      "collision_volume_mm3": 186681.0,
+      "visual_outside_collision_mm3": 0.0009815345530563104,
+      "collision_outside_visual_mm3": 75539.99367582271
     },
     {
       "link": "rg2_v2_gripper_body",
@@ -1075,58 +1075,58 @@
     {
       "link": "rg2_v2_gripper_finger_1_moment_arm",
       "visual_volume_mm3": 3287.507940450582,
-      "collision_volume_mm3": 4536.067024886401,
-      "visual_outside_collision_mm3": 624.119084236213,
-      "collision_outside_visual_mm3": 1872.6781686720321
+      "collision_volume_mm3": 3370.3176867985785,
+      "visual_outside_collision_mm3": 0.017040477485368778,
+      "collision_outside_visual_mm3": 82.8267868254862
     },
     {
       "link": "rg2_v2_gripper_finger_1_truss_arm",
       "visual_volume_mm3": 4276.540530815634,
-      "collision_volume_mm3": 4536.067024886401,
-      "visual_outside_collision_mm3": 4276.540530815634,
-      "collision_outside_visual_mm3": 4536.067024886401
+      "collision_volume_mm3": 4672.079719362367,
+      "visual_outside_collision_mm3": 0.017414298327966156,
+      "collision_outside_visual_mm3": 395.556602844825
     },
     {
       "link": "rg2_v2_gripper_finger_1_finger_tip",
       "visual_volume_mm3": 5013.537583176745,
-      "collision_volume_mm3": 2911.9999999999995,
-      "visual_outside_collision_mm3": 3774.0437540922544,
-      "collision_outside_visual_mm3": 1672.506170915509
+      "collision_volume_mm3": 25668.9325345827,
+      "visual_outside_collision_mm3": 163.3175730790741,
+      "collision_outside_visual_mm3": 20818.71252448503
     },
     {
       "link": "rg2_v2_gripper_finger_1_flex_finger",
       "visual_volume_mm3": 3428.134330448877,
-      "collision_volume_mm3": 4213.72,
-      "visual_outside_collision_mm3": 2347.162435482502,
-      "collision_outside_visual_mm3": 3132.748105033625
+      "collision_volume_mm3": 6862.343999999999,
+      "visual_outside_collision_mm3": 8.363138641866677e-12,
+      "collision_outside_visual_mm3": 3434.209669551131
     },
     {
       "link": "rg2_v2_gripper_finger_2_moment_arm",
       "visual_volume_mm3": 3287.507940450582,
-      "collision_volume_mm3": 4536.067024886401,
-      "visual_outside_collision_mm3": 624.119084236213,
-      "collision_outside_visual_mm3": 1872.6781686720321
+      "collision_volume_mm3": 3370.3176867985785,
+      "visual_outside_collision_mm3": 0.017040477485368778,
+      "collision_outside_visual_mm3": 82.8267868254862
     },
     {
       "link": "rg2_v2_gripper_finger_2_truss_arm",
       "visual_volume_mm3": 4276.540530815634,
-      "collision_volume_mm3": 4536.067024886401,
-      "visual_outside_collision_mm3": 4276.540530815634,
-      "collision_outside_visual_mm3": 4536.067024886401
+      "collision_volume_mm3": 4672.079719362367,
+      "visual_outside_collision_mm3": 0.017414298327966156,
+      "collision_outside_visual_mm3": 395.556602844825
     },
     {
       "link": "rg2_v2_gripper_finger_2_finger_tip",
       "visual_volume_mm3": 5013.537583176745,
-      "collision_volume_mm3": 2911.9999999999995,
-      "visual_outside_collision_mm3": 3774.0437540922544,
-      "collision_outside_visual_mm3": 1672.506170915509
+      "collision_volume_mm3": 25668.9325345827,
+      "visual_outside_collision_mm3": 163.3175730790741,
+      "collision_outside_visual_mm3": 20818.71252448503
     },
     {
       "link": "rg2_v2_gripper_finger_2_flex_finger",
       "visual_volume_mm3": 3428.134330448877,
-      "collision_volume_mm3": 4213.72,
-      "visual_outside_collision_mm3": 2347.162435482502,
-      "collision_outside_visual_mm3": 3132.748105033625
+      "collision_volume_mm3": 6862.343999999999,
+      "visual_outside_collision_mm3": 8.363138641866677e-12,
+      "collision_outside_visual_mm3": 3434.209669551131
     }
   ],
   "motion": {
@@ -1145,7 +1145,7 @@
     "tcp_mm": [
       0.0,
       0.0,
-      198.1
+      217.1
     ],
     "tcp_max_change_mm": 0.0,
     "open_bounds_mm": [
@@ -1279,14 +1279,92 @@
         "representation": "collision",
         "links": [
           "rg2_v2_gripper_body",
-          "rg2_v2_gripper_finger_2_moment_arm"
+          "rg2_v2_gripper_bracket"
         ],
         "category": "body_attachment_or_sweep",
         "sample_count": 101,
-        "max_overlap_mm3": 2471.4945029241385,
+        "max_overlap_mm3": 20196.0,
         "first_q_rad": 0.0,
         "last_q_rad": 1.30524,
-        "max_q_rad": 0.8614584
+        "max_q_rad": 0.0
+      },
+      {
+        "representation": "collision",
+        "links": [
+          "rg2_v2_gripper_finger_1_finger_tip",
+          "rg2_v2_gripper_finger_1_flex_finger"
+        ],
+        "category": "same_finger_joint_or_interference",
+        "sample_count": 101,
+        "max_overlap_mm3": 5581.543909857367,
+        "first_q_rad": 0.0,
+        "last_q_rad": 1.30524,
+        "max_q_rad": 0.0913668
+      },
+      {
+        "representation": "collision",
+        "links": [
+          "rg2_v2_gripper_finger_2_finger_tip",
+          "rg2_v2_gripper_finger_2_flex_finger"
+        ],
+        "category": "same_finger_joint_or_interference",
+        "sample_count": 101,
+        "max_overlap_mm3": 5581.543909857367,
+        "first_q_rad": 0.0,
+        "last_q_rad": 1.30524,
+        "max_q_rad": 0.0913668
+      },
+      {
+        "representation": "collision",
+        "links": [
+          "rg2_v2_gripper_body",
+          "rg2_v2_gripper_finger_2_truss_arm"
+        ],
+        "category": "body_attachment_or_sweep",
+        "sample_count": 101,
+        "max_overlap_mm3": 2140.318986939886,
+        "first_q_rad": 0.0,
+        "last_q_rad": 1.30524,
+        "max_q_rad": 0.0
+      },
+      {
+        "representation": "collision",
+        "links": [
+          "rg2_v2_gripper_body",
+          "rg2_v2_gripper_finger_1_truss_arm"
+        ],
+        "category": "body_attachment_or_sweep",
+        "sample_count": 101,
+        "max_overlap_mm3": 2140.3189869398857,
+        "first_q_rad": 0.0,
+        "last_q_rad": 1.30524,
+        "max_q_rad": 0.0
+      },
+      {
+        "representation": "collision",
+        "links": [
+          "rg2_v2_gripper_finger_1_finger_tip",
+          "rg2_v2_gripper_finger_1_truss_arm"
+        ],
+        "category": "same_finger_joint_or_interference",
+        "sample_count": 101,
+        "max_overlap_mm3": 1947.5926866333887,
+        "first_q_rad": 0.0,
+        "last_q_rad": 1.30524,
+        "max_q_rad": 1.30524
+      },
+      {
+        "representation": "collision",
+        "links": [
+          "rg2_v2_gripper_finger_2_finger_tip",
+          "rg2_v2_gripper_finger_2_truss_arm"
+        ],
+        "category": "same_finger_joint_or_interference",
+        "sample_count": 101,
+        "max_overlap_mm3": 1947.5926866333887,
+        "first_q_rad": 0.0,
+        "last_q_rad": 1.30524,
+        "max_q_rad": 1.30524
       },
       {
         "representation": "collision",
@@ -1296,62 +1374,23 @@
         ],
         "category": "body_attachment_or_sweep",
         "sample_count": 101,
-        "max_overlap_mm3": 2471.4945029241376,
+        "max_overlap_mm3": 1833.195528639323,
         "first_q_rad": 0.0,
         "last_q_rad": 1.30524,
-        "max_q_rad": 0.8614584
+        "max_q_rad": 0.8484059999999999
       },
       {
         "representation": "collision",
         "links": [
           "rg2_v2_gripper_body",
-          "rg2_v2_gripper_finger_2_truss_arm"
+          "rg2_v2_gripper_finger_2_moment_arm"
         ],
         "category": "body_attachment_or_sweep",
         "sample_count": 101,
-        "max_overlap_mm3": 2152.3682820010304,
+        "max_overlap_mm3": 1833.195528639323,
         "first_q_rad": 0.0,
         "last_q_rad": 1.30524,
-        "max_q_rad": 0.0
-      },
-      {
-        "representation": "collision",
-        "links": [
-          "rg2_v2_gripper_body",
-          "rg2_v2_gripper_finger_1_truss_arm"
-        ],
-        "category": "body_attachment_or_sweep",
-        "sample_count": 101,
-        "max_overlap_mm3": 2152.36828200103,
-        "first_q_rad": 0.0,
-        "last_q_rad": 1.30524,
-        "max_q_rad": 0.0
-      },
-      {
-        "representation": "collision",
-        "links": [
-          "rg2_v2_gripper_finger_1_moment_arm",
-          "rg2_v2_gripper_finger_1_truss_arm"
-        ],
-        "category": "same_finger_joint_or_interference",
-        "sample_count": 2,
-        "max_overlap_mm3": 118.37379963896086,
-        "first_q_rad": 1.2921875999999999,
-        "last_q_rad": 1.30524,
-        "max_q_rad": 1.30524
-      },
-      {
-        "representation": "collision",
-        "links": [
-          "rg2_v2_gripper_finger_2_moment_arm",
-          "rg2_v2_gripper_finger_2_truss_arm"
-        ],
-        "category": "same_finger_joint_or_interference",
-        "sample_count": 2,
-        "max_overlap_mm3": 118.37379963896076,
-        "first_q_rad": 1.2921875999999999,
-        "last_q_rad": 1.30524,
-        "max_q_rad": 1.30524
+        "max_q_rad": 0.8484059999999999
       },
       {
         "representation": "visual",
@@ -2313,6 +2352,6 @@
     "failures": [],
     "support_gap_limit_mm": 0.05,
     "unexpected_overlap_limit_mm3": 0.01,
-    "scope": "Sampled visual solids; explicitly whitelisted unbored pivot/shaft and rubber-seat interfaces remain reported. Legacy collision-proxy overlaps are not treated as newly introduced defects."
+    "scope": "Sampled visual solids; explicitly whitelisted unbored pivot/shaft and rubber-seat interfaces remain reported. Collision-box overlaps (designed pivot and seat contacts) are reported, not gated."
   }
 }

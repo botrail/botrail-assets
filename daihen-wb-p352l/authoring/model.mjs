@@ -188,7 +188,8 @@ export function definition(){
  for(const [i,z] of [[0,.539],[1,.531],[2,.523],[3,.515]])box(g,`rating_plate_rule_${i}`,[.001,.051,.0015],[.1905,-.224,z],label);
  box(g,'left_side_blank_identity_plate',[.001,.085,.055],[-.190,-.092,.501],fascia);
  // Two diagonal lifting eyes, not four. Opposite positions are roof fasteners.
- for(const [x,y] of [[-.156,-.204],[.156,.301]]){
+ const eyes=[[-.156,-.204],[.156,.301]];
+ for(const [x,y] of eyes){
   const tag=`${x<0?'l':'r'}${y<0?'f':'r'}`;
   cylinderBetween(g,`lifting_eye_${tag}_seat`,[x,y,.607],[x,y,.617],.011,silver,{radial:24});
   cylinderBetween(g,`lifting_eye_${tag}_stem`,[x,y,.612],[x,y,.625],.005,silver,{radial:20});
@@ -197,9 +198,11 @@ export function definition(){
  for(const [i,x,y] of [[0,-.156,.301],[1,.156,-.204]])cylinderBetween(g,`roof_fastener_${i}`,[x,y,.610],[x,y,.614],.006,silver,{radial:6});
  const yRear=D.d/2-D.rearOverhang,yFront=yRear-D.track[1];
  for(const [tag,x,y] of [['rl',-D.track[0]/2,yRear],['rr',D.track[0]/2,yRear],['fl',-D.track[0]/2,yFront],['fr',D.track[0]/2,yFront]])caster(g,tag,x,y);
- // Inherited primitive collision and frame contract: deliberately byte-identical URDF.
- links.push({name:'base_link',visual:g,collisions:[cb([D.w,D.d,.580],[0,0,.350]),cb([D.track[0]+.060,D.track[1]+.080,.060],[0,(yRear+yFront)/2,.030])]});
+ // Collision: the inherited cabinet and caster-base boxes plus the two lifting-eye rings above the roof.
+ links.push({name:'base_link',visual:g,collisions:[cb([D.w,D.d,.580],[0,0,.350]),cb([D.track[0]+.060,D.track[1]+.080,.060],[0,(yRear+yFront)/2,.030]),
+   ...eyes.map(([x,y])=>cb([2*D.eyeOuter,.007,2*D.eyeOuter],[x,y,.6305]))]});
  links.push({name:'mount'});joints.push(fixed('mount_joint','base_link','mount',[0,0,0]));
- links.push({name:'torch_outlet'});joints.push(fixed('torch_outlet_joint','base_link','torch_outlet',[-.060,-.355,.300]));
+ // Torch-side (image-right) output terminal: the frame sits on its brass lip face, base_link orientation.
+ links.push({name:'torch_outlet'});joints.push(fixed('torch_outlet_joint','base_link','torch_outlet',[.136,-.326,.195]));
  return{name:'daihen_wb_p352l',links,joints};
 }

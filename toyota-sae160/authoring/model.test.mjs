@@ -6,13 +6,16 @@ import {definition,dimensions,variants,liftJoints} from './model.mjs';
 
 const at=(s,name)=>s.links.get(name).getWorldPosition(new THREE.Vector3());
 const near=(a,b,tol,what)=>assert.ok(Math.abs(a-b)<tol,`${what}: ${a} vs ${b}`);
+/** A collision box's corner (signs sx, sy, sz) in its link frame, honouring its rpy. */
+const corner=(c,sx,sy,sz)=>new THREE.Vector3(sx*c.size[0]/2,sy*c.size[1]/2,sz*c.size[2]/2)
+  .applyEuler(new THREE.Euler(...(c.rpy??[0,0,0]),'ZYX')).add(new THREE.Vector3(...c.xyz));
 /** The zero-pose world AABB of every collision box of `d`. */
 function envelope(d,s){
   const lo=[Infinity,Infinity,Infinity], hi=[-Infinity,-Infinity,-Infinity];
   for(const link of d.links) for(const c of link.collisions??[]) {
     const m=s.links.get(link.name).matrixWorld;
     for(const sx of [-1,1]) for(const sy of [-1,1]) for(const sz of [-1,1]) {
-      const p=new THREE.Vector3(c.xyz[0]+sx*c.size[0]/2,c.xyz[1]+sy*c.size[1]/2,c.xyz[2]+sz*c.size[2]/2).applyMatrix4(m);
+      const p=corner(c,sx,sy,sz).applyMatrix4(m);
       p.toArray().forEach((v,i)=>{lo[i]=Math.min(lo[i],v);hi[i]=Math.max(hi[i],v);});
     }
   }
@@ -46,8 +49,8 @@ for(const mast of Object.keys(variants)) {
     let wa=0;
     for(const link of d.links) for(const c of link.collisions??[]) {
       const m=s.links.get(link.name).matrixWorld;
-      for(const sx of [-1,1]) for(const sy of [-1,1]) {
-        const p=new THREE.Vector3(c.xyz[0]+sx*c.size[0]/2,c.xyz[1]+sy*c.size[1]/2,c.xyz[2]).applyMatrix4(m);
+      for(const sx of [-1,1]) for(const sy of [-1,1]) for(const sz of [-1,1]) {
+        const p=corner(c,sx,sy,sz).applyMatrix4(m);
         wa=Math.max(wa,Math.hypot(p.x,p.y));
       }
     }
@@ -92,9 +95,24 @@ import {compactObj,meshFiles} from './compact-obj.mjs';
 import {OBJLoader} from 'three/addons/loaders/OBJLoader.js';
 const bbox=o=>new THREE.Box3().setFromObject(o,true);
 const ray=(g,origin,direction)=>new THREE.Raycaster(new THREE.Vector3(...origin),new THREE.Vector3(...direction).normalize()).intersectObject(g,true);
-const hashes={tx:'b12d8fcb944b6e868146ec693115a57dce0b5da117e183b6f7adba08d4866a74',dx:'a6a6b92d199e7c1a73d9a4e9f10e166b915e46cca93f79eec07a5bbf67ec4190'};
+const hashes={tx:'838c42a2eed7813c246fd7b6e2325a88a12c8a105ac3f3c6dbe3468d99b498dc',dx:'bae48d9ba4d1eb2b5efc210dadd243b31695ff1c7c85dd6ac1418bb9453c7264'};
 for(const mast of ['tx','dx']){
- test(`${mast}: inherited URDF, collision/contact boxes and all frames/limits are byte-identical`,()=>{
+ test(`${mast}: collision boxes enclose the visual (internal mast parts excepted)`,()=>{
+  // Excepted, by link: carriage guide rollers/axles/mounts run inside the mast channels (a box
+  // there would touch the stages in every pose); the stages' lower crossmembers sit inside the
+  // carriage block's reach; the outer mast's foot/head plates, scanner-post foot and the front
+  // 7.5 mm of each top shroud (stopped short of the carriage block) stand out by at most 12 mm.
+  const d=definition(mast), limit={base_link:1e-6,mast_outer:.0121,mast_stage1:.0571,mast_inner:.0421,carriage:.0901};
+  for(const link of d.links){
+   if(!link.collisions)continue;
+   const boxes=link.collisions.map(c=>{const m=new THREE.Matrix4().compose(new THREE.Vector3(...c.xyz),new THREE.Quaternion().setFromEuler(new THREE.Euler(...(c.rpy??[0,0,0]),'ZYX')),new THREE.Vector3(1,1,1));return {inv:m.invert(),half:c.size.map(v=>v/2)};});
+   link.visual.updateMatrixWorld(true);const p=new THREE.Vector3();let worst=0;
+   link.visual.traverse(o=>{if(!o.isMesh)return;const a=o.geometry.attributes.position;for(let i=0;i<a.count;i++){p.fromBufferAttribute(a,i).applyMatrix4(o.matrixWorld);
+    worst=Math.max(worst,Math.min(...boxes.map(b=>{const q=p.clone().applyMatrix4(b.inv);return Math.hypot(...[q.x,q.y,q.z].map((v,k)=>Math.max(Math.abs(v)-b.half[k],0)));})));}});
+   assert.ok(worst<=limit[link.name],`${link.name}: ${worst*1000} mm outside`);
+  }
+ });
+ test(`${mast}: URDF, frames and limits match the 2026-10-10 contract and the committed file`,()=>{
   const xml=urdf(definition(mast));assert.equal(createHash('sha256').update(xml).digest('hex'),hashes[mast]);
   assert.equal(fs.readFileSync(new URL(mast==='tx'?'../urdf/toyota-sae160.urdf':'../dx/urdf/toyota-sae160-dx.urdf',import.meta.url),'utf8'),xml);
  });

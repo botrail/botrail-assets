@@ -4,8 +4,8 @@ import {THREE} from '../../authoring/tool-shapes.mjs';
 import {referenceScene} from '../../authoring/reference-model.mjs';
 import {definition,dimensions} from './model.mjs';
 
-// Visible boot dimensions and envelope are deliberately separate from the
-// frozen legacy collision proxy, whose closedLength remains 262 mm.
+// The legacy closedLength datum (262 mm, shoulder to bare tip) stays distinct from the
+// visible boot tip. TCP and contact boxes follow the boots (contract test).
 // Strict URDF hashes, continuous analytic stroke and 1001-pose pivot checks:
 // node --test authoring/test/onrobot-contract.test.mjs
 const visualBoot=[.01315,.025,.037], visualClosedTip=.291;
@@ -28,6 +28,6 @@ test('RG6 visible boots stay parallel, touch at closure and retain 160 mm contac
   assert.ok(Math.abs(bounds.min.z)<1e-8,`Visible mounting face must meet mount z=0: ${bounds.min.z}`);
   assert.ok(Math.abs(bounds.max.z-visualClosedTip)<1e-6,`Visible tip from mount ${bounds.max.z}`);
   assert.equal(dimensions.closedLength,.262,'Keep the legacy datum distinct from visual height');
-  assert.ok(Math.abs(s.links.get('tcp').getWorldPosition(new THREE.Vector3()).z-.2681)<1e-12);
-  assert.ok(d.links.every(l=>(l.collisions??[]).every(c=>c.kind==='box')));
+  assert.ok(Math.abs(s.links.get('tcp').getWorldPosition(new THREE.Vector3()).z-.2725)<1e-12);
+  assert.ok(d.links.every(l=>(l.collisions??[]).every(c=>c.kind==='box'||c.kind==='cylinder')));
 });

@@ -19,13 +19,15 @@ manifold3d 3.5.3. If these are in a separate existing dependency directory, set
 
 ## What is verified
 
-- SHA-256 equality of the complete pre-refinement URDF bytes, including all
-  joint origins, axes, limits, mimic relations, frames, collisions and filenames
+- SHA-256 equality of the complete URDF bytes of the 2026-10-10 contract, including
+  all joint origins, axes, limits, mimic relations, frames, collisions and filenames
 - Fresh compact OBJ/MTL exports exactly match committed files
 - Visible mounting face at mount z=0; closed visual tips at z=232 mm (RG2)
-  and z=291 mm (RG6), independently of legacy collision/TCP coordinates
+  and z=291 mm (RG6); the TCP is the closed-pose centre of the two boots
+  (217.1 / 272.5 mm) and every link's collision encloses its visual, except
+  the carrier's lower-axle ends and the body cover reliefs (authoring tests)
 - One independent drive, analytic monotonic pad closure over the entire joint
-  interval, 1,001 sampled poses, unchanged TCP, mirrored contact planes and
+  interval, 1,001 sampled poses, a TCP fixed during actuation, mirrored contact planes and
   parallelogram pivot closure
 - Each generated OBJ object's finite vertices, valid indices, nondegenerate
   triangles, closed two-face edges, consistent winding and positive volume
@@ -41,7 +43,7 @@ manifold3d 3.5.3. If these are in a separate existing dependency directory, set
 
 `--check-refined` writes the report and exits nonzero if a gate fails:
 
-- Whole URDF bytes must match the frozen legacy contract
+- Whole URDF bytes must match the published contract
 - Contact travel must be within 0.001 mm of 110 mm (RG2) / 160 mm (RG6)
 - Closed contact error and sampled pad overlap must be at most 0.00001 mm
 - Contact normals must remain x-parallel (off-axis norm at most 1e-10)
@@ -63,11 +65,11 @@ manufacturing-tolerance certificate. All such overlaps remain in the report.
 In particular, lower shafts intersecting truss guards, plate/cover penetration,
 wrong-pivot contact and opposing-finger interference are **not** whitelisted.
 
-Collision proxies are retained byte-for-byte for compatibility. Their inherited
-body/link overlaps and their incomplete coverage of refined visuals are reported
-but are not treated as newly introduced visual defects. These collision shapes
-must not be mistaken for a collision-accurate reproduction of the refined shell
-or relocated visual boots. The fixed TCP remains a legacy frame.
+Collision shapes (2026-10-10) are boxes and pivot cylinders around each link's
+visual. Their overlaps are reported, not gated: the designed pivots and fixed
+seats overlap in every pose, and no pair overlaps in only part of the stroke.
+They are envelopes for planning, not a collision-accurate reproduction of the
+refined shell; the per-link visual-outside-collision volumes remain reported.
 
 AABBs only reject separated pairs; reported overlap volumes come from
 manifold3d Boolean operations on closed tessellated solids. Welding and floating
@@ -76,6 +78,6 @@ exhaustive continuous-motion collision proof**. Analytic continuous coverage is
 limited to the pad-gap derivative. Increasing `--samples` improves motion
 coverage but does not change that limitation.
 
-To compare against a stored pre-refinement asset tree, add `--baseline PATH`.
+To compare against another stored asset tree, add `--baseline PATH`.
 That audits both trees and asserts whole-URDF byte equality. The baseline path
 must contain its own `urdf` and `meshes` directories.

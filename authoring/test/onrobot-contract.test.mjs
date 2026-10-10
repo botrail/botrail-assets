@@ -1,8 +1,9 @@
-/** RG2/RG6 legacy interface contract and independently checked motion/topology.
+/** RG2/RG6 interface contract and independently checked motion/topology.
  * Run: node --test authoring/test/onrobot-contract.test.mjs
- * The frozen SHA-256 hashes are the complete pre-refinement URDF bytes, including
- * collisions, joint graph, limits, mimic multipliers, frames and mesh filenames.
- * These checks do not claim that the inherited collision proxies match visuals.
+ * The SHA-256 hashes are the complete URDF bytes of the 2026-10-10 contract:
+ * the joint graph, limits, mimic multipliers and mesh filenames of the original
+ * models, with the TCP at the closed-pose centre of the visible boots and
+ * box collision envelopes around each link's visual.
  * Exact sampled solid intersections are measured by audits/onrobot-motion.py.
  */
 import test from 'node:test';
@@ -18,17 +19,17 @@ import {definition as rg2Definition} from '../../onrobot-rg2/authoring/model.mjs
 import {definition as rg6Definition} from '../../onrobot-rg6/authoring/model.mjs';
 
 const cases = [
-  {id:'rg2', build:rg2Definition, meshFiles:rg2Meshes, stroke:.110, tcp:.1981, upper:1.30524,
-    hash:'95d0f45ed89717e5b41c498bd1961c2b520116dcd12ad622da9bb8dae1794626'},
-  {id:'rg6', build:rg6Definition, meshFiles:rg6Meshes, stroke:.160, tcp:.2681, upper:1.3,
-    hash:'7e1a0d322ceef6d61ad1ebd98069728e553c1c600ae9557932fa11f8b417d65e'},
+  {id:'rg2', build:rg2Definition, meshFiles:rg2Meshes, stroke:.110, tcp:.2171, upper:1.30524,
+    hash:'9e0c06cfab0567bdea63d91f75e44890f2b851e0f7a33b20679009deda6f15f9'},
+  {id:'rg6', build:rg6Definition, meshFiles:rg6Meshes, stroke:.160, tcp:.2725, upper:1.3,
+    hash:'9ff2b058bb0dff76da03f151dc58be44925aca26b269c2b1cf52545bc24264ab'},
 ];
 const hash = data => createHash('sha256').update(data).digest('hex');
 const vector = values => new THREE.Vector3(...values);
 const close = (a,b,tolerance,why) => assert.ok(Math.abs(a-b)<=tolerance, `${why}: ${a} != ${b}`);
 
 function collisionCorners(link) {
-  assert.equal(link.collisions.length,1,'The legacy contact proxy is a single box');
+  assert.equal(link.collisions.length,1,'The pad contact box is a single box');
   const shape=link.collisions[0];
   assert.equal(shape.kind,'box');
   const matrix=new THREE.Matrix4().compose(vector(shape.xyz),
@@ -108,8 +109,8 @@ for(const entry of cases) {
   test(`${entry.id}: complete URDF bytes and generated export preserve the frozen public contract`,()=>{
     const definition=entry.build();
     const tracked=fs.readFileSync(new URL(`urdf/onrobot-${entry.id}.urdf`,directory));
-    assert.equal(hash(tracked),entry.hash,'Committed URDF differs from the pre-refinement contract');
-    assert.equal(hash(urdf(definition)),entry.hash,'Authoring definition differs from the pre-refinement contract');
+    assert.equal(hash(tracked),entry.hash,'Committed URDF differs from the published contract');
+    assert.equal(hash(urdf(definition)),entry.hash,'Authoring definition differs from the published contract');
     const generated=entry.meshFiles(definition.links);
     const filenames=Object.keys(generated).filter(p=>p.endsWith('.obj')).map(p=>p.split('/').at(-1)).sort();
     const expected=[`${prefix}_body.obj`,`${prefix}_bracket.obj`,
@@ -146,9 +147,9 @@ for(const entry of cases) {
       const vb=pads.map((pad,i)=>bounds(visual[i],scene.links.get(pad.name).matrixWorld));
       const cg=cb[1].min.x-cb[0].max.x,vg=vb[1].min.x-vb[0].max.x;
       collisionGaps.push(cg);visualGaps.push(vg);
-      assert.ok(cg>=-1e-10,`Legacy contact proxies overlap at q=${q}`);
+      assert.ok(cg>=-1e-10,`Contact boxes overlap at q=${q}`);
       assert.ok(vg>=-1e-8,`Visible opposing pads overlap at q=${q}`);
-      close(vg,cg,2e-8,`Visible contact planes must match the inherited opening at q=${q}`);
+      close(vg,cg,2e-8,`Contact boxes must share the visible contact planes at q=${q}`);
       close(cb[0].min.x,-cb[1].max.x,1e-10,'Mirror x extent');
       close(cb[0].min.z,cb[1].min.z,1e-10,'Mirror z extent');
       for(const pad of pads) {
@@ -170,6 +171,41 @@ for(const entry of cases) {
       close(gaps.at(-1),0,1e-8,`${label} closed contact`);
       assert.ok(gaps.every((gap,i)=>i===0||gap<gaps[i-1]),`${label} sampled gap is strictly decreasing`);
     }
+  });
+
+  test(`${entry.id}: collision shapes enclose each link's visual`,()=>{
+    // Allowances: the lower-axle ends of the carrier sit inside the moment-arm
+    // plates (a separate box would touch that arm in every pose); the body's
+    // sculpted cover reliefs stand proud of its two boxes by under 1.5 mm.
+    // Everything else is enclosed to 1 µm (float32 vertices on a box face).
+    const allowance={finger_tip:.004,body:.0015};
+    for(const link of entry.build().links) {
+      if(!link.visual) continue;
+      const frames=link.collisions.map(shape=>{
+        assert.ok(shape.kind==='box'||shape.kind==='cylinder',shape.kind);
+        return new THREE.Matrix4().compose(vector(shape.xyz),
+          new THREE.Quaternion().setFromEuler(new THREE.Euler(...(shape.rpy??[0,0,0]),'ZYX')),new THREE.Vector3(1,1,1)).invert();
+      });
+      const outside=(shape,local)=>shape.kind==='box'
+        ? Math.hypot(...['x','y','z'].map((axis,k)=>Math.max(Math.abs(local[axis])-shape.size[k]/2,0)))
+        : Math.hypot(Math.max(Math.hypot(local.x,local.y)-shape.radius,0),Math.max(Math.abs(local.z)-shape.length/2,0));
+      let worst=0;
+      for(const point of visualVertices(link)) {
+        worst=Math.max(worst,Math.min(...link.collisions.map((shape,i)=>outside(shape,point.clone().applyMatrix4(frames[i])))));
+      }
+      const key=Object.keys(allowance).find(part=>link.name.endsWith(part));
+      assert.ok(worst<=(key?allowance[key]:1e-6),`${link.name}: visual stands ${(worst*1000).toFixed(2)} mm outside its collision shapes`);
+    }
+  });
+
+  test(`${entry.id}: TCP is the closed-pose centre of the visible boots`,()=>{
+    const definition=entry.build(), scene=referenceScene(definition);
+    scene.pose({[`${prefix}_joint`]:entry.upper});
+    const centre=new THREE.Vector3();
+    for(const side of [1,2]) centre.add(new THREE.Box3().setFromObject(scene.links.get(`${prefix}_finger_${side}_flex_finger`)).getCenter(new THREE.Vector3()));
+    centre.multiplyScalar(.5);
+    const tcp=scene.links.get('tcp').getWorldPosition(new THREE.Vector3());
+    assert.ok(tcp.distanceTo(centre)<1e-9,`TCP ${tcp.toArray()} vs boot centre ${centre.toArray()}`);
   });
 
   test(`${entry.id}: all generated visual objects have welded closed, manifold, outward topology`,()=>{

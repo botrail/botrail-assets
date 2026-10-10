@@ -61,3 +61,23 @@ No dimensions were altered to conceal those nominal rounding differences.
 
 This is not a manufacturer-certified digital twin, installation drawing, load
 certificate, contact solver validation or safety assessment.
+
+## Collision revision (2026-10-10)
+
+A follow-up change revised the collision boxes of TX and DX; joints, frames, limits, mimic and the
+visual meshes are unchanged.
+
+- Added: a box around the centred tiller and head (the inherited tiller box sat 180 mm off-centre near
+  the mast, leaving the new tiller up to 284 mm outside), the console top, the HMI crossbar with its
+  lights and stops (up to 279 mm outside before), its two stays as pitched boxes, the beacon, the foot
+  pins and the top shrouds; the carriage plate, ties, stiles and shanks are one box from the plate back
+  to the fork face, up to the shank tops (h4 - h23)
+- Every visual vertex lies inside its link's boxes except the mast internals listed in the README
+  (guide rollers, lower crossmembers, shroud front edges, foot/head plates, scanner-post foot) and the
+  shank's 10 mm rounded front (new enclosure test with per-link limits)
+- Overall length, width, height, h4 and the turning-radius corner computed from the boxes are unchanged
+  (existing tests, now honouring box rotation)
+- botrail joint sweep and 200 random poses on the built catalog package: no self-collision beyond the
+  fork/support-arm pairs the catalog declares
+- TX / DX URDF SHA-256 `838c42a2eed7…` / `bae48d9ba4d1…`; 22 model tests, `--check` and the OBJ audit pass
+
