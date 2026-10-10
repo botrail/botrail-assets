@@ -282,7 +282,8 @@ export function definition(mast='tx') {
     const fork=G();fork.name=`fork_${side}`;fork.position.y=sy*forkY;car.add(fork);
     addMesh(fork,`fork_${side}_deck`,forkGeometry(l,e,s,v.loadDistance),steel);
     addMesh(fork,`fork_${side}_sidewalls`,forkWallGeometry(l,e,s),steel);
-    rb(car,`fork_shank_${side}`,[.055,.100,backrest+.003],.005,steel,[-.0175,sy*forkY,(backrest-.003)/2]);
+    // Shank front = the fork face (x = 0) the sheet's l2 and load distance are measured to.
+    rb(car,`fork_shank_${side}`,[.050,.100,backrest+.003],.005,steel,[-.025,sy*forkY,(backrest-.003)/2]);
     rb(car,`carriage_stile_${side}`,[.050,.055,backrest+.010],.004,steel,[-.025,sy*.105,(backrest-.010)/2]);
     for(const [k,z] of [.15,.30].entries()){
       disk(car,`carriage_roller_${side}_${k}`,.030,.020,zinc,[-d.mastSetback,sy*d.mastY[2],z],'y');

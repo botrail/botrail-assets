@@ -96,3 +96,11 @@ visual meshes are unchanged.
   the declared fork/support-arm pairs, and the catalog build check stays clean
 - TX / DX URDF SHA-256 `a3be8ae4f859…` / `c969f4289288…`; 22 model tests, `--check` and the OBJ audit pass
 
+
+## Shank front (2026-10-10, third pass)
+
+- The shanks are 50 mm deep and end at the fork face (x = 0), the face the sheet's l2 and load distance
+  refer to; they had stood 10 mm in front of it. Only the carriage OBJ changes; the URDF and its collision
+  boxes are unchanged
+- Every carriage vertex now lies inside its boxes except the roller axle ends (3.5 mm); the enclosure test
+  limit for the carriage is 3.6 mm (was 10.1 mm)

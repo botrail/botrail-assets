@@ -13,7 +13,7 @@ P='rg2_v2_gripper'
 class AuditValidationTest(unittest.TestCase):
     def report(self):
         return {'robot_name':'onrobot_rg2_reference','urdf_sha256':audit.FROZEN_CONTRACTS['onrobot_rg2_reference'][0],
-            'motion':{'pad_travel_mm':110.,'pad_minimum_gap_mm':0.,'pad_gap_closed_mm':0.,
+            'motion':{'pad_travel_mm':101.1,'pad_minimum_gap_mm':0.,'pad_gap_closed_mm':0.,
                 'pad_gap_monotonic_decreasing':True,'pad_max_normal_off_axis':0.,
                 'parallelogram_max_pivot_error_mm':0.,'tcp_max_change_mm':0.,
                 'connection_gaps':[],'pair_intersections':[]}}

@@ -302,11 +302,12 @@ def audit(asset, samples):
 
 
 
-# Complete URDF bytes of the 2026-10-10 contract (TCP at the closed-pose boot
-# centre, box collision envelopes around each link's visual).
+# Complete URDF bytes of the 2026-10-11 contract (sized from the official STEP measurements,
+# upper limit where the fitted pads meet, TCP at their centre there) and the travel between the
+# fitted pads: the datasheet bare-finger stroke less the pads' 4.45 / 5.0 mm protrusion per side.
 FROZEN_CONTRACTS = {
-    'onrobot_rg2_reference': ('9e0c06cfab0567bdea63d91f75e44890f2b851e0f7a33b20679009deda6f15f9', 110.),
-    'onrobot_rg6_reference': ('9ff2b058bb0dff76da03f151dc58be44925aca26b269c2b1cf52545bc24264ab', 160.),
+    'onrobot_rg2_reference': ('e3b627fc28e69cb6bd85d31bf342ab3b4e3eb6133bcef6e5f0cdf67036d809f7', 101.1),
+    'onrobot_rg6_reference': ('9ba23a7334ad9fce61bc89399f9ffd6c6e492eb752feb4c668d1bdabe2497bd3', 150.),
 }
 
 

@@ -98,10 +98,9 @@ const ray=(g,origin,direction)=>new THREE.Raycaster(new THREE.Vector3(...origin)
 const hashes={tx:'a3be8ae4f859269709fcc2f0ec66137f3c25d048d4aa1ad7d21c8f3c7a42ade5',dx:'c969f4289288f05706e5cc0cd347060c374aa82990fc93c4e4b50b3ba55bbe5c'};
 for(const mast of ['tx','dx']){
  test(`${mast}: collision boxes enclose the visual (internal mast parts excepted)`,()=>{
-  // Excepted on the carriage only: the shanks' rounded fronts stand 10 mm proud of the fork face
-  // (the box stops at the face a pallet rests against) and the roller axle ends 3.5 mm into the
-  // middle stage's channel envelope (the box stops 0.5 mm short of it).
-  const d=definition(mast), limit={base_link:1e-6,mast_outer:1e-6,mast_stage1:1e-6,mast_inner:1e-6,carriage:.0101};
+  // Excepted on the carriage only: the roller axle ends stand 3.5 mm into the middle stage's
+  // channel envelope (the box stops 0.5 mm short of it). The shanks end at the fork face.
+  const d=definition(mast), limit={base_link:1e-6,mast_outer:1e-6,mast_stage1:1e-6,mast_inner:1e-6,carriage:.0036};
   for(const link of d.links){
    if(!link.collisions)continue;
    const boxes=link.collisions.map(c=>{const m=new THREE.Matrix4().compose(new THREE.Vector3(...c.xyz),new THREE.Quaternion().setFromEuler(new THREE.Euler(...(c.rpy??[0,0,0]),'ZYX')),new THREE.Vector3(1,1,1));return {inv:m.invert(),half:c.size.map(v=>v/2)};});

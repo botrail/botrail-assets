@@ -52,7 +52,7 @@ gun = bt.Robot.from_catalog("weld-gun-x1")  # カタログ ID (下表の右列) 
 | [fanuc-sr-3ia](./fanuc-sr-3ia) | 4軸スカラロボット、J3 直動のボールねじスプラインとケーブルホースの参照モデル | FANUC SR-3iA (床置き) | `fanuc/sr3ia/sr-3ia/r1` |
 | [nimak-multiframegun](./nimak-multiframegun) | 片側開閉の取付参照モデル＋指定ボルト10本 | NIMAK 95.020.516 / P3U、BX-NIMAK-HW-A構成 | `nimak/multiframegun/95-020-516-p3u/r4` (詳細外観 r5 準備中・未公開) |
 | [universal-robots-ur-series](./universal-robots-ur-series) | 6軸協働ロボットの独自形状 | UR8 Long / UR15 / UR18 / UR20 / UR30 | `ur8-long` / `ur15` / `ur18` / `ur20` / `ur30` (r2) |
-| [onrobot-rg6](./onrobot-rg6) | 写真参照の曲線筐体・リンク・標準 EPDM。TCP は閉時のブーツ中心、collision は各リンクの visual を包む | OnRobot RG6 v2 | `onrobot/rg/rg6/r4` (UR 接続構成、公開前。旧外観は r2 / r3) |
+| [onrobot-rg6](./onrobot-rg6) | 公式 STEP の実測寸法で作った筐体・ブラケット・リンク・キャリア・標準 EPDM。関節 0 で裸の指 160 mm、上限はパッドが接する角度、TCP はそこでのパッド中心、collision は各リンクの visual を包む | OnRobot RG6 v2 | `onrobot/rg/rg6/r5` (UR 接続構成、公開前。旧外観は r2 / r3、写真推定は r4) |
 | [ewellix-liftkit-ur620](./ewellix-liftkit-ur620) | 伸縮柱の参照モデル | Ewellix LIFTKIT-UR-800-xx00-620 | `ewellix/liftkit/liftkit-ur/r2` |
 | [smc-mhz2-20d](./smc-mhz2-20d) | 小物組立用の独自参照モデル | SMC MHZ2-20D | `smc/mhz2/mhz2-20d/r1` |
 | [schunk-mpg-plus-25](./schunk-mpg-plus-25) | 小物組立用の独自参照モデル | SCHUNK MPG-plus 25 | `schunk/mpg-plus/mpg-plus-25/r1` |
@@ -67,7 +67,7 @@ gun = bt.Robot.from_catalog("weld-gun-x1")  # カタログ ID (下表の右列) 
 | [onrobot-screwdriver-103961](./onrobot-screwdriver-103961) | 側面支持・55 mm送り軸 | OnRobot Screwdriver 103961、109301装着構成 | `onrobot/screwdriver/103961/r1` / `103961-a50/r1` (公開前) |
 | [onrobot-bit-extender-109301](./onrobot-bit-extender-109301) | 50 mm追加リーチの参照形状 | OnRobot Bit Extender A 109301 | `onrobot/bit-extender/109301/r1` (公開前) |
 | [onrobot-vgc10](./onrobot-vgc10) | 30 mmカップ4個、独立2流路の参照モデル | OnRobot VGC10 102844 | `onrobot/vgc/vgc10/r1` |
-| [onrobot-rg2](./onrobot-rg2) | RG2 固有の筐体・リンク・標準 EPDM、110 mm ストローク。TCP は閉時のブーツ中心、collision は各リンクの visual を包む | OnRobot RG2 (102012) | `onrobot/rg/rg2/r2` (公開前、旧外観は r1) |
+| [onrobot-rg2](./onrobot-rg2) | 公式 STEP の実測寸法で作った筐体・ブラケット・リンク・キャリア・標準 EPDM。関節 0 で裸の指 110 mm、上限はパッドが接する角度、TCP はそこでのパッド中心、collision は各リンクの visual を包む | OnRobot RG2 (102012) | `onrobot/rg/rg2/r3` (公開前、旧外観は r1、写真推定は r2) |
 | [onrobot-hex-e-qc](./onrobot-hex-e-qc) | 6 軸力覚センサ (アダプタプレート + ロボット側 QC 内蔵) の参照モデル | OnRobot HEX-E QC | `onrobot/hex/hex-e-qc/r1` (公開前) |
 | [robotiq-epick](./robotiq-epick) | 電動真空グリッパ (1 カップ構成) の参照モデル | Robotiq EPick | `robotiq/epick/epick/r1` (公開前) |
 | [robotiq-wrist-camera](./robotiq-wrist-camera) | 手首カメラ (ツールプレート無し) の参照モデル、光学フレーム付き | Robotiq Wrist Camera RWC-CAM-001 | `robotiq/wrist-camera/wrist-camera/r1` (公開前) |
@@ -93,7 +93,7 @@ gun = bt.Robot.from_catalog("weld-gun-x1")  # カタログ ID (下表の右列) 
 | [mir250](./mir250) | 差動2輪 + 旋回キャスタ4輪の独自参照形状 | MiR250 | `mobile_industrial_robots/mir/mir250/r2` |
 | [hitachi-racrew](./hitachi-racrew) | 棚搬送 AGV(小型低床式、棚の下に潜って持ち上げる)の参照モデル: 白い車体・別リンクのターンテーブル・前後バンパ・四隅の灯具 | 日立 Racrew | `hitachi_industrial_products/racrew/racrew/r1`(公開前) |
 | [mir1350](./mir1350) | 黒い車体・荷台パッド・対角スキャナ・別リンク上部カバーの参照 AMR | MiR1350 | `mobile_industrial_robots/mir/mir1350/r2` (公開前、旧外観は r1) |
-| [toyota-sae160](./toyota-sae160) | 実機写真を参照した独自外観: 分割した電池室・駆動カバー、開口グリップ、横長 HMI、5 接点、C 断面マスト、荷重輪窓付きテーパフォーク。TX/DX の関節・フリーリフト・mimic を維持し、collision は新しい visual に合わせて改訂。DX は `dx/` | Toyota Autopilot SAE160(BT Staxio、TX Hi-Lo / DX Tele) | `toyota_material_handling/autopilot/sae160/r2` / `sae160-dx/r2`(公開前、旧外観は r1) |
+| [toyota-sae160](./toyota-sae160) | 実機写真を参照した独自外観: 分割した電池室・駆動カバー、開口グリップ、横長 HMI、5 接点、C 断面マスト、荷重輪窓付きテーパフォーク。TX/DX の関節・フリーリフト・mimic を維持し、collision は新しい visual に合わせて改訂。DX は `dx/` | Toyota Autopilot SAE160(BT Staxio、TX Hi-Lo / DX Tele) | `toyota_material_handling/autopilot/sae160/r3` / `sae160-dx/r3`(公開前、旧外観は r1、シャンクが 10 mm 前に出ていた版は r2) |
 | [aubo-amr300](./aubo-amr300) | 差動 2 輪 AMR の参照モデル(駆動輪 2 + キャスタ 4・スキャナ 2・上面のアーム取付フレーム) | AUBO-AMR300(海纳系列) | `aubo/amr/amr300/r1` |
 | [mir-eu-pallet-lift-1350](./mir-eu-pallet-lift-1350) | EUR パレット用 1 軸リフト(揚程 60 mm) | MiR EU Pallet Lift 1350 | `mobile_industrial_robots/mir/eu-pallet-lift-1350/r1` |
 | [unitree-g1-fixed-plates](./unitree-g1-fixed-plates) | 頭部カメラ・LiDAR固定プレートの写真参照形状（寸法・取付適合未確認） | Unitree G1 Camera / Radar fixed plate、販売店番号1297 / 1296 | `unitree/g1/camera-fixed-plate/r1` / `radar-fixed-plate/r1` |

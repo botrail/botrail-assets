@@ -2,32 +2,47 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import {THREE} from '../../authoring/tool-shapes.mjs';
 import {referenceScene} from '../../authoring/reference-model.mjs';
-import {definition,dimensions} from './model.mjs';
+import {definition,dimensions as d,motion} from './model.mjs';
 
-// The legacy closedLength datum (262 mm, shoulder to bare tip) stays distinct from the
-// visible boot tip. TCP and contact boxes follow the boots (contract test).
-// Strict URDF hashes, continuous analytic stroke and 1001-pose pivot checks:
-// node --test authoring/test/onrobot-contract.test.mjs
-const visualBoot=[.01315,.025,.037], visualClosedTip=.291;
-test('RG6 visible boots stay parallel, touch at closure and retain 160 mm contact travel',()=>{
-  const d=definition(),s=referenceScene(d),p='rg6_v2_gripper',gaps=[];
-  assert.equal(d.joints.filter(j=>j.type!=='fixed'&&!j.mimic).length,1);
-  for(let n=0;n<=100;n++) {
-    s.pose({[`${p}_joint`]:n*dimensions.upper/100});
-    const a=new THREE.Box3().setFromObject(s.links.get(`${p}_finger_1_flex_finger`));
-    const b=new THREE.Box3().setFromObject(s.links.get(`${p}_finger_2_flex_finger`));
-    const gap=b.min.x-a.max.x;gaps.push(gap);
-    assert.ok(gap>=-1e-8,`Pad overlap at step ${n}`);
-    const size=a.getSize(new THREE.Vector3()).toArray();
-    for(let axis=0;axis<3;axis++) assert.ok(Math.abs(size[axis]-visualBoot[axis])<1e-8,`Boot axis ${axis}`);
-    if(n>0)assert.ok(gap<gaps[n-1]);
-  }
-  assert.ok(Math.abs(gaps[0]-.160)<1e-6,`Open gap ${gaps[0]}`);
-  assert.ok(Math.abs(gaps.at(-1))<1e-8,`Closed gap ${gaps.at(-1)}`);
-  const bounds=new THREE.Box3().setFromObject(s.root);
-  assert.ok(Math.abs(bounds.min.z)<1e-8,`Visible mounting face must meet mount z=0: ${bounds.min.z}`);
-  assert.ok(Math.abs(bounds.max.z-visualClosedTip)<1e-6,`Visible tip from mount ${bounds.max.z}`);
-  assert.equal(dimensions.closedLength,.262,'Keep the legacy datum distinct from visual height');
-  assert.ok(Math.abs(s.links.get('tcp').getWorldPosition(new THREE.Vector3()).z-.2725)<1e-12);
-  assert.ok(d.links.every(l=>(l.collisions??[]).every(c=>c.kind==='box'||c.kind==='cylinder')));
+// Datasheet v2.0: bare-finger lengths are drawn from the top of the robot-side Quick Changer,
+// 2.5 mm above `mount` (16.1 mm overall vs the 13.6 mm tool interface). Strict URDF hashes,
+// the continuous stroke and 1001-pose pivot checks: node --test authoring/test/onrobot-contract.test.mjs
+const datum=2.5,sheet={open:208,closed:262,housing:152,stroke:160,neck:60,head:84,depth:42,bracket:82},boot=[13.15,25,37];
+const p='rg6_v2_gripper',near=(a,b,tol,why)=>assert.ok(Math.abs(a-b)<=tol,`${why}: ${a} vs ${b}`);
+const meshBox=(group,name)=>{let found;group.traverse(o=>{if(o.isMesh&&o.name===name)found=o;});return new THREE.Box3().setFromObject(found);};
+
+test('RG6 measured sizes agree with the datasheet drawing',()=>{
+ const top=Math.max(...d.carrier.outline.map(q=>q[1])),len=motion.len;
+ near(2*d.housing.nw,sheet.neck,0,'neck width');near(2*d.housing.hw,sheet.head,.6,'head width');
+ near(2*d.housing.depth,sheet.depth,0,'depth');near(2*d.cheek.wallOuter,sheet.bracket,.5,'bracket width');
+ near(d.housing.zt,datum+sheet.housing,.5,'housing far end');
+ near(motion.tipAt(0)[1]+top,datum+sheet.open,1,'open bare-tip length');
+ near(d.truss[1]+Math.sqrt(len**2-(d.truss[0]-d.bareInner)**2)+top,datum+sheet.closed,1,'closed bare-tip length');
+ assert.deepEqual([d.pad.depth,d.pad.width,d.pad.length],boot);
+});
+
+test('RG6 pads stay parallel, meet at the upper limit and travel 150 mm; bare fingers open 160 mm',()=>{
+ const def=definition(),s=referenceScene(def),gaps=[];
+ assert.equal(def.joints.filter(j=>j.type!=='fixed'&&!j.mimic).length,1);
+ for(let n=0;n<=100;n++){
+  s.pose({[`${p}_joint`]:n*motion.upper/100});
+  const a=new THREE.Box3().setFromObject(s.links.get(`${p}_finger_1_flex_finger`));
+  const b=new THREE.Box3().setFromObject(s.links.get(`${p}_finger_2_flex_finger`));
+  const gap=b.min.x-a.max.x;gaps.push(gap);
+  assert.ok(gap>=-1e-8,`Pad overlap at step ${n}`);
+  const size=a.getSize(new THREE.Vector3()).toArray();
+  for(let k=0;k<3;k++)near(size[k],boot[k]/1000,1e-8,`boot axis ${k}`);
+  if(n>0)assert.ok(gap<gaps[n-1]);
+ }
+ near(gaps[0],motion.padTravel/1000,1e-6,'open pad gap');near(motion.padTravel,sheet.stroke-10,1e-9,'pads stand 5 mm proud');
+ near(gaps.at(-1),0,1e-8,'closed pad gap');
+ s.pose({[`${p}_joint`]:0});
+ const f1=meshBox(s.links.get(`${p}_finger_1_finger_tip`),'finger_carrier'),f2=meshBox(s.links.get(`${p}_finger_2_finger_tip`),'finger_carrier');
+ near(f2.min.x-f1.max.x,sheet.stroke/1000,1e-6,'bare-finger stroke');
+ near(new THREE.Box3().setFromObject(s.root).min.z,0,1e-8,'mounting face at mount z=0');
+ s.pose({[`${p}_joint`]:motion.upper});
+ near(new THREE.Box3().setFromObject(s.root).max.z,motion.padTop/1000,1e-6,'closed pad tip');
+ near(s.links.get('tcp').getWorldPosition(new THREE.Vector3()).z,motion.tcp/1000,1e-12,'TCP');
+ near(motion.tcp,251.99,.01,'TCP from mount');near(motion.padTop,270.49,.01,'closed pad tip from mount');
+ assert.ok(def.links.every(l=>(l.collisions??[]).every(c=>c.kind==='box'||c.kind==='cylinder')));
 });

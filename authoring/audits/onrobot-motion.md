@@ -19,13 +19,13 @@ manifold3d 3.5.3. If these are in a separate existing dependency directory, set
 
 ## What is verified
 
-- SHA-256 equality of the complete URDF bytes of the 2026-10-10 contract, including
+- SHA-256 equality of the complete URDF bytes of the 2026-10-11 contract, including
   all joint origins, axes, limits, mimic relations, frames, collisions and filenames
 - Fresh compact OBJ/MTL exports exactly match committed files
-- Visible mounting face at mount z=0; closed visual tips at z=232 mm (RG2)
-  and z=291 mm (RG6); the TCP is the closed-pose centre of the two boots
-  (217.1 / 272.5 mm) and every link's collision encloses its visual, except
-  the carrier's lower-axle ends and the body cover reliefs (authoring tests)
+- Visible mounting face at mount z=0; closed pad tips at z=219.97 mm (RG2)
+  and z=270.49 mm (RG6); the TCP is the centre of the pads where they meet
+  (205.07 / 251.99 mm); joint 0 spaces the bare fingers by the datasheet stroke;
+  every link's collision encloses its visual (authoring tests)
 - One independent drive, analytic monotonic pad closure over the entire joint
   interval, 1,001 sampled poses, a TCP fixed during actuation, mirrored contact planes and
   parallelogram pivot closure
@@ -44,7 +44,8 @@ manifold3d 3.5.3. If these are in a separate existing dependency directory, set
 `--check-refined` writes the report and exits nonzero if a gate fails:
 
 - Whole URDF bytes must match the published contract
-- Contact travel must be within 0.001 mm of 110 mm (RG2) / 160 mm (RG6)
+- Travel between the fitted pads must be within 0.001 mm of 101.1 mm (RG2) /
+  150 mm (RG6); the datasheet strokes of 110 / 160 mm are between the bare fingers
 - Closed contact error and sampled pad overlap must be at most 0.00001 mm
 - Contact normals must remain x-parallel (off-axis norm at most 1e-10)
 - Pivot closure and TCP motion must be at most 0.0000001 mm
@@ -65,8 +66,8 @@ manufacturing-tolerance certificate. All such overlaps remain in the report.
 In particular, lower shafts intersecting truss guards, plate/cover penetration,
 wrong-pivot contact and opposing-finger interference are **not** whitelisted.
 
-Collision shapes (2026-10-10) are boxes and pivot cylinders around each link's
-visual. Their overlaps are reported, not gated: the designed pivots and fixed
+Collision shapes (2026-10-11) are boxes and cylinders enclosing each link's
+visual to 1 µm. Their overlaps are reported, not gated: the designed pivots and fixed
 seats overlap in every pose, and no pair overlaps in only part of the stroke.
 They are envelopes for planning, not a collision-accurate reproduction of the
 refined shell; the per-link visual-outside-collision volumes remain reported.

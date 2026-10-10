@@ -61,3 +61,25 @@ mount and mesh paths are unchanged, and the visual meshes are byte-identical.
 - URDF SHA-256 `9e0c06cfab05…`, pinned in `authoring/test/onrobot-contract.test.mjs` and the audit
 - Passed: 12 RG2/RG6 model and contract tests (enclosure and TCP-at-boot-centre added), 5 audit unit tests,
   both `--check-refined` audits (report regenerated in `motion-audit.json`), OBJ export check and topology audit
+
+## STEP-measured revision (2026-10-11)
+
+Base: main `c945d9e6257a66539b4d0495c30f89d1040b95bf`. Local work only. The official product-page STEP
+(`303_rg2_tool.step`, SHA-256 `b3c41f38…`) was read as a measuring instrument; nothing from it is in the repository
+(sources and readings: `authoring/provenance.json`).
+
+- Re-sized from the measurements: pivots and housing 13.6 mm closer to the mount (QC tool face, robot flange + 13.6 mm);
+  housing outline and depth; bracket base, cheeks and tilt discs; links (20 mm deep, distal clevis), carriers, pads
+  (contact face 4.45 mm past the bare finger) and the dark cover plates; front label, screws and M3 holes
+- Joints: 0 = 110 mm between the bare fingers, upper limit 1.2326 rad where the standard pads meet
+  (101.1 mm pad travel); TCP 205.07 mm from mount at the pads' centre there (was 217.1 mm); closed pad tip 219.97 mm
+- Datasheet check, datum = top of the robot-side QC (mount + 2.5 mm): open 174.6 / closed 213.1 / housing 132.0 mm
+  against 174 / 213 / 132; neck / head / depth 54 / 64.9 / 36 mm against 54 / 65 / 36; bracket 75.0 against 75
+- Collision: boxes and cylinders; every link's visual vertices lie inside to 1 µm (no exceptions). Audit volume of
+  visual outside collision (tessellated cylinders): bracket 9.69 mm³, moment arm 0.08, truss arm 0.01, others 0
+- 101-pose `--check-refined` audit (report in `motion-audit.json`): pad travel 101.100 mm, closed gap 2e-7 mm,
+  monotonic, pad normals on x, parallelogram closure and fixed TCP exact, all 10 joint/seat interfaces in contact,
+  no non-whitelisted visual intersection. 88 closed components, 15,404 triangles
+- Passed: 16 Node tests (RG2/RG6 model 4, contract 10, compaction 2), 5 audit unit tests, export `--check`,
+  OBJ topology audit. URDF SHA-256 `e3b627fc28e6…`
+- Renders: Blender 5.2.2 Cycles (32 samples) of the exported OBJ/URDF; the before-after pair uses the same arm angle

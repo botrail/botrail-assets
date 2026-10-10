@@ -41,9 +41,9 @@ for link in tree.findall('link'):
                 bs.inputs['Base Color'].default_value=(*[linear(v) for v in mat.diffuse_color[:3]],1)
                 pr=props.get(mat.name,{'metalness':.12,'roughness':.48})
                 bs.inputs['Metallic'].default_value=pr['metalness'];bs.inputs['Roughness'].default_value=pr['roughness'];converted.add(mat.name)
-center=Vector((0,0,.149 if a.model=='rg6' else .121));span=.35 if a.model=='rg6' else .285
-if a.view=='linkage':center=Vector((-.037,0,.195 if a.model=='rg6' else .165));span=.155 if a.model=='rg6' else .125
-elif a.view=='bracket':center=Vector((0,0,.052 if a.model=='rg6' else .042));span=.14 if a.model=='rg6' else .12
+center=Vector((0,0,.14 if a.model=='rg6' else .115));span=.35 if a.model=='rg6' else .285
+if a.view=='linkage':center=Vector((-.045 if a.model=='rg6' else -.032,0,.175 if a.model=='rg6' else .15));span=.155 if a.model=='rg6' else .125
+elif a.view=='bracket':center=Vector((0,0,.045 if a.model=='rg6' else .04));span=.14 if a.model=='rg6' else .12
 bpy.ops.mesh.primitive_plane_add(size=200,location=(0,0,-.003));floor=bpy.context.object
 mat=bpy.data.materials.new('review_floor');mat.use_nodes=True;bs=mat.node_tree.nodes.get('Principled BSDF')
 bs.inputs['Base Color'].default_value=(.10,.12,.145,1);bs.inputs['Roughness'].default_value=.85;floor.data.materials.append(mat)

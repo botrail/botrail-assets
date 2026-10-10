@@ -1,119 +1,34 @@
-import {plate,outline,capsule,dogbone,armPlate,boot,roundedPanel,reliefPanel} from './visual-geometry.mjs';
-/** OnRobot RG6 independently authored photo-based visual.
- * Public datasheet v2.0: body and standard EPDM dimensions documented in provenance.json.
- * Legacy joint graph, origins, limits and mimic rules are preserved. Since
- * 2026-10-10 the TCP is the closed-pose centre of the visible boots and every
- * collision box encloses its link's visual (box-only contact envelopes).
- * All subcomponent curves, seating and assembly geometry are estimates.
+/** OnRobot RG6 with its integrated tool-side Quick Changer and standard EPDM fingertips.
+ * Independently authored CC0 procedural model. Sizes: the public datasheet v2.0 and measurements
+ * taken from the official product-page STEP (301_rg6_tool.step), which was read as a measuring
+ * instrument only; no CAD surface, mesh or drawing is reproduced (authoring/provenance.json).
+ * `mount` is the tool face of the robot-side Quick Changer, 13.6 mm above the robot flange.
+ * Joint 0 = fully open (160 mm between the bare fingers); the upper limit is where the fitted
+ * pads meet. The TCP is the centre of the pads in that closed pose.
  */
-import {THREE} from '../../authoring/tool-shapes.mjs';
-import {addMesh,namedMaterial,roundedBox,cylinderBetween} from '../../authoring/geometry.mjs';
-export const dimensions={bracket:.0561,offset:-.49,upper:1.3,tip:[-.05503,0,.05807],bodyDepth:.042,closedLength:.262};
-// Standard EPDM boot (datasheet width x length x depth); `tip` = its seated tip past the bare-tip datum (estimate).
-export const pad={width:.025,length:.037,depth:.01315,face:.005,tip:.029};
-const silver=namedMaterial('anodized_silver','#bfc5c8',.58,.34);
-const dark=namedMaterial('housing_graphite','#444d54',.2,.48);
-const rubber=namedMaterial('epdm_contact','#202528',0,.9);
-const blue=namedMaterial('status_blue','#258cc0',.55,.33);
-const G=()=>new THREE.Group();
-const box=(g,name,size,at,mat= silver)=>addMesh(g,name,roundedBox(size,Math.min(...size)*.18,2),mat,at);
-const col=(size,xyz,rpy=[0,0,0])=>({kind:'box',size,xyz,rpy});
-const fixed=(name,parent,child,xyz=[0,0,0],rpy=[0,0,0])=>({name,type:'fixed',parent,child,xyz,rpy});
+import {buildRG,kinematics} from './visual-geometry.mjs';
 
-export function definition() {
-  const links=[{name:'mount'}],joints=[],prefix='rg6_v2_gripper';
-  function link(name,visual,collisions=[]) {links.push({name,visual,collisions});}
-  const bracket=G();
-  // Tool-side QC is an estimated visual shell, not an authored mating interface.
-  cylinderBetween(bracket,'qc_blue_base',[0,0,0],[0,0,.008],0.031,blue,{radial:64});
-  for(const x of [-1,1])for(const y of [-1,1])box(bracket,`qc_open_lug_${x}_${y}`,[.014,.014,.006],[x*.017,y*.017,.009],blue);
-  cylinderBetween(bracket,'bracket_base',[0,0,.012],[0,0,.019],0.041,silver,{radial:64});
-  box(bracket,'bracket_saddle',[0.064,0.04,.012],[0,0,.024]);
-  for(const x of [-1,1]){
-    const cheek=plate(bracket,`tilt_cheek_${x}`,capsule(0.013, 0.018),.004,0,silver);cheek.rotation.z=Math.PI/2;cheek.position.set(x*0.036000000000000004,0,0.03);
-    cylinderBetween(bracket,`tilt_cap_${x}`,[x*0.032,0,0.0501],[x*0.037,0,0.0501],0.02,silver,{radial:64});
-  }
-  for(const sign of [-1,1])for(const y of [-0.014,0.014])cylinderBetween(bracket,`tilt_recess_${sign}_${y}`,[sign*0.037,y,0.0501],[sign*0.0373,y,0.0501],.0018,dark,{radial:24});
-  box(bracket,'bracket_neck',[0.06,0.036000000000000004,0.0321],[0,0,0.04005],silver);
-  // Neck block, the Ø82 bracket disc and the tilt cheeks/caps.
-  link(`${prefix}_bracket`,bracket,[col([.082,.062,.0561],[0,0,.02805]),col([.082,.082,.007],[0,0,.0155]),col([.076,.040,.040],[0,0,.0501])]);
-  joints.push(fixed(`${prefix}_bracket_joint`,'mount',`${prefix}_bracket`));
-  const body=G();
-  const shellProfile=dogbone(0.06,0.084,0.12,0.053);
-  // Separate thin covers leave the moving-link channel open behind the head.
-  for(const sign of [-1,1])plate(body,`sculpted_cover_${sign}`,shellProfile,.0025,sign*0.01975,silver);
-  box(body,'stem_core',[0.057,0.036,.071],[0,0,.0355],dark);
-  box(body,'head_drive_core',[.032,0.034,.022],[0,0,0.085],dark);
-  for(const sign of [-1,1])for(const x of [-.010,.010])cylinderBetween(body,`head_recess_${sign}_${x}`,[x,sign*0.021, 0.104],[x,sign*0.021300000000000003,0.104],.00125,dark,{radial:24});
-  for(const side of [-1,1])for(const sign of [-1,1])cylinderBetween(body,`truss_pivot_socket_${side}_${sign}`,[side*-0.0105,sign*0.012,0.1111],[side*-0.0105,sign*0.0208,0.1111],0.004,silver,{radial:40});
-  link(`${prefix}_body`,body,[col([.06,.042,.078],[0,0,.036]),col([.084,.042,.055],[0,0,.0925])]);
-  joints.push(fixed(`${prefix}_body_joint`,`${prefix}_bracket`,`${prefix}_body`,[0,0,dimensions.bracket]));
-  const theta=dimensions.offset+dimensions.upper;
-  const tipClosedX=-.0105+Math.cos(theta)*dimensions.tip[0]+Math.sin(theta)*dimensions.tip[2];
-  const tipClosedZ=.1111-Math.sin(theta)*dimensions.tip[0]+Math.cos(theta)*dimensions.tip[2];
-  const innerX=-tipClosedX, endZ=dimensions.closedLength-dimensions.bracket-tipClosedZ;
-  // TCP: centre of the visible boots in the closed pose (boot tip at endZ+pad.tip).
-  const graspZ=dimensions.closedLength-dimensions.bracket+pad.tip-pad.length/2;
-  links.push({name:`${prefix}_grasp_frame`},{name:'tcp'});
-  joints.push(fixed(`${prefix}_grasp_frame_joint`,`${prefix}_body`,`${prefix}_grasp_frame`,[0,0,graspZ]),fixed('tcp_joint',`${prefix}_grasp_frame`,'tcp'));
-  for(let side=1;side<=2;side++) {
-    const name=`${prefix}_finger_${side}`;
-    links.push({name:`${name}_origin`});
-    joints.push(fixed(`${name}_origin_joint`,`${prefix}_body`,`${name}_origin`,[0,0,0],[0,0,side===1?0:Math.PI]));
-    for (const part of ['moment_arm','truss_arm']) {
-      const visual=G(), v=new THREE.Vector3(...dimensions.tip), midpoint=v.clone().multiplyScalar(.5);
-      // Distinct outer cast link and inner tie plates, with rounded pivot eyes.
-      const outer=part==='moment_arm';
-      const layer=outer?0.0164:0.012;
-      for(const sign of [-1,1])armPlate(visual,`sculpted_link_${sign}`,dimensions.tip,sign*layer,0.004,0.0055,silver);
-      for(const [i,at] of [[0,0,0],dimensions.tip].entries()){
-        for(const sign of [-1,1])cylinderBetween(visual,`pivot_axle_${i}_${sign}`,[at[0],sign*(layer-.0015),at[2]],[at[0],sign*(layer+.0015),at[2]],0.0048,silver,{radial:40});
-        for(const sign of [-1,1]){
-          cylinderBetween(visual,`pivot_boss_${i}_${sign}`,[at[0],sign*(layer+.001),at[2]],[at[0],sign*(layer+0.003),at[2]],0.004895999999999999,silver,{radial:40});
-          cylinderBetween(visual,`pivot_recess_${i}_${sign}`,[at[0],sign*(layer+0.003),at[2]],[at[0],sign*(layer+0.0031999999999999997),at[2]],0.0023120000000000003,dark,{radial:24});
-        }
-      }
-      if(!outer){
-        for(const sign of [-1,1]){
-          const guard=plate(visual,`safety_switch_cover_${sign}`,reliefPanel(0.022,v.length()*.61,.002,-.004),.002,sign*(layer+.0011),dark);
-          guard.rotation.y=Math.atan2(v.x,v.z);guard.position.copy(v.clone().multiplyScalar(.19)).add(new THREE.Vector3(v.z,0,-v.x).normalize().multiplyScalar(-0.004));
-        }
-      }
-      const rpy=[0,Math.atan2(v.x,v.z),0];
-      // Per plate layer: a box between the pivots, a cylinder over each pivot's bosses and, on the
-      // truss arm, a box over the offset switch cover. Nothing reaches the boot above the distal pivot.
-      const along=v.clone().normalize(), across=new THREE.Vector3(v.z,0,-v.x).normalize();
-      const at=(s,c,y)=>[along.x*s+across.x*c,y,along.z*s+across.z*c], shapes=[];
-      for(const sign of [-1,1]){
-        shapes.push(col([.011,.004,v.length()],at(v.length()/2,0,sign*layer),rpy));
-        for(const s of [0,v.length()])shapes.push({kind:'cylinder',radius:.0055,length:.0052,xyz:at(s,0,sign*(layer+.0006)),rpy:[Math.PI/2,0,0]});
-        if(!outer)shapes.push(col([.022,.002,.61*v.length()],at(.495*v.length(),-.004,sign*(layer+.0011)),rpy));
-      }
-      link(`${name}_${part}`,visual,shapes);
-      const master=part==='moment_arm'&&side===1;
-      joints.push({name:part==='moment_arm'?`${prefix}${side===1?'':'_mirror'}_joint`:`${name}_${part}_joint`,
-        type:'revolute',parent:`${name}_origin`,child:`${name}_${part}`,axis:[0,1,0],
-        xyz:part==='moment_arm'?[-.0238,0,.088]:[-.0105,0,.1111],rpy:[0,dimensions.offset,0],
-        limit:{lower:0,upper:dimensions.upper,velocity:.5,effort:10},
-        ...(master?{}:{mimic:{joint:`${prefix}_joint`,multiplier:1,offset:0}})});
-    }
-    const tip=G();
-    const bootTop=endZ+pad.tip;
-    box(tip,'finger_carrier',[.005,.0144,.033],[innerX-.0085,0,bootTop-.021]);
-    // Broad carrier webs connect both parallelogram endpoints to the seated boot.
-    for(const sign of [-1,1])plate(tip,`carrier_web_${sign}`,outline([[-.019,-.027],[-.008,-.031],[innerX-.003,endZ-.006],[innerX-.007,endZ],[innerX-.016,endZ-.002],[-.021,-.017]]),.003,sign*.0065,silver);
-    cylinderBetween(tip,'carrier_bridge',[0,-.012,0],[0,.012,0],.005,silver,{radial:40});
-    cylinderBetween(tip,'carrier_lower_axle',[-0.0133,-0.0164,-0.0231],[-0.0133,0.0164,-0.0231],0.0035,silver,{radial:40});
-    // Carrier, webs and bridge; stops short of the moment-arm plates at the lower axle.
-    link(`${name}_finger_tip`,tip,[col([.026,.025,bootTop-.0045+.031],[-.008,0,(bootTop-.0045-.031)/2])]);
-    joints.push({name:`${name}_finger_tip_joint`,type:'revolute',parent:`${name}_truss_arm`,child:`${name}_finger_tip`,
-      xyz:dimensions.tip,rpy:[0,-dimensions.offset,0],axis:[0,-1,0],limit:{lower:0,upper:dimensions.upper,effort:10,velocity:.5},
-      mimic:{joint:`${prefix}_joint`,multiplier:1,offset:0}});
-    const flex=G(), padTop=endZ+pad.tip-.0218;
-    // Actual EPDM external envelope; X contact plane retains legacy stroke. The contact box is the boot.
-    boot(flex,'rubber_pad',innerX-.0098,pad.width,pad.length,pad.depth,pad.face,padTop,rubber);
-    link(`${name}_flex_finger`,flex,[col([pad.depth,pad.width,pad.length],[innerX-.0098-pad.depth/2,0,padTop-pad.length/2])]);
-    joints.push(fixed(`${name}_flex_finger_joint`,`${name}_finger_tip`,`${name}_flex_finger`,[.0098,0,.0218]));
-  }
-  return {name:'onrobot_rg6_reference',links,joints};
-}
+// Millimetres in the model frame. Finger 1 is on -X; x values are magnitudes.
+export const dimensions={
+ qc:{spigotR:31.5,spigotTop:2.7,ringR:35.45,ringTop:4.7,baseR:35.5,baseFlat:32.0,baseTop:17.2},
+ cheek:{half:22.5,footInner:22.7,footTop:9.7,gussetX:31.0,gussetTop:29.0,wallInner:34.7,wallOuter:41.15,bevel:3},
+ tilt:39.2,                                   // bracket tilt axis = body frame
+ disc:{r:22.5,x0:30.2,x1:33.9,boss:6},
+ housing:{zb:17.09,nw:30,ea:20,eb:16,z2:90,c1:106,c2:110,hw:41.76,zh:122.5,d1:135,d2x:30,tw:12,zt:154.19,
+  depth:21,wall:3,coreTop:103.5},  // datasheet 60 / 84 / 42 mm neck / head / depth
+ details:{label:[0,51.1,35.2,17.2,3.3],screws:[[-17.8,28.6,3.45],[17.8,28.6,3.45],[-10,104.9,2.6],[10,104.9,2.6],[0,145.0,2.6]],m3:[[-10,135.2],[10,135.2]]},
+ moment:[23.8,124.092],truss:[10.5,147.192],  // base pivots
+ tip:[-55.03,58.07],                          // pivot-to-pivot arm vector, 80.0 mm
+ stroke:160,bareInner:6.30,                   // bare fingers: datasheet stroke; inner face past the distal pivot
+ armHalf:12.5,slotHalf:7.5,
+ momentArm:{hubR:17.5,bar:[[12,-2.5,8.66],[65.4,-2.5,4.92]],lugW:[-2.5,5.0],eyeR:6.3,pinR:4.0,pinEnd:18.6,bossR:6.0,bossT:1.0},
+ // The inner link's slot starts at 64 mm (STEP: 70 mm) so the carrier clears it at closure.
+ trussArm:{hubR:5.5,bar:[[0,-3.5,3.5],[64,-3.5,3.5]],lugW:[-3.5,3.5],eyeR:5.6,pinR:2.5,pinEnd:17.9,bossR:4.0,bossT:0,socketR:4.5,switchBox:[10,52,-6.15,-3.45,10]},
+ cover:{plate:[[27.5,-16.0],[28.5,-21.5],[30.0,-23.44],[85.5,-23.44],[88.2,-20.5],[88.2,-10.5],[85.0,-7.96],[80.0,-5.56],[75.0,-3.17],[70.0,-2.29],[31.5,0.40],[29.5,-1.5],[28.1,-6.3]],
+  plateY:[12.6,15.0]},
+ carrier:{half:7.2,eyeR:6.3,pinR:2.65,outline:[[6.3,37.98],[6.3,1.0],[6.0,-2.0],[3.9,-5.0],[0.6,-8.0],[-1.1,-11.0],[-2.8,-14.0],[-4.6,-17.0],[-6.3,-20.0],
+  [-18.8,-20.0],[-15.5,-17.0],[-13.6,-14.0],[-12.2,-11.0],[-10.8,-8.0],[-9.4,-5.0],[-8.0,-2.0],[-6.6,1.0],[-5.2,4.0],[-3.8,7.0],[-2.4,10.0],[-2.1,13.0],[-2.1,37.98]]},
+ pad:{face:11.30,depth:13.15,width:25,length:37,z0:6.30},  // datasheet EPDM 25 x 37 x 13.15 mm
+};
+export const motion=kinematics(dimensions);
+export const definition=()=>buildRG(dimensions,'rg6_v2_gripper','onrobot_rg6_reference');

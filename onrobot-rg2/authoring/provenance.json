@@ -1,8 +1,12 @@
 {
   "reference_product": "OnRobot RG2 with standard EPDM fingertips",
-  "reviewed": "2026-10-10",
-  "base_commit": "61759a3219bf36677374d733f2cfbd19aa2ac72a",
+  "reviewed": "2026-10-11",
+  "base_commit": "c945d9e6257a66539b4d0495c30f89d1040b95bf",
   "datasheet": "https://onrobot.com/storage/datasheets/rg2/datasheet_rg2_v1.8_en.pdf",
+  "datasheet_sha256": "f9a5fb15fba873b4c4ca645fb5627dcce1f8f8b87102d77bbf873f7a6688dfac",
+  "quick_changer_datasheet": "https://onrobot.com/storage/datasheets/quick-changers/datasheet_quick_changers_v2.0_en.pdf",
+  "quick_changer_datasheet_sha256": "67948af8a8cb3e21e99a87b4348f360b72f842f4fd5d68d71defe57631daeb15",
+  "product_page": "https://onrobot.com/en/products/rg2-finger-gripper",
   "photos": [
     "https://onrobot.com/img/paths/storage/products/rg2_2.png/60662dde895742ff0be55782bf793c57/rg2_2.png",
     "https://onrobot.com/img/paths/storage/products/rg2_newqc.png/da95e30fd6712ecb6acf6c95f28b3d1e/rg2_newqc.png",
@@ -14,7 +18,18 @@
     "https://onrobot.com/img/containers/images/rg2-%285%29.png/c156ce03b48a49da9f6592441258640a/rg2-%285%29.png",
     "https://onrobot.com/img/containers/images/rg2-%286%29.png/3c86f6ec6c7280396f8c8acf0c3d2571/rg2-%286%29.png"
   ],
-  "rights_review": "Official publicly accessible datasheet and product photography inspected. No explicit reproduction restriction found in complete extracted datasheet text. Facts used as dimensions; no OEM image, drawing, CAD, mesh, logo, or texture redistributed. Photos used for visual inspection only. No restricted manual used.",
+  "step_measurement": {
+    "url": "https://onrobot.com/storage/303_rg2_tool.step",
+    "file": "303_rg2_tool.step",
+    "product": "RG2 Tier 2 - 101631",
+    "sha256": "b3c41f38efafd9eab44c53f61d618e437f2fd0248cbc774c7384e838290ad184",
+    "bytes": 38740003,
+    "header": "SolidWorks 2018, 2019-03-27, AP214",
+    "retrieved": "2026-10-10",
+    "use": "Measuring instrument only: read locally with OpenCASCADE (part bounding boxes, sections, cylinder axes). No STEP file, tessellation, surface, outline trace or derived mesh is in this repository; the shapes are independent extrusions, discs and boxes sized from the readings.",
+    "pose_handling": "The STEP is saved at one intermediate opening with the body tilted 0.98 deg on the bracket; the tilt was removed and the joint zero follows the datasheet stroke, not the saved pose."
+  },
+  "rights_review": "Official public datasheets, product photography and the product-page STEP were used. The onrobot.com terms of use (read 2026-10-10) grant a personal, non-commercial, revocable licence to the site and its content and prohibit copying or redistributing it; they state no CAD-specific terms, and the STEP header carries no notice. As with the datasheets, only facts (dimensions) are taken; no OEM file, image, drawing, CAD, mesh, logo or texture is redistributed.",
   "published_dimensions_mm": {
     "body_neck_width": 54,
     "body_head_width": 65,
@@ -27,31 +42,153 @@
     ],
     "stroke": 110
   },
-  "legacy_contract": "Joint graph, origins, limits, mimic rules, mount frame and mesh paths are unchanged from the earlier model. 2026-10-10: the TCP moved to the closed-pose centre of the visible boots (217.1 mm from mount) and box/pivot-cylinder collisions now enclose each link's visual. The legacy closedLength is a shoulder-to-bare-tip datum, not the visual height.",
+  "measured_dimensions_mm": {
+    "mount": "robot-side Quick Changer tool face = robot flange + 13.6 mm (QC datasheet v2.0); the STEP contains the robot-side QC (16.1 mm overall)",
+    "datasheet_length_datum": "top of the robot-side QC = mount + 2.5 mm; open 174.6 / closed 213.1 / housing 132.0 mm against the sheet 174 / 213 / 132",
+    "tilt_axis_z": 36.2,
+    "outer_link_pivot_xz": [
+      17.0,
+      112.2
+    ],
+    "inner_link_pivot_xz": [
+      7.5,
+      128.7
+    ],
+    "link_length": 55.0,
+    "housing": {
+      "z": [
+        16.2,
+        134.45
+      ],
+      "neck_half_width": 27.0,
+      "neck_z": [
+        31.5,
+        89
+      ],
+      "head_half_width": 32.45,
+      "head_z": 109.5,
+      "depth": 36.0
+    },
+    "bracket_cheeks": {
+      "wall_x": [
+        31.05,
+        37.5
+      ],
+      "foot_x": [
+        22.05,
+        31.05
+      ],
+      "half_width_y": 20.5,
+      "top_radius_about_tilt_axis": 20.5
+    },
+    "qc": {
+      "spigot_radius": 31.5,
+      "spigot_top": 2.7,
+      "blue_ring_radius": 35.45,
+      "blue_ring_z": [
+        2.7,
+        4.7
+      ],
+      "base_z": [
+        4.7,
+        17.2
+      ]
+    },
+    "links": {
+      "depth": 20.0,
+      "outer_width_mm": [
+        8.5,
+        6.6
+      ],
+      "inner_width": 5.6,
+      "clevis_slot_half_width": 5.95,
+      "inner_slot_start_step": 47.4
+    },
+    "bare_finger": {
+      "thickness": 7.0,
+      "width": 11.6,
+      "inner_face_past_distal_pivot": 5.0,
+      "top_above_distal_pivot": 31.98
+    },
+    "standard_pad": {
+      "contact_face_past_distal_pivot": 9.45,
+      "protrusion_past_bare_finger": 4.45,
+      "z_above_distal_pivot": [
+        6.5,
+        36.3
+      ],
+      "size": [
+        11.4,
+        20.2,
+        29.8
+      ]
+    },
+    "cover_plates": {
+      "thickness": 1.8,
+      "y": [
+        10.0,
+        11.8
+      ]
+    },
+    "front_details": {
+      "label_centre_z": 43.2,
+      "label_size": [
+        35.2,
+        17.2
+      ],
+      "screws_xz": [
+        [
+          18.5,
+          30.7
+        ],
+        [
+          9.0,
+          99.5
+        ],
+        [
+          0,
+          123.1
+        ]
+      ],
+      "m3_holes_xz": [
+        [
+          10.0,
+          123.2
+        ]
+      ]
+    }
+  },
+  "model": {
+    "joint_zero": "fully open: datasheet stroke between the bare fingers",
+    "upper_limit": "1.2326 rad, where the standard pads meet (travel between pads 101.1 mm)",
+    "tcp": "centre of the pads where they meet, 205.07 mm from mount (photo-based draft: 217.1 mm); the pads drop up to 38.6 mm towards the mount when open",
+    "closed_pad_tip_from_mount": 219.97,
+    "collision": "per-link boxes and cylinders enclosing each link visual to 1 um, no exceptions"
+  },
   "estimates": [
-    "All shape curves, fillets, cover thicknesses and subdivisions",
-    "Bracket/QC geometry and screw locations; not a functional mating interface",
-    "Arm profile thicknesses, depth layering, bearings and safety-switch covers",
-    "Fingertip seating/overhang and carrier geometry",
-    "Closed visible mount-to-tip height; not an OEM dimension",
-    "Safety-switch guard distal relief independently added to clear supporting shafts under preserved legacy kinematics; not a verified OEM cover shape"
+    "Fillets, chamfers and the small-radius shapes of the housing, hubs and cover plates are simplified",
+    "The inner link slot starts at 43 mm (STEP: 47.4 mm) so the simplified carrier clears it when the pads meet",
+    "Cover plates ride on the outer link without the inner rib; the real plates are pinned to the carrier and slide on the outer link",
+    "The housing is a shell with an open head channel; a core fills it only below the link sweep (to z 95.5 mm)",
+    "Quick Changer: tool-side spigot and blue ring only; latch, contacts and mating fit are not modelled",
+    "Link insets, switch internals, internal screws and pins are omitted; pin/boss overlaps are display joints, not clearances",
+    "Mass and inertia are not modelled"
   ],
   "excluded": [
-    "OEM media and textures",
-    "Vendor/community CAD or meshes",
-    "Brand logos",
-    "Functional safety switch, exact mating interface, cable and dynamics"
+    "OEM media, textures and logos",
+    "Vendor CAD, its tessellation or any derived mesh",
+    "Functional safety switch, Quick Changer latch, cable and dynamics"
   ],
   "known_mismatches": [
-    "The fixed TCP equals the boot centre only in the closed pose; the pads swing towards the mount as the gripper opens",
-    "Carrier lower-axle ends stand up to 2.9 mm outside the carrier box, inside the moment-arm plates",
-    "Legacy shoulder-to-bare-tip dimension was previously treated as mount-to-pad endpoint",
-    "Body/arm and carrier/truss collisions overlap at the designed pivots in every pose"
+    "The fixed TCP equals the pad centre only where the pads meet; the pads swing towards the mount as the gripper opens",
+    "With the standard pads the upper limit stops before the bare fingers meet; bare-finger closing (no fingertips) is not modelled",
+    "The housing bottom sits 1.0 mm into the bracket base (fixed joint)",
+    "Tilt bracket fixed at 0 deg"
   ],
-  "product_page": "https://onrobot.com/en/products/rg2-finger-gripper",
+  "revision": "2026-10-11: pivots, housing, bracket, links, carriers, pads and cover plates re-sized from the STEP measurements. Pivots and housing move 13.6 mm towards the mount; the TCP moves from 217.1 to 205.07 mm.",
   "legacy_numerical_sources": [
     "https://github.com/Osaka-University-Harada-Laboratory/onrobot/blob/46fae3557dd3aff678adf6b3320ec1338493d84a/onrobot_rg_description/urdf/onrobot_rg2_model_macro.xacro",
     "https://github.com/inria-paris-robotics-lab/onrobot_ros/blob/9c6ce32d84bd903d59120c2a95d4a115d6e33cde/onrobot_description/config/rg2_v1.yaml"
   ],
-  "datasheet_sha256": "f9a5fb15fba873b4c4ca645fb5627dcce1f8f8b87102d77bbf873f7a6688dfac"
+  "legacy_note": "The earlier joint origins came from these public ROS descriptions; their heights did not match the measured product above the Quick Changer tool face. Only the joint graph, names, mimic rules and mesh paths are kept."
 }

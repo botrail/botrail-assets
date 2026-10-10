@@ -1,9 +1,10 @@
 /** RG2/RG6 interface contract and independently checked motion/topology.
  * Run: node --test authoring/test/onrobot-contract.test.mjs
- * The SHA-256 hashes are the complete URDF bytes of the 2026-10-10 contract:
- * the joint graph, limits, mimic multipliers and mesh filenames of the original
- * models, with the TCP at the closed-pose centre of the visible boots and
- * box collision envelopes around each link's visual.
+ * The SHA-256 hashes are the complete URDF bytes of the 2026-10-11 contract: the original
+ * joint graph, mimic multipliers and mesh filenames, with pivots, links, carriers and pads
+ * sized from the official STEP measurements, joint 0 at the datasheet bare-finger stroke,
+ * the upper limit where the fitted pads meet, the TCP at their centre there and box/cylinder
+ * collisions around each link's visual.
  * Exact sampled solid intersections are measured by audits/onrobot-motion.py.
  */
 import test from 'node:test';
@@ -15,14 +16,15 @@ import {referenceScene} from '../reference-model.mjs';
 import {urdf} from '../reference-export.mjs';
 import {meshFiles as rg2Meshes} from '../../onrobot-rg2/authoring/compact-obj.mjs';
 import {meshFiles as rg6Meshes} from '../../onrobot-rg6/authoring/compact-obj.mjs';
-import {definition as rg2Definition} from '../../onrobot-rg2/authoring/model.mjs';
-import {definition as rg6Definition} from '../../onrobot-rg6/authoring/model.mjs';
+import {definition as rg2Definition,motion as rg2Motion} from '../../onrobot-rg2/authoring/model.mjs';
+import {definition as rg6Definition,motion as rg6Motion} from '../../onrobot-rg6/authoring/model.mjs';
 
+// stroke = travel between the fitted pads; the datasheet stroke is between the bare fingers.
 const cases = [
-  {id:'rg2', build:rg2Definition, meshFiles:rg2Meshes, stroke:.110, tcp:.2171, upper:1.30524,
-    hash:'9e0c06cfab0567bdea63d91f75e44890f2b851e0f7a33b20679009deda6f15f9'},
-  {id:'rg6', build:rg6Definition, meshFiles:rg6Meshes, stroke:.160, tcp:.2725, upper:1.3,
-    hash:'9ff2b058bb0dff76da03f151dc58be44925aca26b269c2b1cf52545bc24264ab'},
+  {id:'rg2', build:rg2Definition, meshFiles:rg2Meshes, stroke:rg2Motion.padTravel/1000, tcp:rg2Motion.tcp/1000, upper:rg2Motion.upper,
+    hash:'e3b627fc28e69cb6bd85d31bf342ab3b4e3eb6133bcef6e5f0cdf67036d809f7'},
+  {id:'rg6', build:rg6Definition, meshFiles:rg6Meshes, stroke:rg6Motion.padTravel/1000, tcp:rg6Motion.tcp/1000, upper:rg6Motion.upper,
+    hash:'9ba23a7334ad9fce61bc89399f9ffd6c6e492eb752feb4c668d1bdabe2497bd3'},
 ];
 const hash = data => createHash('sha256').update(data).digest('hex');
 const vector = values => new THREE.Vector3(...values);
@@ -174,11 +176,7 @@ for(const entry of cases) {
   });
 
   test(`${entry.id}: collision shapes enclose each link's visual`,()=>{
-    // Allowances: the lower-axle ends of the carrier sit inside the moment-arm
-    // plates (a separate box would touch that arm in every pose); the body's
-    // sculpted cover reliefs stand proud of its two boxes by under 1.5 mm.
-    // Everything else is enclosed to 1 µm (float32 vertices on a box face).
-    const allowance={finger_tip:.004,body:.0015};
+    // Every link is enclosed to 1 µm (float32 vertices on a box face).
     for(const link of entry.build().links) {
       if(!link.visual) continue;
       const frames=link.collisions.map(shape=>{
@@ -193,8 +191,7 @@ for(const entry of cases) {
       for(const point of visualVertices(link)) {
         worst=Math.max(worst,Math.min(...link.collisions.map((shape,i)=>outside(shape,point.clone().applyMatrix4(frames[i])))));
       }
-      const key=Object.keys(allowance).find(part=>link.name.endsWith(part));
-      assert.ok(worst<=(key?allowance[key]:1e-6),`${link.name}: visual stands ${(worst*1000).toFixed(2)} mm outside its collision shapes`);
+      assert.ok(worst<=1e-6,`${link.name}: visual stands ${(worst*1000).toFixed(2)} mm outside its collision shapes`);
     }
   });
 
