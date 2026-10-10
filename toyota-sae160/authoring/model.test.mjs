@@ -95,14 +95,13 @@ import {compactObj,meshFiles} from './compact-obj.mjs';
 import {OBJLoader} from 'three/addons/loaders/OBJLoader.js';
 const bbox=o=>new THREE.Box3().setFromObject(o,true);
 const ray=(g,origin,direction)=>new THREE.Raycaster(new THREE.Vector3(...origin),new THREE.Vector3(...direction).normalize()).intersectObject(g,true);
-const hashes={tx:'838c42a2eed7813c246fd7b6e2325a88a12c8a105ac3f3c6dbe3468d99b498dc',dx:'bae48d9ba4d1eb2b5efc210dadd243b31695ff1c7c85dd6ac1418bb9453c7264'};
+const hashes={tx:'a3be8ae4f859269709fcc2f0ec66137f3c25d048d4aa1ad7d21c8f3c7a42ade5',dx:'c969f4289288f05706e5cc0cd347060c374aa82990fc93c4e4b50b3ba55bbe5c'};
 for(const mast of ['tx','dx']){
  test(`${mast}: collision boxes enclose the visual (internal mast parts excepted)`,()=>{
-  // Excepted, by link: carriage guide rollers/axles/mounts run inside the mast channels (a box
-  // there would touch the stages in every pose); the stages' lower crossmembers sit inside the
-  // carriage block's reach; the outer mast's foot/head plates, scanner-post foot and the front
-  // 7.5 mm of each top shroud (stopped short of the carriage block) stand out by at most 12 mm.
-  const d=definition(mast), limit={base_link:1e-6,mast_outer:.0121,mast_stage1:.0571,mast_inner:.0421,carriage:.0901};
+  // Excepted on the carriage only: the shanks' rounded fronts stand 10 mm proud of the fork face
+  // (the box stops at the face a pallet rests against) and the roller axle ends 3.5 mm into the
+  // middle stage's channel envelope (the box stops 0.5 mm short of it).
+  const d=definition(mast), limit={base_link:1e-6,mast_outer:1e-6,mast_stage1:1e-6,mast_inner:1e-6,carriage:.0101};
   for(const link of d.links){
    if(!link.collisions)continue;
    const boxes=link.collisions.map(c=>{const m=new THREE.Matrix4().compose(new THREE.Vector3(...c.xyz),new THREE.Quaternion().setFromEuler(new THREE.Euler(...(c.rpy??[0,0,0]),'ZYX')),new THREE.Vector3(1,1,1));return {inv:m.invert(),half:c.size.map(v=>v/2)};});

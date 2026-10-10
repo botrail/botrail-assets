@@ -31,9 +31,20 @@ const scene=()=>referenceScene(definition()).root;
 const bbox=o=>new THREE.Box3().setFromObject(o);
 const ray=(g,origin,direction)=>new THREE.Raycaster(new THREE.Vector3(...origin),new THREE.Vector3(...direction).normalize()).intersectObject(g,true);
 
-test('complete inherited URDF including all collisions and wheel/API contracts is byte-identical',()=>{
- const xml=urdf(definition());assert.equal(createHash('sha256').update(xml).digest('hex'),'f7742d0540266224e6ab055f1e5d2a5bd77bacd5752721a31bc5b67736a5aae0');
+test('URDF, wheel/API contracts and collisions match the 2026-10-10 contract and the committed file',()=>{
+ const xml=urdf(definition());assert.equal(createHash('sha256').update(xml).digest('hex'),'ade0183b12a00e5b9e2d6ce1a96e2eb2e39000aac9de21b1fcb799d3ccf4f909');
  assert.equal(fs.readFileSync(new URL('../urdf/mir1350.urdf',import.meta.url),'utf8'),xml);
+});
+
+test('the top cover box encloses the cover visual; the chassis box stops at the deck datum',()=>{
+ // The chassis corner pods stand up to 2 mm proud of the deck; its box keeps the 192 mm top-module datum.
+ for(const [name,limit] of [['top_cover',1e-6],['base_link',.002]]){
+  const link=definition().links.find(l=>l.name===name),[c]=link.collisions;
+  const box=new THREE.Box3().setFromCenterAndSize(new THREE.Vector3(...c.xyz),new THREE.Vector3(...c.size));
+  link.visual.updateMatrixWorld(true);const p=new THREE.Vector3();let worst=0;
+  link.visual.traverse(o=>{if(!o.isMesh)return;const a=o.geometry.attributes.position;for(let i=0;i<a.count;i++)worst=Math.max(worst,box.distanceToPoint(p.fromBufferAttribute(a,i).applyMatrix4(o.matrixWorld)));});
+  assert.ok(worst<=limit,`${name}: ${worst*1000} mm outside`);
+ }
 });
 
 test('visual envelope matches 1350 x 910 x 322 mm with grounded wheels',()=>{

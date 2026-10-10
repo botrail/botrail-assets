@@ -38,6 +38,61 @@ const G = () => new THREE.Group();
 const box = (size, xyz, rpy = [0, 0, 0]) => ({kind: 'box', size, xyz, rpy});
 const cyl = (radius, length, xyz, rpy = [0, 0, 0]) => ({kind: 'cylinder', radius, length, xyz, rpy});
 const Y = [Math.PI / 2, 0, 0]; // a URDF cylinder (+Z) laid along Y
+// Collision envelopes measured from the drawn parts, rounded outward to 0.1 mm.
+const up = v => Math.ceil(v * 1e4) / 1e4, down = v => Math.floor(v * 1e4) / 1e4;
+const wanted = names => n => names.some(m => m.endsWith('*') ? n.startsWith(m.slice(0, -1)) : n === m);
+function partPoints(g, names) {
+  g.updateMatrixWorld(true); const out = [], p = new THREE.Vector3(), keep = wanted(names);
+  for (const o of g.children) if (keep(o.name)) o.traverse(m => {
+    if (!m.isMesh) return; const a = m.geometry.attributes.position;
+    for (let i = 0; i < a.count; i++) out.push(p.fromBufferAttribute(a, i).applyMatrix4(m.matrixWorld).toArray());
+  });
+  if (!out.length) throw new Error(`no drawn parts named ${names}`);
+  return out;
+}
+function boxOver(points, rpy = [0, 0, 0], toWorld = q => q) {
+  const lo = [0, 1, 2].map(k => down(points.reduce((m, p) => Math.min(m, p[k]), Infinity)));
+  const hi = [0, 1, 2].map(k => up(points.reduce((m, p) => Math.max(m, p[k]), -Infinity)));
+  return box(hi.map((h, k) => +(h - lo[k]).toFixed(4)), toWorld(hi.map((h, k) => (h + lo[k]) / 2)).map(v => +v.toFixed(5)), rpy);
+}
+const around = (g, names) => boxOver(partPoints(g, names));
+/** A box turned by `pitch` about Y (its X along a slanted lever), around the named parts. */
+function pitchedAround(g, names, pitch) {
+  const c = Math.cos(pitch), s = Math.sin(pitch);
+  const local = partPoints(g, names).map(([x, y, z]) => [x * c - z * s, y, x * s + z * c]);
+  return boxOver(local, [0, pitch, 0], ([x, y, z]) => [x * c + z * s, y, -x * s + z * c]);
+}
+/** Cylinder about the x / y / z axis through `centre`, around the named parts. */
+function cylinderAround(g, names, axis, centre) {
+  const P = partPoints(g, names), k = 'xyz'.indexOf(axis), [a, b] = [0, 1, 2].filter(i => i !== k);
+  const r = up(P.reduce((m, p) => Math.max(m, Math.hypot(p[a] - centre[a], p[b] - centre[b])), 0));
+  const lo = down(P.reduce((m, p) => Math.min(m, p[k]), Infinity)), hi = up(P.reduce((m, p) => Math.max(m, p[k]), -Infinity));
+  const xyz = [...centre]; xyz[k] = +((lo + hi) / 2).toFixed(5);
+  return cyl(r, +(hi - lo).toFixed(4), xyz, axis === 'x' ? [0, Math.PI / 2, 0] : axis === 'y' ? Y : [0, 0, 0]);
+}
+/** Boxes over equal slabs of a casting along an axis. A slab's box covers the surface clipped
+ * to it: the vertices inside plus every triangle edge's crossing of the two slab planes. */
+function slabs(g, names, axis, count) {
+  g.updateMatrixWorld(true); const k = 'xyz'.indexOf(axis), tris = [], keep = wanted(names);
+  for (const o of g.children) if (keep(o.name)) o.traverse(m => {
+    if (!m.isMesh) return; const a = m.geometry.attributes.position, idx = m.geometry.index;
+    const v = i => new THREE.Vector3().fromBufferAttribute(a, i).applyMatrix4(m.matrixWorld).toArray();
+    const n = idx ? idx.count : a.count;
+    for (let i = 0; i < n; i += 3) tris.push([0, 1, 2].map(j => v(idx ? idx.getX(i + j) : i + j)));
+  });
+  const all = tris.flat(), lo = Math.min(...all.map(p => p[k])), hi = Math.max(...all.map(p => p[k])), step = (hi - lo) / count;
+  return Array.from({length: count}, (_, i) => {
+    const a = lo + i * step, b = i === count - 1 ? hi : a + step, pts = [];
+    for (const tri of tris) for (let e = 0; e < 3; e++) {
+      const p = tri[e], q = tri[(e + 1) % 3];
+      if (p[k] >= a && p[k] <= b) pts.push(p);
+      for (const plane of [a, b]) if ((p[k] - plane) * (q[k] - plane) < 0) {
+        const t = (plane - p[k]) / (q[k] - p[k]); pts.push(p.map((c, j) => c + t * (q[j] - c)));
+      }
+    }
+    return boxOver(pts);
+  });
+}
 
 function shell(g, name, size, at, material = yellow, radius = 0.03) {
   return addMesh(g, name, roundedBox(size, Math.min(radius, Math.min(...size) / 2 - 1e-4), 3), material, at);
@@ -269,28 +324,49 @@ const follow = (name, parent, child, xyz, axis, joint, multiplier) =>
 export function definition() {
   const zj2 = DIM.j2z - DIM.j1z;
   const [cx, , cz] = CRANK, [lx, , lz] = LEVEL_LOWER, [ux, , uz] = LEVEL_UPPER;
+  const base = baseVisual(), turret = turretVisual(), lowerArm = lowerArmVisual(), plate = elbowPlateVisual();
+  const upperArm = upperArmVisual(), wrist = wristVisual(), face = flangeVisual(), crank = crankVisual(), rod = rodVisual();
+  const levelLower = levelRodVisual('level_rod_lower', DIM.lower, 'z'), levelUpper = levelRodVisual('level_rod_upper', DIM.upper, 'x');
+  // Collision: boxes, axis cylinders and casting slabs around the drawn parts, so every link's
+  // collision encloses its visual. The parallel links overlap the parts they are pinned to in
+  // every pose; such pairs are allowed automatically or declared by the catalog.
   const links = [
-    {name: 'base_link', visual: baseVisual(), collisions: [box([1.02, 0.90, 0.57], [-0.07, 0, 0.285])]},
-    {name: 'J1_link', visual: turretVisual(), collisions: [
-      box([0.80, 0.62, 0.40], [0.00, 0, 0.20]), box([0.34, 0.50, 0.30], [-0.36, 0, 0.20]),
-      cyl(0.25, 0.62, [DIM.j2x, 0, zj2], Y), box([0.24, 1.10, 0.24], [0.22, 0, 0.30])]},
-    {name: 'J2_link', visual: lowerArmVisual(), collisions: [box([0.30, 0.36, 1.40], [0, 0, 0.62])]},
-    // The parallel links are bodies too: primitives along each, kept clear
-    // of the arms they run beside (a link without one would collide as its mesh).
-    {name: 'elbow_link', visual: elbowPlateVisual(), collisions: [box([0.10, 0.06, 0.10], [0, 0, 0])]},
-    {name: 'J3_link', visual: upperArmVisual(), collisions: [
-      box([1.36, 0.30, 0.27], [0.62, 0, 0]), box([0.42, 0.30, 0.30], [-0.24, 0, 0.13])]},
-    {name: 'wrist_link', visual: wristVisual(), collisions: [
-      box([0.50, 0.22, 0.44], [0.14, 0, 0.07]), cyl(0.15, 0.13, [DIM.wristX, 0, -0.09])]},
-    {name: 'J4_link', visual: flangeVisual(), collisions: [cyl(0.125, 0.024, [0, 0, 0.012])]},
-    {name: 'crank_link', visual: crankVisual(), collisions: [
-      box([Math.hypot(cx, cz), 0.07, 0.16], [cx / 2, 0, cz / 2], [0, -Math.atan2(cz, cx), 0])]},
+    {name: 'base_link', visual: base, collisions: [
+      around(base, ['pedestal_foot_-1']), around(base, ['pedestal_foot_1']), around(base, ['pedestal_front_portal']),
+      around(base, ['pedestal_rear_portal']), around(base, ['pedestal_top_casting']), around(base, ['pedestal_cabinet', 'service_*']),
+      cylinderAround(base, ['j1_bearing_lower', 'j1_bearing_rim'], 'z', [0, 0, 0])]},
+    {name: 'J1_link', visual: turret, collisions: [
+      cylinderAround(turret, ['turret_turntable'], 'z', [0, 0, 0]), ...slabs(turret, ['turret_casting'], 'x', 3),
+      around(turret, ['rear_service_casting']),
+      ...['r', 'l'].flatMap(side => [...slabs(turret, [`j2_cast_cheek_${side}`], 'x', 4),
+        cylinderAround(turret, [`j2_reducer_${side}`, `j2_rim_${side}`, `j2_drive_face_${side}`, `reducer_fastener_${side}_*`], 'y', [DIM.j2x, 0, zj2]),
+        cylinderAround(turret, [`motor_${side}`, `motor_cover_${side}`], 'y', [DIM.j2x, 0, zj2])])]},
+    {name: 'J2_link', visual: lowerArm, collisions: [
+      cylinderAround(lowerArm, ['j2_hub'], 'y', [0, 0, 0]), ...slabs(lowerArm, ['lower_arm_back'], 'z', 5),
+      ...slabs(lowerArm, ['lower_arm_front_pocket_wall'], 'z', 3),
+      cylinderAround(lowerArm, ['elbow_boss', 'elbow_bearing_seal_*'], 'y', [0, 0, DIM.lower])]},
+    {name: 'elbow_link', visual: plate, collisions: [
+      ...slabs(plate, ['level_plate'], 'x', 4), around(plate, ['level_pin_lower']), around(plate, ['level_pin_upper'])]},
+    {name: 'J3_link', visual: upperArm, collisions: [
+      cylinderAround(upperArm, ['elbow_hub', 'elbow_outer_cap_*'], 'y', [0, 0, 0]), ...slabs(upperArm, ['upper_arm_casting'], 'x', 5),
+      ...slabs(upperArm, ['rear_lever_casting'], 'x', 3),
+      cylinderAround(upperArm, ['wrist_boss', 'wrist_bearing_cap_*'], 'y', [DIM.upper, 0, 0]),
+      around(upperArm, ['rear_pin', 'rear_pin_cap']), around(upperArm, ['upper_service_cover'])]},
+    {name: 'wrist_link', visual: wrist, collisions: [
+      ...slabs(wrist, ['wrist_fork_cheek_-1'], 'x', 3), ...slabs(wrist, ['wrist_fork_cheek_1'], 'x', 3),
+      around(wrist, ['level_pin_front', 'level_pin_front_cap_*']), around(wrist, ['wrist_cast_bridge']),
+      cylinderAround(wrist, ['j4_housing', 'j4_reducer'], 'z', [DIM.wristX, 0, 0]),
+      around(wrist, ['j4_motor', 'j4_motor_cover', 'wrist_motor_lead']), around(wrist, ['wrist_connector_panel', 'wrist_connector_*'])]},
+    {name: 'J4_link', visual: face, collisions: [cylinderAround(face, ['faceplate'], 'z', [0, 0, 0])]},
+    {name: 'crank_link', visual: crank, collisions: [
+      cylinderAround(crank, ['crank_hub'], 'y', [0, 0, 0]), pitchedAround(crank, ['crank_lever'], -Math.atan2(cz, cx)),
+      around(crank, ['crank_pin'])]},
     {name: 'rod_pivot_link'},
-    {name: 'rod_link', visual: rodVisual(), collisions: [box([0.13, 0.08, DIM.lower], [0, 0, DIM.lower / 2])]},
-    {name: 'level_lower_link', visual: levelRodVisual('level_rod_lower', DIM.lower, 'z'),
-      collisions: [box([0.06, 0.05, DIM.lower], [0, 0, DIM.lower / 2])]},
-    {name: 'level_upper_link', visual: levelRodVisual('level_rod_upper', DIM.upper, 'x'),
-      collisions: [box([DIM.upper - 0.30, 0.05, 0.06], [DIM.upper / 2, 0, 0])]},
+    {name: 'rod_link', visual: rod, collisions: [
+      cylinderAround(rod, ['j3_rod_eye0'], 'y', [0, 0, 0]), cylinderAround(rod, ['j3_rod_eye1'], 'y', [0, 0, DIM.lower]),
+      around(rod, ['j3_cast_rod']), around(rod, ['cable_sleeve', 'sleeve_end_*'])]},
+    {name: 'level_lower_link', visual: levelLower, collisions: [around(levelLower, ['level_rod_lower'])]},
+    {name: 'level_upper_link', visual: levelUpper, collisions: [around(levelUpper, ['level_rod_upper'])]},
     {name: 'flange'}, {name: 'tool0'},
   ];
   const joints = [

@@ -27,3 +27,10 @@
 
 この改訂は新 rev の候補。GitHub への push / PR 作成 / カタログ公開は実施していない。
 既存 r1 を同じ rev のまま差し替えない。元のメーカー画像・動画・CAD は配布物に含めない。
+
+## Collision revision (2026-10-10)
+
+The top-cover box now reaches down to the recessed body's side reveals (16 mm below the deck plane); the
+chassis box still stops at the 192 mm deck datum, so the corner pods stand up to 2 mm above it.
+URDF SHA-256 `ade0183b12a0…`; 10 model tests (enclosure added) and `--check` pass; no self-collision in a
+botrail joint sweep and 200 random poses.

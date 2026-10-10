@@ -52,9 +52,9 @@
     "base_commit": "64904beb5cd983019aab3a7d6feed4562d75f5c4",
     "urdf_byte_identical": false,
     "preserved": "All links, frames, joints, axes, limits, velocities, mimic multiplier 0.5, TX free lift, wheel stations, absent inertias.",
-    "collision_revision": "2026-10-10: boxes added for the centred tiller/head and console top, the HMI crossbar and its two stays (pitched boxes), beacon, foot pins and top shrouds; the carriage plate, ties, stiles and shanks are one box from the plate back to the fork face. Mast-internal guide rollers, the stages' lower crossmembers and the front 7.5 mm of each shroud stay outside so no pair overlaps in only part of the lift.",
-    "tx_urdf_sha256": "838c42a2eed7813c246fd7b6e2325a88a12c8a105ac3f3c6dbe3468d99b498dc",
-    "dx_urdf_sha256": "bae48d9ba4d1eb2b5efc210dadd243b31695ff1c7c85dd6ac1418bb9453c7264"
+    "collision_revision": "2026-10-10: boxes added for the centred tiller/head and console top, the HMI crossbar and its two stays (pitched boxes), beacon, foot pins, top shrouds and scanner-post foot/window; the outer foot/head ties sit where drawn, behind the channels. The middle/inner stages carry their drawn lower crossmembers and ears instead of an undrawn top tie. The carriage has one box from the plate back to the fork face and one per guide-roller set inside the inner channel. Only the shanks' rounded fronts (10 mm past the fork face) and the roller axle ends (3.5 mm into the middle stage's channel envelope) stay outside, so no pair overlaps in only part of the lift.",
+    "tx_urdf_sha256": "a3be8ae4f859269709fcc2f0ec66137f3c25d048d4aa1ad7d21c8f3c7a42ade5",
+    "dx_urdf_sha256": "c969f4289288f05706e5cc0cd347060c374aa82990fc93c4e4b50b3ba55bbe5c"
   },
   "published_vs_estimated": {
     "published": "See README fact table: overall dimensions; wheel sizes/tracks/wheelbase; fork length/width/nominal heel thickness; h13; h1/h2/h3/h4/h23; charging center; h14 range. Values are nominal.",

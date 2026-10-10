@@ -109,7 +109,7 @@ UR Series、RG6、LIFTKIT-UR 620はThree.jsでリンクごとに形状を著作�
 `reference-export.mjs`はOBJ/MTL・URDFの決定的な出力に使う。
 製品の寸法、材質、collision、出典は各製品ディレクトリにある。
 URのカタログ運動学は公式BSDマクロを使用し、ブラウザの理想角度ツリーとは区別する。
-これらの配布USDはcatalog-builderがURDFから生成する。
+これらの配布USDはカタログのビルド工程がURDFから生成する。
 
 ## 架台・台車の部品
 

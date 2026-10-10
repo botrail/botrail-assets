@@ -81,3 +81,18 @@ visual meshes are unchanged.
   fork/support-arm pairs the catalog declares
 - TX / DX URDF SHA-256 `838c42a2eed7…` / `bae48d9ba4d1…`; 22 model tests, `--check` and the OBJ audit pass
 
+## Mast internals revision (2026-10-10, second pass)
+
+- The carriage block now starts at the drawn plate's back face (50 mm behind the fork face, was 100 mm)
+  and each guide-roller set (roller, axle, mount) has a box inside the inner channel, stopping 0.5 mm short
+  of the middle stage's channel envelope
+- The middle and inner stages carry their drawn lower crossmembers and ears instead of an undrawn top tie;
+  the outer mast's foot and head ties sit where drawn, behind the channels, so the stages and the roller
+  boxes run through an open mast
+- Every visual vertex lies inside its link's boxes except the shanks' rounded fronts (10 mm past the fork
+  face) and the roller axle ends (3.5 mm); the enclosure test limits are 1 µm elsewhere
+- The carriage stays at least 17.5 mm above the stages' crossmembers at every lift position (it rises at the
+  inner mast's rate or faster); a botrail joint sweep and 200 random poses show no self-collision beyond
+  the declared fork/support-arm pairs, and the catalog build check stays clean
+- TX / DX URDF SHA-256 `a3be8ae4f859…` / `c969f4289288…`; 22 model tests, `--check` and the OBJ audit pass
+

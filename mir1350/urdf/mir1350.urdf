@@ -2,7 +2,7 @@
 <robot name="mir1350_reference">
 <link name="base_footprint"></link>
 <link name="base_link"><visual ><geometry ><mesh filename="../meshes/base_link.obj"/></geometry></visual><collision ><origin xyz="0 0 0.1095" rpy="0 0 0"/><geometry ><box size="1.35 0.91 0.165"/></geometry></collision></link>
-<link name="top_cover"><visual ><geometry ><mesh filename="../meshes/top_cover.obj"/></geometry></visual><collision ><origin xyz="0 0 0.065" rpy="0 0 0"/><geometry ><box size="1.35 0.91 0.13"/></geometry></collision></link>
+<link name="top_cover"><visual ><geometry ><mesh filename="../meshes/top_cover.obj"/></geometry></visual><collision ><origin xyz="0 0 0.057" rpy="0 0 0"/><geometry ><box size="1.35 0.91 0.146"/></geometry></collision></link>
 <link name="left_wheel_link"><visual ><geometry ><mesh filename="../meshes/left_wheel_link.obj"/></geometry></visual></link>
 <link name="right_wheel_link"><visual ><geometry ><mesh filename="../meshes/right_wheel_link.obj"/></geometry></visual></link>
 <link name="fl_caster_wheel_link"><visual ><geometry ><mesh filename="../meshes/fl_caster_wheel_link.obj"/></geometry></visual></link>

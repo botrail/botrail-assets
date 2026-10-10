@@ -21,6 +21,64 @@ const black=namedMaterial('joint_seal','#121416',0.0,0.8);
 const box=(size,xyz)=>({kind:'box',size,xyz});
 const cyl=(radius,length,xyz,rpy=[0,0,0])=>({kind:'cylinder',radius,length,xyz,rpy});
 const G=()=>new THREE.Group();
+// Collision envelopes measured from the drawn parts, rounded outward to 0.1 mm.
+const up=v=>Math.ceil(v*1e4)/1e4, down=v=>Math.floor(v*1e4)/1e4;
+function partPoints(g,names){
+  g.updateMatrixWorld(true);const out=[],p=new THREE.Vector3();
+  const wanted=n=>names.some(m=>m.endsWith('*')?n.startsWith(m.slice(0,-1)):n===m);
+  for(const o of g.children) if(wanted(o.name)) o.traverse(m=>{
+    if(!m.isMesh) return;const a=m.geometry.attributes.position;
+    for(let i=0;i<a.count;i++) out.push(p.fromBufferAttribute(a,i).applyMatrix4(m.matrixWorld).toArray());
+  });
+  if(!out.length) throw new Error(`no drawn parts named ${names}`);
+  return out;
+}
+function boxOver(points){
+  const lo=[0,1,2].map(k=>down(points.reduce((m,p)=>Math.min(m,p[k]),Infinity)));
+  const hi=[0,1,2].map(k=>up(points.reduce((m,p)=>Math.max(m,p[k]),-Infinity)));
+  return box(hi.map((h,k)=>+(h-lo[k]).toFixed(4)),hi.map((h,k)=>+((h+lo[k])/2).toFixed(5)));
+}
+const around=(g,names)=>boxOver(partPoints(g,names));
+/** Cylinder about the x / y / z axis through `centre`, around the named parts. */
+function cylinderAround(g,names,axis,centre){
+  const P=partPoints(g,names),k='xyz'.indexOf(axis),[a,b]=[0,1,2].filter(i=>i!==k);
+  const r=up(P.reduce((m,p)=>Math.max(m,Math.hypot(p[a]-centre[a],p[b]-centre[b])),0));
+  const lo=down(P.reduce((m,p)=>Math.min(m,p[k]),Infinity)), hi=up(P.reduce((m,p)=>Math.max(m,p[k]),-Infinity));
+  const xyz=[...centre];xyz[k]=+((lo+hi)/2).toFixed(5);
+  return cyl(r,+(hi-lo).toFixed(4),xyz,axis==='x'?[0,Math.PI/2,0]:axis==='y'?[Math.PI/2,0,0]:[0,0,0]);
+}
+/** The named parts' surface cut into `count` equal slabs along an axis: for each slab, the vertices
+ * inside plus every triangle edge's crossing of its two planes (exact extremes of a faceted surface). */
+function slabPoints(g,names,axis,count){
+  g.updateMatrixWorld(true);const k='xyz'.indexOf(axis),tris=[];
+  const wanted=n=>names.some(m=>m.endsWith('*')?n.startsWith(m.slice(0,-1)):n===m);
+  for(const o of g.children) if(wanted(o.name)) o.traverse(m=>{
+    if(!m.isMesh) return;const a=m.geometry.attributes.position,idx=m.geometry.index;
+    const v=i=>new THREE.Vector3().fromBufferAttribute(a,i).applyMatrix4(m.matrixWorld).toArray();
+    const n=idx?idx.count:a.count;
+    for(let i=0;i<n;i+=3) tris.push([0,1,2].map(j=>v(idx?idx.getX(i+j):i+j)));
+  });
+  const all=tris.flat(), lo=Math.min(...all.map(p=>p[k])), hi=Math.max(...all.map(p=>p[k])), step=(hi-lo)/count;
+  return Array.from({length:count},(_,i)=>{
+    const a=lo+i*step, b=i===count-1?hi:a+step, pts=[];
+    for(const tri of tris) for(let e=0;e<3;e++){
+      const p=tri[e],q=tri[(e+1)%3];
+      if(p[k]>=a&&p[k]<=b) pts.push(p);
+      for(const plane of [a,b]) if((p[k]-plane)*(q[k]-plane)<0){const s=(plane-p[k])/(q[k]-p[k]);pts.push(p.map((c,j)=>c+s*(q[j]-c)));}
+    }
+    return pts;
+  });
+}
+/** Boxes over equal slabs of a casting along an axis. */
+const slabs=(g,names,axis,count)=>slabPoints(g,names,axis,count).map(boxOver);
+/** Stacked cylinders about an axis through `centre`, one per slab, for tapered round parts. */
+const stack=(g,names,axis,centre,count)=>slabPoints(g,names,axis,count).map(P=>{
+  const k='xyz'.indexOf(axis),[a,b]=[0,1,2].filter(i=>i!==k);
+  const r=up(P.reduce((m,p)=>Math.max(m,Math.hypot(p[a]-centre[a],p[b]-centre[b])),0));
+  const lo=down(P.reduce((m,p)=>Math.min(m,p[k]),Infinity)), hi=up(P.reduce((m,p)=>Math.max(m,p[k]),-Infinity));
+  const xyz=[...centre];xyz[k]=+((lo+hi)/2).toFixed(5);
+  return cyl(r,+(hi-lo).toFixed(4),xyz,axis==='x'?[0,Math.PI/2,0]:axis==='y'?[Math.PI/2,0,0]:[0,0,0]);
+});
 const fixed=(name,parent,child,xyz=[0,0,0],rpy=[0,0,0])=>({name,type:'fixed',parent,child,xyz,rpy});
 
 // Cast-envelope coordinates below are independently estimated from photographs
@@ -187,14 +245,30 @@ export function definition() {
   flangeLayer('flange_threaded_bore_depth',.0235,.0275,0,boltHoles);
   flangeLayer('flange_locator_bore_depth',.0275,.0295,0,[...boltHoles,locator]);
   flangeLayer('flange_recess_and_face',.0295,.0375,.05,[...boltHoles,locator]);
+  // Collision: boxes and axis cylinders around the drawn parts (castings in slabs), so each link's
+  // collision encloses its visual. Not a certified clearance envelope; cables and the moving
+  // counterbalance (viewer only) are not represented.
   const links=[
-    {name:'base_link',visual:base,collisions:[box([0.79,0.71,0.085],[0,0,0.0425]),cyl(0.32,0.23,[0,0,0.20])]},
-    {name:'link_1',visual:column,collisions:[box([0.50,0.46,0.34],[0.10,0,0.19]),cyl(0.20,0.42,origins[1],[Math.PI/2,0,0])]},
-    {name:'link_2',visual:upper,collisions:[box([0.34,0.30,1.10],[0,-0.12,0.625])]},
-    {name:'link_3',visual:elbow,collisions:[box([0.82,0.31,0.30],[0.46,0.15,-0.03])]},
-    {name:'link_4',visual:forearm,collisions:[cyl(0.115,0.49,[0.25,0,0],[0,Math.PI/2,0])]},
-    {name:'link_5',visual:wrist,collisions:[cyl(0.10,0.16,[0.08,0,0],[0,Math.PI/2,0])]},
-    {name:'link_6',visual:flange,collisions:[cyl(0.10,0.0375,[0.01875,0,-0.00023924],[0,Math.PI/2,0])]},
+    {name:'base_link',visual:base,collisions:[around(base,['flared_mounting_rim','mounting_rim_pad_*']),
+      ...stack(base,['a1_tapered_skirt','a1_seal'],'z',[0,0,0],4)]},
+    {name:'link_1',visual:column,collisions:[cylinderAround(column,['rotating_table','rotating_table_upper'],'z',[0,0,0]),
+      ...slabs(column,['curved_shoulder_casting'],'x',8),
+      cylinderAround(column,['a2_fixed_bearing','a2_reducer_cover','a2_bearing_seal'],'y',origins[1]),
+      around(column,['a2_drive_body','a2_drive_end','a2_drive_mount']),around(column,['rear_connection_cover']),
+      around(column,['balancer_rear_bracket_near','balancer_rear_pin_near']),around(column,['balancer_rear_bracket_far','balancer_rear_pin_far'])]},
+    {name:'link_2',visual:upper,collisions:[cylinderAround(upper,['a2_rotating_hub','a2_outer_seal','a2_outer_cover'],'y',[0,0,0]),
+      ...slabs(upper,['link_arm_casting'],'z',6),...slabs(upper,['continuous_arm_face_and_open_crescent'],'z',6),
+      cylinderAround(upper,['a3_bearing','a3_outer_cover'],'y',origins[2]),
+      around(upper,['a3_drive_body','a3_drive_adapter','a3_drive_rear_cover']),around(upper,['balancer_moving_clevis','balancer_moving_pin'])]},
+    {name:'link_3',visual:elbow,collisions:[cylinderAround(elbow,['elbow_hub'],'y',[0,0,0]),
+      ...slabs(elbow,['forearm_casting'],'x',3),
+      cylinderAround(elbow,['l150_extension_tube','extension_root_ring','extension_end_ring','a4_seal'],'x',origins[3]),
+      around(elbow,['elbow_motor_*'])]},
+    {name:'link_4',visual:forearm,collisions:[cylinderAround(forearm,['a4_rotating_collar'],'x',[0,0,0]),cylinderAround(forearm,['wrist_drive_neck'],'x',[0,0,0]),
+      around(forearm,['wrist_fork_near']),around(forearm,['wrist_fork_far']),around(forearm,['wrist_side_seal','wrist_side_cover'])]},
+    {name:'link_5',visual:wrist,collisions:[cylinderAround(wrist,['a5_housing'],'y',[0,0,0]),
+      cylinderAround(wrist,['wrist_nose','a6_seal'],'x',[0,0,0])]},
+    {name:'link_6',visual:flange,collisions:[cylinderAround(flange,['flange_*'],'x',[0,0,0])]},
     {name:'tool0'},{name:'flange'},{name:'Link1'},
   ];
   const axes=[[0,0,1],[0,1,0],[0,1,0],[1,0,0],[0,1,0],[1,0,0]];

@@ -56,10 +56,25 @@ test('four commanded axes, passive links follow, primitive collisions, no fabric
 });
 
 
-test('all link frames, joints, axes, limits, mimics and primitive collisions match the pre-refinement contract',()=>{
+test('all link frames, joints, axes, limits and mimics match the pre-refinement contract',()=>{
  const def=definition(),baseline=JSON.parse(fs.readFileSync(new URL('./kinematics-baseline.json',import.meta.url)));
- assert.deepEqual({name:def.name,joints:def.joints,links:def.links.map(({visual,...v})=>v)},baseline);
+ assert.deepEqual({name:def.name,joints:def.joints,links:def.links.map(({visual,collisions,...v})=>v)},baseline);
  assert.equal(fs.readFileSync(new URL('../urdf/fanuc-m410ic-185.urdf',import.meta.url),'utf8'),urdf(def));
+});
+
+test('every link visual lies inside its collision boxes and cylinders (2026-10-10)',()=>{
+ const outside=(c,q)=>c.kind==='box'
+  ?Math.hypot(...[q.x,q.y,q.z].map((v,k)=>Math.max(Math.abs(v)-c.size[k]/2,0)))
+  :Math.hypot(Math.max(Math.hypot(q.x,q.y)-c.radius,0),Math.max(Math.abs(q.z)-c.length/2,0));
+ for(const link of definition().links.filter(l=>l.visual)){
+  const frames=link.collisions.map(c=>new THREE.Matrix4().compose(new THREE.Vector3(...c.xyz),
+   new THREE.Quaternion().setFromEuler(new THREE.Euler(...(c.rpy??[0,0,0]),'ZYX')),new THREE.Vector3(1,1,1)).invert());
+  link.visual.updateMatrixWorld(true);const p=new THREE.Vector3();let worst=0;
+  link.visual.traverse(o=>{if(!o.isMesh)return;const a=o.geometry.attributes.position;
+   for(let i=0;i<a.count;i++){p.fromBufferAttribute(a,i).applyMatrix4(o.matrixWorld);
+    worst=Math.max(worst,Math.min(...link.collisions.map((c,j)=>outside(c,p.clone().applyMatrix4(frames[j])))));}});
+  assert.ok(worst<1e-6,`${link.name}: ${worst*1000} mm outside`);
+ }
 });
 
 test('front lower-arm recesses have geometric depth and are absent from the side faces',()=>{

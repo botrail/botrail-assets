@@ -219,18 +219,20 @@ export function definition(mast='tx') {
   // belongs to another photographed configuration and is intentionally absent.
   disk(outer,'scanner_post_foot',.063,.017,black,[mastX,0,v.mastLowered+.007]);
   disk(outer,'scanner_post_collar',.044,.020,hub,[mastX,0,v.scannerEye-.13]);
+  // Collision: the two channels; the foot and head ties where they are drawn, behind the channels,
+  // so the stages and the carriage rollers run through an open mast; the scanner post and its foot.
   links.push({name:'mast_outer',visual:outer,collisions:[
     ...[-1,1].map(sy=>box([d.mastChannel[0],d.mastChannel[1],H0],[mastX,sy*d.mastY[0],0.06+H0/2])),
-    box([d.mastChannel[0],2*d.mastY[0]+d.mastChannel[1],0.08],[mastX,0,0.10]),
-    box([d.mastChannel[0],2*d.mastY[0]+d.mastChannel[1],0.08],[mastX,0,v.mastLowered-0.04]),
-    box([0.11,0.11,v.scannerTop-v.mastLowered],[mastX,0,(v.mastLowered+v.scannerTop)/2]),
+    around(outer,n=>n==='outer_foot'),around(outer,n=>n==='outer_head'),
+    box([0.11,0.11,v.scannerTop-v.mastLowered],[mastX,0,(v.mastLowered+v.scannerTop)/2]),around(outer,n=>n==='scanner_post_foot'),
+    around(outer,n=>n==='nav_scanner_window'),
     // The HMI crossbar with its lights and stops, and the two stays that carry it.
     around(outer,n=>n.startsWith('hmi_')&&!n.startsWith('hmi_stay_')),
     ...[-1,1].map(sy=>bar([mastX-.025,sy*.267,1.01],[hmiX,sy*.267,hmiZ-.065],.018)),
-    // Beacon, foot pins and the top shrouds; the shrouds stop 1 mm short of the carriage block.
+    // Beacon, foot pins and the two top shrouds.
     around(outer,n=>n==='beacon'),
     ...[-1,1].map(sy=>around(outer,n=>n===`mast_foot_pin_${sy}`)),
-    ...[-1,1].map(sy=>box([.1275,.135,.235],[mastX-.00475,sy*.270,v.mastLowered-.118])),
+    ...[-1,1].map(sy=>around(outer,n=>n===`mast_top_shroud_web_${sy}`||n.startsWith(`mast_top_shroud_flange_${sy}_`))),
   ]});
   joints.push(fixed('mast_outer_joint','base_link','mast_outer'));
 
@@ -246,7 +248,9 @@ export function definition(mast='tx') {
     const bridgeZ=z0+(tag==='stage'?.025:.035);
     addMesh(g,`${tag}_crossmember`,roundedBox([.010,2*y+cy,.030],.004,2),material,[mastX+headX,0,bridgeZ]);
     for(const sy of [-1,1])rb(g,`${tag}_crossmember_ear_${sy}`,[Math.abs(headX)+.010-cx/2,.018,.020],.003,material,[mastX+(headX+cx/2)/2,sy*earY,bridgeZ]);
-    return [...[-1,1].map(sy=>box([cx,cy,h],[mastX,sy*y,z0+h/2])),box([cx,2*y+cy,0.06],[mastX,0,z0+h-0.03])];
+    // Collision: the two channels and the lower crossmember with its ears, as drawn (no top tie is drawn).
+    return [...[-1,1].map(sy=>box([cx,cy,h],[mastX,sy*y,z0+h/2])),
+      around(g,n=>n===`${tag}_crossmember`),...[-1,1].map(sy=>around(g,n=>n===`${tag}_crossmember_ear_${sy}`))];
   };
   const prismaticZ=(name,parent,child,upper,velocity,mimic)=>({name,type:'prismatic',parent,child,xyz:[0,0,0],axis:[0,0,1],
     limit:{lower:0,upper:Number(upper.toPrecision(12)),velocity,effort:20000},...(mimic?{mimic}:{})});
@@ -287,10 +291,14 @@ export function definition(mast='tx') {
     }
   }
   // Collision: plate, ties, stiles and fork shanks as one block from the plate's back to the fork
-  // face, up to the shank tops (h4 - h23), and the two tines. The guide rollers run inside the mast.
+  // face, up to the shank tops (h4 - h23); the two tines; and each guide-roller set (roller, axle,
+  // mount) in the inner channel, stopping 0.5 mm short of the middle stage's channel envelope.
+  const rollerY=[.130-.033,d.mastY[1]-d.stageChannel[1]/2-.0005], rollerX=[-d.mastSetback-.030,-.050];
   links.push({name:'carriage',visual:car,collisions:[
-    box([0.10,cy,backrest+s],[-0.05,0,(backrest-s)/2]),
+    box([0.05,cy,backrest+0.01],[-0.025,0,(backrest-0.01)/2]),
     ...[-1,1].map(sy=>box([l,e,s],[l/2,sy*forkY,-s/2])),
+    ...[-1,1].flatMap(sy=>[.15,.30].map(z=>box([rollerX[1]-rollerX[0],rollerY[1]-rollerY[0],.060],
+      [(rollerX[0]+rollerX[1])/2,sy*(rollerY[0]+rollerY[1])/2,z]))),
   ]});
   const seat=[xf,0,d.forkLowered];
   if(mast==='tx') joints.push({...prismaticZ('free_lift','mast_inner','carriage',v.freeLift,d.liftSpeed),xyz:seat});

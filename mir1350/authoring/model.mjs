@@ -143,7 +143,9 @@ export function definition(){
  }
  // Shallow screw-head marks, not drilled mounting geometry or a claimed pattern.
  for(const x of [-.485,0,.485])for(const y of [-.235,.235])screw(cover,`deck_screw_${x}_${y}`,x,y,z(.3205));
- links.push({name:'top_cover',visual:cover,collisions:[box([L,W,d.height-d.deck],[0,0,(d.height-d.deck)/2])]});
+ // The recessed body's side reveals reach below the deck plane; the box follows the visual down to them.
+ const coverLow=Math.floor(new THREE.Box3().setFromObject(cover).min.z*1e4)/1e4;
+ links.push({name:'top_cover',visual:cover,collisions:[box([L,W,d.height-d.deck-coverLow],[0,0,(d.height-d.deck+coverLow)/2])]});
  joints.push(fixed('top_cover_joint','base_link','top_cover',[0,0,d.deck]));
  const wheel=(name,parent,radius,width,xyz)=>{
   const g=G(),mat=radius>.075?M.drive:M.caster;

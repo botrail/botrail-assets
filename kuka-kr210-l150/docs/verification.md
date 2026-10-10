@@ -49,3 +49,17 @@ This is a proposed next revision for review; pinned catalog revisions are unchan
 Public source links and exact/inferred values are in the model README and
 `authoring/provenance.json`. Copyrighted reference photographs are linked there,
 not embedded in the archive or previews.
+
+## Collision revision (2026-10-10)
+
+The inherited collision primitives (the visual stood up to 505 mm outside them) were replaced by boxes and
+axis cylinders computed from the drawn parts: castings as slab boxes (each covering its clipped surface:
+vertices inside plus triangle-edge crossings of the slab planes), the base skirt as stacked cylinders.
+Joints, frames, limits and the visual meshes are unchanged.
+
+- Every link visual lies inside its collision (new test, 1 µm)
+- 4000 random poses, non-adjacent contact: visual meshes 1.0 %, new collision 1.5 %, old collision 3.9 %.
+  The new collision catches every pair the visuals touch; the old false wrist contact (link_4 x link_6,
+  3.3 %) is gone. The remaining excess is the turret's curved casting against link_4 (0.7 % vs 0.1 %)
+- The catalog build: neutral pose free of self-collision, TCP clear
+- URDF SHA-256 `9cb45d654393…`; 15 model tests and `--check` pass

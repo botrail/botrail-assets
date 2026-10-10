@@ -41,9 +41,25 @@ import {createScene,balancerState,poseValues} from './scene.mjs';
 import {balancerAnchors} from './model.mjs';
 const baseline=JSON.parse(fs.readFileSync(new URL('./kinematics-baseline.json',import.meta.url),'utf8'));
 
-test('complete URDF contract is byte-identical to e1565dd: frames, signs, limits and collisions',()=>{
+test('URDF matches the 2026-10-10 contract: e1565dd frames, signs and limits, collision around the visual',()=>{
   assert.equal(createHash('sha256').update(urdf(definition())).digest('hex'),
-    'e28a9f8a2a5e0c4f4677c03a8ed9c75c87c8f9f4e5c9237af5043a29e8ea09ce');
+    '9cb45d654393668b415a6f831a504ffd410505d937dcde6c10f3002f1bd80933');
+  assert.equal(fs.readFileSync(new URL('../urdf/kuka-kr210-l150.urdf',import.meta.url),'utf8'),urdf(definition()));
+});
+
+test('every link visual lies inside its collision boxes and cylinders',()=>{
+  const outside=(c,q)=>c.kind==='box'
+    ? Math.hypot(...[q.x,q.y,q.z].map((v,k)=>Math.max(Math.abs(v)-c.size[k]/2,0)))
+    : Math.hypot(Math.max(Math.hypot(q.x,q.y)-c.radius,0),Math.max(Math.abs(q.z)-c.length/2,0));
+  for(const link of definition().links.filter(l=>l.visual)) {
+    const frames=link.collisions.map(c=>new THREE.Matrix4().compose(new THREE.Vector3(...c.xyz),
+      new THREE.Quaternion().setFromEuler(new THREE.Euler(...(c.rpy??[0,0,0]),'ZYX')),new THREE.Vector3(1,1,1)).invert());
+    link.visual.updateMatrixWorld(true);const p=new THREE.Vector3();let worst=0;
+    link.visual.traverse(o=>{if(!o.isMesh)return;const a=o.geometry.attributes.position;
+      for(let i=0;i<a.count;i++){p.fromBufferAttribute(a,i).applyMatrix4(o.matrixWorld);
+        worst=Math.max(worst,Math.min(...link.collisions.map((c,j)=>outside(c,p.clone().applyMatrix4(frames[j])))));}});
+    assert.ok(worst<1e-6,`${link.name}: ${worst*1000} mm outside`);
+  }
 });
 
 test('all legacy link matrices match independently frozen FK in five poses including joint limits',()=>{

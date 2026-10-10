@@ -80,7 +80,7 @@
   "kinematics_caution": "Keep existing explicitly chosen ROS-I origins/conventions unless separately authorized to change. Manufacturer electrical-zero A2/A3 limits differ from ROS-I planning convention; do not merge them silently.",
   "research_date": "2026-10-08",
   "implementation": {
-    "export": "URDF byte-identical to e1565dd; original OBJ/MTL replaced for a proposed new catalog revision, not a replacement of pinned r2",
+    "export": "Joints, frames and limits identical to e1565dd; collision rebuilt 2026-10-10 as boxes and axis cylinders around the drawn parts; original OBJ/MTL replaced for catalog revision r3, not a replacement of pinned r2",
     "balancer": "Rigid brackets are exported. Complete barrel and piston are viewer-only, computed from two visually estimated anchors; no nonlinear mechanism is frozen into the URDF. No dynamic model, stroke rating, or collision proxy.",
     "flange": "Public nominal diameters and depths. Thread bores are plain cylinders of nominal 10 mm diameter, no helical threads or fit/tolerance guarantee. Pattern clocking relative to ROS-I A6 zero remains a reference convention.",
     "omitted": "Installation-specific dress pack, welding tool, brand labels, base mounting holes, dynamics, calibrated counterbalance forces."

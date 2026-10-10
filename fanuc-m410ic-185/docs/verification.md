@@ -58,3 +58,20 @@ input. See `../authoring/provenance.json` for source URLs and the exact fact/est
   wrist-bore size is claimed
 - Publication scope is a separate draft pull request only. No merge, catalog rev
   change or deployment is included
+
+## Collision revision (2026-10-10)
+
+The narrowed primitives (kept clear of the arms; the visual stood up to 537 mm outside them) were replaced by
+boxes, axis cylinders, a pitched crank box and casting slabs computed from the drawn parts. Joints, mimic
+rules, frames, limits and the visual meshes are unchanged; the kinematics baseline no longer carries the
+superseded collision primitives.
+
+- Every link visual lies inside its collision (new test, 1 µm)
+- 4000 random poses (independent J2/J3, so many lie beyond the real J2/J3 interference limit): pinned pairs
+  overlap in every pose (allowed automatically); poses with a false-positive pair 14.3 % (old 20.1 %) and with a
+  false-negative pair 0.1 % (old 100 %, the narrowed rods missed every real contact)
+- The drawn level rods overlap the arm they run beside (the lower rod and the lower arm's elbow seal by
+  about 13 mm, in 11 % of poses with J2 -20..60 / J3 -60..0); the catalog declares both rod/arm pairs.
+  The rods against the other arm meet only in folded poses the interference limit forbids
+- The catalog build: neutral pose free of self-collision, TCP clear
+- URDF SHA-256 `5fed7266f395…`; 12 model tests, `--check` and the OBJ audit pass
