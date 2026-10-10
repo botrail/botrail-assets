@@ -7,6 +7,7 @@ on:
       - 'universal-robots-ur-series/**'
       - 'kuka-kr210-l150/**'
       - 'daihen-wb-p352l/**'
+      - 'daihen-cm-7403/**'
       - 'fanuc-m410ic-185/**'
       - 'mir250/**'
       - 'mir1350/**'
@@ -34,6 +35,7 @@ on:
       - 'universal-robots-ur-series/**'
       - 'kuka-kr210-l150/**'
       - 'daihen-wb-p352l/**'
+      - 'daihen-cm-7403/**'
       - 'fanuc-m410ic-185/**'
       - 'mir250/**'
       - 'mir1350/**'
@@ -130,3 +132,9 @@ jobs:
           npm --prefix toyota-sae160/authoring test
           npm --prefix toyota-sae160/authoring run check
           python3 toyota-sae160/authoring/verify_obj.py
+
+      - name: DAIHEN CM-7403 geometry and legacy compatibility
+        run: |
+          npm --prefix daihen-cm-7403/authoring test
+          npm --prefix daihen-cm-7403/authoring run check
+          python3 daihen-cm-7403/authoring/verify_obj.py
