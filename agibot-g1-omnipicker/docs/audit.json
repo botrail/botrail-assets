@@ -1,0 +1,1206 @@
+{
+  "scope": "Analytic OBB broadphase only: cylinders bounded by boxes; overlap is a candidate, not proof of visual collision; adjacent links omitted.",
+  "meshes": 170,
+  "rawTriangles": 62176,
+  "triangles": 62064,
+  "topologyFailures": [],
+  "nonadjacentProxyOverlapCandidates": {
+    "zero": [],
+    "travel": [],
+    "raised": [],
+    "reach": [],
+    "head_turn": []
+  },
+  "components": [
+    {
+      "link": "base_link",
+      "component": "continuous_floor_bumper",
+      "triangles": 588,
+      "collapsedSeamTriangles": 0,
+      "boundaryOrNonmanifoldEdges": 0
+    },
+    {
+      "link": "base_link",
+      "component": "lower_mobile_chassis",
+      "triangles": 384,
+      "collapsedSeamTriangles": 0,
+      "boundaryOrNonmanifoldEdges": 0
+    },
+    {
+      "link": "base_link",
+      "component": "dark_upper_belt",
+      "triangles": 588,
+      "collapsedSeamTriangles": 0,
+      "boundaryOrNonmanifoldEdges": 0
+    },
+    {
+      "link": "base_link",
+      "component": "wheel_tyre_-1",
+      "triangles": 128,
+      "collapsedSeamTriangles": 0,
+      "boundaryOrNonmanifoldEdges": 0
+    },
+    {
+      "link": "base_link",
+      "component": "wheel_rim_-1",
+      "triangles": 128,
+      "collapsedSeamTriangles": 0,
+      "boundaryOrNonmanifoldEdges": 0
+    },
+    {
+      "link": "base_link",
+      "component": "wheel_hub_-1",
+      "triangles": 128,
+      "collapsedSeamTriangles": 0,
+      "boundaryOrNonmanifoldEdges": 0
+    },
+    {
+      "link": "base_link",
+      "component": "wheel_tyre_1",
+      "triangles": 128,
+      "collapsedSeamTriangles": 0,
+      "boundaryOrNonmanifoldEdges": 0
+    },
+    {
+      "link": "base_link",
+      "component": "wheel_rim_1",
+      "triangles": 128,
+      "collapsedSeamTriangles": 0,
+      "boundaryOrNonmanifoldEdges": 0
+    },
+    {
+      "link": "base_link",
+      "component": "wheel_hub_1",
+      "triangles": 128,
+      "collapsedSeamTriangles": 0,
+      "boundaryOrNonmanifoldEdges": 0
+    },
+    {
+      "link": "base_link",
+      "component": "upper_platform_grey_lip",
+      "triangles": 588,
+      "collapsedSeamTriangles": 0,
+      "boundaryOrNonmanifoldEdges": 0
+    },
+    {
+      "link": "base_link",
+      "component": "upper_platform_white_deck",
+      "triangles": 588,
+      "collapsedSeamTriangles": 0,
+      "boundaryOrNonmanifoldEdges": 0
+    },
+    {
+      "link": "base_link",
+      "component": "deck_support_-0.17",
+      "triangles": 128,
+      "collapsedSeamTriangles": 0,
+      "boundaryOrNonmanifoldEdges": 0
+    },
+    {
+      "link": "base_link",
+      "component": "deck_support_0.17",
+      "triangles": 128,
+      "collapsedSeamTriangles": 0,
+      "boundaryOrNonmanifoldEdges": 0
+    },
+    {
+      "link": "base_link",
+      "component": "under_deck_structure",
+      "triangles": 588,
+      "collapsedSeamTriangles": 0,
+      "boundaryOrNonmanifoldEdges": 0
+    },
+    {
+      "link": "base_link",
+      "component": "rear_mast",
+      "triangles": 672,
+      "collapsedSeamTriangles": 0,
+      "boundaryOrNonmanifoldEdges": 0
+    },
+    {
+      "link": "base_link",
+      "component": "mast_front_channel",
+      "triangles": 588,
+      "collapsedSeamTriangles": 0,
+      "boundaryOrNonmanifoldEdges": 0
+    },
+    {
+      "link": "base_link",
+      "component": "lift_rail_-1",
+      "triangles": 588,
+      "collapsedSeamTriangles": 0,
+      "boundaryOrNonmanifoldEdges": 0
+    },
+    {
+      "link": "base_link",
+      "component": "lift_rail_1",
+      "triangles": 588,
+      "collapsedSeamTriangles": 0,
+      "boundaryOrNonmanifoldEdges": 0
+    },
+    {
+      "link": "base_link",
+      "component": "rear_upper_panel",
+      "triangles": 588,
+      "collapsedSeamTriangles": 0,
+      "boundaryOrNonmanifoldEdges": 0
+    },
+    {
+      "link": "base_link",
+      "component": "rear_display_glass",
+      "triangles": 588,
+      "collapsedSeamTriangles": 0,
+      "boundaryOrNonmanifoldEdges": 0
+    },
+    {
+      "link": "base_link",
+      "component": "stop_button_stem",
+      "triangles": 128,
+      "collapsedSeamTriangles": 0,
+      "boundaryOrNonmanifoldEdges": 0
+    },
+    {
+      "link": "base_link",
+      "component": "emergency_stop",
+      "triangles": 128,
+      "collapsedSeamTriangles": 0,
+      "boundaryOrNonmanifoldEdges": 0
+    },
+    {
+      "link": "base_link",
+      "component": "front_corner_light_-1",
+      "triangles": 588,
+      "collapsedSeamTriangles": 0,
+      "boundaryOrNonmanifoldEdges": 0
+    },
+    {
+      "link": "base_link",
+      "component": "front_ultrasonic_-1",
+      "triangles": 128,
+      "collapsedSeamTriangles": 0,
+      "boundaryOrNonmanifoldEdges": 0
+    },
+    {
+      "link": "base_link",
+      "component": "rear_control_-1",
+      "triangles": 128,
+      "collapsedSeamTriangles": 0,
+      "boundaryOrNonmanifoldEdges": 0
+    },
+    {
+      "link": "base_link",
+      "component": "front_corner_light_1",
+      "triangles": 588,
+      "collapsedSeamTriangles": 0,
+      "boundaryOrNonmanifoldEdges": 0
+    },
+    {
+      "link": "base_link",
+      "component": "front_ultrasonic_1",
+      "triangles": 128,
+      "collapsedSeamTriangles": 0,
+      "boundaryOrNonmanifoldEdges": 0
+    },
+    {
+      "link": "base_link",
+      "component": "rear_control_1",
+      "triangles": 128,
+      "collapsedSeamTriangles": 0,
+      "boundaryOrNonmanifoldEdges": 0
+    },
+    {
+      "link": "base_link",
+      "component": "front_depth_camera_border",
+      "triangles": 532,
+      "collapsedSeamTriangles": 56,
+      "boundaryOrNonmanifoldEdges": 0
+    },
+    {
+      "link": "base_link",
+      "component": "front_depth_camera",
+      "triangles": 588,
+      "collapsedSeamTriangles": 0,
+      "boundaryOrNonmanifoldEdges": 0
+    },
+    {
+      "link": "base_link",
+      "component": "rear_controls_support",
+      "triangles": 588,
+      "collapsedSeamTriangles": 0,
+      "boundaryOrNonmanifoldEdges": 0
+    },
+    {
+      "link": "base_link",
+      "component": "rear_service_hatch",
+      "triangles": 532,
+      "collapsedSeamTriangles": 56,
+      "boundaryOrNonmanifoldEdges": 0
+    },
+    {
+      "link": "torso",
+      "component": "flexible_waist",
+      "triangles": 384,
+      "collapsedSeamTriangles": 0,
+      "boundaryOrNonmanifoldEdges": 0
+    },
+    {
+      "link": "torso",
+      "component": "sculpted_chest",
+      "triangles": 576,
+      "collapsedSeamTriangles": 0,
+      "boundaryOrNonmanifoldEdges": 0
+    },
+    {
+      "link": "torso",
+      "component": "rear_lift_carriage",
+      "triangles": 588,
+      "collapsedSeamTriangles": 0,
+      "boundaryOrNonmanifoldEdges": 0
+    },
+    {
+      "link": "torso",
+      "component": "chest_arc_trim",
+      "triangles": 528,
+      "collapsedSeamTriangles": 0,
+      "boundaryOrNonmanifoldEdges": 0
+    },
+    {
+      "link": "neck",
+      "component": "neck_gaiter",
+      "triangles": 288,
+      "collapsedSeamTriangles": 0,
+      "boundaryOrNonmanifoldEdges": 0
+    },
+    {
+      "link": "head",
+      "component": "white_head_shell",
+      "triangles": 1216,
+      "collapsedSeamTriangles": 0,
+      "boundaryOrNonmanifoldEdges": 0
+    },
+    {
+      "link": "head",
+      "component": "black_face_shield",
+      "triangles": 1216,
+      "collapsedSeamTriangles": 0,
+      "boundaryOrNonmanifoldEdges": 0
+    },
+    {
+      "link": "head",
+      "component": "horizontal_camera_bar",
+      "triangles": 588,
+      "collapsedSeamTriangles": 0,
+      "boundaryOrNonmanifoldEdges": 0
+    },
+    {
+      "link": "head",
+      "component": "bar_camera_-1",
+      "triangles": 128,
+      "collapsedSeamTriangles": 0,
+      "boundaryOrNonmanifoldEdges": 0
+    },
+    {
+      "link": "head",
+      "component": "face_camera_-1",
+      "triangles": 128,
+      "collapsedSeamTriangles": 0,
+      "boundaryOrNonmanifoldEdges": 0
+    },
+    {
+      "link": "head",
+      "component": "bar_camera_1",
+      "triangles": 128,
+      "collapsedSeamTriangles": 0,
+      "boundaryOrNonmanifoldEdges": 0
+    },
+    {
+      "link": "head",
+      "component": "face_camera_1",
+      "triangles": 128,
+      "collapsedSeamTriangles": 0,
+      "boundaryOrNonmanifoldEdges": 0
+    },
+    {
+      "link": "left_shoulder",
+      "component": "left_shoulder_socket",
+      "triangles": 128,
+      "collapsedSeamTriangles": 0,
+      "boundaryOrNonmanifoldEdges": 0
+    },
+    {
+      "link": "left_shoulder",
+      "component": "left_shoulder_disc",
+      "triangles": 128,
+      "collapsedSeamTriangles": 0,
+      "boundaryOrNonmanifoldEdges": 0
+    },
+    {
+      "link": "left_upper_arm",
+      "component": "left_upper_shell",
+      "triangles": 480,
+      "collapsedSeamTriangles": 0,
+      "boundaryOrNonmanifoldEdges": 0
+    },
+    {
+      "link": "left_upper_arm",
+      "component": "left_upper_shell_seam",
+      "triangles": 128,
+      "collapsedSeamTriangles": 0,
+      "boundaryOrNonmanifoldEdges": 0
+    },
+    {
+      "link": "left_elbow",
+      "component": "left_elbow_housing",
+      "triangles": 1216,
+      "collapsedSeamTriangles": 0,
+      "boundaryOrNonmanifoldEdges": 0
+    },
+    {
+      "link": "left_elbow",
+      "component": "left_elbow_endcap",
+      "triangles": 128,
+      "collapsedSeamTriangles": 0,
+      "boundaryOrNonmanifoldEdges": 0
+    },
+    {
+      "link": "left_forearm",
+      "component": "left_forearm_shell",
+      "triangles": 480,
+      "collapsedSeamTriangles": 0,
+      "boundaryOrNonmanifoldEdges": 0
+    },
+    {
+      "link": "left_forearm",
+      "component": "left_forearm_shell_seam",
+      "triangles": 128,
+      "collapsedSeamTriangles": 0,
+      "boundaryOrNonmanifoldEdges": 0
+    },
+    {
+      "link": "left_wrist",
+      "component": "left_wrist_shell",
+      "triangles": 480,
+      "collapsedSeamTriangles": 0,
+      "boundaryOrNonmanifoldEdges": 0
+    },
+    {
+      "link": "left_wrist",
+      "component": "left_wrist_shell_seam",
+      "triangles": 128,
+      "collapsedSeamTriangles": 0,
+      "boundaryOrNonmanifoldEdges": 0
+    },
+    {
+      "link": "left_wrist",
+      "component": "left_wrist_pivot_sleeve",
+      "triangles": 1216,
+      "collapsedSeamTriangles": 0,
+      "boundaryOrNonmanifoldEdges": 0
+    },
+    {
+      "link": "left_wrist",
+      "component": "left_wrist_distal_sleeve",
+      "triangles": 128,
+      "collapsedSeamTriangles": 0,
+      "boundaryOrNonmanifoldEdges": 0
+    },
+    {
+      "link": "left_flange",
+      "component": "left_metal_wrist_flange",
+      "triangles": 128,
+      "collapsedSeamTriangles": 0,
+      "boundaryOrNonmanifoldEdges": 0
+    },
+    {
+      "link": "left_flange",
+      "component": "left_cyan_wrist_status",
+      "triangles": 128,
+      "collapsedSeamTriangles": 0,
+      "boundaryOrNonmanifoldEdges": 0
+    },
+    {
+      "link": "left_gripper",
+      "component": "omnipicker_black_motor",
+      "triangles": 128,
+      "collapsedSeamTriangles": 0,
+      "boundaryOrNonmanifoldEdges": 0
+    },
+    {
+      "link": "left_gripper",
+      "component": "omnipicker_mount_rim",
+      "triangles": 128,
+      "collapsedSeamTriangles": 0,
+      "boundaryOrNonmanifoldEdges": 0
+    },
+    {
+      "link": "left_gripper",
+      "component": "omnipicker_palm",
+      "triangles": 588,
+      "collapsedSeamTriangles": 0,
+      "boundaryOrNonmanifoldEdges": 0
+    },
+    {
+      "link": "left_gripper",
+      "component": "palm_screw_-0.028",
+      "triangles": 128,
+      "collapsedSeamTriangles": 0,
+      "boundaryOrNonmanifoldEdges": 0
+    },
+    {
+      "link": "left_gripper",
+      "component": "palm_screw_0.028",
+      "triangles": 128,
+      "collapsedSeamTriangles": 0,
+      "boundaryOrNonmanifoldEdges": 0
+    },
+    {
+      "link": "left_finger_right_drive",
+      "component": "adaptive_primary_link_-0.019",
+      "triangles": 260,
+      "collapsedSeamTriangles": 0,
+      "boundaryOrNonmanifoldEdges": 0
+    },
+    {
+      "link": "left_finger_right_drive",
+      "component": "adaptive_parallel_link_-0.019",
+      "triangles": 260,
+      "collapsedSeamTriangles": 0,
+      "boundaryOrNonmanifoldEdges": 0
+    },
+    {
+      "link": "left_finger_right_drive",
+      "component": "finger_pivot_-0.019_0_0",
+      "triangles": 128,
+      "collapsedSeamTriangles": 0,
+      "boundaryOrNonmanifoldEdges": 0
+    },
+    {
+      "link": "left_finger_right_drive",
+      "component": "finger_pivot_-0.019_0_-0.013",
+      "triangles": 128,
+      "collapsedSeamTriangles": 0,
+      "boundaryOrNonmanifoldEdges": 0
+    },
+    {
+      "link": "left_finger_right_drive",
+      "component": "finger_pivot_-0.019_-0.07_0",
+      "triangles": 128,
+      "collapsedSeamTriangles": 0,
+      "boundaryOrNonmanifoldEdges": 0
+    },
+    {
+      "link": "left_finger_right_drive",
+      "component": "finger_pivot_-0.019_-0.07_-0.013",
+      "triangles": 128,
+      "collapsedSeamTriangles": 0,
+      "boundaryOrNonmanifoldEdges": 0
+    },
+    {
+      "link": "left_finger_right_drive",
+      "component": "adaptive_primary_link_0.019",
+      "triangles": 260,
+      "collapsedSeamTriangles": 0,
+      "boundaryOrNonmanifoldEdges": 0
+    },
+    {
+      "link": "left_finger_right_drive",
+      "component": "adaptive_parallel_link_0.019",
+      "triangles": 260,
+      "collapsedSeamTriangles": 0,
+      "boundaryOrNonmanifoldEdges": 0
+    },
+    {
+      "link": "left_finger_right_drive",
+      "component": "finger_pivot_0.019_0_0",
+      "triangles": 128,
+      "collapsedSeamTriangles": 0,
+      "boundaryOrNonmanifoldEdges": 0
+    },
+    {
+      "link": "left_finger_right_drive",
+      "component": "finger_pivot_0.019_0_-0.013",
+      "triangles": 128,
+      "collapsedSeamTriangles": 0,
+      "boundaryOrNonmanifoldEdges": 0
+    },
+    {
+      "link": "left_finger_right_drive",
+      "component": "finger_pivot_0.019_-0.07_0",
+      "triangles": 128,
+      "collapsedSeamTriangles": 0,
+      "boundaryOrNonmanifoldEdges": 0
+    },
+    {
+      "link": "left_finger_right_drive",
+      "component": "finger_pivot_0.019_-0.07_-0.013",
+      "triangles": 128,
+      "collapsedSeamTriangles": 0,
+      "boundaryOrNonmanifoldEdges": 0
+    },
+    {
+      "link": "left_finger_right",
+      "component": "finger_white_tip",
+      "triangles": 588,
+      "collapsedSeamTriangles": 0,
+      "boundaryOrNonmanifoldEdges": 0
+    },
+    {
+      "link": "left_finger_right",
+      "component": "finger_contact_pad",
+      "triangles": 588,
+      "collapsedSeamTriangles": 0,
+      "boundaryOrNonmanifoldEdges": 0
+    },
+    {
+      "link": "left_finger_right",
+      "component": "pad_rib_0",
+      "triangles": 588,
+      "collapsedSeamTriangles": 0,
+      "boundaryOrNonmanifoldEdges": 0
+    },
+    {
+      "link": "left_finger_right",
+      "component": "pad_rib_1",
+      "triangles": 588,
+      "collapsedSeamTriangles": 0,
+      "boundaryOrNonmanifoldEdges": 0
+    },
+    {
+      "link": "left_finger_right",
+      "component": "pad_rib_2",
+      "triangles": 588,
+      "collapsedSeamTriangles": 0,
+      "boundaryOrNonmanifoldEdges": 0
+    },
+    {
+      "link": "left_finger_right",
+      "component": "pad_rib_3",
+      "triangles": 588,
+      "collapsedSeamTriangles": 0,
+      "boundaryOrNonmanifoldEdges": 0
+    },
+    {
+      "link": "left_finger_right",
+      "component": "pad_rib_4",
+      "triangles": 588,
+      "collapsedSeamTriangles": 0,
+      "boundaryOrNonmanifoldEdges": 0
+    },
+    {
+      "link": "left_finger_right",
+      "component": "pad_rib_5",
+      "triangles": 588,
+      "collapsedSeamTriangles": 0,
+      "boundaryOrNonmanifoldEdges": 0
+    },
+    {
+      "link": "left_finger_right",
+      "component": "pad_rib_6",
+      "triangles": 588,
+      "collapsedSeamTriangles": 0,
+      "boundaryOrNonmanifoldEdges": 0
+    },
+    {
+      "link": "left_finger_right",
+      "component": "pad_rib_7",
+      "triangles": 588,
+      "collapsedSeamTriangles": 0,
+      "boundaryOrNonmanifoldEdges": 0
+    },
+    {
+      "link": "left_finger_left_drive",
+      "component": "adaptive_primary_link_-0.019",
+      "triangles": 260,
+      "collapsedSeamTriangles": 0,
+      "boundaryOrNonmanifoldEdges": 0
+    },
+    {
+      "link": "left_finger_left_drive",
+      "component": "adaptive_parallel_link_-0.019",
+      "triangles": 260,
+      "collapsedSeamTriangles": 0,
+      "boundaryOrNonmanifoldEdges": 0
+    },
+    {
+      "link": "left_finger_left_drive",
+      "component": "finger_pivot_-0.019_0_0",
+      "triangles": 128,
+      "collapsedSeamTriangles": 0,
+      "boundaryOrNonmanifoldEdges": 0
+    },
+    {
+      "link": "left_finger_left_drive",
+      "component": "finger_pivot_-0.019_0_0.013",
+      "triangles": 128,
+      "collapsedSeamTriangles": 0,
+      "boundaryOrNonmanifoldEdges": 0
+    },
+    {
+      "link": "left_finger_left_drive",
+      "component": "finger_pivot_-0.019_-0.07_0",
+      "triangles": 128,
+      "collapsedSeamTriangles": 0,
+      "boundaryOrNonmanifoldEdges": 0
+    },
+    {
+      "link": "left_finger_left_drive",
+      "component": "finger_pivot_-0.019_-0.07_0.013",
+      "triangles": 128,
+      "collapsedSeamTriangles": 0,
+      "boundaryOrNonmanifoldEdges": 0
+    },
+    {
+      "link": "left_finger_left_drive",
+      "component": "adaptive_primary_link_0.019",
+      "triangles": 260,
+      "collapsedSeamTriangles": 0,
+      "boundaryOrNonmanifoldEdges": 0
+    },
+    {
+      "link": "left_finger_left_drive",
+      "component": "adaptive_parallel_link_0.019",
+      "triangles": 260,
+      "collapsedSeamTriangles": 0,
+      "boundaryOrNonmanifoldEdges": 0
+    },
+    {
+      "link": "left_finger_left_drive",
+      "component": "finger_pivot_0.019_0_0",
+      "triangles": 128,
+      "collapsedSeamTriangles": 0,
+      "boundaryOrNonmanifoldEdges": 0
+    },
+    {
+      "link": "left_finger_left_drive",
+      "component": "finger_pivot_0.019_0_0.013",
+      "triangles": 128,
+      "collapsedSeamTriangles": 0,
+      "boundaryOrNonmanifoldEdges": 0
+    },
+    {
+      "link": "left_finger_left_drive",
+      "component": "finger_pivot_0.019_-0.07_0",
+      "triangles": 128,
+      "collapsedSeamTriangles": 0,
+      "boundaryOrNonmanifoldEdges": 0
+    },
+    {
+      "link": "left_finger_left_drive",
+      "component": "finger_pivot_0.019_-0.07_0.013",
+      "triangles": 128,
+      "collapsedSeamTriangles": 0,
+      "boundaryOrNonmanifoldEdges": 0
+    },
+    {
+      "link": "left_finger_left",
+      "component": "finger_white_tip",
+      "triangles": 588,
+      "collapsedSeamTriangles": 0,
+      "boundaryOrNonmanifoldEdges": 0
+    },
+    {
+      "link": "left_finger_left",
+      "component": "finger_contact_pad",
+      "triangles": 588,
+      "collapsedSeamTriangles": 0,
+      "boundaryOrNonmanifoldEdges": 0
+    },
+    {
+      "link": "left_finger_left",
+      "component": "pad_rib_0",
+      "triangles": 588,
+      "collapsedSeamTriangles": 0,
+      "boundaryOrNonmanifoldEdges": 0
+    },
+    {
+      "link": "left_finger_left",
+      "component": "pad_rib_1",
+      "triangles": 588,
+      "collapsedSeamTriangles": 0,
+      "boundaryOrNonmanifoldEdges": 0
+    },
+    {
+      "link": "left_finger_left",
+      "component": "pad_rib_2",
+      "triangles": 588,
+      "collapsedSeamTriangles": 0,
+      "boundaryOrNonmanifoldEdges": 0
+    },
+    {
+      "link": "left_finger_left",
+      "component": "pad_rib_3",
+      "triangles": 588,
+      "collapsedSeamTriangles": 0,
+      "boundaryOrNonmanifoldEdges": 0
+    },
+    {
+      "link": "left_finger_left",
+      "component": "pad_rib_4",
+      "triangles": 588,
+      "collapsedSeamTriangles": 0,
+      "boundaryOrNonmanifoldEdges": 0
+    },
+    {
+      "link": "left_finger_left",
+      "component": "pad_rib_5",
+      "triangles": 588,
+      "collapsedSeamTriangles": 0,
+      "boundaryOrNonmanifoldEdges": 0
+    },
+    {
+      "link": "left_finger_left",
+      "component": "pad_rib_6",
+      "triangles": 588,
+      "collapsedSeamTriangles": 0,
+      "boundaryOrNonmanifoldEdges": 0
+    },
+    {
+      "link": "left_finger_left",
+      "component": "pad_rib_7",
+      "triangles": 588,
+      "collapsedSeamTriangles": 0,
+      "boundaryOrNonmanifoldEdges": 0
+    },
+    {
+      "link": "right_shoulder",
+      "component": "right_shoulder_socket",
+      "triangles": 128,
+      "collapsedSeamTriangles": 0,
+      "boundaryOrNonmanifoldEdges": 0
+    },
+    {
+      "link": "right_shoulder",
+      "component": "right_shoulder_disc",
+      "triangles": 128,
+      "collapsedSeamTriangles": 0,
+      "boundaryOrNonmanifoldEdges": 0
+    },
+    {
+      "link": "right_upper_arm",
+      "component": "right_upper_shell",
+      "triangles": 480,
+      "collapsedSeamTriangles": 0,
+      "boundaryOrNonmanifoldEdges": 0
+    },
+    {
+      "link": "right_upper_arm",
+      "component": "right_upper_shell_seam",
+      "triangles": 128,
+      "collapsedSeamTriangles": 0,
+      "boundaryOrNonmanifoldEdges": 0
+    },
+    {
+      "link": "right_elbow",
+      "component": "right_elbow_housing",
+      "triangles": 1216,
+      "collapsedSeamTriangles": 0,
+      "boundaryOrNonmanifoldEdges": 0
+    },
+    {
+      "link": "right_elbow",
+      "component": "right_elbow_endcap",
+      "triangles": 128,
+      "collapsedSeamTriangles": 0,
+      "boundaryOrNonmanifoldEdges": 0
+    },
+    {
+      "link": "right_forearm",
+      "component": "right_forearm_shell",
+      "triangles": 480,
+      "collapsedSeamTriangles": 0,
+      "boundaryOrNonmanifoldEdges": 0
+    },
+    {
+      "link": "right_forearm",
+      "component": "right_forearm_shell_seam",
+      "triangles": 128,
+      "collapsedSeamTriangles": 0,
+      "boundaryOrNonmanifoldEdges": 0
+    },
+    {
+      "link": "right_wrist",
+      "component": "right_wrist_shell",
+      "triangles": 480,
+      "collapsedSeamTriangles": 0,
+      "boundaryOrNonmanifoldEdges": 0
+    },
+    {
+      "link": "right_wrist",
+      "component": "right_wrist_shell_seam",
+      "triangles": 128,
+      "collapsedSeamTriangles": 0,
+      "boundaryOrNonmanifoldEdges": 0
+    },
+    {
+      "link": "right_wrist",
+      "component": "right_wrist_pivot_sleeve",
+      "triangles": 1216,
+      "collapsedSeamTriangles": 0,
+      "boundaryOrNonmanifoldEdges": 0
+    },
+    {
+      "link": "right_wrist",
+      "component": "right_wrist_distal_sleeve",
+      "triangles": 128,
+      "collapsedSeamTriangles": 0,
+      "boundaryOrNonmanifoldEdges": 0
+    },
+    {
+      "link": "right_flange",
+      "component": "right_metal_wrist_flange",
+      "triangles": 128,
+      "collapsedSeamTriangles": 0,
+      "boundaryOrNonmanifoldEdges": 0
+    },
+    {
+      "link": "right_flange",
+      "component": "right_cyan_wrist_status",
+      "triangles": 128,
+      "collapsedSeamTriangles": 0,
+      "boundaryOrNonmanifoldEdges": 0
+    },
+    {
+      "link": "right_gripper",
+      "component": "omnipicker_black_motor",
+      "triangles": 128,
+      "collapsedSeamTriangles": 0,
+      "boundaryOrNonmanifoldEdges": 0
+    },
+    {
+      "link": "right_gripper",
+      "component": "omnipicker_mount_rim",
+      "triangles": 128,
+      "collapsedSeamTriangles": 0,
+      "boundaryOrNonmanifoldEdges": 0
+    },
+    {
+      "link": "right_gripper",
+      "component": "omnipicker_palm",
+      "triangles": 588,
+      "collapsedSeamTriangles": 0,
+      "boundaryOrNonmanifoldEdges": 0
+    },
+    {
+      "link": "right_gripper",
+      "component": "palm_screw_-0.028",
+      "triangles": 128,
+      "collapsedSeamTriangles": 0,
+      "boundaryOrNonmanifoldEdges": 0
+    },
+    {
+      "link": "right_gripper",
+      "component": "palm_screw_0.028",
+      "triangles": 128,
+      "collapsedSeamTriangles": 0,
+      "boundaryOrNonmanifoldEdges": 0
+    },
+    {
+      "link": "right_finger_right_drive",
+      "component": "adaptive_primary_link_-0.019",
+      "triangles": 260,
+      "collapsedSeamTriangles": 0,
+      "boundaryOrNonmanifoldEdges": 0
+    },
+    {
+      "link": "right_finger_right_drive",
+      "component": "adaptive_parallel_link_-0.019",
+      "triangles": 260,
+      "collapsedSeamTriangles": 0,
+      "boundaryOrNonmanifoldEdges": 0
+    },
+    {
+      "link": "right_finger_right_drive",
+      "component": "finger_pivot_-0.019_0_0",
+      "triangles": 128,
+      "collapsedSeamTriangles": 0,
+      "boundaryOrNonmanifoldEdges": 0
+    },
+    {
+      "link": "right_finger_right_drive",
+      "component": "finger_pivot_-0.019_0_-0.013",
+      "triangles": 128,
+      "collapsedSeamTriangles": 0,
+      "boundaryOrNonmanifoldEdges": 0
+    },
+    {
+      "link": "right_finger_right_drive",
+      "component": "finger_pivot_-0.019_-0.07_0",
+      "triangles": 128,
+      "collapsedSeamTriangles": 0,
+      "boundaryOrNonmanifoldEdges": 0
+    },
+    {
+      "link": "right_finger_right_drive",
+      "component": "finger_pivot_-0.019_-0.07_-0.013",
+      "triangles": 128,
+      "collapsedSeamTriangles": 0,
+      "boundaryOrNonmanifoldEdges": 0
+    },
+    {
+      "link": "right_finger_right_drive",
+      "component": "adaptive_primary_link_0.019",
+      "triangles": 260,
+      "collapsedSeamTriangles": 0,
+      "boundaryOrNonmanifoldEdges": 0
+    },
+    {
+      "link": "right_finger_right_drive",
+      "component": "adaptive_parallel_link_0.019",
+      "triangles": 260,
+      "collapsedSeamTriangles": 0,
+      "boundaryOrNonmanifoldEdges": 0
+    },
+    {
+      "link": "right_finger_right_drive",
+      "component": "finger_pivot_0.019_0_0",
+      "triangles": 128,
+      "collapsedSeamTriangles": 0,
+      "boundaryOrNonmanifoldEdges": 0
+    },
+    {
+      "link": "right_finger_right_drive",
+      "component": "finger_pivot_0.019_0_-0.013",
+      "triangles": 128,
+      "collapsedSeamTriangles": 0,
+      "boundaryOrNonmanifoldEdges": 0
+    },
+    {
+      "link": "right_finger_right_drive",
+      "component": "finger_pivot_0.019_-0.07_0",
+      "triangles": 128,
+      "collapsedSeamTriangles": 0,
+      "boundaryOrNonmanifoldEdges": 0
+    },
+    {
+      "link": "right_finger_right_drive",
+      "component": "finger_pivot_0.019_-0.07_-0.013",
+      "triangles": 128,
+      "collapsedSeamTriangles": 0,
+      "boundaryOrNonmanifoldEdges": 0
+    },
+    {
+      "link": "right_finger_right",
+      "component": "finger_white_tip",
+      "triangles": 588,
+      "collapsedSeamTriangles": 0,
+      "boundaryOrNonmanifoldEdges": 0
+    },
+    {
+      "link": "right_finger_right",
+      "component": "finger_contact_pad",
+      "triangles": 588,
+      "collapsedSeamTriangles": 0,
+      "boundaryOrNonmanifoldEdges": 0
+    },
+    {
+      "link": "right_finger_right",
+      "component": "pad_rib_0",
+      "triangles": 588,
+      "collapsedSeamTriangles": 0,
+      "boundaryOrNonmanifoldEdges": 0
+    },
+    {
+      "link": "right_finger_right",
+      "component": "pad_rib_1",
+      "triangles": 588,
+      "collapsedSeamTriangles": 0,
+      "boundaryOrNonmanifoldEdges": 0
+    },
+    {
+      "link": "right_finger_right",
+      "component": "pad_rib_2",
+      "triangles": 588,
+      "collapsedSeamTriangles": 0,
+      "boundaryOrNonmanifoldEdges": 0
+    },
+    {
+      "link": "right_finger_right",
+      "component": "pad_rib_3",
+      "triangles": 588,
+      "collapsedSeamTriangles": 0,
+      "boundaryOrNonmanifoldEdges": 0
+    },
+    {
+      "link": "right_finger_right",
+      "component": "pad_rib_4",
+      "triangles": 588,
+      "collapsedSeamTriangles": 0,
+      "boundaryOrNonmanifoldEdges": 0
+    },
+    {
+      "link": "right_finger_right",
+      "component": "pad_rib_5",
+      "triangles": 588,
+      "collapsedSeamTriangles": 0,
+      "boundaryOrNonmanifoldEdges": 0
+    },
+    {
+      "link": "right_finger_right",
+      "component": "pad_rib_6",
+      "triangles": 588,
+      "collapsedSeamTriangles": 0,
+      "boundaryOrNonmanifoldEdges": 0
+    },
+    {
+      "link": "right_finger_right",
+      "component": "pad_rib_7",
+      "triangles": 588,
+      "collapsedSeamTriangles": 0,
+      "boundaryOrNonmanifoldEdges": 0
+    },
+    {
+      "link": "right_finger_left_drive",
+      "component": "adaptive_primary_link_-0.019",
+      "triangles": 260,
+      "collapsedSeamTriangles": 0,
+      "boundaryOrNonmanifoldEdges": 0
+    },
+    {
+      "link": "right_finger_left_drive",
+      "component": "adaptive_parallel_link_-0.019",
+      "triangles": 260,
+      "collapsedSeamTriangles": 0,
+      "boundaryOrNonmanifoldEdges": 0
+    },
+    {
+      "link": "right_finger_left_drive",
+      "component": "finger_pivot_-0.019_0_0",
+      "triangles": 128,
+      "collapsedSeamTriangles": 0,
+      "boundaryOrNonmanifoldEdges": 0
+    },
+    {
+      "link": "right_finger_left_drive",
+      "component": "finger_pivot_-0.019_0_0.013",
+      "triangles": 128,
+      "collapsedSeamTriangles": 0,
+      "boundaryOrNonmanifoldEdges": 0
+    },
+    {
+      "link": "right_finger_left_drive",
+      "component": "finger_pivot_-0.019_-0.07_0",
+      "triangles": 128,
+      "collapsedSeamTriangles": 0,
+      "boundaryOrNonmanifoldEdges": 0
+    },
+    {
+      "link": "right_finger_left_drive",
+      "component": "finger_pivot_-0.019_-0.07_0.013",
+      "triangles": 128,
+      "collapsedSeamTriangles": 0,
+      "boundaryOrNonmanifoldEdges": 0
+    },
+    {
+      "link": "right_finger_left_drive",
+      "component": "adaptive_primary_link_0.019",
+      "triangles": 260,
+      "collapsedSeamTriangles": 0,
+      "boundaryOrNonmanifoldEdges": 0
+    },
+    {
+      "link": "right_finger_left_drive",
+      "component": "adaptive_parallel_link_0.019",
+      "triangles": 260,
+      "collapsedSeamTriangles": 0,
+      "boundaryOrNonmanifoldEdges": 0
+    },
+    {
+      "link": "right_finger_left_drive",
+      "component": "finger_pivot_0.019_0_0",
+      "triangles": 128,
+      "collapsedSeamTriangles": 0,
+      "boundaryOrNonmanifoldEdges": 0
+    },
+    {
+      "link": "right_finger_left_drive",
+      "component": "finger_pivot_0.019_0_0.013",
+      "triangles": 128,
+      "collapsedSeamTriangles": 0,
+      "boundaryOrNonmanifoldEdges": 0
+    },
+    {
+      "link": "right_finger_left_drive",
+      "component": "finger_pivot_0.019_-0.07_0",
+      "triangles": 128,
+      "collapsedSeamTriangles": 0,
+      "boundaryOrNonmanifoldEdges": 0
+    },
+    {
+      "link": "right_finger_left_drive",
+      "component": "finger_pivot_0.019_-0.07_0.013",
+      "triangles": 128,
+      "collapsedSeamTriangles": 0,
+      "boundaryOrNonmanifoldEdges": 0
+    },
+    {
+      "link": "right_finger_left",
+      "component": "finger_white_tip",
+      "triangles": 588,
+      "collapsedSeamTriangles": 0,
+      "boundaryOrNonmanifoldEdges": 0
+    },
+    {
+      "link": "right_finger_left",
+      "component": "finger_contact_pad",
+      "triangles": 588,
+      "collapsedSeamTriangles": 0,
+      "boundaryOrNonmanifoldEdges": 0
+    },
+    {
+      "link": "right_finger_left",
+      "component": "pad_rib_0",
+      "triangles": 588,
+      "collapsedSeamTriangles": 0,
+      "boundaryOrNonmanifoldEdges": 0
+    },
+    {
+      "link": "right_finger_left",
+      "component": "pad_rib_1",
+      "triangles": 588,
+      "collapsedSeamTriangles": 0,
+      "boundaryOrNonmanifoldEdges": 0
+    },
+    {
+      "link": "right_finger_left",
+      "component": "pad_rib_2",
+      "triangles": 588,
+      "collapsedSeamTriangles": 0,
+      "boundaryOrNonmanifoldEdges": 0
+    },
+    {
+      "link": "right_finger_left",
+      "component": "pad_rib_3",
+      "triangles": 588,
+      "collapsedSeamTriangles": 0,
+      "boundaryOrNonmanifoldEdges": 0
+    },
+    {
+      "link": "right_finger_left",
+      "component": "pad_rib_4",
+      "triangles": 588,
+      "collapsedSeamTriangles": 0,
+      "boundaryOrNonmanifoldEdges": 0
+    },
+    {
+      "link": "right_finger_left",
+      "component": "pad_rib_5",
+      "triangles": 588,
+      "collapsedSeamTriangles": 0,
+      "boundaryOrNonmanifoldEdges": 0
+    },
+    {
+      "link": "right_finger_left",
+      "component": "pad_rib_6",
+      "triangles": 588,
+      "collapsedSeamTriangles": 0,
+      "boundaryOrNonmanifoldEdges": 0
+    },
+    {
+      "link": "right_finger_left",
+      "component": "pad_rib_7",
+      "triangles": 588,
+      "collapsedSeamTriangles": 0,
+      "boundaryOrNonmanifoldEdges": 0
+    }
+  ]
+}

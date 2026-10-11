@@ -1,0 +1,41 @@
+{
+  "asset": "AGIBOT G1 + original OmniPicker independent visual study",
+  "authored": "2026-10-11",
+  "license": "CC0-1.0",
+  "sources": [
+    {
+      "url": "https://www.agibot.com/products/G1",
+      "use": "public height and visual exterior observations",
+      "redistributed": false
+    },
+    {
+      "url": "https://www.agibot.com/jp/products/G1",
+      "use": "single-arm 70 cm reach fact",
+      "redistributed": false
+    },
+    {
+      "url": "https://agibot.com/products/X1",
+      "use": "original OmniPicker 120 mm maximum opening and component exterior observations",
+      "redistributed": false
+    }
+  ],
+  "excluded": [
+    "OEM mesh",
+    "OEM CAD",
+    "OEM USD",
+    "OEM URDF",
+    "OEM images/video",
+    "manual drawings",
+    "OEM logo texture"
+  ],
+  "estimates": [
+    "all part dimensions except targeted envelope values",
+    "all joint locations/axes/ranges",
+    "700 mm reach endpoint interpretation",
+    "linkage motion",
+    "all collision geometry",
+    "wheel arrangement and sensors"
+  ],
+  "legacyRecipe": "agibot/g1/g1-omnipicker/r1 remains unchanged; not drop-in compatible",
+  "validation": "visualization-only; not hardware control, dynamics, certified fit or clearance"
+}

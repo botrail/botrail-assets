@@ -16,6 +16,7 @@ on:
       - 'onrobot-rg2/**'
       - 'robotiq-ax-series-base/**'
       - 'piab-picobot/**'
+      - 'agibot-g1-omnipicker/**'
       - 'onrobot-dual-quick-changer-109878/**'
       - 'onrobot-screwdriver-103961/**'
       - 'onrobot-bit-extender-109301/**'
@@ -47,6 +48,7 @@ on:
       - 'onrobot-rg2/**'
       - 'robotiq-ax-series-base/**'
       - 'piab-picobot/**'
+      - 'agibot-g1-omnipicker/**'
       - 'onrobot-dual-quick-changer-109878/**'
       - 'onrobot-screwdriver-103961/**'
       - 'onrobot-bit-extender-109301/**'
@@ -166,3 +168,22 @@ jobs:
           node piab-picobot/authoring/export.mjs --check
           python3 piab-picobot/authoring/verify_obj.py
           node piab-picobot/authoring/verify_clearance.mjs
+
+  agibot-g1:
+    name: AGIBOT G1 independent model
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Install locked shared authoring dependencies
+        run: |
+          npm --prefix authoring ci --ignore-scripts --no-audit --no-fund
+          ln -s ../../authoring/node_modules agibot-g1-omnipicker/authoring/node_modules
+      - name: Independent geometry, illustrative articulation and deterministic exports
+        run: |
+          node --test agibot-g1-omnipicker/authoring/model.test.mjs
+          node agibot-g1-omnipicker/authoring/export.mjs --check
+          node agibot-g1-omnipicker/authoring/audit.mjs
+          git diff --exit-code -- agibot-g1-omnipicker/docs/audit.json
