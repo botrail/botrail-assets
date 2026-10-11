@@ -36,6 +36,13 @@ low/high lift, reaching, head, closed/open OmniPicker, and wrist pitch endpoints
 The final review set uses one frozen model version. The renderer is included for
 reproduction, with no dependency on manufacturer meshes, textures or image pixels.
 
+## Exact generation runtime
+
+Node **24.19.0** generated the reviewed OBJ/MTL files. The first GitHub Actions run
+confirmed 8/8 model tests on Node 22.23.3, but byte comparison failed on `torso.obj`.
+The independent AGIBOT job therefore pins 24.19.0 without loosening byte comparison
+or changing geometry. The existing authoring job remains on Node 22 and passed in CI.
+
 ## Existing repository aggregate gate
 
 The existing `authoring` → `test:models` gate was attempted. It stops at unchanged
@@ -58,5 +65,5 @@ existing-model aggregate gate is **not a pass**; its later stages were not reach
   physics, wheel-drive simulation, or hidden internal construction was validated.
 - The 700 mm reach endpoint is an independent assumption; exact OEM measurement
   endpoints and link allocation remain unconfirmed.
-- No catalog-builder integration, publishing, PR, push or installation in the existing
-  catalog was performed. The existing recipe-only vendor-backed r1 remains unchanged.
+- This initial local-verification snapshot did not include catalog-builder integration
+  or installation in the existing catalog. Publication status is tracked by the PR. The existing recipe-only vendor-backed r1 remains unchanged.

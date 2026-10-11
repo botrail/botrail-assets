@@ -69,6 +69,11 @@ No mass/inertial blocks or dynamic simulation claims are supplied.
 
 ## Reproduce and inspect
 
+Use **Node 24.19.0** for byte-identical generation (also pinned in `authoring/.nvmrc`
+and the asset-specific CI job). The eight geometry/motion tests also pass on Node 22,
+but its floating-point output differs in `torso.obj`; do not regenerate committed
+files with a different runtime. Existing models retain their own Node 22 CI job.
+
 From repository root, using the shared author's pinned dependencies:
 
 ```sh
