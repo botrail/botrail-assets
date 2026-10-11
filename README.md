@@ -73,6 +73,7 @@ gun = bt.Robot.from_catalog("weld-gun-x1")  # カタログ ID (下表の右列) 
 | [robotiq-wrist-camera](./robotiq-wrist-camera) | 手首カメラ (ツールプレート無し) の参照モデル、光学フレーム付き | Robotiq Wrist Camera RWC-CAM-001 | `robotiq/wrist-camera/wrist-camera/r1` (公開前) |
 | [smc-jmhz2-16d-x7400b](./smc-jmhz2-16d-x7400b) | UR 直付けの空圧グリッパユニット (弁・スイッチ内蔵、10 mm ストローク) の参照モデル | SMC JMHZ2-16D-X7400B | `smc/jmhz2/jmhz2-16d-x7400b/r1` (公開前) |
 | [piab-picobot](./piab-picobot) | COAX 真空グリッパ + 可変 2 カップアームの参照モデル | Piab piCOBOT for Universal Robots | `piab/picobot/picobot/r1` (公開前) |
+| [agibot-g1-omnipicker](./agibot-g1-omnipicker) | G1 + original OmniPickerの独立した写真参照モデル（推定可動・未検証寸法） | AGIBOT Genie G1 + OmniPicker | 新規独立著作・カタログ未登録 |
 | [aspina-arh350a](./aspina-arh350a) | 電動 3 爪ハンド (揺動指) の参照モデル | ASPINA ARH350A | `aspina/arh/arh350a/r1` (公開前) |
 | [onrobot-2fg7](./onrobot-2fg7) | 平行 2 指電動グリッパ (38 mm ストローク、内向き指) の参照モデル | OnRobot 2FG7 (106376) | `onrobot/2fg/2fg7/r1` (公開前) |
 | [onrobot-3fg15](./onrobot-3fg15) | 3 指求心グリッパ (回転プラットフォーム) の参照モデル | OnRobot 3FG15 (103666) | `onrobot/3fg/3fg15/r1` (公開前) |

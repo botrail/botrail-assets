@@ -1,0 +1,38 @@
+{
+  "pearl_white_shell": {
+    "metalness": 0.12,
+    "roughness": 0.3
+  },
+  "satin_grey_shell": {
+    "metalness": 0.22,
+    "roughness": 0.43
+  },
+  "graphite_structure": {
+    "metalness": 0.18,
+    "roughness": 0.43
+  },
+  "black_glass_face": {
+    "metalness": 0.12,
+    "roughness": 0.19
+  },
+  "dark_rubber": {
+    "metalness": 0,
+    "roughness": 0.72
+  },
+  "machined_metal": {
+    "metalness": 0.8,
+    "roughness": 0.29
+  },
+  "cyan_status_lens": {
+    "metalness": 0.15,
+    "roughness": 0.25
+  },
+  "red_emergency_stop": {
+    "metalness": 0.06,
+    "roughness": 0.4
+  },
+  "green_control_lens": {
+    "metalness": 0.1,
+    "roughness": 0.3
+  }
+}
