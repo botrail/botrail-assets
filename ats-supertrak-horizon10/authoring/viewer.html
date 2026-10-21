@@ -1,0 +1,10 @@
+<!doctype html>
+<html lang="en"><meta charset="utf-8"><title>SuperTrak HORIZON10 reference components</title>
+<style>body{margin:0;background:#eef0f2;font:15px system-ui}header{position:fixed;top:20px;left:24px}a{margin-right:16px}</style>
+<header><b>ATS SuperTrak HORIZON10 — reference components</b><p><a href="?part=curve90">90° curve</a><a href="?part=straight1000">1000 mm straight</a><a href="?part=shuttle">Shuttle</a></p></header>
+<script type="importmap">{"imports":{"three":"./node_modules/three/build/three.module.js","three/addons/":"./node_modules/three/examples/jsm/","@botrail/authoring/":"./node_modules/@botrail/authoring/"}}</script>
+<script type="module">
+import { mountAuthoring } from "@botrail/authoring/viewer.mjs";
+import { definition } from "./model.mjs";
+mountAuthoring(definition(new URLSearchParams(location.search).get("part") || "curve90").body);
+</script></html>

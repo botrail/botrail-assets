@@ -37,6 +37,7 @@ gun = bt.Robot.from_catalog("weld-gun-x1")  # カタログ ID (下表の右列) 
 
 | アセット | 種別 | 参照実機 (寸法・仕様の出典) | カタログ ID (`from_catalog` に渡す名前) |
 |---|---|---|---|
+| [ats-supertrak-horizon10](./ats-supertrak-horizon10) | 水平リニア搬送の90°曲線・1000 mm直線・台車。公表モジュール寸法に合わせた独自参照形状、断面と細部は推定 | ATS SuperTrak HORIZON10 | `ats/supertrak/horizon10-curve90/r1` / `horizon10-straight1000/r1` / `horizon10-shuttle/r1`（ローカルビルド、公開前） |
 | [weld-gun-x16005](./weld-gun-x16005) | サーボスポットガン (X 型 / シザー式, 1 DOF) | HERON DB6-075-X16005-00 | `weld-gun-x1` |
 | [weld-gun-xr637](./weld-gun-xr637) | サーボスポットガン (C 型 / 直動, 1 DOF) | Milco XR 637-12402-15 | `weld-gun-c1` |
 | [tool-changer-sws011](./tool-changer-sws011) | ツールチェンジャ (マスタ + ツール側) | SCHUNK SWS-011 (SWK-011 / SWA-011) | `tool-changer-sws011-master` / `-tool` |
