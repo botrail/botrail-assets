@@ -12,6 +12,7 @@ on:
       - 'mir250/**'
       - 'mir1350/**'
       - 'toyota-sae160/**'
+      - 'kuka-kmp-3000p/**'
       - 'onrobot-rg6/**'
       - 'onrobot-rg2/**'
       - 'robotiq-ax-series-base/**'
@@ -44,6 +45,7 @@ on:
       - 'mir250/**'
       - 'mir1350/**'
       - 'toyota-sae160/**'
+      - 'kuka-kmp-3000p/**'
       - 'onrobot-rg6/**'
       - 'onrobot-rg2/**'
       - 'robotiq-ax-series-base/**'
@@ -82,7 +84,7 @@ jobs:
         shell: bash
         run: |
           npm --prefix authoring ci --ignore-scripts --no-audit --no-fund
-          for asset in mid-360 vacuum-gripper-ecbpi weld-gun-x16005 universal-robots-ur-series onrobot-rg6 ewellix-liftkit-ur620 workshop-shapes kuka-kr210-l150 mir250 mir1350 fanuc-m410ic-185 toyota-sae160; do
+          for asset in mid-360 vacuum-gripper-ecbpi weld-gun-x16005 universal-robots-ur-series onrobot-rg6 ewellix-liftkit-ur620 workshop-shapes kuka-kr210-l150 mir250 mir1350 fanuc-m410ic-185 toyota-sae160 kuka-kmp-3000p; do
             (cd "$asset/authoring" && npm ci --ignore-scripts --no-audit --no-fund)
           done
       - name: Shared helpers
@@ -140,6 +142,11 @@ jobs:
           npm --prefix toyota-sae160/authoring test
           npm --prefix toyota-sae160/authoring run check
           python3 toyota-sae160/authoring/verify_obj.py
+
+      - name: KUKA KMP 3000P envelope, lift and running gear
+        run: |
+          npm --prefix kuka-kmp-3000p/authoring test
+          npm --prefix kuka-kmp-3000p/authoring run check
 
       - name: DAIHEN CM-7403 geometry and legacy compatibility
         run: |

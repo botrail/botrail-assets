@@ -37,7 +37,7 @@ gun = bt.Robot.from_catalog("weld-gun-x1")  # カタログ ID (下表の右列) 
 
 | アセット | 種別 | 参照実機 (寸法・仕様の出典) | カタログ ID (`from_catalog` に渡す名前) |
 |---|---|---|---|
-| [ats-supertrak-horizon10](./ats-supertrak-horizon10) | 水平リニア搬送の90°曲線・1000 mm直線・台車。公表モジュール寸法に合わせた独自参照形状、断面と細部は推定 | ATS SuperTrak HORIZON10 | `ats/supertrak/horizon10-curve90/r1` / `horizon10-straight1000/r1` / `horizon10-shuttle/r1`（ローカルビルド、公開前） |
+| [ats-supertrak-horizon10](./ats-supertrak-horizon10) | 水平リニア搬送の90°曲線・1000 mm直線・台車。公表モジュール寸法に合わせた独自参照形状、断面と細部は推定 | ATS SuperTrak HORIZON10 | `ats/supertrak/horizon10-curve90/r1` / `horizon10-straight1000/r1` / `horizon10-shuttle/r1` |
 | [weld-gun-x16005](./weld-gun-x16005) | サーボスポットガン (X 型 / シザー式, 1 DOF) | HERON DB6-075-X16005-00 | `weld-gun-x1` |
 | [weld-gun-xr637](./weld-gun-xr637) | サーボスポットガン (C 型 / 直動, 1 DOF) | Milco XR 637-12402-15 | `weld-gun-c1` |
 | [tool-changer-sws011](./tool-changer-sws011) | ツールチェンジャ (マスタ + ツール側) | SCHUNK SWS-011 (SWK-011 / SWA-011) | `tool-changer-sws011-master` / `-tool` |
@@ -96,6 +96,7 @@ gun = bt.Robot.from_catalog("weld-gun-x1")  # カタログ ID (下表の右列) 
 | [hitachi-racrew](./hitachi-racrew) | 棚搬送 AGV(小型低床式、棚の下に潜って持ち上げる)の参照モデル: 白い車体・別リンクのターンテーブル・前後バンパ・四隅の灯具 | 日立 Racrew | `hitachi_industrial_products/racrew/racrew/r1`(公開前) |
 | [mir1350](./mir1350) | 黒い車体・荷台パッド・対角スキャナ・別リンク上部カバーの参照 AMR | MiR1350 | `mobile_industrial_robots/mir/mir1350/r2` (公開前、旧外観は r1) |
 | [toyota-sae160](./toyota-sae160) | 実機写真を参照した独自外観: 分割した電池室・駆動カバー、開口グリップ、横長 HMI、5 接点、C 断面マスト、荷重輪窓付きテーパフォーク。TX/DX の関節・フリーリフト・mimic を維持し、collision は新しい visual に合わせて改訂。DX は `dx/` | Toyota Autopilot SAE160(BT Staxio、TX Hi-Lo / DX Tele) | `toyota_material_handling/autopilot/sae160/r3` / `sae160-dx/r3`(公開前、旧外観は r1、シャンクが 10 mm 前に出ていた版は r2) |
+| [kuka-kmp-3000p](./kuka-kmp-3000p) | 全方向移動の重量物 AMR(積載 3 t、2 台の load sharing で 6 t)の参照モデル: 黒いスカートとバンパー線・白い外装・100 mm 上がる暗色の天板(`lift`)・角のスキャナ・非常停止 6。駆動ユニット 2 組(旋回 + 2 輪を 1 車軸)と四隅のキャスタの配置は推定 | KUKA KMP 3000P | `kuka/kmp/kmp-3000p/r1`(公開前) |
 | [aubo-amr300](./aubo-amr300) | 差動 2 輪 AMR の参照モデル(駆動輪 2 + キャスタ 4・スキャナ 2・上面のアーム取付フレーム) | AUBO-AMR300(海纳系列) | `aubo/amr/amr300/r1` |
 | [mir-eu-pallet-lift-1350](./mir-eu-pallet-lift-1350) | EUR パレット用 1 軸リフト(揚程 60 mm) | MiR EU Pallet Lift 1350 | `mobile_industrial_robots/mir/eu-pallet-lift-1350/r1` |
 | [unitree-g1-fixed-plates](./unitree-g1-fixed-plates) | 頭部カメラ・LiDAR固定プレートの写真参照形状（寸法・取付適合未確認） | Unitree G1 Camera / Radar fixed plate、販売店番号1297 / 1296 | `unitree/g1/camera-fixed-plate/r1` / `radar-fixed-plate/r1` |

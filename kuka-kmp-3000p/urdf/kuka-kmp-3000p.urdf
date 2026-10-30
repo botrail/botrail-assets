@@ -1,0 +1,38 @@
+<?xml version="1.0"?>
+<robot name="kuka_kmp_3000p_reference">
+<link name="base_footprint"></link>
+<link name="base_link"><visual ><geometry ><mesh filename="../meshes/base_link.obj"/></geometry></visual><collision ><origin xyz="0 0 0.1965" rpy="0 0 0"/><geometry ><box size="2.2 1.2 0.303"/></geometry></collision></link>
+<link name="lift_plate"><visual ><geometry ><mesh filename="../meshes/lift_plate.obj"/></geometry></visual><collision ><origin xyz="0 0 0.01" rpy="0 0 0"/><geometry ><box size="2.06 1.06 0.02"/></geometry></collision></link>
+<link name="deck"></link>
+<link name="drive_unit_front"><visual ><geometry ><mesh filename="../meshes/drive_unit_front.obj"/></geometry></visual></link>
+<link name="drive_wheel_front"><visual ><geometry ><mesh filename="../meshes/drive_wheel_front.obj"/></geometry></visual></link>
+<link name="drive_unit_rear"><visual ><geometry ><mesh filename="../meshes/drive_unit_rear.obj"/></geometry></visual></link>
+<link name="drive_wheel_rear"><visual ><geometry ><mesh filename="../meshes/drive_wheel_rear.obj"/></geometry></visual></link>
+<link name="castor_rr_fork"><visual ><geometry ><mesh filename="../meshes/castor_rr_fork.obj"/></geometry></visual></link>
+<link name="castor_rr"><visual ><geometry ><mesh filename="../meshes/castor_rr.obj"/></geometry></visual></link>
+<link name="castor_rl_fork"><visual ><geometry ><mesh filename="../meshes/castor_rl_fork.obj"/></geometry></visual></link>
+<link name="castor_rl"><visual ><geometry ><mesh filename="../meshes/castor_rl.obj"/></geometry></visual></link>
+<link name="castor_fr_fork"><visual ><geometry ><mesh filename="../meshes/castor_fr_fork.obj"/></geometry></visual></link>
+<link name="castor_fr"><visual ><geometry ><mesh filename="../meshes/castor_fr.obj"/></geometry></visual></link>
+<link name="castor_fl_fork"><visual ><geometry ><mesh filename="../meshes/castor_fl_fork.obj"/></geometry></visual></link>
+<link name="castor_fl"><visual ><geometry ><mesh filename="../meshes/castor_fl.obj"/></geometry></visual></link>
+<link name="scanner_front_frame"></link>
+<link name="scanner_rear_frame"></link>
+<joint name="base_joint" type="fixed"><parent link="base_footprint"/><child link="base_link"/><origin xyz="0 0 0" rpy="0 0 0"/></joint>
+<joint name="lift" type="prismatic"><parent link="base_link"/><child link="lift_plate"/><origin xyz="0 0 0.35" rpy="0 0 0"/><axis xyz="0 0 1"/><limit lower="0" upper="0.1" velocity="0.03" effort="30000"/></joint>
+<joint name="deck_joint" type="fixed"><parent link="lift_plate"/><child link="deck"/><origin xyz="0 0 0.02" rpy="0 0 0"/></joint>
+<joint name="steer_front" type="continuous"><parent link="base_link"/><child link="drive_unit_front"/><origin xyz="0.7 0 0.1" rpy="0 0 0"/><axis xyz="0 0 1"/><limit effort="500" velocity="2"/></joint>
+<joint name="drive_wheel_front" type="continuous"><parent link="drive_unit_front"/><child link="drive_wheel_front"/><origin xyz="0 0 0" rpy="0 0 0"/><axis xyz="0 1 0"/><limit effort="500" velocity="12"/></joint>
+<joint name="steer_rear" type="continuous"><parent link="base_link"/><child link="drive_unit_rear"/><origin xyz="-0.7 0 0.1" rpy="0 0 0"/><axis xyz="0 0 1"/><limit effort="500" velocity="2"/></joint>
+<joint name="drive_wheel_rear" type="continuous"><parent link="drive_unit_rear"/><child link="drive_wheel_rear"/><origin xyz="0 0 0" rpy="0 0 0"/><axis xyz="0 1 0"/><limit effort="500" velocity="12"/></joint>
+<joint name="castor_rr_swivel" type="continuous"><parent link="base_link"/><child link="castor_rr_fork"/><origin xyz="-0.9 -0.42 0.0625" rpy="0 0 0"/><axis xyz="0 0 1"/><limit effort="50" velocity="6"/></joint>
+<joint name="castor_rr" type="continuous"><parent link="castor_rr_fork"/><child link="castor_rr"/><origin xyz="0 0 0" rpy="0 0 0"/><axis xyz="0 1 0"/><limit effort="500" velocity="19.2"/></joint>
+<joint name="castor_rl_swivel" type="continuous"><parent link="base_link"/><child link="castor_rl_fork"/><origin xyz="-0.9 0.42 0.0625" rpy="0 0 0"/><axis xyz="0 0 1"/><limit effort="50" velocity="6"/></joint>
+<joint name="castor_rl" type="continuous"><parent link="castor_rl_fork"/><child link="castor_rl"/><origin xyz="0 0 0" rpy="0 0 0"/><axis xyz="0 1 0"/><limit effort="500" velocity="19.2"/></joint>
+<joint name="castor_fr_swivel" type="continuous"><parent link="base_link"/><child link="castor_fr_fork"/><origin xyz="0.9 -0.42 0.0625" rpy="0 0 0"/><axis xyz="0 0 1"/><limit effort="50" velocity="6"/></joint>
+<joint name="castor_fr" type="continuous"><parent link="castor_fr_fork"/><child link="castor_fr"/><origin xyz="0 0 0" rpy="0 0 0"/><axis xyz="0 1 0"/><limit effort="500" velocity="19.2"/></joint>
+<joint name="castor_fl_swivel" type="continuous"><parent link="base_link"/><child link="castor_fl_fork"/><origin xyz="0.9 0.42 0.0625" rpy="0 0 0"/><axis xyz="0 0 1"/><limit effort="50" velocity="6"/></joint>
+<joint name="castor_fl" type="continuous"><parent link="castor_fl_fork"/><child link="castor_fl"/><origin xyz="0 0 0" rpy="0 0 0"/><axis xyz="0 1 0"/><limit effort="500" velocity="19.2"/></joint>
+<joint name="scanner_front_joint" type="fixed"><parent link="base_link"/><child link="scanner_front_frame"/><origin xyz="1.025 0.525 0.1375" rpy="0 0 0.785398163397"/></joint>
+<joint name="scanner_rear_joint" type="fixed"><parent link="base_link"/><child link="scanner_rear_frame"/><origin xyz="-1.025 -0.525 0.1375" rpy="0 0 -2.35619449019"/></joint>
+</robot>

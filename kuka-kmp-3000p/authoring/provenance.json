@@ -1,0 +1,33 @@
+{
+  "reference": "KUKA KMP 3000P omnidirectional heavy-load AMR with integrated 100 mm electric lift",
+  "inspected": "2026-10-30",
+  "sources": [
+    {
+      "url": "https://www.kuka.com/en-de/products/autonomous-mobile-robots-amr/mobile-platforms/kmp-3000p-omnimove",
+      "use": "Official product page: 2200 x 1200 x 370 mm, up to 3 t, lift 100 mm at 30 mm/s, 1.2 / 1.0 m/s, turning radius on the spot 1.3 m, SLAM +-10 mm / +-1 deg and QR +-5 mm / +-0.5 deg, two drive units of two wheels each (powered swivel castors), two laser scanners, four 3D cameras, six emergency stops, bumper bar"
+    },
+    {
+      "url": "https://kuka.com/zh-my/company/press/news/mykuka/2024/02/kmp-3000p",
+      "use": "KUKA news page: same dimensions, lift, speeds, turning radius and drive-unit description"
+    },
+    {
+      "url": "https://www.parmley-graham.co.uk/content/manufacturers/kuka/kuka-robots/autonomous-mobile-platforms-ov/kmp-3000p-omni-ov/",
+      "use": "KUKA partner page: load sharing of two platforms up to 6 t, one becoming the master vehicle that sets the direction (not on KUKA's current product page); SLAM accuracy quoted as +-15 mm (KUKA's +-10 mm used)"
+    },
+    {
+      "url": "https://www.kuka.com/-/media/kuka-corporate/images/products/mobility/kmp-3000p/kmp-3000p-safety-autonomous-mobile-transport-platform-intralogistics.png",
+      "use": "Product render inspected outside the repository for the layered exterior (skirt, recessed band, white shell, dark top, emergency stop and sensor placement); no image, texture or logo redistributed"
+    },
+    {
+      "url": "https://www.kuka.com/-/media/kuka-corporate/images/products/mobility/kmp-3000p/kmp-3000-p-amr-transport-platform-sensors.png",
+      "use": "Product render inspected outside the repository for the corner scanner, emergency stop and status display; no image, texture or logo redistributed"
+    }
+  ],
+  "estimated": [
+    "layer heights (skirt 45-115 mm, band 115-160 mm, shell 160-350 mm, plate 350-370 mm) and the 40 mm shell / 70 mm plate insets",
+    "drive units on the long axis at x = +-0.70 m, wheel diameter 200 mm, two wheels on one axle per unit",
+    "four corner support castors (diameter 125 mm) at x = +-0.90 m, y = +-0.42 m",
+    "scanner corners (front-left, rear-right), emergency stop, camera window, LED strip and vent placement",
+    "the lift column block under the plate (display only)"
+  ]
+}
