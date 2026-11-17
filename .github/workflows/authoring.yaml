@@ -13,6 +13,7 @@ on:
       - 'mir1350/**'
       - 'toyota-sae160/**'
       - 'kuka-kmp-3000p/**'
+      - 'haas-vf-2/**'
       - 'onrobot-rg6/**'
       - 'onrobot-rg2/**'
       - 'robotiq-ax-series-base/**'
@@ -46,6 +47,7 @@ on:
       - 'mir1350/**'
       - 'toyota-sae160/**'
       - 'kuka-kmp-3000p/**'
+      - 'haas-vf-2/**'
       - 'onrobot-rg6/**'
       - 'onrobot-rg2/**'
       - 'robotiq-ax-series-base/**'
@@ -84,7 +86,7 @@ jobs:
         shell: bash
         run: |
           npm --prefix authoring ci --ignore-scripts --no-audit --no-fund
-          for asset in mid-360 vacuum-gripper-ecbpi weld-gun-x16005 universal-robots-ur-series onrobot-rg6 ewellix-liftkit-ur620 workshop-shapes kuka-kr210-l150 mir250 mir1350 fanuc-m410ic-185 toyota-sae160 kuka-kmp-3000p; do
+          for asset in mid-360 vacuum-gripper-ecbpi weld-gun-x16005 universal-robots-ur-series onrobot-rg6 ewellix-liftkit-ur620 workshop-shapes kuka-kr210-l150 mir250 mir1350 fanuc-m410ic-185 toyota-sae160 kuka-kmp-3000p haas-vf-2; do
             (cd "$asset/authoring" && npm ci --ignore-scripts --no-audit --no-fund)
           done
       - name: Shared helpers
@@ -147,6 +149,11 @@ jobs:
         run: |
           npm --prefix kuka-kmp-3000p/authoring test
           npm --prefix kuka-kmp-3000p/authoring run check
+
+      - name: Haas VF-2 layout dimensions, axes, doors and tool changer
+        run: |
+          npm --prefix haas-vf-2/authoring test
+          npm --prefix haas-vf-2/authoring run check
 
       - name: DAIHEN CM-7403 geometry and legacy compatibility
         run: |

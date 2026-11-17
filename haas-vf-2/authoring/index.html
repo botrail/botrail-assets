@@ -1,0 +1,25 @@
+<!doctype html><html lang="en"><meta charset="utf-8"><title>Haas VF-2 reference model</title>
+<style>body{margin:0;font:14px system-ui;overflow:hidden}.panel{position:absolute;top:18px;left:18px;background:#fffE;border:1px solid #ddd;border-radius:10px;padding:16px;max-width:360px}h1{font-size:19px;margin:0 0 8px}p{color:#54616d}button{margin:4px;padding:6px}label{display:block;margin-top:8px}</style>
+<div class="panel"><h1>Haas VF-2</h1><p>Independently authored reference geometry from the published layout drawing's numbers. Castings, covers and the changer's hood are estimated (see README).</p>
+<div><button id="iso">Perspective</button><button id="side">Side</button><button id="front">Front</button><button id="top">Top</button><button id="bottom">Bottom</button></div>
+<label>X <input data-joint="x" type="range" min="-0.762" max="0" step="0.001" value="0"></label>
+<label>Y <input data-joint="y" type="range" min="-0.406" max="0" step="0.001" value="0"></label>
+<label>Z <input data-joint="z" type="range" min="-0.508" max="0" step="0.001" value="0"></label>
+<label>Front doors <input data-joint="front_door_left front_door_right" type="range" min="0" max="0.4695" step="0.001" value="0"></label>
+<label>Side windows <input data-joint="side_door_left side_door_right" type="range" min="0" max="0.595" step="0.001" value="0"></label>
+<label>Changer shuttle <input data-joint="tool_shuttle" type="range" min="0" max="0.2295" step="0.0005" value="0"></label>
+<label>Carousel <input data-joint="tool_carousel" type="range" min="0" max="6.2832" step="0.01" value="0"></label></div>
+<script type="importmap">{"imports":{"three":"./node_modules/three/build/three.module.js","three/addons/":"./node_modules/three/examples/jsm/","@botrail/authoring/":"./node_modules/@botrail/authoring/"}}</script>
+<script type="module">
+import {definition} from './model.mjs';
+import {referenceScene} from '@botrail/authoring/reference-model.mjs';
+import {mountAuthoring} from '@botrail/authoring/viewer.mjs';
+const model=referenceScene(definition());
+const shell=mountAuthoring(model.root,{iso:[1.2,-1.6,0.9]});
+const values={};
+for(const input of document.querySelectorAll('input[data-joint]'))input.addEventListener('input',()=>{
+  for(const joint of input.dataset.joint.split(' '))values[joint]=Number(input.value);
+  model.pose(values);shell.render();
+});
+window.reference=model;
+</script></html>

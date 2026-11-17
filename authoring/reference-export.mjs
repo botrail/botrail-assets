@@ -26,7 +26,9 @@ export function meshFiles(links) {
     files[`meshes/${link.name}.obj`] = `mtllib ${link.name}.mtl\n` + new OBJExporter().parse(link.visual);
     files[`meshes/${link.name}.mtl`] = [...materials.values()].map(m => {
       const color = m.color.getRGB({}, THREE.SRGBColorSpace);
-      return `newmtl ${m.name}\nKd ${vec([color.r,color.g,color.b])}\nd 1\nNs 40\n`;
+      // A material meant to be seen through (a window pane) states how far: `d` is its opacity.
+      const dissolve = m.transparent ? Number(m.opacity.toPrecision(6)) : 1;
+      return `newmtl ${m.name}\nKd ${vec([color.r,color.g,color.b])}\nd ${dissolve}\nNs 40\n`;
     }).join('\n');
   }
   return files;

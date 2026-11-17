@@ -22,3 +22,15 @@ test('OBJ round trip retains component translations, rotations, normals and mate
   assert.match(files['meshes/link.obj'],/usemtl blue_cap/);
   assert.match(files['meshes/link.mtl'],/newmtl blue_cap/);
 });
+
+test('a material meant to be seen through states its opacity as the MTL dissolve; the others stay solid',()=>{
+  const visual=new THREE.Group();
+  const frame=Object.assign(new THREE.MeshStandardMaterial({color:'#d5d7d8'}),{name:'frame'});
+  const pane=Object.assign(new THREE.MeshStandardMaterial({color:'#9fc0bd',transparent:true,opacity:0.3}),{name:'pane'});
+  // An opacity nobody asked to be drawn (`transparent` unset) is not a window.
+  const paint=Object.assign(new THREE.MeshStandardMaterial({color:'#333333',opacity:0.5}),{name:'paint'});
+  for(const material of [frame,pane,paint])visual.add(new THREE.Mesh(new THREE.BoxGeometry(.1,.1,.1),material));
+  const mtl=meshFiles([{name:'door',visual}])['meshes/door.mtl'];
+  const dissolve=Object.fromEntries(mtl.split('\n\n').map(block=>[/newmtl (\S+)/.exec(block)[1],Number(/^d (\S+)$/m.exec(block)[1])]));
+  assert.deepEqual(dissolve,{frame:1,pane:0.3,paint:1});
+});

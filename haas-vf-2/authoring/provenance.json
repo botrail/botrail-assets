@@ -1,0 +1,32 @@
+{
+  "reference": "Haas VF-2 vertical machining centre (40 taper, 762 x 406 x 508 mm, 20-pocket umbrella tool changer)",
+  "inspected": "2026-11-17",
+  "sources": [
+    {
+      "url": "https://www.haascnc.com/content/dam/haascnc/pdp_feed/mld/vf-2_mld__1_2023.pdf",
+      "use": "Machine Layout Drawing VF-2/VF-2SS/VF-2TR, 1/17/2023, 6 pages — numbers only: shipping width 2316, operating height 2724, levelling pad 76, enclosure height 1742 (p.1); door opening 939, door clearance 817, side door 677 wide from 818 with its top at 1413, base 544, pendant 1411, cabinet top 2247 and door swings 906 / 339 (p.3); travels 762 x 406 x 508, nose to table 102-610 (p.4); table 914 x 368, 16 mm T-slots 125 apart and their section in inches (p.5); umbrella changer 522 from the spindle, tool circle 585, radius 331, travel 230, 476 / 444 over the table (p.6). The drawing's lines and views are not reproduced; it states a sheet-metal stack-up tolerance of 13 mm"
+    },
+    {
+      "url": "https://huggingface.co/datasets/botrail/botrail-catalog",
+      "use": "haas/vf/vf-2/r2 (kind: spec, CC0 figures): depth 1984 from the enclosure's front to the cabinet's back, table top 853 over the floor, spindle 101 behind the chamber's middle, chamber 1139, side wall 1199, sheet-metal front opening 1129, front door 954 high, side opening 749 high and 50 behind the chamber's middle, table at machine home 381 left and 211.5 in front of the spindle, rapid 25.4 m/min. The pack measured these off the maker's downloadable 3D model and records them as numbers; no geometry of that model is in the pack or here"
+    },
+    {
+      "url": "https://www.haascnc.com/machines/vertical-mills/vf-series/models/small/vf-2.html",
+      "use": "Product page photographs seen for the general colour scheme (light grey enclosure, dark base and head cover); no image, texture or logo redistributed"
+    }
+  ],
+  "estimated": [
+    "side wall thickness 40 mm; the front's 12 mm skins and the door pocket between them; door leaf width 600 mm, its handle and window",
+    "levelling pad positions; the dark base's inset; chip pan and way covers",
+    "saddle, column and head castings and covers: every dimension but the spindle nose heights and the spindle line. The head's underside is put 98 mm over the nose, reading p.4's 3.9 in [98 mm] as that distance — what the figure marks is not certain from the drawing",
+    "the changer's hood, arm, hub cover, drive and the carousel's thickness and 46 mm pocket width; the shuttle travel is 229.5 mm (the drawing's 20.6 in less half of 23 in, printed as 9 in [230 mm])",
+    "the cabinet's depth 470 mm and underside 520 mm, its plinth, door seams, hinges, vents and disconnect",
+    "the pendant's size (360 x 480 x 51 mm), arm, screen and keys; the beacon; the lubrication panel",
+    "the side windows drawn as leaves lifting outside the wall on two rails, as the catalog's envelope stands them — the automatic window's real mechanism was not confirmed"
+  ],
+  "not_drawn": [
+    "chip chute and coolant tank (outside the 2316 mm shipping width; operating width 3147 mm, operating depth 2249 mm)",
+    "options: enclosure exhaust, top window, conveyor, side-mount tool changer",
+    "tools in the pockets, telescoping of the way covers, logos and nameplates"
+  ]
+}

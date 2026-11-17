@@ -97,6 +97,7 @@ gun = bt.Robot.from_catalog("weld-gun-x1")  # カタログ ID (下表の右列) 
 | [mir1350](./mir1350) | 黒い車体・荷台パッド・対角スキャナ・別リンク上部カバーの参照 AMR | MiR1350 | `mobile_industrial_robots/mir/mir1350/r2` (公開前、旧外観は r1) |
 | [toyota-sae160](./toyota-sae160) | 実機写真を参照した独自外観: 分割した電池室・駆動カバー、開口グリップ、横長 HMI、5 接点、C 断面マスト、荷重輪窓付きテーパフォーク。TX/DX の関節・フリーリフト・mimic を維持し、collision は新しい visual に合わせて改訂。DX は `dx/` | Toyota Autopilot SAE160(BT Staxio、TX Hi-Lo / DX Tele) | `toyota_material_handling/autopilot/sae160/r3` / `sae160-dx/r3`(公開前、旧外観は r1、シャンクが 10 mm 前に出ていた版は r2) |
 | [kuka-kmp-3000p](./kuka-kmp-3000p) | 全方向移動の重量物 AMR(積載 3 t、2 台の load sharing で 6 t)の参照モデル: 黒いスカートとバンパー線・白い外装・100 mm 上がる暗色の天板(`lift`)・角のスキャナ・非常停止 6。駆動ユニット 2 組(旋回 + 2 輪を 1 車軸)と四隅のキャスタの配置は推定 | KUKA KMP 3000P | `kuka/kmp/kmp-3000p/r1`(公開前) |
+| [haas-vf-2](./haas-vf-2) | 立形マシニングセンタの形状パッケージ: 外装と前扉 2 枚・上へ滑る側面窓・テーブル(T 溝 3 本)・主軸頭・傘形 20 本の工具交換装置(シャトルとカルーセル)を別リンクで持つ参照モデル。公表の配置図の数値に合わせ、鋳物とカバーは推定 | Haas VF-2 | `haas/vf/vf-2-reference/r1` (公開前。包絡と行程は `haas/vf/vf-2`) |
 | [aubo-amr300](./aubo-amr300) | 差動 2 輪 AMR の参照モデル(駆動輪 2 + キャスタ 4・スキャナ 2・上面のアーム取付フレーム) | AUBO-AMR300(海纳系列) | `aubo/amr/amr300/r1` |
 | [mir-eu-pallet-lift-1350](./mir-eu-pallet-lift-1350) | EUR パレット用 1 軸リフト(揚程 60 mm) | MiR EU Pallet Lift 1350 | `mobile_industrial_robots/mir/eu-pallet-lift-1350/r1` |
 | [unitree-g1-fixed-plates](./unitree-g1-fixed-plates) | 頭部カメラ・LiDAR固定プレートの写真参照形状（寸法・取付適合未確認） | Unitree G1 Camera / Radar fixed plate、販売店番号1297 / 1296 | `unitree/g1/camera-fixed-plate/r1` / `radar-fixed-plate/r1` |

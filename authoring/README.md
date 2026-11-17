@@ -107,6 +107,7 @@ mountAuthoring(definition().body);
 UR Series、RG6、LIFTKIT-UR 620はThree.jsでリンクごとに形状を著作する。
 `reference-model.mjs`はURDFの固定軸RPYとmimicを使ったブラウザ表示、
 `reference-export.mjs`はOBJ/MTL・URDFの決定的な出力に使う。
+透過させたい材質(窓ガラス等)は`transparent:true`と`opacity`を付けると、MTLの`d`に不透明度として出る(付けなければ従来どおり`d 1`)。
 製品の寸法、材質、collision、出典は各製品ディレクトリにある。
 URのカタログ運動学は公式BSDマクロを使用し、ブラウザの理想角度ツリーとは区別する。
 これらの配布USDはカタログのビルド工程がURDFから生成する。
